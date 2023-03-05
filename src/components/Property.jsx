@@ -1,26 +1,26 @@
 import React from 'react';
 
 // Import icons
-import { BiBed, BiBath, BiArea } from 'react-icons/bi'
+import { BiArea, BiBath, BiBed } from 'react-icons/bi';
 
-const House = ({ house }) => {
-  const { image, type, country, address, bedrooms, bathrooms, surface, price } = house
+const House = ({ property }) => {
+  const { district, province, footage, price, details } = property.attributes
   return (
     <div>
       <div className='bg-white shadow-1 p-5 rounded-lg rounded-tl-[90px] w-full max-w-[352px] mx-auto cursor-pointer hover:shadow-2xl transition' >
-        <img src={image} alt='' className='mb-8' />
+        {/* <img src={image} alt='' className='mb-8' /> */}
         <div className='mb-4 flex gap-x-2 text-sm' >
           <div
             className='bg-green-500 rounded-full text-white px-3 '
-          >{type}</div>
+          >{province}</div>
           <div
-            className='bg-violet-500 rounded-full text-white px-3 '
-          >{country}
+            className='bg-blue-900 rounded-full text-white px-3 '
+          >{district}
           </div>
         </div>
-        <div className='text-lg font-semibold max-w-[260px]' >
+        {/* <div className='text-lg font-semibold max-w-[260px]' >
           {address}
-        </div>
+        </div> */}
         <div
           className='flex gap-x-4 my-4'
         >
@@ -32,7 +32,7 @@ const House = ({ house }) => {
             >
               <BiBed />
             </div>
-            <div>{bedrooms}</div>
+            <div>{details ? details.room : ''}</div>
           </div>
           <div
             className='flex items-center text-gray-600 gap-1'
@@ -42,7 +42,7 @@ const House = ({ house }) => {
             >
               <BiBath />
             </div>
-            <div>{bathrooms}</div>
+            <div>{details ? details.bathroom : ''}</div>
           </div>
           <div
             className='flex items-center text-gray-600 gap-1'
@@ -52,11 +52,11 @@ const House = ({ house }) => {
             >
               <BiArea />
             </div>
-            <div>{surface}</div>
+            <div>{footage} sqft</div>
           </div>
         </div>
         <div
-          className='text-lg font-semibold text-violet-600 mb-4'
+          className='text-lg font-semibold text-blue-600 mb-4'
         >{price}</div>
       </div>
     </div>

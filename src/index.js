@@ -6,17 +6,22 @@ import App from './App';
 // Import router
 import { BrowserRouter as Router } from 'react-router-dom'
 
+// Import Properties CIC context
+import PropertiesContextProvider from './context/context.properties'
+
 // Import house context provider
-import HouseContextProvider from './components/HouseContext';
+// import HouseContextProvider from './components/HouseContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <HouseContextProvider>
-    <Router>
+  <Router>
+    {/* <HouseContextProvider> */}
+    <PropertiesContextProvider>
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </Router>
-  </HouseContextProvider>
+    </PropertiesContextProvider>
+    {/* </HouseContextProvider> */}
+  </Router>
 
 );

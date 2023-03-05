@@ -9,15 +9,17 @@ import Footer from './components/Footer'
 
 // Import pages
 import Home from './pages/Home'
-import PropertyDetails from './pages/PropertyDetails'
+// import PropertyDetails from './pages/PropertyDetails'
+// import CreateOne from './pages/CreateOne';
 
 const App = () => {
   return (
-    <div className='max-w-[1440px] mx-auto bg-white'>
+    <div className='mx-auto bg-white'>
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/property/:id' element={<PropertyDetails />} />
+        {/* <Route path='/property/:id' element={<PropertyDetails />} /> */}
+        {/* <Route path='/create' element={<CreateOne />} /> */}
       </Routes>
       <Footer />
     </div>)
