@@ -1,28 +1,24 @@
 import React, { useState, useEffect, createContext } from 'react';
-import { fetchData } from '../api/axios';
+import { fetchPropertiesData } from '../api/axios';
 
 export const PropertyContext = createContext()
 
 const PropertiesContextProvider = ({ children }) => {
 
-  // Get properties from strapi Nexo
+  // Get properties from strapi cic
   const [strapiProperties, setstrapiProperties] = useState([])
 
-  const getNexoData = async () => {
-    const data = await fetchData()
+  const getCICData = async (url) => {
+    const data = await fetchPropertiesData(url)
     setstrapiProperties(data)
   }
 
   useEffect(() => {
-    try {
-      getNexoData()
-    } catch (error) {
-      console.log(error)
-    }
+    getCICData()
   }, [])
 
   return <PropertyContext.Provider
-    value={{ strapiProperties }}
+    value={{ strapiProperties, getCICData }}
   >
     {children}
   </PropertyContext.Provider>

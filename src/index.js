@@ -8,20 +8,19 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 // Import Properties CIC context
 import PropertiesContextProvider from './context/context.properties'
+import { AxiosInterceptor } from './interceptors/axios.interceptor';
 
-// Import house context provider
-// import HouseContextProvider from './components/HouseContext';
+// Import custom interceptor
+AxiosInterceptor()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-    {/* <HouseContextProvider> */}
     <PropertiesContextProvider>
       <React.StrictMode>
         <App />
       </React.StrictMode>
     </PropertiesContextProvider>
-    {/* </HouseContextProvider> */}
   </Router>
 
 );

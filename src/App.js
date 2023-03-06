@@ -9,8 +9,9 @@ import Footer from './components/Footer'
 
 // Import pages
 import Home from './pages/Home'
-// import PropertyDetails from './pages/PropertyDetails'
-// import CreateOne from './pages/CreateOne';
+import Search from './pages/Search';
+import Ventas from './pages/Ventas';
+import Alquileres from './pages/Alquileres';
 
 const App = () => {
   return (
@@ -18,8 +19,9 @@ const App = () => {
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
-        {/* <Route path='/property/:id' element={<PropertyDetails />} /> */}
-        {/* <Route path='/create' element={<CreateOne />} /> */}
+        <Route path='/ventas' element={<Ventas />} />
+        <Route path='/alquileres' element={<Alquileres />} />
+        <Route path='/search' element={<Search />} />
       </Routes>
       <Footer />
     </div>)

@@ -1,14 +1,15 @@
 import React from 'react';
+import no_image from '../assets/images/no_image_default.jpg'
 
 // Import icons
 import { BiArea, BiBath, BiBed } from 'react-icons/bi';
 
 const House = ({ property }) => {
-  const { district, province, footage, price, details } = property.attributes
+  const { district, province, footage, price, details, image } = property.attributes
   return (
     <div>
-      <div className='bg-white shadow-1 p-5 rounded-lg rounded-tl-[90px] w-full max-w-[352px] mx-auto cursor-pointer hover:shadow-2xl transition' >
-        {/* <img src={image} alt='' className='mb-8' /> */}
+      <div className='bg-slate-200 shadow-1 p-5 rounded-lg w-full max-w-[352px] mx-auto cursor-pointer hover:shadow-2xl transition' >
+        <img src={image ? image : no_image} alt='' className='mb-8' />
         <div className='mb-4 flex gap-x-2 text-sm' >
           <div
             className='bg-green-500 rounded-full text-white px-3 '
