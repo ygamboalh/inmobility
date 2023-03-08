@@ -4,14 +4,16 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 // Import Components
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Footer from './components/Footer';
+import Header from './components/Header';
 
 // Import pages
-import Home from './pages/Home'
-import Search from './pages/Search';
-import Ventas from './pages/Ventas';
 import Alquileres from './pages/Alquileres';
+import Home from './pages/Home';
+import PropertyDetails from './pages/PropertyDetails';
+import Ventas from './pages/Ventas';
+import SearchForSale from './pages/SearchForSale'
+import SearchForRent from './pages/SearchForRent';
 
 const App = () => {
   return (
@@ -19,9 +21,11 @@ const App = () => {
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/ventas' element={<Ventas />} />
-        <Route path='/alquileres' element={<Alquileres />} />
-        <Route path='/search' element={<Search />} />
+        <Route path='/venta' element={<Ventas />} />
+        <Route path='/alquiler' element={<Alquileres />} />
+        <Route path='/searchForSale' element={<SearchForSale />} />
+        <Route path='/searchForRent' element={<SearchForRent />} />
+        <Route path='/property/:id' element={<PropertyDetails />} />
       </Routes>
       <Footer />
     </div>)

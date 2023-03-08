@@ -3,62 +3,72 @@ import no_image from '../assets/images/no_image_default.jpg'
 
 // Import icons
 import { BiArea, BiBath, BiBed } from 'react-icons/bi';
+import { GiHomeGarage } from 'react-icons/gi'
+import { ImLocation2 } from 'react-icons/im'
 
 const House = ({ property }) => {
-  const { district, province, footage, price, details, image } = property.attributes
+  const { district, province, footage, price, details, image, parkingNumber, canton } = property.attributes
   return (
     <div>
       <div className='bg-slate-200 shadow-1 p-5 rounded-lg w-full max-w-[352px] mx-auto cursor-pointer hover:shadow-2xl transition' >
         <img src={image ? image : no_image} alt='' className='mb-8' />
+
         <div className='mb-4 flex gap-x-2 text-sm' >
-          <div
-            className='bg-green-500 rounded-full text-white px-3 '
-          >{province}</div>
-          <div
-            className='bg-blue-900 rounded-full text-white px-3 '
-          >{district}
+          <div className='flex items-center text-gray-600 gap-1'>
+            <div
+              className='text-[20px]'
+            >
+              <ImLocation2 />
+            </div>
+          </div>
+
+          <div className='bg-blue-900 rounded-full text-white px-3 ' >
+            {province}, {canton}, {district}
           </div>
         </div>
-        {/* <div className='text-lg font-semibold max-w-[260px]' >
-          {address}
-        </div> */}
-        <div
-          className='flex gap-x-4 my-4'
-        >
-          <div
-            className='flex items-center text-gray-600 gap-1'
-          >
+
+        <div className='flex flex-wrap gap-y-2 gap-x-4 my-4'>
+
+          <div className='flex items-center text-gray-600 gap-1'>
             <div
               className='text-[20px]'
             >
               <BiBed />
             </div>
-            <div>{details ? details.room : ''}</div>
+            <div>{details ? details.room : 'N/A'}</div>
           </div>
-          <div
-            className='flex items-center text-gray-600 gap-1'
-          >
+
+          <div className='flex items-center text-gray-600 gap-1'>
             <div
               className='text-[20px]'
             >
               <BiBath />
             </div>
-            <div>{details ? details.bathroom : ''}</div>
+            <div>{details ? details.bathroom : 'N/A'}</div>
           </div>
-          <div
-            className='flex items-center text-gray-600 gap-1'
-          >
+
+          <div className='flex items-center text-gray-600 gap-1'>
             <div
               className='text-[20px]'
             >
               <BiArea />
             </div>
-            <div>{footage} sqft</div>
+            <div>{footage} - m2</div>
           </div>
+
+          <div className='flex items-center text-gray-600 gap-1'>
+            <div
+              className='text-[20px]'
+            >
+              <GiHomeGarage />
+            </div>
+            <div>{parkingNumber}</div>
+          </div>
+
         </div>
-        <div
-          className='text-lg font-semibold text-blue-600 mb-4'
-        >{price}</div>
+
+        <div className='text-lg font-semibold text-blue-600 mb-4' >$ {price}</div>
+
       </div>
     </div>
   )

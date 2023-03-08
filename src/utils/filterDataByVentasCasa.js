@@ -25,8 +25,8 @@ export const filterDataByVentasDeCasasYApartamentos = [
   },
   {
     items: [
-      { name: 'Precio 1', value: 'precio1' },
-      { name: 'Precio 2', value: 'precio2' },
+      { name: 'Precio 1', value: '122000' },
+      { name: 'Precio 2', value: '4000' },
     ],
     placeholder: 'Precio',
     consulta: 'precio'
@@ -106,6 +106,7 @@ export const filterDataByVentasDeCasasYApartamentos = [
 ]
 
 export const getFilterValues = (filterValues) => {
+
   const {
     provincia,
     canton,
@@ -126,7 +127,7 @@ export const getFilterValues = (filterValues) => {
     { name: 'provincia', value: provincia },
     { name: 'canton', value: canton },
     { name: 'distrito', value: distrito },
-    { name: 'precio', value: precio },
+    { name: 'filters[price][$eq]', value: precio },
     { name: 'tipoInmueble', value: tipoInmueble },
     { name: 'amenidades', value: amenidades },
     { name: 'areaContruccion', value: areaContruccion },
