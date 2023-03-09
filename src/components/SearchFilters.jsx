@@ -1,16 +1,22 @@
 import { useState } from 'react'
-import { filterDataByVentasDeCasasYApartamentos, getFilterValues } from '../utils/filterDataByVentasCasa'
 import { useSearchParams } from 'react-router-dom'
+import { buyHouseAndAparmentFilters, getQueryByValue } from '../utils'
 
 const SearchFilters = () => {
+  // Cargando los datos de consultas en un estado
+  const [filters, setFilters] = useState(buyHouseAndAparmentFilters)
 
-  const [filters, setFilters] = useState(filterDataByVentasDeCasasYApartamentos)
-  const [params, setParams] = useSearchParams('')
+  // Inicializacion para los parametros de busquedas
+  const [params, setParams] = useSearchParams()
 
-  const searchProperties = (filterValues) => {
-    const values = getFilterValues(filterValues)
-    const valuesFiltered = values.filter((item) => item.value !== undefined)
+  // Funcion Auxiliar para el manejo de las consultas, recibe los filtros desde el dropdown con sus opciones
+  const makeQueries = (filterValue) => {
 
+    // Funcion que devuelve la consulta que se introduce en la url para cada dropdown modificado
+    const valuesFiltered = getQueryByValue(filterValue)
+
+    // Estebleciendo los parametros de consultas dependiendo la consulta retornada, 
+    // si el valor es uno por defecto entonces se borra esa consulta en particular
     params.set(
       `${valuesFiltered[0].name}`,
       `${valuesFiltered[0].value}`)
@@ -27,8 +33,7 @@ const SearchFilters = () => {
           <div key={filter.consulta} >
             <select
               className='max-w-fit p-2 bg-gray-100 border-2 rounded-xl text-blue-800'
-              onChange={(e) => searchProperties({ [filter.consulta]: e.target.value })}
-            // onChange={(e) => console.log(e.target.value)}
+              onChange={(e) => makeQueries({ [filter.consulta]: e.target.value })}
             >
               <option value="defaultValue">{filter.placeholder}</option>
               {

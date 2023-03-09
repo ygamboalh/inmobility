@@ -10,8 +10,7 @@ const Ventas = () => {
     <section>
       <div
         className='grid grid-cols-2 p-10 gap-10 max-md:grid-cols-1 text-center text-white font-medium'>
-
-        <Link to='/searchForRent' >
+        <Link to='casasyapartamentos/searchForRent?filters[category][isSale][$eq]=false' >
           <div className='border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
             <SiHomeassistantcommunitystore style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
             <p>Alquiler Casas y Apartamentos</p>

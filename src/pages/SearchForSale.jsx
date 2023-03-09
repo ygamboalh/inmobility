@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BsFilter } from 'react-icons/bs';
 import { ImSpinner2 } from 'react-icons/im';
-import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { baseUrl, fetchApi } from '../api/axios.realstate';
 import Property from '../components/Property';
 import SearchFilters from '../components/SearchFilters';
@@ -9,18 +9,15 @@ import SearchFilters from '../components/SearchFilters';
 const SearchForSale = () => {
   // Para activar los filtros de busqueda
   const [activeFilters, setActiveFilters] = useState(false)
+
+  // Estado para las propiedades en ventas
   const [properties, setProperties] = useState([])
+
+  // Indicador para el loading de las propiedades
   const [loading, setLoading] = useState(true)
 
-  // Params
-  const [params, setPararms] = useSearchParams()
-  const isSale = params.get('filters[category][isSale][$eq]')
-
-  // Consulta para Propiedades en Venta
-  const forSale = `?populate=*&filters[category][isSale]=true`
-
-  const { pathname, search } = useLocation()
-  console.log(search);
+  // Obteniendo los datos de consulta desde el path
+  const { search, state } = useLocation()
 
   // Funcion auxiliar para la peticion a la API
   const getCICData = async (url) => {
@@ -30,11 +27,12 @@ const SearchForSale = () => {
     setLoading(false)
   }
 
-  // Peticion mediante el hook useEffect con la llamada de funcion auxiliar
+  // Peticion de propiedades segun los query params
   useEffect(() => {
     getCICData()
   }, [search])
 
+  // COndicional para mostrar un spinner si no se han cargado las propiedades
   if (loading === true) {
     return (
       <ImSpinner2 className='min-h-screen mx-auto animate-spin text-blue-800 text-6xl' />

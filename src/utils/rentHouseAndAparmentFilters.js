@@ -1,4 +1,4 @@
-export const filterDataByAlquileresDeCasasYApartamentos = [
+export const rentHouseAndAparmentFilters = [
   {
     items: [
       { name: 'Provincia 1', value: 'provincia1' },
@@ -112,41 +112,3 @@ export const filterDataByAlquileresDeCasasYApartamentos = [
     consulta: 'ley7600'
   },
 ]
-
-export const getFilterValues = (filterValues) => {
-  const {
-    provincia,
-    canton,
-    distrito,
-    precio,
-    tipoInmueble,
-    amueblado,
-    areaContruccion,
-    areaTerreno,
-    habitaciones,
-    baths,
-    patioOJardin,
-    cochera,
-    cuota,
-    ley7600
-  } = filterValues;
-
-  const values = [
-    { name: 'provincia', value: provincia },
-    { name: 'canton', value: canton },
-    { name: 'distrito', value: distrito },
-    { name: 'precio', value: precio },
-    { name: 'tipoInmueble', value: tipoInmueble },
-    { name: 'amueblado', value: amueblado },
-    { name: 'areaContruccion', value: areaContruccion },
-    { name: 'areaTerreno', value: areaTerreno },
-    { name: 'habitaciones', value: habitaciones },
-    { name: 'baths', value: baths },
-    { name: 'patioOJardin', value: patioOJardin },
-    { name: 'cochera', value: cochera },
-    { name: 'cuota', value: cuota },
-    { name: 'ley7600', value: ley7600 },
-  ];
-
-  return values;
-}

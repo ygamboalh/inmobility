@@ -5,7 +5,7 @@ const Banner = () => {
   return <section className='h-full max-h-[640px] my-10' >
     <div className='flex flex-col lg:flex-row' >
       <div className='text-center flex flex-col w-full px-5 lg:flex-row lg:my-16 mx-auto gap-10 justify-center text-white font-semibold' >
-        <Link to='/venta' >
+        <Link to='/ventas' >
           <div className='border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
             <div className='text-lg' >Buscar Inmuebles en Venta</div>
             <div className='font-thin text-sm' >presiona para ver todas las ventas</div>

@@ -1,4 +1,4 @@
-export const filterDataByVentasDeCasasYApartamentos = [
+export const buyHouseAndAparmentFilters = [
   {
     items: [
       { name: 'Provincia 1', value: 'provincia1' },
@@ -25,8 +25,9 @@ export const filterDataByVentasDeCasasYApartamentos = [
   },
   {
     items: [
-      { name: 'Precio 1', value: '122000' },
-      { name: 'Precio 2', value: '4000' },
+      { name: '122000', value: '122000' },
+      { name: '4000', value: '4000' },
+      { name: '110000', value: '110000' },
     ],
     placeholder: 'Precio',
     consulta: 'precio'
@@ -104,40 +105,3 @@ export const filterDataByVentasDeCasasYApartamentos = [
     consulta: 'ley7600'
   },
 ]
-
-export const getFilterValues = (filterValues) => {
-
-  const {
-    provincia,
-    canton,
-    distrito,
-    precio,
-    tipoInmueble,
-    amenidades,
-    areaContruccion,
-    areaTerreno,
-    habitaciones,
-    baths,
-    patioOJardin,
-    cochera,
-    ley7600
-  } = filterValues;
-
-  const values = [
-    { name: 'provincia', value: provincia },
-    { name: 'canton', value: canton },
-    { name: 'distrito', value: distrito },
-    { name: 'filters[price][$eq]', value: precio },
-    { name: 'tipoInmueble', value: tipoInmueble },
-    { name: 'amenidades', value: amenidades },
-    { name: 'areaContruccion', value: areaContruccion },
-    { name: 'areaTerreno', value: areaTerreno },
-    { name: 'habitaciones', value: habitaciones },
-    { name: 'baths', value: baths },
-    { name: 'patioOJardin', value: patioOJardin },
-    { name: 'cochera', value: cochera },
-    { name: 'ley7600', value: ley7600 },
-  ];
-
-  return values;
-}

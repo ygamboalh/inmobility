@@ -14,6 +14,7 @@ import PropertyDetails from './pages/PropertyDetails';
 import Ventas from './pages/Ventas';
 import SearchForSale from './pages/SearchForSale'
 import SearchForRent from './pages/SearchForRent';
+import NotFound from './pages/NotFound';
 
 const App = () => {
   return (
@@ -21,11 +22,12 @@ const App = () => {
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/venta' element={<Ventas />} />
+        <Route path='/ventas' element={<Ventas />} /> 
+        <Route path='/ventas/casasyapartamentos/searchForSale' element={<SearchForSale />} />
         <Route path='/alquiler' element={<Alquileres />} />
-        <Route path='/searchForSale' element={<SearchForSale />} />
-        <Route path='/searchForRent' element={<SearchForRent />} />
+        <Route path='/alquiler/casasyapartamentos/searchForRent' element={<SearchForRent />} />
         <Route path='/property/:id' element={<PropertyDetails />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
     </div>)

@@ -6,19 +6,18 @@ import { FaWarehouse } from 'react-icons/fa'
 import { BsFillBuildingsFill, BsPersonRolodex } from 'react-icons/bs'
 
 const Ventas = () => {
-
   return (
     <section>
       <div
         className='grid grid-cols-2 p-10 gap-10 max-md:grid-cols-1 text-center text-white font-medium' >
-        <Link to='/searchForSale?filters[category][isSale][$eq]=true'>
+        <Link to='casasyapartamentos/searchForSale?filters[category][isSale][$eq]=true' >
           <div className='border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
             <SiHomeassistantcommunitystore style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
             <p>Venta Casas y Apartamentos</p>
           </div>
         </Link>
 
-        <Link to='/searchForSale?filtro=venta' >
+        <Link to='searchForSale?filtro=venta' >
           <div className='border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
             <GiFarmTractor style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
             <p>Venta Lotes, Fincas, Terrenos</p>
