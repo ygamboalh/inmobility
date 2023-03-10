@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { BsFilter } from 'react-icons/bs';
 import { ImSpinner2 } from 'react-icons/im';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 import { baseUrl, fetchApi } from '../api/axios.realstate';
 import Property from '../components/Property';
 import SearchFilters from '../components/SearchFilters';
+import { filtersByRoute } from '../utils';
 
-const SearchForSale = () => {
+const Search = () => {
   // Para activar los filtros de busqueda
   const [activeFilters, setActiveFilters] = useState(false)
 
@@ -17,7 +18,7 @@ const SearchForSale = () => {
   const [loading, setLoading] = useState(true)
 
   // Obteniendo los datos de consulta desde el path
-  const { search, state } = useLocation()
+  const { search } = useLocation()
 
   // Funcion auxiliar para la peticion a la API
   const getCICData = async (url) => {
@@ -31,6 +32,11 @@ const SearchForSale = () => {
   useEffect(() => {
     getCICData()
   }, [search])
+
+  // Cargando ruta para seleccionar los fintros a mostras por categoria
+  const path = useResolvedPath()
+  const purpose = path.pathname
+  const data = filtersByRoute.filter(data => data.indicator === purpose)
 
   // COndicional para mostrar un spinner si no se han cargado las propiedades
   if (loading === true) {
@@ -49,7 +55,7 @@ const SearchForSale = () => {
         <BsFilter className='pl-2 w-7 mt-1' />
       </div>
       {
-        activeFilters && <SearchFilters />
+        activeFilters && <SearchFilters data={data[0].data} />
       }
       <div className='grid md:grid-cols-2 m-5 lg:grid-cols-3 gap-4 lg:gap-14 mb-10' >
         {properties.map((property, index) => {
@@ -64,4 +70,4 @@ const SearchForSale = () => {
   )
 }
 
-export default SearchForSale
+export default Search

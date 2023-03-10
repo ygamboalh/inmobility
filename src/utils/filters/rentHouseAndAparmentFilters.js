@@ -25,8 +25,8 @@ export const rentHouseAndAparmentFilters = [
   },
   {
     items: [
-      { name: 'Precio 1', value: 'precio1' },
-      { name: 'Precio 2', value: 'precio2' },
+      { name: '110000', value: '110000' },
+      { name: '4000', value: '4000' },
     ],
     placeholder: 'Precio',
     consulta: 'precio'

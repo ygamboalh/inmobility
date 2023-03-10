@@ -1,56 +1,41 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { SiHomeassistantcommunitystore } from 'react-icons/si'
 import { GiFarmTractor, GiFactory } from 'react-icons/gi'
 import { FaWarehouse } from 'react-icons/fa'
 import { BsFillBuildingsFill, BsPersonRolodex } from 'react-icons/bs'
+import { AlquilerRoutes } from '../routes'
+import { Category } from '../components'
 
 const Ventas = () => {
   return (
     <section>
       <div
         className='grid grid-cols-2 p-10 gap-10 max-md:grid-cols-1 text-center text-white font-medium'>
-        <Link to='casasyapartamentos/searchForRent?filters[category][isSale][$eq]=false' >
-          <div className='border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
-            <SiHomeassistantcommunitystore style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
-            <p>Alquiler Casas y Apartamentos</p>
-          </div>
-        </Link>
 
-        <Link to='/searchForRent?filtro=alquiler' >
-          <div className='border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
-            <GiFarmTractor style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
-            <p>Alquiler Lotes, Fincas, Terrenos</p>
-          </div >
-        </Link>
+        <Category path={AlquilerRoutes.CASA_APARTAMENTO} title='Alquiler Casas y Apartamenpaths' >
+          <SiHomeassistantcommunitystore style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
+        </Category>
 
-        <Link to='/searchForRent?filtro=alquiler' >
-          <div className='border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
-            <FaWarehouse style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
-            <p>Alquiler Locales Comerciales</p>
-          </div>
-        </Link>
+        <Category path={AlquilerRoutes.LOTES_FINCAS_TERRENOS} title='Alquiler Lotes, Fincas, Terrenos' >
+          <GiFarmTractor style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
+        </Category>
 
-        <Link to='/searchForRent?filtro=alquiler' >
-          <div className='border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
-            <GiFactory style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
-            <p>Alquiler Bodegas y Similares</p>
-          </div>
-        </Link>
+        <Category path={AlquilerRoutes.LOCALES_COMERCIALES} title='Alquiler Locales Comerciales' >
+          <FaWarehouse style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
+        </Category>
 
-        <Link to='/searchForRent?filtro=alquiler' >
-          <div className='border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
-            <BsFillBuildingsFill style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
-            <p>Alquiler de Edificios</p>
-          </div>
-        </Link>
+        <Category path={AlquilerRoutes.BODEGAS_SIMILARES} title='Alquiler Bodegas y Similares' >
+          <GiFactory style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
+        </Category>
 
-        <Link to='/searchForRent?filtro=alquiler' >
-          <div className='border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-blue-900' >
-            <BsPersonRolodex style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
-            <p>Alquiler Oficinas y Consultorios</p>
-          </div>
-        </Link>
+        <Category path={AlquilerRoutes.EDIFICIOS} title='Alquiler de Edificios' >
+          <BsFillBuildingsFill style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
+        </Category>
+
+        <Category path={AlquilerRoutes.OFICINAS_CONSULTORIOS} title='Alquiler Oficinas y Consulpathrios' >
+          <BsPersonRolodex style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
+        </Category>
+        
       </div>
     </section>
   )

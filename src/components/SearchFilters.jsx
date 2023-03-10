@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { buyHouseAndAparmentFilters, getQueryByValue } from '../utils'
+import { getQueryByValue } from '../utils'
 
-const SearchFilters = () => {
+const SearchFilters = ({ data }) => {
   // Cargando los datos de consultas en un estado
-  const [filters, setFilters] = useState(buyHouseAndAparmentFilters)
+  const [filters, setFilters] = useState(data)
 
   // Inicializacion para los parametros de busquedas
   const [params, setParams] = useSearchParams()
