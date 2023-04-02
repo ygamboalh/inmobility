@@ -2,21 +2,21 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Property from './Property';
 
-import { baseUrl, fetchApi } from '../api/axios.realstate';
+// import { baseUrl, fetchApi } from '../api/axios.realstate';
 
 const PropertyList = () => {
 
   const [properties, setProperties] = useState([])
 
-  const getCICData = async (url) => {
-    const data = await fetchApi(`${baseUrl}/api/properties`)
-    console.log(data);
-    setProperties(data)
-  }
+  // const getCICData = async (url) => {
+  //   const data = await fetchApi(`${baseUrl}/api/properties`)
+  //   console.log(data);
+  //   setProperties(data)
+  // }
 
-  useEffect(() => {
-    getCICData()
-  }, [])
+  // useEffect(() => {
+  //   getCICData()
+  // }, [])
 
   return <section className='mb-20' >
     <div className="container mx-auto">

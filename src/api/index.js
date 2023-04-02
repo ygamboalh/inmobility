@@ -1,2 +1,2 @@
-export * from './axios';
-export * from './axios.realstate';
+export { default as AxiosInstance } from './AxiosInstance';
+export * from './GetProperties';

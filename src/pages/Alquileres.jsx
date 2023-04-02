@@ -35,7 +35,7 @@ const Ventas = () => {
         <Category path={AlquilerRoutes.OFICINAS_CONSULTORIOS} title='Alquiler Oficinas y Consulpathrios' >
           <BsPersonRolodex style={{ color: '#fff', fontSize: 54, alignSelf: 'center', margin: 5 }} />
         </Category>
-        
+
       </div>
     </section>
   )

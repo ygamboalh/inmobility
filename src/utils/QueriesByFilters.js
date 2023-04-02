@@ -1,4 +1,7 @@
-export const getQueryByValue = (filterValue) => {
+
+//** Recibe los filtros y devuelve sus consulas */
+
+export const QueriesByFilters = (filterValue) => {
 
   const {
     provincia,
@@ -16,7 +19,7 @@ export const getQueryByValue = (filterValue) => {
     ley7600
   } = filterValue;
 
-  const values = [
+  const queries = [
     { name: 'provincia', value: provincia },
     { name: 'canton', value: canton },
     { name: 'distrito', value: distrito },
@@ -31,6 +34,6 @@ export const getQueryByValue = (filterValue) => {
     { name: 'cochera', value: cochera },
     { name: 'ley7600', value: ley7600 },
   ];
-  // Devolviendo solo los elementos donde su valor no se undefined pra evitar problemas en las consultas
-  return values.filter((item) => item.value !== undefined)
+  // Devolviendo solo los elementos donde su valor no se undefined para evitar problemas en las consultas
+  return queries.filter((item) => item.value !== undefined)
 }

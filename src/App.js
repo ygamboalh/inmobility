@@ -8,12 +8,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 
 // Import pages
-import Alquileres from './pages/Alquileres';
-import Home from './pages/Home';
-import PropertyDetails from './pages/PropertyDetails';
-import Ventas from './pages/Ventas';
-import Search from './pages/Search'
-import NotFound from './pages/NotFound';
+import { Alquileres, Home, NotFound, Ventas, Search, PropertyDetails, Properties } from './pages';
 
 const App = () => {
   return (

@@ -1,10 +1,10 @@
 import React from 'react';
-import no_image from '../assets/images/no_image_default.jpg'
+import no_image from '../assets/images/no_image_default.jpg';
 
 // Import icons
 import { BiArea, BiBath, BiBed } from 'react-icons/bi';
-import { GiHomeGarage } from 'react-icons/gi'
-import { ImLocation2 } from 'react-icons/im'
+import { GiHomeGarage } from 'react-icons/gi';
+import { ImLocation2 } from 'react-icons/im';
 
 const House = ({ property }) => {
   const { district, province, footage, price, details, image, parkingNumber, canton } = property.attributes
@@ -22,7 +22,7 @@ const House = ({ property }) => {
             </div>
           </div>
 
-          <div className='bg-blue-900 rounded-full text-white px-3 ' >
+          <div className='bg-primary rounded-full text-white px-3 ' >
             {province}, {canton}, {district}
           </div>
         </div>

@@ -1,26 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import './index.css';
 import App from './App';
 
-// Import router
-import { BrowserRouter as Router } from 'react-router-dom'
-
-// Import Properties CIC context
-import PropertiesContextProvider from './context/context.properties'
-import { AxiosInterceptor } from './interceptors/axios.interceptor';
+// import { AxiosInterceptor } from './interceptors/axios.interceptor';
 
 // Import custom interceptor
-AxiosInterceptor()
+// AxiosInterceptor()
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Router>
-    <PropertiesContextProvider>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </PropertiesContextProvider>
-  </Router>
-
+    </BrowserRouter>
+  </QueryClientProvider>
 );

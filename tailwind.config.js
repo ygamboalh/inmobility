@@ -1,5 +1,5 @@
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'],
   theme: {
     fontFamily: {
       primary: 'Poppins',
@@ -18,13 +18,16 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: '#101828',
+        primary: '#233876',
         secondary: '#7F56D9',
+        ancent: '#28428f'
       },
       boxShadow: {
         1: '0px 4px 30px rgba(0, 0, 0, 0.08)',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 };

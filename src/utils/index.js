@@ -1,4 +1,4 @@
-export * from './GetQueryByFilter';
-export * from './filters/buyHouseAndAparmentFilters';
-export * from './filters/rentHouseAndAparmentFilters';
+export * from './QueriesByFilters';
+export * from './filters';
 export * from './filtersByRoute';
+export * from './index';
