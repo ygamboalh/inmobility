@@ -22,3 +22,28 @@
     @apply px-6 py-8 text-[15px] space-y-6 shadow-md bg-white absolute w-full z-10 list-none rounded-b-lg;
   }
 }
+
+body {
+  margin: 0;
+  margin-bottom: 150px;
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+  background-color: #FFF;
+}
+
+@media (max-width: 768) {
+  body {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 912) {
+  body {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+}

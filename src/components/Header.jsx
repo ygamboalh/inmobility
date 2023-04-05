@@ -19,7 +19,7 @@ const Header = () => {
           ?
           null
           :
-          <BiArrowBack onClick={goBack} className='absolute text-3xl text-white mt-3 ml-10' />
+          <BiArrowBack onClick={goBack} className='absolute cursor-pointer text-3xl text-white mt-3 ml-10' />
       }
       <div className="container mx-auto flex flex-row justify-center items-center">
         <div className="flex flex-row justify-center items-center">

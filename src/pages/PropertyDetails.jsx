@@ -1,105 +1,53 @@
 import React from 'react';
-
-// import use params
-import { useParams } from 'react-router-dom'
-
-// import icons
-import { BiBed, BiBath, BiArea } from 'react-icons/bi'
-
-// import link
-import { Link } from 'react-router-dom';
+import { BiArea, BiBath, BiBed } from 'react-icons/bi';
+import { useLocation } from 'react-router-dom';
+import no_image from '../assets/images/no_image_default.jpg';
 
 const PropertyDetails = () => {
-  // get the house id
-  const { id } = useParams()
+  // console.log(isSearched);
+  const { state } = useLocation()
+  // console.log(state);
+  const property = state?.property?.attributes
 
-  // const house = housesData.find(house => {
-  //   return house.id === parseInt(id)
-  // })
-
-  return (
-    <h1>{id}</h1>
-  )
-
-  // return <section>
-  //   <div className="container mx-auto min-h-[800px] mb-14">
-  //     <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between' >
-  //       <div>
-  //         <h2 className='text-2xl font-semibold' >{house.name}</h2>
-  //         <h3 className='text-lg mb-4' >{house.address}</h3>
-  //       </div>
-  //       <div className='mb-4 lg:mb-0 flex gap-x-2 text-sm' >
-  //         <div className='bg-green-500 text-white px-3 rounded-full' >{house.type}</div>
-  //         <div className='bg-blue-500 text-white px-3 rounded-full' >{house.country}</div>
-  //       </div>
-  //       <div className='text-3xl font-semibold text-blue-600' >$ {house.price}</div>
-  //     </div>
-  //     <div className='flex flex-col items-start gap-8 lg:flex-row' >
-  //       <div className='max-w-[768px]'>
-  //         <div className='mb-8' >
-  //           <img src={house.imageLg} alt="" />
-  //         </div>
-  //         <div className='flex gap-x-6 text-blue-700 mb-6' >
-  //           <div className='flex gap-x-2 items-center' >
-  //             <BiBed className='text-2xl' />
-  //             <div>{house.bedrooms}</div>
-  //           </div>
-  //           <div className='flex gap-x-2 items-center' >
-  //             <BiBath className='text-2xl ' />
-  //             <div>{house.bathrooms}</div>
-  //           </div>
-  //           <div className='flex gap-x-2 items-center' >
-  //             <BiArea className='text-2xl ' />
-  //             <div>{house.surface}</div>
-  //           </div>
-  //         </div>
-  //         <div>{house.description}</div>
-  //       </div>
-  //       <div className='flex-1 bg-white w-full mb-8 border border-b-gray-300 rounded-lg px-6 py-8' >
-  //         <div className='flex items-center gap-x-4 mb-8' >
-  //           <div className='w-20 h-20 p-1 border border-b-gray-300 rounded-full' >
-  //             <img src={house.agent.image} alt="" />
-  //           </div>
-  //           <div>
-  //             <div className='font-bold text-lg' >{house.agent.name}</div>
-  //             <Link
-  //               to=''
-  //               className='text-blue-700 text-sm'
-  //             >Ver Perfil</Link>
-  //           </div>
-  //         </div>
-  //         {/* form */}
-  //         <form className='flex flex-col gap-y-4' onClick={(e) => {
-  //           e.preventDefault()
-  //         }} >
-  //           <input
-  //             className='border border-gray-300 focus:border-blue-700 outline-none rounded w-full px-4 h-14 text-sm'
-  //             type="text"
-  //             placeholder='Nombre*'
-  //           />
-  //           <input
-  //             className='border border-gray-300 focus:border-blue-700 outline-none rounded w-full px-4 h-14 text-sm'
-  //             type="text"
-  //             placeholder='Correo*'
-  //           />
-  //           <input
-  //             className='border border-gray-300 focus:border-blue-700 outline-none rounded w-full px-4 h-14 text-sm'
-  //             type="text"
-  //             placeholder='Telefono*'
-  //           />
-  //           <textarea
-  //             className='border border-gray-300 focus:border-blue-700 outline-none rounded w-full p-4 h-36 text-sm text-gray-400' placeholder='Message*'
-  //             defaultValue='Hola, estoy interesado en este inmueble'
-  //           ></textarea>
-  //           <div className='flex gap-x-2' >
-  //             <button className='bg-blue-700 hover:bg-blue-800 rounded p-4 text-white text-sm w-full transition' >Enviar Mensaje</button>
-  //             <button className='border border-blue-700 text-blue-700 hover:border-blue-500 hover:text-blue-500 rounded p-4 text-sm w-full transition' >Llamar</button>
-  //           </div>
-  //         </form>
-  //       </div>
-  //     </div>
-  //   </div>
-  // </section>;
+  return (<section>
+   
+    <div className="container mx-auto min-h-[800px] mb-14">
+      <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between' >
+        <div>
+          <h2 className='text-2xl font-semibold' >{property?.type}</h2>
+          <h3 className='text-lg mb-4' >{property?.province + ' ' + property?.canton + ' ' + property?.district}</h3>
+        </div>
+        <div className='mb-4 lg:mb-0 flex gap-x-2 text-sm' >
+          <div className='bg-green-500 text-white px-3 rounded-full' >{property?.type}</div>
+          <div className='bg-blue-500 text-white px-3 rounded-full' >{property?.province}</div>
+        </div>
+        <div className='text-3xl font-semibold text-blue-600' >$ {property?.price}</div>
+      </div>
+      <div className='flex flex-col items-start gap-8 lg:flex-row' >
+        <div className='max-w-[768px]'>
+          <div className='mb-8' >
+            <img src={property?.image ? property?.image : no_image} alt="" />
+          </div>
+          <div className='flex gap-x-6 text-blue-700 mb-6' >
+            <div className='flex gap-x-2 items-center' >
+              <BiBed className='text-2xl' />
+              <div>{property?.details?.room}</div>
+            </div>
+            <div className='flex gap-x-2 items-center' >
+              <BiBath className='text-2xl ' />
+              <div>{property?.details?.bathroom}</div>
+            </div>
+            <div className='flex gap-x-2 items-center' >
+              <BiArea className='text-2xl ' />
+              <div>{property?.footage} m2</div>
+            </div>
+          </div>
+          {/* <div>{property.description}</div> */}
+          <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur quia quam iste error. Ad, explicabo? Nihil fugit iure corporis architecto aspernatur commodi, fuga at magni exercitationem, minima voluptatum deleniti impedit necessitatibus id, porro mollitia eos! Quasi perspiciatis saepe libero? Illo ex facilis hic aut molestias nam molestiae quibusdam ea veritatis culpa quia impedit nostrum neque, minus atque nemo deserunt aliquam eligendi quasi nobis enim perspiciatis nulla consectetur doloremque. Nulla iste modi accusamus consequatur alias sed atque qui quaerat sunt laboriosam.</div>
+        </div>
+      </div>
+    </div>
+  </section>);
 };
 
 export default PropertyDetails;

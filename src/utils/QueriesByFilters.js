@@ -4,35 +4,35 @@
 export const QueriesByFilters = (filterValue) => {
 
   const {
-    provincia,
+    province,
     canton,
-    distrito,
-    precio,
-    tipoInmueble,
+    district,
+    price,
+    type,
     amenidades,
     areaContruccion,
-    areaTerreno,
-    habitaciones,
-    baths,
-    patioOJardin,
-    cochera,
-    ley7600
+    footage,
+    rooms,
+    bathroom,
+    garden,
+    parkingNumber,
+    law7600
   } = filterValue;
 
   const queries = [
-    { name: 'provincia', value: provincia },
+    { name: 'filters[province][$containsi]', value: province },
     { name: 'canton', value: canton },
-    { name: 'distrito', value: distrito },
-    { name: 'filters[price][$eq]', value: precio },
-    { name: 'tipoInmueble', value: tipoInmueble },
+    { name: 'district', value: district },
+    { name: 'filters[price][$lte]', value: price },
+    { name: 'type', value: type },
     { name: 'amenidades', value: amenidades },
     { name: 'areaContruccion', value: areaContruccion },
-    { name: 'areaTerreno', value: areaTerreno },
-    { name: 'habitaciones', value: habitaciones },
-    { name: 'baths', value: baths },
-    { name: 'patioOJardin', value: patioOJardin },
-    { name: 'cochera', value: cochera },
-    { name: 'ley7600', value: ley7600 },
+    { name: 'footage', value: footage },
+    { name: 'rooms', value: rooms },
+    { name: 'bathroom', value: bathroom },
+    { name: 'garden', value: garden },
+    { name: 'parkingNumber', value: parkingNumber },
+    { name: 'law7600', value: law7600 },
   ];
   // Devolviendo solo los elementos donde su valor no se undefined para evitar problemas en las consultas
   return queries.filter((item) => item.value !== undefined)

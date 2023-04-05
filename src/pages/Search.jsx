@@ -1,15 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
 import { useLocation, useNavigate, useResolvedPath, useSearchParams } from 'react-router-dom';
 import { GetAllProperties } from '../api/GetProperties';
 import { VentaCasaApartmento } from '../components/Searchers/VentaCasaApartmento';
+import { useIsSearched } from '../store/Globals';
 import { QueriesByFilters } from '../utils/QueriesByFilters';
 import { Properties } from './Properties';
 
 const Search = () => {
   const navigate = useNavigate()
-  const [isSearched, setIsSearched] = useState(false)
+  const { isSearched, setIsSearched } = useIsSearched()
+  // console.log(isSearched);
+  // const [isSearched, setIsSearched] = useState(false)
 
   // ? Hook para manipular la URL e introducir los parametros de consulta
   const [params, setParams] = useSearchParams()
@@ -36,13 +38,15 @@ const Search = () => {
 
     //** Recibe los filtros y retorna consultas */
     const valuesFiltered = QueriesByFilters(filterValue)
-    // console.log(valuesFiltered);
+    console.log(valuesFiltered);
 
-    // * Almacena los valores de las consultas en el arreglo de params para luego pasarlos a setParams y actualizar el path
-    params.set(`${valuesFiltered[0].name}`, `${valuesFiltered[0].value}`)
-    if (valuesFiltered[0].value === "") {
-      params.delete(`${valuesFiltered[0].name}`)
-    }
+    valuesFiltered.map((value) => {
+      // * Almacena los valores de las consultas en el arreglo de params para luego pasarlos a setParams y actualizar el path
+      params.set(value.name, value.value)
+      if (value.value === "") {
+        params.delete(value.name)
+      }
+    })
     setParams(params)
     setIsSearched(!isSearched)
   }
