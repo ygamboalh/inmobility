@@ -10,7 +10,7 @@ const PropertyDetails = () => {
   const property = state?.property?.attributes
 
   return (<section>
-   
+
     <div className="container mx-auto min-h-[800px] mb-14">
       <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between' >
         <div>
@@ -43,7 +43,12 @@ const PropertyDetails = () => {
             </div>
           </div>
           {/* <div>{property.description}</div> */}
-          <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur quia quam iste error. Ad, explicabo? Nihil fugit iure corporis architecto aspernatur commodi, fuga at magni exercitationem, minima voluptatum deleniti impedit necessitatibus id, porro mollitia eos! Quasi perspiciatis saepe libero? Illo ex facilis hic aut molestias nam molestiae quibusdam ea veritatis culpa quia impedit nostrum neque, minus atque nemo deserunt aliquam eligendi quasi nobis enim perspiciatis nulla consectetur doloremque. Nulla iste modi accusamus consequatur alias sed atque qui quaerat sunt laboriosam.</div>
+          <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur quia quam iste error.
+            Ad, explicabo? Nihil fugit iure corporis architecto aspernatur commodi, fuga at magni exercitationem,
+            minima voluptatum deleniti impedit necessitatibus id, porro mollitia eos! Quasi perspiciatis saepe libero?
+            Illo ex facilis hic aut molestias nam molestiae quibusdam ea veritatis culpa quia impedit nostrum neque,
+            minus atque nemo deserunt aliquam eligendi quasi nobis enim perspiciatis nulla consectetur doloremque.
+            Nulla iste modi accusamus consequatur alias sed atque qui quaerat sunt laboriosam.</div>
         </div>
       </div>
     </div>
