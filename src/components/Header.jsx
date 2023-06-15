@@ -3,11 +3,15 @@ import React from 'react';
 import { BiArrowBack } from 'react-icons/bi';
 import { Link, useNavigate, useResolvedPath } from 'react-router-dom';
 import logo from '../assets/images/logo192.png';
+import UserInfo from './UserInfo/user-info';
+import { useAuthContext } from '../context/AuthContext';
+import Freelancer from './Freelancer/Freelancer';
+
 
 const Header = () => {
-  const navigate = useNavigate()
-  const { pathname } = useResolvedPath()
-
+  const navigate = useNavigate();
+  const { pathname } = useResolvedPath();
+  const { user } = useAuthContext();
   const goBack = () => {
     navigate(-1)
   }
@@ -22,7 +26,7 @@ const Header = () => {
           <BiArrowBack onClick={goBack} className='absolute cursor-pointer text-3xl text-white mt-3 ml-10' />
       }
       <div className="container mx-auto flex flex-row justify-center items-center">
-        <div className="flex flex-row justify-center items-center">
+        <div className="flex flex-row justify-center items-center mr-auto">
           <Link to='/' >
             <Avatar img={logo} className='m-2' />
           </Link>
@@ -32,6 +36,15 @@ const Header = () => {
             </div>
           </Link>
         </div>
+        <div className="flex flex-row justify-center justify-self-center">
+            <Freelancer/>
+        </div>
+      {!user ? (<span></span>) :
+      (<div>
+          <div className="flex flex-row justify-end items-end">
+            <UserInfo/>
+          </div>
+      </div>)}
       </div>
     </header>
   )

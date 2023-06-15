@@ -1,10 +1,10 @@
 // Import components
-import Banner from '../components/Banner';
+import Welcome from '../components/Welcome';
 
 const Home = () => {
   return (
-    <div>
-      <Banner />
+    <div className='bg-blue-700 h-9'>
+      <Welcome/>
     </div>)
 };
 

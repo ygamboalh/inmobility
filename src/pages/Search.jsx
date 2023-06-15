@@ -7,6 +7,7 @@ import { useIsSearched } from '../store/Globals';
 import { QueriesByFilters } from '../utils/QueriesByFilters';
 import { Properties } from './Properties';
 
+
 const Search = () => {
   const navigate = useNavigate()
   const { isSearched, setIsSearched } = useIsSearched()
@@ -23,7 +24,7 @@ const Search = () => {
 
   // ? El pathname informa el proposito de la consulta, venta o alquiler
   const { pathname } = useResolvedPath()
-  // console.log(pathname);
+   console.log(pathname);
 
   // ? Hook para la llamada a la api con el proposito, venta o alquiler
   const { data, isLoading, isError, isSuccess, error } = useQuery(
