@@ -37,6 +37,8 @@ const RegisterSchema = Yup.object().shape({
       .min(10,'¡Teléfono invalido!')
       .max(15,'¡Teléfono invalido!')
       .required('¡El teléfono celular es requerido!'),
+    personalId: Yup.string()
+      .required('¡El identificador personal es requerido!'),
   });
   
   const RegisterRequest = () => {
@@ -74,6 +76,7 @@ const RegisterSchema = Yup.object().shape({
         company: '',
         address: '',
         mobile:'',
+        personalId:'',
       });
 
     const navigate = useNavigate();
@@ -90,7 +93,8 @@ const RegisterSchema = Yup.object().shape({
           phone: values.phone,
           company: values.company,
           address: values.address,
-          mobile: values.mobile
+          mobile: values.mobile,
+          personalId: values.personalId
         };
 
         const userResponse = await fetch(`${API}/users`,
@@ -149,8 +153,16 @@ const RegisterSchema = Yup.object().shape({
                     <Field placeholder="Nombre completo" type="text" name="username" className="regular-input focus:outline-none"/>
                 </div>
             </div>
-            <div className="space">
+            <div className="space mb-2.5">
               {errors.username && touched.username ? <div className="errordiv text-xs">{errors.username}</div> : null}
+            </div>
+            <div className="div -mt-4">
+                <div className="flex flex-col text-gray-500 text-left">        
+                    <Field placeholder="Identificador personal" type="text" name="personalId" className="regular-input focus:outline-none"/>
+                </div>
+            </div>
+            <div className="space">
+              {errors.personalId && touched.personalId ? <div className="errordiv text-xs">{errors.personalId}</div> : null}
             </div>
             <div className="div -mt-1">
                 <div className="flex flex-col text-gray-500">
