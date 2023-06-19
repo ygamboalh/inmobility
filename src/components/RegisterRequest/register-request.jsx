@@ -2,11 +2,10 @@ import {message } from "antd";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../context/AuthContext";
-import useScreenSize from "../../hooks/useScreenSize";
 import { API } from "../../constant";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { type } from "@testing-library/user-event/dist/type";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -80,7 +79,7 @@ const RegisterSchema = Yup.object().shape({
       });
 
     const navigate = useNavigate();
-  
+
     const [isLoading, setIsLoading] = useState(false);
   
     const onFinish = async (values) => {
@@ -94,9 +93,10 @@ const RegisterSchema = Yup.object().shape({
           company: values.company,
           address: values.address,
           mobile: values.mobile,
-          personalId: values.personalId
+          personalId: values.personalId,
+          type:values.type,
         };
-
+        
         const userResponse = await fetch(`${API}/users`,
         {
             method:"GET"
@@ -118,15 +118,14 @@ const RegisterSchema = Yup.object().shape({
     
           const data = await response.json();
           
-          navigate("/sent-request", { replace: true });
+          navigate("/user/sent-request", { replace: true });
         }
         //if he is waiting for approval say you are evaluating the case
         else{
-          navigate("/evaluating", { replace: true });
+          navigate("/user/evaluating", { replace: true });
         }
       }
        catch (error) {
-        console.error(error);
         message.error("Ocurrió un error inesperado!");
       } finally {
         setIsLoading(false);
@@ -174,7 +173,7 @@ const RegisterSchema = Yup.object().shape({
             </div>
             <div className="div -mt-1 mb-0">
                 <div className="flex flex-col text-gray-500">
-                    <Field placeholder="Teléfono de la oficina" name="phone" type="text" class="regular-input"/>
+                    <Field placeholder="Teléfono de la oficina" name="phone" type="text" className="regular-input"/>
                 </div> 
             </div>
             <div className="space">
@@ -182,7 +181,7 @@ const RegisterSchema = Yup.object().shape({
             </div>
             <div className="div -mt-1 mb-0">
                 <div className="flex flex-col text-gray-500">
-                    <Field placeholder="Teléfono celular" name="mobile" type="text" class="regular-input"/>
+                    <Field placeholder="Teléfono celular" name="mobile" type="text" className="regular-input"/>
                 </div> 
             </div>
             <div className="space mb-2.5">
@@ -206,7 +205,7 @@ const RegisterSchema = Yup.object().shape({
             </div>
             <div className="div -mt-1 mb-0">
                 <div className="flex flex-col text-gray-500">
-                    <Field placeholder="Contraseña" name="password" type="password" class="regular-input"/>
+                    <Field placeholder="Contraseña" name="password" type="password" className="regular-input"/>
                 </div> 
             </div>
             <div className="space">

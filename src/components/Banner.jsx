@@ -16,19 +16,18 @@ const Banner = () => {
     const data = await response.json();
     if(response.statusCode !=200) 
     {
-      navigate("/access-denied", { replace: true });
+      navigate("/user/access-denied", { replace: true });
     }
     const role = data.role.name;
-    console.log(`Este es el rol ${role}`);
     if(role == "Authenticated"){
       navigate("/upload", { replace: true }); 
     }
     else if(role == "Visiter")
     {
-      navigate("/evaluating", { replace: true });
+      navigate("/user/evaluating", { replace: true });
     }
     else {
-      navigate("/access-denied", { replace: true });
+      navigate("/user/access-denied", { replace: true });
     }
   }
 

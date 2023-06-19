@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   return (
-    <div class="flex flex-col -mb-5 mt-5 px-12 div-welcome text-center sm:px-10 md:px-6 justify-center items-center">
+    <div className="flex flex-col -mb-5 mt-5 px-12 div-welcome text-center sm:px-10 md:px-6 justify-center items-center">
     <div className='justify-center items-center mb-2 logo'></div>
         <div className='flex-5 lg:w-96 md:w-96 text-white'>
             <label className=''>Esta es la principal herramienta
@@ -11,30 +11,30 @@ const HomePage = () => {
             </label>
         </div>
         <div className='flex-5 lg:w-96 md:w-96 text-white'>
-            <a href='/signin'> 
-                <button class="button-pro-inm">
-                    <div class="div-button cursor-pointer">
-                        <label class="label-button cursor-pointer">INGRESAR COMO</label> 
-                        <label class="label-button cursor-pointer">ASESOR PROFESIONAL</label>
+            <a href='/auth/signin'> 
+                <button className="button-pro-inm">
+                    <div className="div-button cursor-pointer">
+                        <label className="label-button cursor-pointer">INGRESAR COMO</label> 
+                        <label className="label-button cursor-pointer">ASESOR PROFESIONAL</label>
                     </div>
                 </button>
             </a>
         </div>
         <div className='flex-5 lg:w-96 md:w-96 text-white'>
-            <a href='/investor'>
-                <button class="button-pro-inm">
-                    <div class="div-button cursor-pointer">
-                        <label class="label-button cursor-pointer">INGRESAR COMO</label> 
-                        <label class="label-button cursor-pointer">INVERSIONISTA INMOBILIARIO</label>
+            <a href='/home/investor'>
+                <button className="button-pro-inm">
+                    <div className="div-button cursor-pointer">
+                        <label className="label-button cursor-pointer">INGRESAR COMO</label> 
+                        <label className="label-button cursor-pointer">INVERSIONISTA INMOBILIARIO</label>
                     </div>
                 </button>
             </a>
         </div>
         <div className='flex-5 lg:w-96 md:w-96 text-white'>
-            <a href='/visit-record'>
-                <button class="button-pro-visit">
-                    <div class="div-button cursor-pointer">
-                        <label class="label-button cursor-pointer">INGRESAR COMO VISITANTE</label>                 
+            <a href='/home/visit-record'>
+                <button className="button-pro-visit">
+                    <div className="div-button cursor-pointer">
+                        <label className="label-button cursor-pointer">INGRESAR COMO VISITANTE</label>                 
                     </div>
                 </button>
             </a>

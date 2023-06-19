@@ -7,6 +7,7 @@ import useScreenSize from "../../hooks/useScreenSize";
 import { API } from "../../constant";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { getToken } from "../../utils/helpers";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -47,8 +48,7 @@ const VisitSchema = Yup.object().shape({
     const { isDesktopView } = useScreenSize();
     const navigate = useNavigate();
   
-    const { setUser } = useAuthContext();
-  
+    const token = getToken();
     const [isLoading, setIsLoading] = useState(false);
   
     const [error, setError] = useState("");
@@ -71,13 +71,11 @@ const VisitSchema = Yup.object().shape({
         });
   
         const data = await response.json();
-        
           message.success(`¡Bienvenido(a)! ${value.fullname}`);
-          navigate("/banner", { replace: true });
-        
+          navigate("/home/banner", { replace: true });
+      
       } catch (error) {
-        console.error(error);
-        setError(error?.message ?? "¡Ocurrió un error inesperado!");
+        message.error('¡Ocurrió un error inesperado. Intente de nuevo!');
       } finally {
         setIsLoading(false);
       }
@@ -108,7 +106,7 @@ const VisitSchema = Yup.object().shape({
             </div>
             <div className="div -mt-1">
                 <div className="flex flex-col text-gray-500">
-                    <Field placeholder="Correo electrónico" name="email" type="email" class="regular-input"/>
+                    <Field placeholder="Correo electrónico" name="email" type="email" className="regular-input"/>
                 </div> 
             </div>
             <div className="space">
@@ -116,7 +114,7 @@ const VisitSchema = Yup.object().shape({
             </div>
             <div className="div -mt-1 mb-0">
                 <div className="flex flex-col text-gray-500">
-                    <Field placeholder="Número de teléfono" name="phone" type="text" class="regular-input"/>
+                    <Field placeholder="Número de teléfono" name="phone" type="text" className="regular-input"/>
                 </div> 
             </div>
             <div className="space">
@@ -156,7 +154,7 @@ const VisitSchema = Yup.object().shape({
             </div>
             <div className="flex flex-row mx-2 mt-2 justify-between">
                 <label className="text-sm">¿Tienes una cuenta?</label>
-                <Link to='/signin' className="text-sm text-blue-800">Inicia sesión</Link>
+                <Link to='/auth/signin' className="text-sm text-blue-800">Inicia sesión</Link>
             </div>
          </Form>
          )}

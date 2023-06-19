@@ -1,13 +1,16 @@
 import { message, Spin } from "antd";
 import React, { useState } from "react";
+import { useSignIn } from "react-auth-kit";
+import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import { API } from "../../constant";
 import { setToken, setUserLocal } from "../../utils/helpers";
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { BiShow, BiHide, BiUserCircle, BiLock } from "react-icons/bi";
+import { authUser } from "../../api/usersApi";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const SigninSchema = Yup.object().shape({
@@ -18,53 +21,46 @@ const SigninSchema = Yup.object().shape({
 });
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const signIn = useSignIn();
   
   const [showPassword,setShowPassword] = useState(false);
+  
+  const { mutate: loginMutation, isLoading, isError, error } = useMutation(authUser);
 
-  const navigate = useNavigate();
 
-  const { setUser } = useAuthContext();
+  const formik = useFormik({
+    initialValues: {
+      identifier: "yordan2@mail.com",
+      password: "123456",
+    },
+    validationSchema: Yup.object({
+      identifier: Yup.string()
+        .email("El correo no es válido")
+        .required("El correo es requerido"),
+      password: Yup.string().required("La contraseña es requerida"),
+    }),
+    onSubmit: async (values) => {
+      loginMutation(values, {
+        onSuccess: (data) => {
+          signIn({
+            token: data.jwt,
+            expiresIn: 60,
+            tokenType: "Bearer",
+            authState: data.user,
+          });
+          window.location.reload(true);
+          
+          // navigate('/home/banner');
+          message.success(`¡Bienvenido ${data.user.username}!`);
+        },
+        onError: (error) => {
+          message.error(error.response.data.error.message);
+        },
+      });
+    },
+  });
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  let value = {identifier: "",password: ""};
-
-  const Login = async (value) => {
-    const response = await fetch(`${API}/auth/local`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(value),
-    });
-    const data = await response.json();
-      if(response.status === 200) {
-        setToken(data.jwt);
-        setUserLocal(data.user.email);
-
-        setUser(data.user);       
-        message.success(`¡Bienvenido(a) ${data.user.username}!`);
-        navigate("/banner", { replace: true });
-      }
-      else {
-        message.error("¡Sus credenciales son incorrectas!");
-      }
-  };
-  const onFinish = async (values) => {
-    setIsLoading(true);
-    try {
-      value = {
-        identifier: values.identifier,
-        password: values.password,
-      };
-    Login(value);
-
-    } catch (error) {
-      message.error("¡Ocurrió un error. Inténtelo de nuevo!");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return ( 
     <div className="flex my-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
@@ -72,27 +68,18 @@ const SignIn = () => {
         <label className="loginh">Iniciar sesión</label>
         <label className="loginh5">Ingresa tus datos</label>
      </div>
-     <Formik
-       initialValues={{
-         identifier: '',
-         password: '',
-       }}
-       validationSchema={SigninSchema}
-       onSubmit={ onFinish}
-     >
-       {({ errors, touched }) => (
-         <Form onFinish={onFinish} autoComplete="off">
+         <form onSubmit={formik.handleSubmit} autoComplete="off">
           <div className="div">
                     <span className="image-container">
                       <BiUserCircle size={25}/> 
                     </span>
                     <div className="flex flex-col text-gray-500 text-left">
                     <label className="text-xs font-semibold text-gray-400 text-left ml-3">Correo</label>
-                      <Field placeholder="Correo electrónico" type="email" name="identifier" className="input signin-email outline-none"/>
+                      <input value={formik.values.identifier} onChange={formik.handleChange} placeholder="Correo electrónico" type="email" name="identifier" className="input signin-email outline-none"/>
                     </div>
           </div>
           <div className="space">
-            {errors.identifier && touched.identifier ? <div className="errordiv text-xs">{errors.identifier}</div> : null}
+            {formik.errors.identifier && formik.touched.identifier ? <div className="errordiv text-xs">{formik.errors.identifier}</div> : null}
           </div>
           <div className="div">
                     <div className="image-container">
@@ -100,14 +87,14 @@ const SignIn = () => {
                     </div>
                     <div className="flex flex-col text-gray-500">
                     <label className="text-xs font-semibold text-gray-400 text-left ml-3">Contraseña</label>
-                      <Field placeholder="Contraseña" type={showPassword ? "text" : "password"} name="password" class="input signin-email"/>
+                      <input value={formik.values.password} onChange={formik.handleChange} placeholder="Contraseña" type={showPassword ? "text" : "password"} name="password" className="input signin-email"/>
                     </div>
                         <div className="input-container-right" onClick={() => setShowPassword(!showPassword)}>
                           {showPassword ? <BiShow size={25} color="#84a8e1"/> : <BiHide size={25} color="#84a8e1"/>}
                         </div> 
           </div>
           <div className="space">
-            {errors.password && touched.password ? (<div className="errordiv text-xs">{errors.password}</div>) : null}
+            {formik.errors.password && formik.touched.password ? (<div className="errordiv text-xs">{formik.errors.password}</div>) : null}
           </div>
           <div className="flex mx-4 my-2 justify-between items-center">
               <label className="flex items-center text-xs">
@@ -121,9 +108,7 @@ const SignIn = () => {
             <label className="text-md my-4">¿No tienes una cuenta?</label>
             <Link to = '/register-request' link-to className="button-rq">Solicitar una cuenta</Link>
          </div>
-       </Form>
-       )}
-     </Formik>
+      </form>   
    </div>
   );
 };

@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { AuthProvider } from 'react-auth-kit';
 import { BrowserRouter } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 import './index.css';
 import App from './App';
-import AuthProvider from "./components/AuthProvider/AuthProvider";
+// import AuthProvider from "./components/AuthProvider/AuthProvider";
 
 // import { AxiosInterceptor } from './interceptors/axios.interceptor';
 
@@ -16,11 +17,13 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+      <AuthProvider
+      authType={"localstorage"}
+      authName={"access_token"}
+      cookieDomain={window.location.hostname}
+    >
         <BrowserRouter>
-          <React.StrictMode>
-           <App/>
-          </React.StrictMode>
+           <App/>  
         </BrowserRouter>
     </AuthProvider>
   </QueryClientProvider>

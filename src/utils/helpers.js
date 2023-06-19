@@ -1,4 +1,10 @@
-import { AUTH_TOKEN, AUTH_USER } from "../constant";
+import { 
+  AUTH_TOKEN,
+  AUTH_USER,
+  ACCESS_TOKEN_STATE,
+  ACCESS_TOKEN_TYPE, 
+  ACCESS_TOKEN_STORAGE
+} from "../constant";
 
 export const storeUser = (data) => {
     localStorage.setItem('user', JSON.stringify({
@@ -34,4 +40,7 @@ export const setUserLocal = (user) => {
 export const removeToken = () => {
   localStorage.removeItem(AUTH_TOKEN);
   localStorage.removeItem(AUTH_USER);
+  localStorage.removeItem(ACCESS_TOKEN_STATE);
+  localStorage.removeItem(ACCESS_TOKEN_TYPE); 
+  localStorage.removeItem(ACCESS_TOKEN_STORAGE);  
 };

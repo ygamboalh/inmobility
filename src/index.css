@@ -238,3 +238,72 @@ html {
 .freelancer-button:hover{
   opacity: 60%;
 }
+
+.orange-button{
+  background-color: #ED630F;
+  text-align: center;
+  height: 50px;
+  width: 95px;
+  border-radius: 5px;
+  margin: 2px;
+  padding: 2px 0 2px 0;
+  font-size: 10px;
+  justify-content: space-evenly;
+  cursor: pointer;
+}
+.orange-button:hover{
+  background-color: #d15f19;
+  cursor: pointer;
+}
+
+.card-links{
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  font-weight: 500;
+  border-radius: 5px;
+}
+.reminder{
+  border-radius: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  font-size: 12px;
+}
+.policies{
+  background-color: bg-primary;
+  border-radius: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.nav-bar{
+  background-color: #0055B8;
+}
+
+.logo-admin{
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  border-radius: 50px;
+  background-color: white;
+  background-image: url(../src/assets/images/logo192.png);
+  background-position: center;
+  background-size: 50px 50px;
+}
+.logo:hover{
+  opacity: 60%;
+}
+
+.input-admin-property{
+  border-radius: 5px;
+  
+}

@@ -20,7 +20,7 @@ export const VentaCasaApartmento = ({ makeQueries }) => {
         <div>
           <div className="mb-2 block">
             <Label
-              htmlFor="price"
+              htmlhtmlFor="price"
               value="Precio"
             />
           </div>

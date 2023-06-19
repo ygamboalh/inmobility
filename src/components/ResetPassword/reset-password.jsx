@@ -104,7 +104,7 @@ import { message,Spin } from "antd";
                       </div>
                       <div className="flex flex-col text-gray-500">
                         <label className="text-xs font-semibold text-gray-400 text-left ml-3">Contraseña</label>
-                        <Field placeholder="Contraseña" type={showPassword ? "text" : "password"} name="password" class="input signin-email"/>
+                        <Field placeholder="Contraseña" type={showPassword ? "text" : "password"} name="password" className="input signin-email"/>
                       </div>
                       <div className="input-container-right" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? <BiShow size={25} color="#84a8e1"/> : <BiHide size={25} color="#84a8e1"/>}
@@ -119,7 +119,7 @@ import { message,Spin } from "antd";
                       </div>
                       <div className="flex flex-col text-gray-500">
                       <label className="text-xs font-semibold text-gray-400 text-left ml-3">Repetir Contraseña</label>
-                        <Field placeholder="Repetir Contraseña" type={showPassword ? "text" : "password"} name="passwordConfirmation" class="input signin-email"/>
+                        <Field placeholder="Repetir Contraseña" type={showPassword ? "text" : "password"} name="passwordConfirmation" className="input signin-email"/>
                       </div>
                           <div className="input-container-right" onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? <BiShow size={25} color="#84a8e1"/> : <BiHide size={25} color="#84a8e1"/>}
@@ -130,7 +130,7 @@ import { message,Spin } from "antd";
             </div>
             <div className="flex flex-col items-center div -mt-5 text-gray-500">
                 <label className="text-xs font-semibold text-gray-400 text-left ml-3">Código recibido</label>
-                  <Field placeholder="Código" type='text' name="code" class="input border-separate signin-email"/>
+                  <Field placeholder="Código" type='text' name="code" className="input border-separate signin-email"/>
             </div>
             <div className="space">
               {errors.code && touched.code ? (<div className="errordiv text-xs">{errors.code}</div>) : null}

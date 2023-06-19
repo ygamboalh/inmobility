@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
           </label>
        </div>
        <div className="max-w-60 flex flex-col">
-            <Link to='/banner' link-to className="button-rq">Acceder a la base de datos</Link>
+            <Link to='/home/banner' link-to className="button-rq">Acceder a la base de datos</Link>
          </div>
      </div>
     );

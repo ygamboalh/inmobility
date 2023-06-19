@@ -36,7 +36,7 @@ import { message,Spin } from "antd";
         if (data?.error) {
           throw data?.error;
         } else {
-          navigate("/password-recovery", { replace: true });
+          navigate("/auth/forgot-password", { replace: true });
         }
       } catch (error) {
         message.error("¡Ocurrió un error. Intente de nuevo!");

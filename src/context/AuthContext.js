@@ -5,6 +5,7 @@ export const AuthContext = createContext({
   user: undefined,
   isLoading: false,
   setUser: () => {},
+  role:() => {},
 });
 
 export const useAuthContext = () => useContext(AuthContext);

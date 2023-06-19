@@ -1,21 +1,26 @@
-import { Avatar } from 'flowbite-react';
 import React from 'react';
+import { useQuery } from "react-query";
+import { useAuthUser } from 'react-auth-kit';
+import { Avatar } from 'flowbite-react';
 import { BiArrowBack } from 'react-icons/bi';
 import { Link, useNavigate, useResolvedPath } from 'react-router-dom';
-import logo from '../assets/images/logo192.png';
 import UserInfo from './UserInfo/user-info';
 import { useAuthContext } from '../context/AuthContext';
 import Freelancer from './Freelancer/Freelancer';
+import { authUserData } from '../api/usersApi';
+import logo from '../assets/images/logo192.png';
+
 
 
 const Header = () => {
+
   const navigate = useNavigate();
   const { pathname } = useResolvedPath();
-  const { user } = useAuthContext();
+  const { data: userData, loading } = useQuery('profile', authUserData);
   const goBack = () => {
     navigate(-1)
   }
-
+console.log(userData);
   return (
     <header className='py-6 border-b bg-primary flex'>
       {
@@ -37,9 +42,9 @@ const Header = () => {
           </Link>
         </div>
         <div className="flex flex-row justify-center justify-self-center">
-            <Freelancer/>
+            <Freelancer/> <span></span>
         </div>
-      {!user ? (<span></span>) :
+      {!userData ? (<span></span>) :
       (<div>
           <div className="flex flex-row justify-end items-end">
             <UserInfo/>

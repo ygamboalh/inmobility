@@ -8,19 +8,28 @@ import { getToken } from "../../utils/helpers";
 const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+ //----------------------------------------------------------------
+  const [userRole, setUserRole] = useState();
+  //----------------------------------------------------------------
 
   const authToken = getToken();
 
   const fetchLoggedInUser = async (token) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API}/users/me`, {
+      if(authToken){
+      const response = await fetch(`${API}/users/me?populate=role`, {
         method: "GET",
         headers: { Authorization: `${BEARER} ${token}` },
       });
       const data = await response.json();
-
+      //----------------------------------------------------------------
+      setUserRole(data.role.name);
+      //----------------------------------------------------------------
       setUserData(data);
+    }
+    else {//--------------------REVISAR AQUI}
+    }
     } catch (error) {
       message.error("¡Actualmente no tiene conexión con el servidor!");
     } finally {
@@ -31,6 +40,11 @@ const AuthProvider = ({ children }) => {
   const handleUser = (user) => {
     setUserData(user);
   };
+  //----------------------------------------------------------------
+  const handleRole = (role) => {
+    setUserRole(role.name);
+  };
+  //----------------------------------------------------------------
 
   useEffect(() => {
     if (authToken) {
@@ -40,7 +54,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: userData, setUser: handleUser, isLoading }}
+      value={{ user: userData, setUser: handleUser, isLoading,role: fetchLoggedInUser}}
     >
       {children}
     </AuthContext.Provider>

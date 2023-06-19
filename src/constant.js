@@ -1,6 +1,9 @@
 export const AVATAR_API = "https://ui-avatars.com/api";
       //export const API = "https://sistemacic-backend.herokuapp.com/api";
       export const API = "http://147.182.188.52/api";
-      export const AUTH_TOKEN = "authToken";
       export const AUTH_USER = "authUser";
+      export const AUTH_TOKEN = "access_token";
+      export const ACCESS_TOKEN_STATE = "access_token_state";
+      export const ACCESS_TOKEN_TYPE = "access_token_type";
+      export const ACCESS_TOKEN_STORAGE = "access_token_storage";
       export const BEARER = "Bearer";
