@@ -1,15 +1,13 @@
-import {message } from "antd";
-import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API, BEARER } from "../../constant";
+import {message } from "antd";
 import { Formik, Form, Field } from 'formik';
+import { useQuery } from "react-query";
 import * as Yup from 'yup';
-import { useAuthContext } from "../../context/AuthContext";
+import { API, BEARER } from "../../constant";
 import { getToken, setToken, setUserLocal } from "../../utils/helpers";
-import axios from "axios";
 import { authUserData } from "../../api/usersApi";
+import UpLoadImage from "../UploadImage/upload-image";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -48,7 +46,7 @@ const ProfileSchema = Yup.object().shape({
     const { data: userData, loading } = useQuery('profile', authUserData);
 
     if(loading){
-      retutn (<>cargando...</>);
+      return <>{isLoading && <Spin size="medium" />}</>
     }else{
       console.log(userData);
       
@@ -107,14 +105,14 @@ const ProfileSchema = Yup.object().shape({
           personalId: values.personalId
         };
         //find the user that is logged in
-        const response = await fetch(`${API}/users/me`, {
+        const response = await fetch(`${API}/users/me?populate=role`, {
           method: "GET",
           headers: { Authorization: `${BEARER} ${token}` },
         });
         const data = await response.json();
         
         //setinitialData(data);
-         if(response.ok){
+         if(response.ok || data.role.name == "SuperAdmin"){
               const response = await fetch(`${API}/users/${data.id}`, {
                   method: "PUT",
                   headers: {
@@ -131,7 +129,7 @@ const ProfileSchema = Yup.object().shape({
         }
       } 
        catch (error) {
-        message.error("¡Ocurrió un error. Intente de nuevo!");
+        message.error("¡Ocurrió un error inesperado!");
       }
     };
 
@@ -140,7 +138,7 @@ const ProfileSchema = Yup.object().shape({
        <div className="mb-0 mt-0 sm:my-2 flex flex-col">
           <label className="loginh my-2">Actualizar perfil</label>
           <label className="loginh5 w-72 mb-1">
-            Poner aqui una foto de perfil 
+            <UpLoadImage/> 
           </label>
        </div>
        <Formik initialValues ={{ 
@@ -160,7 +158,7 @@ const ProfileSchema = Yup.object().shape({
            <Form onFinish={onFinish} autoComplete="off">
             <div className="div -mt-4">
                 <div className="flex flex-col text-gray-500 text-left">        
-                    <Field /* value={userData?.username} */ placeholder="Nombre completo" type="text" name="username" className="regular-input focus:outline-none"/>
+                    <Field placeholder="Nombre completo" type="text" name="username" className="regular-input focus:outline-none"/>
                 </div>
             </div>
             <div className="space mb-2.5">

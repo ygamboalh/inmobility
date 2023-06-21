@@ -10,3 +10,40 @@ export const authUserData = async () => {
   const { data } = await AxiosInstance.get('/users/me');
   return data
 }
+
+export const getAllUsers = async () => {
+  const { data } = await AxiosInstance.get('/users?populate=role');
+  return data
+}
+
+export const getActiveUsers = async () => {
+  const foundedUsers = [];
+  const users  = await getAllUsers();
+  users && users.forEach(user => {
+      if(user.active === 'Activo') {
+        foundedUsers.push(user);
+            }
+  });
+  return foundedUsers;
+}
+
+export const getDesactUsers = async () => {
+  const foundedUsers = [];
+  const users  = await getAllUsers();
+  users && users.forEach(user => {
+      if(user.active === 'Desactivado') {
+        foundedUsers.push(user);
+            }
+  });
+  return foundedUsers;
+}
+export const getPendingUsers = async () => {
+  const foundedUsers = [];
+  const users  = await getAllUsers();
+  users && users.forEach(user => {
+      if(user.active === 'Pendiente') {
+        foundedUsers.push(user);
+            }
+  });
+  return foundedUsers;
+}

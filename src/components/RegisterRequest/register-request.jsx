@@ -1,11 +1,10 @@
-import {message } from "antd";
 import React, { useState } from "react";
+import {message, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../constant";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { type } from "@testing-library/user-event/dist/type";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -232,18 +231,18 @@ const RegisterSchema = Yup.object().shape({
             <div className="flex mx-4 justify-between items-center">
                 <label className="flex items-center text-xs">
                   <Field type="checkbox" name="acept" className="mr-2" />
-                  <a href="/terms"><span>Acepto términos y condiciones</span></a>
+                  <a href="/user/terms"><span>Acepto términos y condiciones</span></a>
                 </label>
             </div>
             <div className="space">
                 {errors.acept && touched.acept ? (<div className="errordiv text-xs">{errors.acept}</div>) : null}
             </div>
             <div className="max-w-60 flex flex-col">
-              <button className="button-signin max-w-full" type="submit">REGISTRARME</button>
+              <button className="button-signin max-w-full" type="submit">REGISTRARME{isLoading && <Spin size="small" />}</button>
             </div>
             <div className="flex flex-row mx-2 mt-2 justify-between">
                 <label className="text-sm">¿Tienes una cuenta?</label>
-                <Link to='/signin' className="text-sm text-blue-800">Inicia sesión</Link>
+                <Link to='/auth/signin' className="text-sm text-blue-800">Inicia sesión</Link>
             </div>
          </Form>
          )}

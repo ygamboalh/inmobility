@@ -1,44 +1,45 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { API, BEARER } from "../../../constant";
-import { getToken } from "../../../utils/helpers";
-import { Link, useNavigate } from "react-router-dom";
+import { Spin } from "antd";
 import {useForm} from '../../../hooks/useForm'
-import { replace } from "formik";
-import { getAllProperties } from '../../../api/propertiesApi';
+import { getActiveProperties, getAllProperties } from '../../../api/propertiesApi';
 import PropertiesList from "./properties-list";
 
 const PropertyListActive  = () => {
+    
+    const [isLoading, setIsLoading] = useState(false);
 
     const [formValues, handleInputChange, reset] = useForm({searchText:''});
     const {searchText} = formValues;
     const [property, setProperty] = useState([]);
     
-    const { data: properties, isLoading } = useQuery('allProperties',getAllProperties);
-
+    const { data: properties } = useQuery('activeProperties',getActiveProperties);
+    
      const handleSearch = (e) => {
+        setIsLoading(true);
         e.preventDefault();
         searchProperties(searchText);
       } 
      const searchProperties =(searchParam) => {
+        setIsLoading(true);
         const foundedProperties = [];
         properties && properties.data.forEach(obj => {
             Object.entries(obj.attributes).forEach(([key, value]) => {
               const lowerCaseParam = String(searchParam).toLowerCase();
               const lowerCaseValue = String(value).toLowerCase();
-                console.log(`Clave: ${key}, Valor: ${value}`);
                 if(lowerCaseValue.includes(lowerCaseParam)) {
                     const foundedObjet = foundedProperties.find(p => p.key === obj.key);
                     if(!foundedObjet) {
                         foundedProperties.push(obj);
                     }
-                }    
+                }   
             });
           });
           setProperty({ data:foundedProperties});
+          setIsLoading(false);
     } 
     if(isLoading){
-        return <>cargando....</>
+        return <>{isLoading && <Spin size="medium" />}</>
     }
     return (
         <div className="overflow-x-auto mx-8 shadow-md sm:rounded-lg">

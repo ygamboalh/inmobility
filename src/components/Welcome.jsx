@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getToken } from '../utils/helpers';
 import { API, BEARER } from '../constant';
-import { authUserData } from '../api/usersApi';
+
 const Welcome = () => {
   
-//revisar aqui, si cuando se presiona 
-//entrar como asesor veriricado y ya hay un token ento
-//entonces mandarlo directo a banner
-
 const navigate = useNavigate();
 
 const SelectLink = async () => {
-    //const authUser = authUserData();
+    
     const token = getToken();    
     const response = await fetch(`${API}/users/me`, {
       method: "GET",

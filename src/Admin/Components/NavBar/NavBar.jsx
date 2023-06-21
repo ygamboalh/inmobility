@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Dropdown from "../Dropdown/Dropdown";
-import UserInfo from "../../../components/UserInfo/user-info";
 import { Link } from "react-router-dom";
 
 
@@ -14,7 +13,7 @@ const Navbar = () => {
         setIsOpen(!isOpen);
       };
   return (
-    <nav className="bg-white nav-bar border-gray-200 dark:bg-gray-900">
+    <nav className="bg-white nav-bar fixed w-screen border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" className="flex items-center">
             <div className="logo-admin"></div> 

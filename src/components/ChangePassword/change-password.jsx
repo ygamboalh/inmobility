@@ -1,12 +1,12 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { message, Spin } from "antd";
-  import React, { useState } from "react";
-  import { useNavigate } from "react-router-dom";
-  import { useAuthContext } from "../../context/AuthContext";
-  import { API } from "../../constant";
-  import { setToken, getToken } from "../../utils/helpers";
-  import { Formik, Form, Field } from 'formik';
-  import * as Yup from 'yup';
-  import { BiShow, BiHide, BiLock, BiLockOpen } from "react-icons/bi";
+import { Formik, Form, Field } from 'formik';
+import { BiShow, BiHide, BiLock, BiLockOpen } from "react-icons/bi";
+import * as Yup from 'yup';
+import { useAuthContext } from "../../context/AuthContext";
+import { API } from "../../constant";
+import { setToken, getToken } from "../../utils/helpers";
   
   const ChangePasswordSchema = Yup.object().shape({
     currentPassword: Yup.string()

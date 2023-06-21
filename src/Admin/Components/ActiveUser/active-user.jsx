@@ -1,10 +1,9 @@
-import {message } from "antd";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-//import { API } from "../../constant";
+import {message } from "antd";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -131,7 +130,7 @@ const RegisterSchema = Yup.object().shape({
     };
 
     return (
-      <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
+      <div className="flex flex-col px-12 pt-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
         <Formik initialValues={initialData}
          validationSchema={RegisterSchema}
          onSubmit={onFinish}

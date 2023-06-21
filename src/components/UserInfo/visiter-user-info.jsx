@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSignOut } from 'react-auth-kit';
-import { BiLogOut, BiHomeAlt, BiLockOpenAlt, BiUserCircle, BiUserCheck } from "react-icons/bi";
-const UserInfo = () => {
+import { BiLogOut, BiHomeAlt, BiLockOpenAlt } from "react-icons/bi";
+const VisiterUserInfo = () => {
   const signOut = useSignOut();
   const [isOpen, setIsOpen] = useState(false);
   
@@ -19,22 +19,10 @@ const UserInfo = () => {
       {isOpen && (
         <div className="absolute mt-2 py-2 w-10 bg-white rounded shadow-lg">
           <a
-            href="/user/verified-adviser"
-            className="block px-2 py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
-          >
-            <BiUserCheck size={25}/> 
-          </a>
-          <a
             href="/home/banner"
             className="block px-2 py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
           >
             <BiHomeAlt size={25}/> 
-          </a>
-          <a
-            href="/user/profile"
-            className="block px-2 py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
-          >
-            <BiUserCircle size={25}/> 
           </a>
           <a
             href="/auth/change-password"
@@ -55,4 +43,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default VisiterUserInfo;

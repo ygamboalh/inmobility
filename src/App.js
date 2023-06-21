@@ -30,6 +30,7 @@ import ProtectedRoutes from './layouts/components/ProtectedRoutes';
 import { Alquileres, Home, NotFound, Ventas, Search, PropertyDetails } from './pages';
 import PropertyDetailsAdmin from './Admin/Components/PropertyDetail/property-detail';
 import InsertProperty from './Admin/Components/InsertProperty/insert-property';
+import InsertUser from './Admin/Components/InsertUser/insert-user';
 
 const App = () => {
   return (
@@ -42,7 +43,6 @@ const App = () => {
                 <Route path='/alquiler' element={<Alquileres />} />
                 <Route path='/alquiler/*' element={<Search />} />
                 <Route path='/property/:id' element={<PropertyDetails />} />
-                <Route path="/home/banner" element={<Banner />} />
                 <Route path="/user/sent-request" element={<SentRequest />} />
                 <Route path="/user/evaluating" element={<Evaluating />} />
                 <Route path="/user/access-denied" element={<AccessDenied />} />
@@ -52,6 +52,7 @@ const App = () => {
                 <Route path="/upload" element={<Upload />} />
             </Route>
             <Route element={<PublicRoutes/>}>
+                <Route path="/home/banner" element={<Banner />} />
                 <Route path="/auth/signin" element={<SignIn />}/>
                 <Route path="/auth/register-request" element={<RegisterRequest />} />
                 <Route path="/auth/reset-password" element={<ResetPassword />} />
@@ -67,12 +68,14 @@ const App = () => {
             <Route element={<ProtectedRoutes/>}>
               <Route exact path="/admin/properties/property-detail/:id" element={<PropertyDetailsAdmin />} />
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
-            </Route>
-          </Route>
-            <Route element={<ProtectedRoutes/>}>
               <Route exact path="/admin/active-user" element={<ActiveUser />} />
               <Route exact path='/admin/properties' element={<Properties />} />
               <Route exact path="/admin/users" element={<Users />} />
+              <Route exact path="/admin/users/insert-user" element={<InsertUser />} />
+              <Route exact path="/admin/users/insert-user/:id" element={<InsertUser />} />
+            </Route>
+          </Route>
+            <Route element={<ProtectedRoutes/>}>
             </Route>
           <Route exact path='/' element={<Home />} />
           <Route exact path="/home/investor" element={<Investor />} /> 

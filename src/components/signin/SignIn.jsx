@@ -1,13 +1,10 @@
-import { message, Spin } from "antd";
 import React, { useState } from "react";
-import { useSignIn } from "react-auth-kit";
-import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../context/AuthContext";
-import { API } from "../../constant";
-import { setToken, setUserLocal } from "../../utils/helpers";
-import { Formik, Form, Field, useFormik } from 'formik';
+import { useSignIn } from "react-auth-kit";
+import { message, Spin } from "antd";
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { BiShow, BiHide, BiUserCircle, BiLock } from "react-icons/bi";
 import { authUser } from "../../api/usersApi";
@@ -31,7 +28,7 @@ const SignIn = () => {
 
   const formik = useFormik({
     initialValues: {
-      identifier: "yordan2@mail.com",
+      identifier: "yordan@mail.com",
       password: "123456",
     },
     validationSchema: Yup.object({
@@ -50,8 +47,6 @@ const SignIn = () => {
             authState: data.user,
           });
           window.location.reload(true);
-          
-          // navigate('/home/banner');
           message.success(`¡Bienvenido ${data.user.username}!`);
         },
         onError: (error) => {
@@ -97,16 +92,12 @@ const SignIn = () => {
             {formik.errors.password && formik.touched.password ? (<div className="errordiv text-xs">{formik.errors.password}</div>) : null}
           </div>
           <div className="flex mx-4 my-2 justify-between items-center">
-              <label className="flex items-center text-xs">
-                <input type="checkbox" className="mr-2" />
-                <span>Recordarme</span>
-              </label>
-              <Link to='/reset-password' className="text-xs text-red-700">¿Olvidó su contraseña?</Link>
+              <Link to='/auth/reset-password' className="text-xs text-red-700">¿Olvidó su contraseña?</Link>
           </div>
           <div className="max-w-60 flex flex-col">
             <button className="button-signin max-w-full login_submit_btn" type="submit">INICIAR SESIÓN{isLoading && <Spin size="small" />}</button>
             <label className="text-md my-4">¿No tienes una cuenta?</label>
-            <Link to = '/register-request' link-to className="button-rq">Solicitar una cuenta</Link>
+            <Link to = '/auth/register-request' link-to className="button-rq">Solicitar una cuenta</Link>
          </div>
       </form>   
    </div>

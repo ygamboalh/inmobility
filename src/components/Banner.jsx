@@ -5,6 +5,7 @@ import { API, BEARER } from '../constant';
 
 const Banner = () => {
   const navigate = useNavigate();
+  
   const SelectLink = async () => {
   
     const token = getToken();
@@ -19,6 +20,7 @@ const Banner = () => {
       navigate("/user/access-denied", { replace: true });
     }
     const role = data.role.name;
+    console.log(role);
     if(role == "Authenticated"){
       navigate("/upload", { replace: true }); 
     }

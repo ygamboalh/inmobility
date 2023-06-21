@@ -1,102 +1,75 @@
-import { useEffect, useState } from "react";
-import { API, BEARER } from "../../../constant";
-import { getToken } from "../../../utils/helpers";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { Spin } from "antd";
+import UserList from "./user-list";
+import { useForm } from "../../../hooks/useForm";
+import { getActiveUsers, getAllUsers } from '../../../api/usersApi';
 
 const UserListActive  = () => {
     
+    const [formValues, handleInputChange, reset] = useForm({searchText:''});
+    const {searchText} = formValues;
     const [user, setUser] = useState([]);
-    const navigate = useNavigate()
-    useEffect(() => {
-        GetUsers();
-    },[]);
-
-    const GetUsers = async () => {
-        const token = getToken();
-        const response = await fetch(`${API}/users?populate=role`, {
-            method: "GET",
-            headers: { Authorization: `${BEARER} ${token}` },
-          });
-          const data = await response.json();
-          console.log(data);
-          const user = data.map(u => {
-            return {
-                id: u.id,
-                username: u.username,
-                email: u.email,
-                type: u.type
-                
-            }
-          });
-          console.log(user);
-          setUser(user);
+    
+    const { data:users, isLoading } = useQuery('activeUsers',getActiveUsers);
+    
+    const handleSearch = (e) => {
+        e.preventDefault();
+        searchUsers(searchText);
       } 
+      const searchUsers =(searchParam) => {
+        const foundedUsers = [];
+        users.forEach(obj => {
+            Object.entries(obj).forEach(([key, value]) => {
+              const lowerCaseParam = String(searchParam).toLowerCase();
+              const lowerCaseValue = String(value).toLowerCase();
+                if(lowerCaseValue.includes(lowerCaseParam)) {
+                    const foundedObjet = foundedUsers.find(p => p.key === obj.key);
+                    if(!foundedObjet) {
+                        foundedUsers.push(obj);
+                    }
+                }    
+            });
+          });
+          setUser(foundedUsers);
+    } 
+    if(isLoading){
+        return <>{isLoading && <Spin size="medium" />}</>
+    }
 
     return (
-        <div className="overflow-x-auto w-fit mx-8 shadow-md sm:rounded-lg">
+        <div className="overflow-x-auto w-full mx-8 shadow-md sm:rounded-lg">
+            <form onSubmit={handleSearch}>
+                <div className="mt-2 mx-8 mb-2">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">           
+                    </div>
+                    <input value={searchText} onChange={handleInputChange} autoComplete="off" name="searchText" type="text" id="input-group-1" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"  placeholder="Busqueda"/>
+                </div>
+            </form>
+            <button onClick={() => {setUser([]); reset();}} className="ml-10 text-xs">Cancelar búsqueda</button>
+
            <table className="w-full mt-4 text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" className="p-4">
-                    <div className="flex items-center">
-                        <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                        <label htmlFor="checkbox-all-search" className="sr-only">id</label>
-                    </div>
-                </th>
-                <th scope="col" className="px-6 py-3">Nombre</th>
-                <th scope="col" className="px-6 py-3">Role</th>
-                <th scope="col" className="px-6 py-3">Email</th>
-                <th scope="col" className="px-6 py-3">Empresa</th>
-                <th scope="col" className="px-6 py-3">Dirección</th>
-                <th scope="col" className="px-6 py-3">Celular</th>
-                <th scope="col" className="px-6 py-3">Teléfono oficina</th>
-                <th scope="col" className="px-6 py-3">Identificador</th>
-                <th scope="col" className="px-6 py-3">Accion</th>
-            </tr>
-        </thead>
-        <tbody>  
-            
-        { user.map(({id, username, role, email, company, address, mobile, phone, personalId }) => (
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td className="w-4 p-4">
-                    <div className="flex items-center">
-                        <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                        <label htmlFor="checkbox-table-search-1" key={id} className="sr-only">{id}</label>
-                    </div>
-                </td>
-                <th key={username} scope="col" className="px-6 py-3">
-                    {username}
-                </th>
-                <th key={role} scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {role}
-                </th>
-                <th key={email} scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {email}
-                </th>
-                <td key={company} className="px-6 py-4">
-                    {company}
-                </td>
-                <th key={address} scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {address}
-                </th>
-                <td key={mobile} className="px-6 py-4">
-                    {mobile}
-                </td>
-                <td key = {phone} className="px-6 py-4">
-                    {phone}
-                </td>
-                <td key = {personalId} className="px-6 py-4">
-                    {personalId}
-                </td>
-                <td className="flex items-center px-6 py-4 space-x-3">
-                    <button type="button" className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">Detalles</button>
-                    <button type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Editar</button>
-                    <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Eliminar</button>
-                </td>
-                </tr>
-            ))
-        }
-        </tbody>
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" className="p-4">
+                            <div className="flex items-center">
+                                <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                <label htmlFor="checkbox-all-search" className="sr-only">id</label>
+                            </div>
+                        </th> 
+                        <th scope="col" className="px-6 py-3">Foto</th>
+                        <th scope="col" className="px-6 py-3">Nombre</th>
+                        <th scope="col" className="px-6 py-3">Email</th>
+                        <th scope="col" className="px-6 py-3">Empresa</th>
+                        <th scope="col" className="px-6 py-3">Dirección</th>
+                        <th scope="col" className="px-6 py-3">Celular</th>
+                        <th scope="col" className="px-6 py-3">Accion</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <UserList users={user.length === 0 ? users : user } />         
+                </tbody>
+        
     </table>
         </div>
     );

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { BiArea, BiBath, BiBed } from 'react-icons/bi';
-import { useLocation } from 'react-router-dom';
-import no_image from '../../../assets/images/no_image_default.jpg'
 import { useParams } from 'react-router-dom';
+import { BiArea, BiBath, BiBed } from 'react-icons/bi';
+import { Spin } from "antd";
+import no_image from '../../../assets/images/no_image_default.jpg'
 import { API } from '../../../constant';
 import AxiosInstance from '../../../api/AxiosInstance';
 
 const PropertyDetailsAdmin = () => {
-    
+
+  const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         getProperty();
     },[]);
@@ -15,17 +16,21 @@ const PropertyDetailsAdmin = () => {
     const {  id } = useParams();
     const [property, setProperty] = useState([]);
     const getProperty = async () =>{
+      setIsLoading(true);
         const propertyResponse = await AxiosInstance.get(`${API}/properties/${id}`);
-         
+
         console.log(propertyResponse.data.data.attributes);
         const propertyFound = propertyResponse.data.data.attributes; 
         setProperty(propertyFound);
+        setIsLoading(false);
     }
-    console.log(property.canton);
     
+    if(isLoading){
+      return <>{isLoading && <Spin size="medium" />}</>
+  }
   return (<section>
 
-    <div className="container mx-auto min-h-[800px] mb-14">
+    <div className="container mx-auto min-h-[800px] pt-20">
       <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between' >
         <div>
           <h2 className='text-2xl font-semibold' >{property.tipoPropiedad}</h2>

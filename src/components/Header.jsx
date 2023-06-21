@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
 import { useAuthUser } from 'react-auth-kit';
 import { Avatar } from 'flowbite-react';
@@ -9,10 +9,48 @@ import { useAuthContext } from '../context/AuthContext';
 import Freelancer from './Freelancer/Freelancer';
 import { authUserData } from '../api/usersApi';
 import logo from '../assets/images/logo192.png';
-
+import { getToken } from '../utils/helpers';
+import Dropdown from '../Admin/Components/Dropdown/Dropdown';
+import VisiterUserInfo from './UserInfo/visiter-user-info'
+import { API, BEARER } from '../constant';
 
 
 const Header = () => {
+  
+  const [link, setLink] = useState();
+  
+  useEffect(() => {
+      SelectLink();
+
+  },[]);
+  
+  const SelectLink = async () => {
+  
+    const token = getToken();
+        
+    const response = await fetch(`${API}/users/me?populate=role`, {
+      method: "GET",
+      headers: { Authorization: `${BEARER} ${token}` },
+    });
+    const data = await response.json();
+    if(response.statusCode !=200) 
+    {
+      setLink('noBody');
+    }
+
+    const role = data.role.name;
+    if(role === "SuperAdmin"){
+      setLink('SuperAdmin');
+    }
+    else if(role === "Authenticated"){
+      setLink('Authenticated');
+    }
+    else if (role === "Visiter")
+    {
+      setLink('Visiter');
+    }
+    else {return false;}
+  }
 
   const navigate = useNavigate();
   const { pathname } = useResolvedPath();
@@ -20,7 +58,6 @@ const Header = () => {
   const goBack = () => {
     navigate(-1)
   }
-console.log(userData);
   return (
     <header className='py-6 border-b bg-primary flex'>
       {
@@ -47,7 +84,9 @@ console.log(userData);
       {!userData ? (<span></span>) :
       (<div>
           <div className="flex flex-row justify-end items-end">
-            <UserInfo/>
+          {link === "Authenticated" && <UserInfo />}
+          {link === "Visiter" && <VisiterUserInfo />}
+          {link === "SuperAdmin" && <Dropdown />}
           </div>
       </div>)}
       </div>

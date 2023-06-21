@@ -1,12 +1,11 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { message,Spin } from "antd";
-  import React, { useState } from "react";
-  import { Link } from "react-router-dom";
-  import { useNavigate } from "react-router-dom";
-  import { useAuthContext } from "../../context/AuthContext";
-  import { API } from "../../constant";
-  import { Formik, Form, Field } from 'formik';
-  import * as Yup from 'yup';
-  import { BiShow, BiHide, BiLock, BiMailSend } from "react-icons/bi";
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { BiShow, BiHide, BiLock, BiMailSend } from "react-icons/bi";
+import { useAuthContext } from "../../context/AuthContext";
+import { API } from "../../constant";
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   const RecoverySchema = Yup.object().shape({
