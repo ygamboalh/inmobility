@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Spin } from "antd";
+import { Alert, Spin } from "antd";
 import {useForm} from '../../../hooks/useForm'
 import { getActiveProperties, getAllProperties } from '../../../api/propertiesApi';
 import PropertiesList from "./properties-list";
@@ -39,7 +39,11 @@ const PropertyListActive  = () => {
           setIsLoading(false);
     } 
     if(isLoading){
-        return <>{isLoading && <Spin size="medium" />}</>
+        return (
+          <Spin className="spinner" size='large'>
+            <Alert/>
+          </Spin>
+        )
     }
     return (
         <div className="overflow-x-auto mx-8 shadow-md sm:rounded-lg">
@@ -50,7 +54,7 @@ const PropertyListActive  = () => {
                     <input value={searchText} onChange={handleInputChange} autoComplete="off" name="searchText" type="text" id="input-group-1" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"  placeholder="Busqueda"/>
                 </div>
             </form>
-                    <button onClick={() => {setProperty([]); reset();}} className="ml-10">Cancelar búsqueda</button>
+                    <button onClick={() => {setProperty([]); reset();}} className="ml-10 text-xs">Cancelar búsqueda</button>
            <table className="w-full mt-4 text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>

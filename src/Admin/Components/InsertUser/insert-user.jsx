@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import {message, Spin } from "antd";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Estado, TipoAsesor, TipoInmueble } from "../../../BD/bd";
-import { API } from "../../../constant";
+import { API, BEARER } from "../../../constant";
 import AxiosInstance from "../../../api/AxiosInstance";
 import { getToken } from "../../../utils/helpers";
+import { passedUser, userIntser } from "../../../api/usersApi";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -27,7 +29,7 @@ const RegisterSchema = Yup.object().shape({
       .required('¡Su dirección es requerida!'),
     type: Yup.string().required('¡El tipo de asesor es requerido!'),
     active: Yup.string().required('¡El estado es requerido!'),
-    //acept: Yup.boolean().oneOf([true], '¡Debe aceptar los términos!'), 
+    acept: Yup.boolean().oneOf([true], '¡Debe aceptar los términos!'), 
     phone: Yup.string()
       .matches(phoneRegex,'¡Teléfono invalido!')
       .min(10,'¡Teléfono invalido!')
@@ -45,6 +47,9 @@ const RegisterSchema = Yup.object().shape({
   });
   
   const InsertUser = () => {
+
+    const { mutate: insertMutation, isLoading: isLoadingInsert, isError, errors} = useMutation(userIntser);
+    const { data: pasedUser } = useQuery('passedUser',passedUser());
     
     const [initialData, setinitialData] = useState({
       username: 'Roberto Ramirez A',
@@ -63,7 +68,7 @@ const RegisterSchema = Yup.object().shape({
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
-  
+
     const onFinish = async (values) => {
       setIsLoading(true);
       try {
@@ -81,23 +86,22 @@ const RegisterSchema = Yup.object().shape({
           photo: values.photo
 
         };
-        console.log(value);
-        const response = await AxiosInstance.post('/auth/local/register', value);
-        //console.log(response);
-        /* const response = await fetch(`${API}/auth/local/register`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(value),
-        }); */
 
-      
-
-        if(response.ok) {
-          message.success("Usuario creado correctamente!");     
-          navigate("/admin/users");
-
+        //si trae un id modificar, sino crear un nuevo registro
+        if (!true) {
+            //precargar los datos del usuario
+            //console.log(value);
+        }
+        else {
+          insertMutation(value, {
+            onSuccess: () => {
+              message.success('El usuario se registró exitosamente');
+            },
+            onError: (error) => {
+              message.error('Ocurrió un error inesperado');
+              //(error.response.data.error.message);
+            }
+          })
         }
       }
        catch (error) {
@@ -110,7 +114,7 @@ const RegisterSchema = Yup.object().shape({
 
     return (
       <div className="flex flex-col border px-12 pt-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
-        <Formik initialValues={initialData}
+        <Formik initialValues={ initialData }
          validationSchema={RegisterSchema}
          onSubmit={onFinish}
         >
@@ -119,9 +123,8 @@ const RegisterSchema = Yup.object().shape({
 
             <div class="flex flex-col mx-20 mt-40 align-middle lg:flex-row items-center justify-center ">
                 <div class="lg:w-1/3 align-middle">
-                    <img src="ruta_de_la_imagen.jpg" alt="Imagen" class="w-full h-auto"/>
-                </div>
-                
+                    <img src="ruta_de_la_imagen.jpg" alt="" class="w-full create-user-image h-auto"/>
+                </div>                
                 <div class="lg:w-1/3 px-10">
                     <Field type="text" name="username" class="w-full input-admin-property" placeholder="Nombre completo"/>
                         <div className="space">
@@ -183,7 +186,7 @@ const RegisterSchema = Yup.object().shape({
             </div>        
             <div className="flex flex-row align-middle justify-center content-center">
                 <div className="max-w-60 flex flex-col">    
-                    <button type="submit" onClick={()=>navigate('/admin/users')} className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancelar</button>
+                    <button type="button" onClick={()=>navigate('/admin/users')} className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancelar</button>
                 </div>
                 <div className="max-w-60 flex flex-col">
                     <button type="submit" className="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Guardar{isLoading && <Spin size="small" />}</button>

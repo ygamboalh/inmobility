@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {message } from "antd";
+import {Spin, Alert, message } from "antd";
 import { Formik, Form, Field } from 'formik';
 import { useQuery } from "react-query";
 import * as Yup from 'yup';
@@ -45,12 +45,12 @@ const ProfileSchema = Yup.object().shape({
 
     const { data: userData, loading } = useQuery('profile', authUserData);
 
-    if(loading){
+    /* if(isLoading || !userData){
       return <>{isLoading && <Spin size="medium" />}</>
     }else{
       console.log(userData);
       
-    }
+    } */
 
     const types = [
         {key: 'Asesor Inmobiliario Independiente'
@@ -86,7 +86,8 @@ const ProfileSchema = Yup.object().shape({
       mobile: userData?.mobile,
       personalId: userData?.personalId
     });
-    console.log(initialData);
+    
+    console.log(userData);
    const navigate = useNavigate();
    const [isLoading, setIsLoading] = useState(false);
    
@@ -133,6 +134,14 @@ const ProfileSchema = Yup.object().shape({
       }
     };
 
+    if(isLoading || !userData){
+      return (
+        <Spin size='large' className="spinner">
+          <Alert/>
+        </Spin>
+      )
+  }
+
     return (
       <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
        <div className="mb-0 mt-0 sm:my-2 flex flex-col">
@@ -158,7 +167,7 @@ const ProfileSchema = Yup.object().shape({
            <Form onFinish={onFinish} autoComplete="off">
             <div className="div -mt-4">
                 <div className="flex flex-col text-gray-500 text-left">        
-                    <Field placeholder="Nombre completo" type="text" name="username" className="regular-input focus:outline-none"/>
+                    <Field placeholder="Nombre completo" defaultValue= {userData.username} type="text" name="username" className="regular-input focus:outline-none"/>
                 </div>
             </div>
             <div className="space mb-2.5">
@@ -166,7 +175,7 @@ const ProfileSchema = Yup.object().shape({
             </div>
             <div className="div -mt-4">
                 <div className="flex flex-col text-gray-500 text-left">        
-                    <Field /* value={userData?.personalId} */ placeholder="Identificador personal" type="text" name="personalId" className="regular-input focus:outline-none"/>
+                    <Field defaultValue= {userData.personalId} placeholder="Identificador personal" type="text" name="personalId" className="regular-input focus:outline-none"/>
                 </div>
             </div>
             <div className="space">
@@ -174,7 +183,7 @@ const ProfileSchema = Yup.object().shape({
             </div>
             <div className="div -mt-1">
                 <div className="flex flex-col text-gray-500">
-                    <Field /* value={userData?.email} */ placeholder="Correo electrónico" name="email" type="email" className="regular-input"/>
+                    <Field defaultValue= {userData.email} placeholder="Correo electrónico" name="email" type="email" className="regular-input"/>
                 </div> 
             </div>
             <div className="space">
@@ -182,7 +191,7 @@ const ProfileSchema = Yup.object().shape({
             </div>
             <div className="div -mt-1 mb-0">
                 <div className="flex flex-col text-gray-500">
-                    <Field /* value={userData?.phone} */ placeholder="Teléfono de la oficina" name="phone" type="text" className="regular-input"/>
+                    <Field defaultValue= {userData.phone} placeholder="Teléfono de la oficina" name="phone" type="text" className="regular-input"/>
                 </div> 
             </div>
             <div className="space">
@@ -190,7 +199,7 @@ const ProfileSchema = Yup.object().shape({
             </div>
             <div className="div -mt-1 mb-0">
                 <div className="flex flex-col text-gray-500">
-                    <Field /* value={userData?.mobile} */ placeholder="Teléfono celular" name="mobile" type="text" className="regular-input"/>
+                    <Field defaultValue= {userData.mobile} placeholder="Teléfono celular" name="mobile" type="text" className="regular-input"/>
                 </div> 
             </div>
             <div className="space mb-2.5">
@@ -206,7 +215,7 @@ const ProfileSchema = Yup.object().shape({
             </div>
             <div className="div -mt-4">
                 <div className="flex flex-col text-gray-500 text-left">        
-                    <Field /* value={userData?.address} */ placeholder="Dirección física" type="text" name="address" className="regular-input focus:outline-none"/>
+                    <Field defaultValue= {userData.address} placeholder="Dirección física" type="text" name="address" className="regular-input focus:outline-none"/>
                 </div>
             </div>
             <div className="space">
@@ -214,7 +223,7 @@ const ProfileSchema = Yup.object().shape({
             </div>
             <div className="div -mt-1 mb-0">
                 <div className="flex flex-col text-gray-500">
-                    <Field placeholder="Contraseña" name="password" type="password" className="regular-input"/>
+                    <Field placeholder="Contraseña" defaultValue= {userData.password} name="password" type="password" className="regular-input"/>
                 </div> 
             </div>
             <div className="space">

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { Spin } from "antd";
+import { Alert, Spin } from "antd";
 import UserList from "./user-list";
 import { useForm } from "../../../hooks/useForm";
 import { getActiveUsers, getAllUsers } from '../../../api/usersApi';
+import UserPhoto from "../UserPhoto/user-photo";
 
 const UserListActive  = () => {
     
@@ -34,7 +35,11 @@ const UserListActive  = () => {
           setUser(foundedUsers);
     } 
     if(isLoading){
-        return <>{isLoading && <Spin size="medium" />}</>
+        return (
+          <Spin className="spinner" size='large'>
+            <Alert/>
+          </Spin>
+        )
     }
 
     return (

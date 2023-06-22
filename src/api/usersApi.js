@@ -6,8 +6,25 @@ export const authUser = async ( userData ) => {
   return data
 }
 
+export const userIntser = async ( userData ) => {
+  const { data } = await AxiosInstance.post('/auth/local/register', userData);
+  console.log(data);
+  return data
+}
+
 export const authUserData = async () => {
   const { data } = await AxiosInstance.get('/users/me');
+  return data
+}
+
+export const passedUser = async (id) => {
+  const { data } = await AxiosInstance.get(`/users/${id}`);
+  console.log(data);
+  return data
+}
+
+export const uploadImage = async (image) => {
+  const { data } = await AxiosInstance.get('/upload', image);
   return data
 }
 

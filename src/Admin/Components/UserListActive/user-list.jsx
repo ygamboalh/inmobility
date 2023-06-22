@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
+import UserPhoto from "../UserPhoto/user-photo";
 
 const UserList = ({ users }) => {
     const MySwal = withReactContent(Swal);
@@ -43,8 +44,6 @@ const UserList = ({ users }) => {
           setIsLoading(false);
         }
         
-        
-
         /* if(!users)
         {
             return <>{isLoading && <Spin size="medium" />}</>
@@ -62,7 +61,7 @@ const UserList = ({ users }) => {
                     </div>
                 </td>
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                     Foto
+                    {UserPhoto}
                  </th>
                  <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                      {username}
