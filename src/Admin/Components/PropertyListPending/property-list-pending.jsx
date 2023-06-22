@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Spin } from "antd";
+import { Alert, Spin } from "antd";
 import {useForm} from '../../../hooks/useForm'
 import { getPendingProperties } from '../../../api/propertiesApi';
 
@@ -41,7 +41,11 @@ const PropertyListPending  = () => {
           setIsLoading(false);
     } 
     if(isLoading){
-        return <>{isLoading && <Spin size="medium" />}</>
+        return (
+          <Spin className="spinner" size='large'>
+            <Alert/>
+          </Spin>
+        )
     }
     return (
         <div className="overflow-x-auto mx-8 shadow-md sm:rounded-lg">

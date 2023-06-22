@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {message } from "antd";
+import {Alert, Spin, message } from "antd";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -128,6 +128,14 @@ const RegisterSchema = Yup.object().shape({
         setIsLoading(false);
       }
     };
+
+    if(isLoading){
+      return (
+        <Spin className="spinner" size='large'>
+          <Alert/>
+        </Spin>
+      )
+  }
 
     return (
       <div className="flex flex-col px-12 pt-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">

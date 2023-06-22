@@ -19,8 +19,7 @@ export const authUserData = async () => {
 
 export const passedUser = async (id) => {
   const { data } = await AxiosInstance.get(`/users/${id}`);
-  console.log(data);
-  return data
+  return data;
 }
 
 export const uploadImage = async (image) => {

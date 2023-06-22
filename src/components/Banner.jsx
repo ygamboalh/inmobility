@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
 import { getToken, getUser } from '../utils/helpers';
 import { API, BEARER } from '../constant';
+import { Alert, Spin } from 'antd';
 
 const Banner = () => {
   const navigate = useNavigate();
-  
+  const [isLoading, setIsLoading] = useState(false);
   const SelectLink = async () => {
-  
+    setIsLoading(true);
     const token = getToken();
         
     const response = await fetch(`${API}/users/me?populate=role`, {
@@ -22,7 +23,7 @@ const Banner = () => {
     const role = data.role.name;
     console.log(role);
     if(role == "Authenticated"){
-      navigate("/upload", { replace: true }); 
+      navigate("/home/insert-property", { replace: true }); 
     }
     else if(role == "Visiter")
     {
@@ -31,8 +32,15 @@ const Banner = () => {
     else {
       navigate("/user/access-denied", { replace: true });
     }
+    setIsLoading(false);
   }
-
+  if(isLoading){
+    return (
+      <Spin className="spinner" size='large'>
+        <Alert/>
+      </Spin>
+    )
+}
   return <section className='h-full max-h-[640px] my-10' >
     <div className='flex flex-col lg:flex-row' >
       <div className='text-center flex flex-col w-full px-5 lg:flex-row lg:my-16 mx-auto gap-10 justify-center text-white font-semibold' >

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import {message, Spin } from "antd";
+import {Alert, message, Spin } from "antd";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Estado, TipoAsesor, TipoInmueble } from "../../../BD/bd";
@@ -9,6 +9,7 @@ import { API, BEARER } from "../../../constant";
 import AxiosInstance from "../../../api/AxiosInstance";
 import { getToken } from "../../../utils/helpers";
 import { passedUser, userIntser } from "../../../api/usersApi";
+
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -46,28 +47,34 @@ const RegisterSchema = Yup.object().shape({
       .required('¡El identificador personal es requerido!'),
   });
   
-  const InsertUser = () => {
+  const InsertUser = () =>{
 
+    const { id } = useParams();
     const { mutate: insertMutation, isLoading: isLoadingInsert, isError, errors} = useMutation(userIntser);
-    const { data: pasedUser } = useQuery('passedUser',passedUser());
+    
+    const { data: pasedUser} = useQuery(['id',id], ()=>passedUser(id));
     
     const [initialData, setinitialData] = useState({
-      username: 'Roberto Ramirez A',
-      email: 'ramire550z@gmail.com',
-      password: '1234567',
-      type: 'Asesor',
-      phone: '54546046546',
-      company: 'Empresa',
-      address: 'Direccion',
-      mobile:'564504645566',
-      personalId:'505645455555',
-      active: 'Activo',
-      photo:null,
+      username: pasedUser?.username,
+      email: pasedUser?.email,
+      password: pasedUser?.password,
+      type: pasedUser?.type,
+      phone: pasedUser?.phone,
+      company: pasedUser?.company,
+      address: pasedUser?.address,
+      mobile: pasedUser?.mobile,
+      personalId: pasedUser?.personalId,
+      active: pasedUser?.active,
+      photo:pasedUser?.photo,
     });
 
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
+
+   /*  useEffect(()=>{
+      setinitialData(pasedUser);
+    },[]) */
 
     const onFinish = async (values) => {
       setIsLoading(true);
@@ -88,9 +95,18 @@ const RegisterSchema = Yup.object().shape({
         };
 
         //si trae un id modificar, sino crear un nuevo registro
-        if (!true) {
-            //precargar los datos del usuario
-            //console.log(value);
+        if (pasedUser) {
+            const response = await AxiosInstance.put(`users/${pasedUser.id}`, value);
+
+            console.log(response);
+            if (response.status === 200) {
+              message.success('El usuario se actualizó exitosamente');
+              navigate('/admin/users');
+            }
+            else {
+              message.error('El usuario no se pudo actualizar');
+              return;
+            }
         }
         else {
           insertMutation(value, {
@@ -111,10 +127,28 @@ const RegisterSchema = Yup.object().shape({
         setIsLoading(false);
       }
     };
-
+    if(isLoading){
+      return (
+        <Spin className="spinner" size='large'>
+          <Alert/>
+        </Spin>
+      )
+  }
     return (
       <div className="flex flex-col border px-12 pt-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
-        <Formik initialValues={ initialData }
+        <Formik initialValues={ {
+          username: pasedUser?.username,
+          email: pasedUser?.email,
+          password: pasedUser?.password,
+          type: pasedUser?.type,
+          phone: pasedUser?.phone,
+          company: pasedUser?.company,
+          address: pasedUser?.address,
+          mobile: pasedUser?.mobile,
+          personalId: pasedUser?.personalId,
+          active: pasedUser?.active,
+          photo:pasedUser?.photo,
+         }}
          validationSchema={RegisterSchema}
          onSubmit={onFinish}
         >
@@ -189,7 +223,7 @@ const RegisterSchema = Yup.object().shape({
                     <button type="button" onClick={()=>navigate('/admin/users')} className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancelar</button>
                 </div>
                 <div className="max-w-60 flex flex-col">
-                    <button type="submit" className="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Guardar{isLoading && <Spin size="small" />}</button>
+                    <button type="submit" className="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Guardar</button>
                 </div>
             </div>
          </Form>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { BiArea, BiBath, BiBed } from 'react-icons/bi';
-import { Spin } from "antd";
+import { Alert, Spin } from "antd";
 import no_image from '../../../assets/images/no_image_default.jpg'
 import { API } from '../../../constant';
 import AxiosInstance from '../../../api/AxiosInstance';
@@ -26,7 +26,11 @@ const PropertyDetailsAdmin = () => {
     }
     
     if(isLoading){
-      return <>{isLoading && <Spin size="medium" />}</>
+      return (
+        <Spin className="spinner" size='large'>
+          <Alert/>
+        </Spin>
+      )
   }
   return (<section>
 

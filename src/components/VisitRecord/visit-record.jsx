@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { message,Spin } from "antd";
+import { Alert, message,Spin } from "antd";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import useScreenSize from "../../hooks/useScreenSize";
@@ -79,7 +79,13 @@ const VisitSchema = Yup.object().shape({
         setIsLoading(false);
       }
     };
-
+    if(isLoading){
+      return (
+        <Spin className="spinner" size='large'>
+          <Alert/>
+        </Spin>
+      )
+  }
     return (
       <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
        <div className="mb-0 mt-0 sm:my-2 flex flex-col">
@@ -149,7 +155,7 @@ const VisitSchema = Yup.object().shape({
                 </label>
             </div>
             <div className="max-w-60 flex flex-col">
-              <button className="button-signin max-w-full login_submit_btn" type="submit">REGISTRARME{isLoading && <Spin size="small" />}</button>
+              <button className="button-signin max-w-full login_submit_btn" type="submit">REGISTRARME</button>
             </div>
             <div className="flex flex-row mx-2 mt-2 justify-between">
                 <label className="text-sm">¿Tienes una cuenta?</label>

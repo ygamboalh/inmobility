@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { Spin } from "antd";
+import { Alert, Spin } from "antd";
 
 import { useForm } from "../../../hooks/useForm";
 import { getDesactUsers } from '../../../api/usersApi';
@@ -24,7 +24,6 @@ const UserListDesact  = () => {
             Object.entries(obj).forEach(([key, value]) => {
               const lowerCaseParam = String(searchParam).toLowerCase();
               const lowerCaseValue = String(value).toLowerCase();
-                console.log(`Clave: ${key}, Valor: ${value}`);
                 if(lowerCaseValue.includes(lowerCaseParam)) {
                     const foundedObjet = foundedUsers.find(p => p.key === obj.key);
                     if(!foundedObjet) {
@@ -36,7 +35,11 @@ const UserListDesact  = () => {
           setUser(foundedUsers);
     } 
     if(isLoading){
-        return <>{isLoading && <Spin size="medium" />}</>
+        return (
+          <Spin className="spinner" size='large'>
+            <Alert/>
+          </Spin>
+        )
     }
 
     return (

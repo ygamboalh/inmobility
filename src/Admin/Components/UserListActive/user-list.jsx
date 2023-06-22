@@ -5,6 +5,7 @@ import withReactContent from 'sweetalert2-react-content'
 import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
 import UserPhoto from "../UserPhoto/user-photo";
+import { Alert, Spin } from "antd";
 
 const UserList = ({ users }) => {
     const MySwal = withReactContent(Swal);
@@ -44,10 +45,13 @@ const UserList = ({ users }) => {
           setIsLoading(false);
         }
         
-        /* if(!users)
-        {
-            return <>{isLoading && <Spin size="medium" />}</>
-        } */
+        if(isLoading){
+          return (
+            <Spin className="spinner" size='large'>
+              <Alert/>
+            </Spin>
+          )
+      }
 
         return(
          

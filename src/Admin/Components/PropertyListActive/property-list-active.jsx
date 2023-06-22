@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Alert, Spin } from "antd";
 import {useForm} from '../../../hooks/useForm'
-import { getActiveProperties, getAllProperties } from '../../../api/propertiesApi';
+import { getActiveProperties } from '../../../api/propertiesApi';
 import PropertiesList from "./properties-list";
 
 const PropertyListActive  = () => {

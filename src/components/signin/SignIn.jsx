@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
-import { message, Spin } from "antd";
+import { Alert, message, Spin } from "antd";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { BiShow, BiHide, BiUserCircle, BiLock } from "react-icons/bi";
@@ -56,7 +56,13 @@ const SignIn = () => {
     },
   });
 
-
+  if(isLoading){
+    return (
+      <Spin className="spinner" size='large'>
+        <Alert/>
+      </Spin>
+    )
+}
   return ( 
     <div className="flex my-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
      <div className="my-20 lg:my-3 sm:my-6 flex flex-col">
@@ -95,7 +101,7 @@ const SignIn = () => {
               <Link to='/auth/reset-password' className="text-xs text-red-700">¿Olvidó su contraseña?</Link>
           </div>
           <div className="max-w-60 flex flex-col">
-            <button className="button-signin max-w-full login_submit_btn" type="submit">INICIAR SESIÓN{isLoading && <Spin size="small" />}</button>
+            <button className="button-signin max-w-full login_submit_btn" type="submit">INICIAR SESIÓN</button>
             <label className="text-md my-4">¿No tienes una cuenta?</label>
             <Link to = '/auth/register-request' link-to className="button-rq">Solicitar una cuenta</Link>
          </div>

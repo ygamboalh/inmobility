@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { API, BEARER } from '../../../constant';
 import AxiosInstance from "../../../api/AxiosInstance"
-import { message, Spin } from 'antd';
+import { Alert, message, Spin } from 'antd';
 import { Formik, Form, Field } from 'formik';
 import { getToken } from '../../../utils/helpers';
 import { useNavigate } from 'react-router-dom';
@@ -166,6 +166,13 @@ const InsertProperty = () => {
     }
   };
 
+  if(isLoading){
+    return (
+      <Spin className="spinner" size='large'>
+        <Alert/>
+      </Spin>
+    )
+}
 
   return (
   <div className='flex flex-col'>

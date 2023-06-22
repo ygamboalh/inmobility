@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import {message, Spin } from "antd";
+import {Alert, message, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../constant";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { useMutation } from "react-query";
+import { userIntser } from "../../api/usersApi";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -77,6 +79,9 @@ const RegisterSchema = Yup.object().shape({
         personalId:'',
       });
 
+    //----------------------------------------------------------------
+      const { mutate: insertMutation, isLoading: isLoadingInsert, isError, errors} = useMutation(userIntser);
+
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -107,7 +112,20 @@ const RegisterSchema = Yup.object().shape({
         
         //if the user is not found then register
         if (!found) {
-          const response = await fetch(`${API}/auth/local/register`, {
+
+            //--------------------------------
+            insertMutation(value, {
+              onSuccess: () => {
+                message.success('El usuario se registró exitosamente');
+              },
+              onError: (error) => {
+                message.error('Ocurrió un error inesperado');
+                //(error.response.data.error.message);
+              }
+            })
+            //--------------------------------
+
+          /* const response = await fetch(`${API}/auth/local/register`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -115,7 +133,7 @@ const RegisterSchema = Yup.object().shape({
             body: JSON.stringify(value),
           });
     
-          const data = await response.json();
+          const data = await response.json(); */
           
           navigate("/user/sent-request", { replace: true });
         }
@@ -130,7 +148,13 @@ const RegisterSchema = Yup.object().shape({
         setIsLoading(false);
       }
     };
-
+    if(isLoading){
+      return (
+        <Spin className="spinner" size='large'>
+          <Alert/>
+        </Spin>
+      )
+  }
     return (
       <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
        <div className="mb-0 mt-0 sm:my-2 flex flex-col">
@@ -238,7 +262,7 @@ const RegisterSchema = Yup.object().shape({
                 {errors.acept && touched.acept ? (<div className="errordiv text-xs">{errors.acept}</div>) : null}
             </div>
             <div className="max-w-60 flex flex-col">
-              <button className="button-signin max-w-full" type="submit">REGISTRARME{isLoading && <Spin size="small" />}</button>
+              <button className="button-signin max-w-full" type="submit">REGISTRARME</button>
             </div>
             <div className="flex flex-row mx-2 mt-2 justify-between">
                 <label className="text-sm">¿Tienes una cuenta?</label>

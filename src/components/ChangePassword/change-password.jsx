@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { message, Spin } from "antd";
+import { Alert, message, Spin } from "antd";
 import { Formik, Form, Field } from 'formik';
 import { BiShow, BiHide, BiLock, BiLockOpen } from "react-icons/bi";
 import * as Yup from 'yup';
@@ -64,6 +64,13 @@ import { setToken, getToken } from "../../utils/helpers";
         setIsLoading(false);
       }
     };
+    if(isLoading){
+      return (
+        <Spin className="spinner" size='large'>
+          <Alert/>
+        </Spin>
+      )
+  }
     return ( 
       <div className="flex mt-8 mb-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
        <div className="my-20 lg:my-3 sm:my-6 flex flex-col">
@@ -127,7 +134,7 @@ import { setToken, getToken } from "../../utils/helpers";
               {errors.passwordConfirmation && touched.passwordConfirmation ? (<div className="errordiv text-xs">{errors.passwordConfirmation}</div>) : null}
             </div>
             <div className="max-w-60 flex flex-col">
-              <button className="button-signin max-w-full login_submit_btn" type="submit">GUARDAR{isLoading && <Spin size="small" />}</button>
+              <button className="button-signin max-w-full login_submit_btn" type="submit">GUARDAR</button>
            </div>
          </Form>
          )}

@@ -50,9 +50,10 @@ const App = () => {
                 <Route path="/user/profile" element={<Profile />} />
                 <Route path="/auth/change-password" element={<ChangePassword />} />
                 <Route path="/upload" element={<Upload />} />
+                <Route path="/home/banner" element={<Banner />} />
+                <Route path="/home/properties" element={<InsertProperty />} />
             </Route>
             <Route element={<PublicRoutes/>}>
-                <Route path="/home/banner" element={<Banner />} />
                 <Route path="/auth/signin" element={<SignIn />}/>
                 <Route path="/auth/register-request" element={<RegisterRequest />} />
                 <Route path="/auth/reset-password" element={<ResetPassword />} />

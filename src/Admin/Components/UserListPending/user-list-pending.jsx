@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { Spin } from "antd";
+import { Alert, Spin } from "antd";
 
 import { useForm } from "../../../hooks/useForm";
 import { getPendingUsers } from '../../../api/usersApi';
@@ -35,7 +35,11 @@ const UserListPending  = () => {
           setUser(foundedUsers);
     } 
     if(isLoading){
-        return <>{isLoading && <Spin size="medium" />}</>
+        return (
+          <Spin className="spinner" size='large'>
+            <Alert/>
+          </Spin>
+        )
     }
 
     return (

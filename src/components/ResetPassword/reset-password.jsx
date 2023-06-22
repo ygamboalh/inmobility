@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { message,Spin } from "antd";
+import { Alert, message,Spin } from "antd";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { BiShow, BiHide, BiLock, BiMailSend } from "react-icons/bi";
@@ -65,7 +65,13 @@ import { API } from "../../constant";
         setIsLoading(false);
       }
     };
-  
+    if(isLoading){
+      return (
+        <Spin className="spinner" size='large'>
+          <Alert/>
+        </Spin>
+      )
+  }
     return ( 
       <div className="flex my-10 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
        <div className="lg:my-2.5 flex flex-col">
@@ -135,7 +141,7 @@ import { API } from "../../constant";
               {errors.code && touched.code ? (<div className="errordiv text-xs">{errors.code}</div>) : null}
             </div>
             <div className="max-w-60 flex flex-col -mt-5">
-              <button className="button-signin max-w-full login_submit_btn" type="submit">ENVIAR ENLACE{isLoading && <Spin size="small" />}</button>
+              <button className="button-signin max-w-full login_submit_btn" type="submit">ENVIAR ENLACE</button>
               <Link to='/register-request' className="text-sm my-4">¿No tienes una cuenta?</Link>
               <Link to = '/signin' link-to className="button-rq">Iniciar sesión</Link>
            </div>

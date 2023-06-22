@@ -207,7 +207,7 @@ const ProfileSchema = Yup.object().shape({
             </div>
             <div className="div -mt-4">
                 <div className="flex flex-col text-gray-500 text-left">        
-                    <Field /* value={userData?.company} */ placeholder="Nombre de la empresa" type="text" name="company" className="regular-input focus:outline-none"/>
+                    <Field placeholder="Nombre de la empresa" type="text" name="company" className="regular-input focus:outline-none"/>
                 </div>
             </div>
             <div className="space mb-2.5">
@@ -234,7 +234,7 @@ const ProfileSchema = Yup.object().shape({
             </div>
             <div className="div mt-1 mb-1">
                 <div className="flex flex-col">    
-                    <Field /* value={userData?.type} */ className="w-60 regular-input" as="select" name="type" id="type">
+                    <Field className="w-60 regular-input" as="select" name="type" id="type">
                         <option value="" label="">
                         {"Seleccione el tipo de asesor"}
                         </option>
