@@ -3,7 +3,7 @@ import { BEARER } from "../constant";
 import { getToken } from "../utils/helpers";
 
 
-const baseUrlForProperties = 'http://147.182.188.52/api/'
+const baseUrlForProperties = 'http://147.182.188.52/backend/api/'
 //const baseUrlForProperties = 'https://sistemacic-backend.herokuapp.com/api'
 //const baseUrlForProperties = 'https://sistemacic.com/backend/api/'
 

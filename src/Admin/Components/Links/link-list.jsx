@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { getActiveProperties } from "../../../api/propertiesApi";
+import { useNavigate } from "react-router-dom";
+
 import DataTable from "react-data-table-component";
-import { useQuery } from "react-query";
-import { API } from "../../../constant";
 import axios from "axios";
 import { Spin } from "antd";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+
+import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
-import AxiosInstance from "../../../api/AxiosInstance";
 
 const LinkList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,13 +34,6 @@ const LinkList = () => {
         setPending(false);
         console.log(res.data.data);
       });
-
-    /*  const data = AxiosInstance.get(`${API}links`).then((res) => {
-      foundedLinks = res.data;
-      setRecords(foundedLinks);
-      setFilterRecords(foundedLinks);
-      setPending(false);
-    }); */
   }, []);
 
   const DeleteLink = async (id) => {
@@ -108,17 +100,17 @@ const LinkList = () => {
       cell: (row) => (
         <button
           className="detailButton"
-          onClick={() => navigate(`/admin/links/insert-link/${row.id}`)}
+          onClick={() => window.location.assign(`${row.url}`)}
         >
-          Detalles
+          Visitar enlace
         </button>
       ),
       accessor: "id",
       id: "detail",
-      ignoreRowClick: true,
+      ignoreRowClick: false,
       allowOverflow: true,
       button: true,
-      width: "80px",
+      width: "150px",
     },
     {
       cell: (row) => (

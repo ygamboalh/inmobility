@@ -166,32 +166,17 @@ const InsertProperty = () => {
   const [isLoading, setIsLoading] = useState(false);
   const onFinish = async (values) => {
     setIsLoading(true);
-    /*  console.log('detalles externos',detallesExternos);
-    console.log('detalles internos',detallesInternos);
-    console.log('detalles amenidades',amenidades);
-    console.log('categorias',categoriesDB);
-    console.log('patio',patio); */
 
     try {
       const catFounded = [];
       //Busca las coincidencias entre las categorias de la base de datos y la del frontend
-      /* categoriesDB?.filter((categoria) => {
+      categoriesDB?.filter((categoria) => {
         const cat = category?.find((c) => c.label === categoria.nombre);
-       // const label = cat.label;
-       if (cat){
-         catFounded.push(
-            {
-              'id': categoria.id,
-              attributes:{
-                'nombre': categoria.nombre,
-              }
-            });
-        
-       } 
-          //return catFounded; 
-        }); */
-      //setCoinsidence(catFounded);
-      //console.log('coinsidencia ', coinsidence);
+        if (cat) {
+          catFounded.push(categoria.id);
+        }
+      });
+      console.log(catFounded);
 
       const value = {
         provincia: values.provincia,
@@ -228,7 +213,6 @@ const InsertProperty = () => {
         serviciosMedicos: values.serviciosMedicos,
         anunciante: values.anunciante,
         categories: catFounded,
-        //categories: null,
         active: values.active,
       };
 
@@ -236,32 +220,6 @@ const InsertProperty = () => {
         data: value,
       });
 
-      //buscando las categorias que tengo que actualizar
-      const responseCategory = await AxiosInstance.get("categories");
-      //console.log(responseCategory);
-      const categoriesToUpdate = [];
-      responseCategory.data.data.map((categoria) => {
-        catFounded.map((cat) => {
-          if (cat.id === categoria.id) {
-            categoriesToUpdate.push(cat);
-          }
-        });
-      });
-      console.log("categorias a actualizar", categoriesToUpdate);
-      //data: catFounded
-      /* console.log('data para enviar a las categories', {properties:{data:[value]}});
-      //actualizando las categories relacionadas con la propiedad
-      categoriesToUpdate.map((cat)=>{
-        //data:value es la  property que acabo de crear 
-        const responseCategory =  AxiosInstance.put(`categories/${cat.id}`, 
-        {
-          properties: { 
-                data:[value]
-          }
-         });
-      }); */
-
-      console.log("respuesta", response);
       if (response.status === 200) {
         message.success("¡La propiedad fue creada correctamente!");
         navigate("/admin/properties", { replace: true });

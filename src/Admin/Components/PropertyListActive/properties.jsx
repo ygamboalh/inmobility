@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getActiveProperties } from "../../../api/propertiesApi";
 import DataTable from "react-data-table-component";
-import { useQuery } from "react-query";
 import { API } from "../../../constant";
 import axios from "axios";
 import { Spin } from "antd";

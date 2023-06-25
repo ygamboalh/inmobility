@@ -2,14 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
-import { Alert, message, Spin } from "antd";
+import { message, Spin } from "antd";
 import { Formik, Form, Field } from "formik";
 
-import { API } from "../../../constant";
 import AxiosInstance from "../../../api/AxiosInstance";
-import { getToken } from "../../../utils/helpers";
-
-import Select from "react-select";
 
 const InsertLink = () => {
   const navigate = useNavigate();
@@ -18,19 +14,10 @@ const InsertLink = () => {
     url: Yup.string().matches(urlRegex, "*").required("*"),
   });
 
-  const { id } = useParams();
   const [initialData, setinitialData] = useState();
-  console.log(id);
-  if (id) {
-    const response = AxiosInstance.get(`links/${id}`);
-
-    setinitialData = {
-      url: response.data.url,
-      descripcion: response.data.descripcion,
-    };
-  }
 
   const [isLoading, setIsLoading] = useState(false);
+
   const onFinish = async (values) => {
     setIsLoading(true);
     try {
@@ -68,10 +55,10 @@ const InsertLink = () => {
       <Formik
         initialValues={initialData}
         validationSchema={InsertLinkSchema}
-        onSubmit={onFinish}
+        //onSubmit={onFinish}
       >
         {({ errors, touched }) => (
-          <Form autoComplete="off">
+          <Form onSubmit={onFinish} autoComplete="off">
             <div className="flex mt-3 justify-center align-middle items-center w-full">
               <label className="font-semibold text-xl">
                 Crear un nuevo enlace
@@ -79,7 +66,7 @@ const InsertLink = () => {
             </div>
 
             <div className="flex flex-wrap justify-center m-3">
-              <input
+              <Field
                 type="text"
                 name="url"
                 placeholder="URL"
@@ -90,7 +77,7 @@ const InsertLink = () => {
                   <div className="errordiv text-xs">{errors.url}</div>
                 ) : null}
               </div>
-              <input
+              <Field
                 type="text"
                 name="descripcion"
                 placeholder="Descripción"
