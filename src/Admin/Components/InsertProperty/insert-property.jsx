@@ -142,19 +142,12 @@ const InsertProperty = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        //setCategoriesDB(data);
         const categories = [];
         data?.data?.map((category) => {
           const { nombre } = category.attributes;
-          //categories.push({value: nombre,label:nombre});
           categories.push({ id: category.id, nombre: nombre });
         });
-        //console.log(categories);
-        //setCategoriesDB(data);
         setCategoriesDB(categories);
-        //console.log(categories);
-
-        //console.log(data.data, categoriesDB);
       })
       .catch((error) => {
         console.error(error);
@@ -681,50 +674,52 @@ const InsertProperty = () => {
                   <div className="errordiv text-xs">{errors.servicios}</div>
                 ) : null}
               </div>
-              <div className="m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
-                <Field
-                  type="checkbox"
-                  name="ley7600"
-                  id="ley7600"
-                  value="Ley 7600"
-                  className="mr-1"
-                  placeholder="Ley 7600"
-                />
-                <label /* htmlFor="ley7600" */>Ley 7600</label>
-              </div>
-              <div className="m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
-                <Field
-                  type="checkbox"
-                  name="serviciosMedicos"
-                  id="serviciosMedicos"
-                  className="mr-1"
-                  value="Servicios médicos"
-                  placeholder="Servicios médicos"
-                />
-                <label htmlFor="serviciosMedicos">Servicios médicos</label>
-              </div>
-              <div className="space mb-2.5">
-                {errors.serviciosMedicos && touched.serviciosMedicos ? (
-                  <div className="errordiv text-xs">
-                    {errors.serviciosMedicos}
-                  </div>
-                ) : null}
-              </div>
-              <div className="m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
-                <Field
-                  type="checkbox"
-                  name="areaCarga"
-                  id="areaCarga"
-                  className="mr-1"
-                  value="Área carga"
-                  placeholder="Área carga"
-                />
-                <label htmlFor="areaCarga">Área carga</label>
-              </div>
-              <div className="space mb-2.5">
-                {errors.areaCarga && touched.areaCarga ? (
-                  <div className="errordiv text-xs">{errors.areaCarga}</div>
-                ) : null}
+              <div className="flex flex-row  w-full justify-center">
+                <div className="m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+                  <Field
+                    type="checkbox"
+                    name="ley7600"
+                    id="ley7600"
+                    value="Ley 7600"
+                    className="mr-1"
+                    placeholder="Ley 7600"
+                  />
+                  <label>Ley 7600</label>
+                </div>
+                <div className="m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+                  <Field
+                    type="checkbox"
+                    name="serviciosMedicos"
+                    id="serviciosMedicos"
+                    className="mr-1"
+                    value="Servicios médicos"
+                    placeholder="Servicios médicos"
+                  />
+                  <label htmlFor="serviciosMedicos">Servicios médicos</label>
+                </div>
+                <div className="space mb-2.5">
+                  {errors.serviciosMedicos && touched.serviciosMedicos ? (
+                    <div className="errordiv text-xs">
+                      {errors.serviciosMedicos}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+                  <Field
+                    type="checkbox"
+                    name="areaCarga"
+                    id="areaCarga"
+                    className="mr-1"
+                    value="Área carga"
+                    placeholder="Área carga"
+                  />
+                  <label htmlFor="areaCarga">Área carga</label>
+                </div>
+                <div className="space mb-2.5">
+                  {errors.areaCarga && touched.areaCarga ? (
+                    <div className="errordiv text-xs">{errors.areaCarga}</div>
+                  ) : null}
+                </div>
               </div>
             </div>
 
@@ -737,7 +732,7 @@ const InsertProperty = () => {
               onChange={handleChangeCategory}
             />
             <div className="space mb-2.5">
-              {errors.categories && touched.categorias ? (
+              {errors.categories && touched.categories ? (
                 <div className="errordiv text-xs">{errors.categories}</div>
               ) : null}
             </div>
