@@ -5,7 +5,7 @@ const Freelancer = () => {
 const navigate = useNavigate();
   return (
     <div className="">
-      <button className="freelancer-button">
+      <button onClick={()=>navigate('/ ')} className="freelancer-button">
       </button>
     </div>
   );

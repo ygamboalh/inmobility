@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import { message,Spin } from "antd";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-  import { API } from "../../constant";
+
+import { API } from "../../constant";
+
   
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   const ForgotSchema = Yup.object().shape({
@@ -43,6 +46,11 @@ import * as Yup from 'yup';
         setIsLoading(false);
       }
     };
+    if(isLoading){
+      return (
+        <Spin className="spinner" size='large'/>
+    )
+  }
   
     return ( 
       <div className="flex my-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">

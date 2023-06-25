@@ -2,13 +2,16 @@ import AxiosInstance from "./AxiosInstance"
 
 export const authUser = async ( userData ) => {
   const { data } = await AxiosInstance.post('/auth/local', userData);
-  console.log(data);
   return data
 }
 
 export const userIntser = async ( userData ) => {
   const { data } = await AxiosInstance.post('/auth/local/register', userData);
-  console.log(data);
+  return data
+}
+
+export const updateCategory = async ( categoryData ) => {
+  const { data } = await AxiosInstance.put(`/categories${ id }`, categoryData.id);
   return data
 }
 

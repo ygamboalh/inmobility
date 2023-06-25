@@ -9,8 +9,9 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { getToken } from "../../../utils/helpers";
+import AxiosInstance from "../../../api/AxiosInstance";
 
-const UsersList = () => {
+const LinkList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
@@ -18,33 +19,43 @@ const UsersList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const foundedUsers = [];
-    const data = axios.get(`${API}users`).then((res) => {
-      res.data &&
-        res.data.forEach((user) => {
-          if (user.active === "Activo") {
-            foundedUsers.push(user);
-          }
-        });
-      console.log(res);
-      setRecords(foundedUsers);
-      setFilterRecords(foundedUsers);
+    let foundedLinks = [];
+    const response = axios
+      .get(`${API}links`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
+      .then((res) => {
+        foundedLinks = res.data.data;
+        setRecords(foundedLinks);
+        setFilterRecords(foundedLinks);
+        setPending(false);
+        console.log(res.data.data);
+      });
+
+    /*  const data = AxiosInstance.get(`${API}links`).then((res) => {
+      foundedLinks = res.data;
+      setRecords(foundedLinks);
+      setFilterRecords(foundedLinks);
       setPending(false);
-    });
+    }); */
   }, []);
 
-  const DeleteUser = async (id) => {
+  const DeleteLink = async (id) => {
     setIsLoading(true);
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      title: "¿Desea eliminar el usuario?",
+      title: "¿Desea eliminar el enlace?",
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {
-        const response = fetch(`${API}users/${id}`, {
+        const response = fetch(`${API}links/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -52,12 +63,12 @@ const UsersList = () => {
           },
         });
         if (result) {
-          Swal.fire("Usuario eliminado!", "", "success");
+          Swal.fire("Enlace eliminado!", "", "success");
         } else {
-          Swal.fire("El usuario no fue eliminado", "", "error");
+          Swal.fire("El enlace no fue eliminado", "", "error");
         }
       } else if (result.isDenied) {
-        Swal.fire("El usuario no fue eliminado", "", "info");
+        Swal.fire("El enlace no fue eliminado", "", "info");
       }
     });
 
@@ -65,7 +76,7 @@ const UsersList = () => {
   };
 
   const paginationComponentOptions = {
-    rowsPerPageText: "Usuarios por página",
+    rowsPerPageText: "Enlaces por página",
     rangeSeparatorText: "de",
     selectAllRowsItem: true,
     selectAllRowsItemText: "Todos",
@@ -80,64 +91,38 @@ const UsersList = () => {
       id: "id",
     },
     {
-      name: "Foto",
-      id: "photo",
-      selector: (row) => row.photo,
-      width: "150px",
-    },
-    {
-      name: "Nombre",
-      id: "username",
-      selector: (row) => row.username,
-      sortable: true,
-      width: "225px",
-    },
-    {
-      name: "Email",
-      id: "email",
-      selector: (row) => row.email,
+      name: "Descripción",
+      id: "descripcion",
+      selector: (row) => row.attributes.descripcion,
       sortable: true,
       width: "200px",
     },
     {
-      name: "Empresa",
-      id: "empresa",
-      selector: (row) => row.company,
+      name: "URL",
+      id: "url",
+      selector: (row) => row.attributes.url,
       sortable: true,
-      width: "180px",
-    },
-    {
-      name: "Dirección",
-      id: "address",
-      selector: (row) => row.address,
-      sortable: true,
-      width: "200px",
-    },
-    {
-      name: "Celular",
-      id: "celular",
-      selector: (row) => row.mobile,
-      sortable: true,
-      width: "160px",
+      width: "600px",
     },
     {
       cell: (row) => (
         <button
-          className="editButton"
-          onClick={() => navigate(`/admin/users/insert-user/${row.id}`)}
+          className="detailButton"
+          onClick={() => navigate(`/admin/links/insert-link/${row.id}`)}
         >
-          Editar
+          Detalles
         </button>
       ),
+      accessor: "id",
+      id: "detail",
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      id: "edit",
-      width: "60px",
+      width: "80px",
     },
     {
       cell: (row) => (
-        <button className="deleteButton" onClick={() => DeleteUser(row.id)}>
+        <button className="deleteButton" onClick={() => DeleteLink(row.id)}>
           Eliminar
         </button>
       ),
@@ -150,7 +135,9 @@ const UsersList = () => {
   ];
   const handleFilter = (event) => {
     const searchData = filterRecords.filter((row) =>
-      row.username.toLowerCase().includes(event.target.value.toLowerCase())
+      row.attributes.url
+        .toLowerCase()
+        .includes(event.target.value.toLowerCase())
     );
     setRecords(searchData);
   };
@@ -160,6 +147,15 @@ const UsersList = () => {
 
   return (
     <div className=" w-full">
+      <div className="ml-auto">
+        <button
+          onClick={() => navigate("/admin/links/insert-link")}
+          type="button"
+          className="mr-2 py-2 px-4 rounded bg-green-400 text-white"
+        >
+          Crear link
+        </button>
+      </div>
       <DataTable
         columns={column}
         data={records}
@@ -168,7 +164,7 @@ const UsersList = () => {
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight
-        title="Usuarios activos"
+        title="Enlaces de interés"
         progressPending={pending}
         highlightOnHover
         progressComponent={<Spin size="large" />}
@@ -189,4 +185,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default LinkList;

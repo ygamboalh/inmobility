@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { Alert, Spin } from 'antd';
+
 import { getToken, getUser } from '../utils/helpers';
 import { API, BEARER } from '../constant';
-import { Alert, Spin } from 'antd';
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ const Banner = () => {
       navigate("/user/access-denied", { replace: true });
     }
     const role = data.role.name;
-    console.log(role);
+    
     if(role == "Authenticated"){
       navigate("/home/insert-property", { replace: true }); 
     }
@@ -36,10 +38,8 @@ const Banner = () => {
   }
   if(isLoading){
     return (
-      <Spin className="spinner" size='large'>
-        <Alert/>
-      </Spin>
-    )
+      <Spin className="spinner" size='large'/>
+  )
 }
   return <section className='h-full max-h-[640px] my-10' >
     <div className='flex flex-col lg:flex-row' >

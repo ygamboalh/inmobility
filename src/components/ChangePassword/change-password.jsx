@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert, message, Spin } from "antd";
+
+import { message, Spin } from "antd";
 import { Formik, Form, Field } from 'formik';
 import { BiShow, BiHide, BiLock, BiLockOpen } from "react-icons/bi";
 import * as Yup from 'yup';
+
 import { useAuthContext } from "../../context/AuthContext";
 import { API } from "../../constant";
 import { setToken, getToken } from "../../utils/helpers";
+
   
   const ChangePasswordSchema = Yup.object().shape({
     currentPassword: Yup.string()
@@ -66,10 +69,8 @@ import { setToken, getToken } from "../../utils/helpers";
     };
     if(isLoading){
       return (
-        <Spin className="spinner" size='large'>
-          <Alert/>
-        </Spin>
-      )
+        <Spin className="spinner" size='large'/>
+    )
   }
     return ( 
       <div className="flex mt-8 mb-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Spin } from "antd";
+
 import Navbar from "../NavBar/NavBar";
 import PropertyListActive from "../PropertyListActive/property-list-active";
 import PropertyListPending from "../PropertyListPending/property-list-pending";

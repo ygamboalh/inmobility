@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import {Alert, message, Spin } from "antd";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { API } from "../../constant";
+import { useNavigate, Link } from "react-router-dom";
+import { useMutation } from "react-query";
+
+import { message, Spin } from "antd";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { useMutation } from "react-query";
+
+import { API } from "../../constant";
 import { userIntser } from "../../api/usersApi";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -79,7 +80,6 @@ const RegisterSchema = Yup.object().shape({
         personalId:'',
       });
 
-    //----------------------------------------------------------------
       const { mutate: insertMutation, isLoading: isLoadingInsert, isError, errors} = useMutation(userIntser);
 
     const navigate = useNavigate();
@@ -112,8 +112,6 @@ const RegisterSchema = Yup.object().shape({
         
         //if the user is not found then register
         if (!found) {
-
-            //--------------------------------
             insertMutation(value, {
               onSuccess: () => {
                 message.success('El usuario se registró exitosamente');
@@ -123,17 +121,6 @@ const RegisterSchema = Yup.object().shape({
                 //(error.response.data.error.message);
               }
             })
-            //--------------------------------
-
-          /* const response = await fetch(`${API}/auth/local/register`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-          });
-    
-          const data = await response.json(); */
           
           navigate("/user/sent-request", { replace: true });
         }
@@ -150,10 +137,8 @@ const RegisterSchema = Yup.object().shape({
     };
     if(isLoading){
       return (
-        <Spin className="spinner" size='large'>
-          <Alert/>
-        </Spin>
-      )
+        <Spin className="spinner" size='large'/>
+    )
   }
     return (
       <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">

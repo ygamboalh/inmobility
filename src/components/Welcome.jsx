@@ -1,24 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getToken } from '../utils/helpers';
-import { API, BEARER } from '../constant';
 
 const Welcome = () => {
   
 const navigate = useNavigate();
 
-const SelectLink = async () => {
-    
-    const token = getToken();    
-    const response = await fetch(`${API}/users/me`, {
-      method: "GET",
-      headers: { Authorization: `${BEARER} ${token}` },
-    });
-    if(response.ok) {
-      navigate('/home/banner');
-    }
-    navigate('/auth/signin');  
-}
   return (
     <div className="flex flex-col h-screen px-12 div-welcome text-center sm:px-10 md:px-6 justify-center items-center">
     <div className='justify-center items-center mb-4 logo'></div>

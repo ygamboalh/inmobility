@@ -12,7 +12,6 @@ import ResetPassword from './components/ResetPassword/reset-password';
 import Investor from './components/Investor/investor';
 import ForgotPassword from './components/ForgotPassword/forgot-password';
 import Evaluating from './components/Evaluating/evaluating';
-import Upload from './components/Upload/upload';
 import Layout from './pages/Layout';
 import Logout from './components/Logout/logout';
 import AccessDenied from './components/AccessDenied/access-denied';
@@ -25,12 +24,15 @@ import Users from './Admin/Components/Users/Users';
 import AdminLayout from './pages/AdminLayout';
 import PublicRoutes from './layouts/components/PublicRoutes';
 import ProtectedRoutes from './layouts/components/ProtectedRoutes';
-
-// Import pages
-import { Alquileres, Home, NotFound, Ventas, Search, PropertyDetails } from './pages';
 import PropertyDetailsAdmin from './Admin/Components/PropertyDetail/property-detail';
 import InsertProperty from './Admin/Components/InsertProperty/insert-property';
 import InsertUser from './Admin/Components/InsertUser/insert-user';
+import Links from './Admin/Components/Links/links';
+import ExtraLayout from './layouts/out-layout';
+import InsertLink from './Admin/Components/Links/insert-link';
+
+// Import pages
+import { Alquileres, Home, NotFound, Ventas, Search, PropertyDetails } from './pages';
 
 const App = () => {
   return (
@@ -49,9 +51,8 @@ const App = () => {
                 <Route path="/user/verified-adviser" element={<VerifiedAdviser />}/>
                 <Route path="/user/profile" element={<Profile />} />
                 <Route path="/auth/change-password" element={<ChangePassword />} />
-                <Route path="/upload" element={<Upload />} />
                 <Route path="/home/banner" element={<Banner />} />
-                <Route path="/home/properties" element={<InsertProperty />} />
+                <Route path="/home/insert-property" element={<InsertProperty />} />
             </Route>
             <Route element={<PublicRoutes/>}>
                 <Route path="/auth/signin" element={<SignIn />}/>
@@ -71,15 +72,18 @@ const App = () => {
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
               <Route exact path="/admin/active-user" element={<ActiveUser />} />
               <Route exact path='/admin/properties' element={<Properties />} />
+              <Route exact path='/admin/links' element={<Links />} />
               <Route exact path="/admin/users" element={<Users />} />
               <Route exact path="/admin/users/insert-user" element={<InsertUser />} />
+              <Route exact path="/admin/links/insert-link" element={<InsertLink />} />
+              <Route exact path="/admin/links/insert-link/:id" element={<InsertLink />} />
               <Route exact path="/admin/users/insert-user/:id" element={<InsertUser />} />
             </Route>
           </Route>
-            <Route element={<ProtectedRoutes/>}>
-            </Route>
+          <Route element={<ExtraLayout />}>
+               <Route exact path="/home/investor" element={<Investor />} /> 
+          </Route>
           <Route exact path='/' element={<Home />} />
-          <Route exact path="/home/investor" element={<Investor />} /> 
           
       </Routes>
     </div>)

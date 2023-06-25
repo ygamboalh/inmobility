@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { getToken } from "../../../utils/helpers";
 
-const UsersList = () => {
+const UsersDesact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
@@ -22,7 +22,7 @@ const UsersList = () => {
     const data = axios.get(`${API}users`).then((res) => {
       res.data &&
         res.data.forEach((user) => {
-          if (user.active === "Activo") {
+          if (user.active === "Desactivado") {
             foundedUsers.push(user);
           }
         });
@@ -168,7 +168,7 @@ const UsersList = () => {
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight
-        title="Usuarios activos"
+        title="Usuarios inactivos"
         progressPending={pending}
         highlightOnHover
         progressComponent={<Spin size="large" />}
@@ -189,4 +189,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default UsersDesact;

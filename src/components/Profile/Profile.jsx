@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+
 import {Spin, Alert, message } from "antd";
 import { Formik, Form, Field } from 'formik';
-import { useQuery } from "react-query";
 import * as Yup from 'yup';
+
 import { API, BEARER } from "../../constant";
-import { getToken, setToken, setUserLocal } from "../../utils/helpers";
+import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 import UpLoadImage from "../UploadImage/upload-image";
 
@@ -45,13 +47,11 @@ const ProfileSchema = Yup.object().shape({
 
     const { data: userData, loading } = useQuery('profile', authUserData);
 
-    /* if(isLoading || !userData){
-      return <>{isLoading && <Spin size="medium" />}</>
-    }else{
-      console.log(userData);
-      
-    } */
-
+    if(isLoading || !userData){
+      return (
+        <Spin className="spinner" size='large'/>
+    )
+    }
     const types = [
         {key: 'Asesor Inmobiliario Independiente'
         ,value: 'Asesor Inmobiliario Independiente'
@@ -136,10 +136,10 @@ const ProfileSchema = Yup.object().shape({
 
     if(isLoading || !userData){
       return (
-        <Spin size='large' className="spinner">
-          <Alert/>
+        <Spin className="spinner" size='large'>
+        <Alert/>
         </Spin>
-      )
+    )
   }
 
     return (
@@ -153,7 +153,8 @@ const ProfileSchema = Yup.object().shape({
        <Formik initialValues ={{ 
             username: userData?.username,
             email: userData?.email,
-            password: "",
+            password: userData?.password,
+            //password: "",
             phone: userData?.phone,
             company: userData?.company,
             address: userData?.address,

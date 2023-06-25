@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Dropdown from "../Dropdown/Dropdown";
 import { Link } from "react-router-dom";
+
+import Dropdown from "../Dropdown/Dropdown";
 
 
 const Navbar = () => {
@@ -34,9 +35,9 @@ const Navbar = () => {
             <Link to='/admin/users' className="">
                 <button type="button" onClick={()=>handleActive(2)} className={`block py-2 pl-3 pr-4 md:p-0 rounded md:bg-transparent" ${active === 2 ? 'text-black' : 'text-white'}`} aria-current="page">Usuarios</button>
             </Link>
-            <li className="">
+            <Link to='/admin/links' className="">
                 <button type="button" onClick={()=>handleActive(3)} className={`block py-2 pl-3 pr-4 md:p-0 rounded md:bg-transparent" ${active === 3 ? 'text-black' : 'text-white'}`} aria-current="page">Enlaces de interés</button>
-            </li>
+            </Link>
             </ul>
         </div>
         </div>

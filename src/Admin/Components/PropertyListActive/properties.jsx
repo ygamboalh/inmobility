@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { getToken } from "../../../utils/helpers";
 
-const UsersList = () => {
+const PropertiesList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
@@ -18,46 +18,47 @@ const UsersList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const foundedUsers = [];
-    const data = axios.get(`${API}users`).then((res) => {
-      res.data &&
-        res.data.forEach((user) => {
-          if (user.active === "Activo") {
-            foundedUsers.push(user);
+    const foundedProperties = [];
+    const data = axios.get(`${API}properties`).then((res) => {
+      res.data.data &&
+        res.data.data.forEach((property) => {
+          if (property.attributes.active === "Activo") {
+            foundedProperties.push(property);
           }
         });
-      console.log(res);
-      setRecords(foundedUsers);
-      setFilterRecords(foundedUsers);
+
+      setRecords(foundedProperties);
+      setFilterRecords(foundedProperties);
       setPending(false);
     });
   }, []);
 
-  const DeleteUser = async (id) => {
+  const DeleteProperty = async (id) => {
     setIsLoading(true);
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      title: "¿Desea eliminar el usuario?",
+      title: "¿Desea eliminar el inmueble?",
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {
-        const response = fetch(`${API}users/${id}`, {
+        const response = fetch(`${API}properties/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
         });
+        //console.log(response);
         if (result) {
-          Swal.fire("Usuario eliminado!", "", "success");
+          Swal.fire("Inmueble eliminado!", "", "success");
         } else {
-          Swal.fire("El usuario no fue eliminado", "", "error");
+          Swal.fire("El Inmueble no fue eliminado", "", "error");
         }
       } else if (result.isDenied) {
-        Swal.fire("El usuario no fue eliminado", "", "info");
+        Swal.fire("El Inmueble no fue eliminado", "", "info");
       }
     });
 
@@ -65,7 +66,7 @@ const UsersList = () => {
   };
 
   const paginationComponentOptions = {
-    rowsPerPageText: "Usuarios por página",
+    rowsPerPageText: "Inmuebles por página",
     rangeSeparatorText: "de",
     selectAllRowsItem: true,
     selectAllRowsItemText: "Todos",
@@ -80,51 +81,79 @@ const UsersList = () => {
       id: "id",
     },
     {
-      name: "Foto",
-      id: "photo",
-      selector: (row) => row.photo,
+      name: "Provincia",
+      id: "provincia",
+      selector: (row) => row.attributes.provincia,
+      sortable: true,
       width: "150px",
     },
     {
-      name: "Nombre",
-      id: "username",
-      selector: (row) => row.username,
+      name: "Distrito",
+      id: "distrito",
+      selector: (row) => row.attributes.distrito,
       sortable: true,
-      width: "225px",
+      width: "150px",
     },
     {
-      name: "Email",
-      id: "email",
-      selector: (row) => row.email,
+      name: "Canton",
+      id: "canton",
+      selector: (row) => row.attributes.canton,
       sortable: true,
-      width: "200px",
+      width: "150px",
     },
     {
-      name: "Empresa",
-      id: "empresa",
-      selector: (row) => row.company,
+      name: "Tipo de Propiedad",
+      id: "tipoPropiedad",
+      selector: (row) => row.attributes.tipoPropiedad,
       sortable: true,
-      width: "180px",
+      width: "230px",
     },
     {
-      name: "Dirección",
-      id: "address",
-      selector: (row) => row.address,
+      name: "Habitaciones",
+      id: "habitaciones",
+      selector: (row) => row.attributes.habitaciones,
       sortable: true,
-      width: "200px",
+      width: "100px",
     },
     {
-      name: "Celular",
-      id: "celular",
-      selector: (row) => row.mobile,
+      name: "Precio",
+      id: "precio",
+      selector: (row) => row.attributes.precio,
       sortable: true,
-      width: "160px",
+      width: "90px",
+    },
+    {
+      name: "Baños",
+      id: "banos",
+      selector: (row) => row.attributes.banos,
+      sortable: true,
+      width: "90px",
+    },
+    {
+      cell: (row) => (
+        <button
+          className="detailButton"
+          onClick={() =>
+            navigate(`/admin/properties/property-detail/${row.id}`)
+          }
+        >
+          Detalles
+        </button>
+      ),
+      accessor: "id",
+      id: "detail",
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      width: "80px",
     },
     {
       cell: (row) => (
         <button
           className="editButton"
-          onClick={() => navigate(`/admin/users/insert-user/${row.id}`)}
+          onClick={() =>
+            navigate(`/admin/properties/property-detail/${row.id}`)
+          }
         >
           Editar
         </button>
@@ -137,7 +166,7 @@ const UsersList = () => {
     },
     {
       cell: (row) => (
-        <button className="deleteButton" onClick={() => DeleteUser(row.id)}>
+        <button className="deleteButton" onClick={() => DeleteProperty(row.id)}>
           Eliminar
         </button>
       ),
@@ -150,7 +179,9 @@ const UsersList = () => {
   ];
   const handleFilter = (event) => {
     const searchData = filterRecords.filter((row) =>
-      row.username.toLowerCase().includes(event.target.value.toLowerCase())
+      row.attributes.tipoPropiedad
+        .toLowerCase()
+        .includes(event.target.value.toLowerCase())
     );
     setRecords(searchData);
   };
@@ -168,7 +199,7 @@ const UsersList = () => {
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight
-        title="Usuarios activos"
+        title="Propiedades activas"
         progressPending={pending}
         highlightOnHover
         progressComponent={<Spin size="large" />}
@@ -189,4 +220,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default PropertiesList;

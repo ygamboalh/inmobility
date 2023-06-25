@@ -10,6 +10,10 @@ export const getAllProperties = async () => {
   return data
 }
 
+export const getAllLinks = async () => {
+  const { data } = await AxiosInstance.get('/links');
+  return data
+}
 export const getActiveProperties = async () => {
   const foundedProperties = [];
   const { data: properties } = await getAllProperties();
@@ -19,6 +23,16 @@ export const getActiveProperties = async () => {
             }
   });
   return {data:foundedProperties}
+}
+export const getActiveLinks = async () => {
+  const foundedLinks = [];
+  const { data: links } = await getAllLinks();
+  links && links.forEach(link => {
+      if(link.active === 'Activo') {
+        foundedLinks.push(link);
+            }
+  });
+  return {data:foundedLinks}
 }
 
 export const getDesacProperties = async () => {

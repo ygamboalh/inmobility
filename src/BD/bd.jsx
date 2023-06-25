@@ -36,101 +36,110 @@ export const TipoInmueble = [
 ]
 
 export const Amenidades = [
-    {key: 'Casa club', value: 'Casa club'},
-    {key: 'Gimnasio', value: 'Gimnasio'},
-    {key: 'Piscina', value: 'Piscina'},
-    {key: 'Canchas Deportivas', value: 'Canchas Deportivas'},
-    {key: 'Area de recreacion infantil', value: 'Area de recreacion infantil'},
-    {key: 'Ciclo via', value: 'Ciclo via'},
-    {key: 'Parque de mascotas', value: 'Parque de mascotas'},
-    {key: 'Senderos', value: 'Senderos'},
-    {key: 'Sala de Cine', value: 'Sala de Cine'},
-    {key: 'Ranchos para BBQ', value: 'Ranchos para BBQ'},
+    {value: 'Casa club', label: 'Casa club'},
+    {value: 'Gimnasio', label: 'Gimnasio'},
+    {value: 'Piscina', label: 'Piscina'},
+    {value: 'Canchas Deportivas', label: 'Canchas Deportivas'},
+    {value: 'Area de recreacion infantil', label: 'Area de recreacion infantil'},
+    {value: 'Ciclo via', label: 'Ciclo via'},
+    {value: 'Parque de mascotas', label: 'Parque de mascotas'},
+    {value: 'Senderos', label: 'Senderos'},
+    {value: 'Sala de Cine', label: 'Sala de Cine'},
+    {value: 'Ranchos para BBQ', label: 'Ranchos para BBQ'},
 ]
 
 export const PatioJardin = [
-    {key: 'Con Patio', value:'Con Patio'},
-    {key: 'Con Jardín', value: 'Con Jardín'},
-    {key: 'Con Terraza', value: 'Con Terraza'},
-    {key: 'No tiene patio, ni jardín ni terraza', value: 'No tiene patio, ni jardín ni terraza'},
+    {value: 'Con Jardín', label: 'Con Jardín'},
+    {value: 'Con Patio', label:'Con Patio'},
+    {value: 'Con Terraza', label: 'Con Terraza'},
+    {value: 'No tiene patio, ni jardín ni terraza', label: 'No tiene patio, ni jardín ni terraza'},
 ]
 
 export const DetallesInternos = [
-    { key: 'Adosado', value: 'Adosado' },
-    { key: 'Alarma', value: 'Alarma' },
-    { key: 'Armarios Empotrados', value: 'Armarios Empotrados' },
-    { key: 'Balcón', value: 'Balcón' },
-    { key: 'Baño auxiliar', value: 'Baño auxiliar' },
-    { key: 'Baño en habitación principal', value: 'Baño en habitación principal' },
-    { key: 'Barra estilo americano', value: 'Barra estilo americano' },
-    { key: 'Biblioteca/Estudio', value: 'Biblioteca/Estudio' },
-    { key: 'Bifamiliar', value: 'Bifamiliar' },
-    { key: 'Bodega', value: 'Bodega' },
-    { key: 'Calentador', value: 'Calentador' },
-    { key: 'Chimenea', value: 'Chimenea' },
-    { key: 'Citófono / Intercomunicador', value: 'Citófono / Intercomunicador' },
-    { key: 'Closets', value: 'Closets' },
-    { key: 'Cocina equipada', value: 'Cocina equipada' },
-    { key: 'Cocina integral', value: 'Cocina integral' },
-    { key: 'Cocina tipo americano', value: 'Cocina tipo americano' },
-    { key: 'Comedor auxiliar', value: 'Comedor auxiliar' },
-    { key: 'Despensa', value: 'Despensa' },
-    { key: 'Doble Ventana', value: 'Doble Ventana' },
-    { key: 'Gas domiciliario', value: 'Gas domiciliario' },
-    { key: 'Habitación conductores', value: 'Habitación conductores' },
-    { key: 'Habitación servicio', value: 'Habitación servicio' },
-    { key: 'Hall de alcobas', value: 'Hall de alcobas' },
-    { key: 'Hospedaje Turismo', value: 'Hospedaje Turismo' },
-    { key: 'Jacuzzi', value: 'Jacuzzi' },
-    { key: 'Sauna', value: 'Sauna' },
-    { key: 'Suelo de cerámica / mármol', value: 'Suelo de cerámica / mármol' },
-    { key: 'Trastero', value: 'Trastero' },
-    { key: 'Turco', value: 'Turco' },
-    { key: 'Vista panorámica', value: 'Vista panorámica' },
-    { key: 'Zona de lavandería', value: 'Zona de lavandería' }
+    { value: 'Alarma', label: 'Alarma' },
+    { value: 'Adosado', label: 'Adosado' },
+    { value: 'Armarios Empotrados', label: 'Armarios Empotrados' },
+    { value: 'Balcón', label: 'Balcón' },
+    { value: 'Baño auxiliar', label: 'Baño auxiliar' },
+    { value: 'Baño en habitación principal', label: 'Baño en habitación principal' },
+    { value: 'Barra estilo americano', label: 'Barra estilo americano' },
+    { value: 'Biblioteca/Estudio', label: 'Biblioteca/Estudio' },
+    { value: 'Bifamiliar', label: 'Bifamiliar' },
+    { value: 'Bodega', label: 'Bodega' },
+    { value: 'Calentador', label: 'Calentador' },
+    { value: 'Chimenea', label: 'Chimenea' },
+    { value: 'Citófono / Intercomunicador', label: 'Citófono / Intercomunicador' },
+    { value: 'Closets', label: 'Closets' },
+    { value: 'Cocina equipada', label: 'Cocina equipada' },
+    { value: 'Cocina integral', label: 'Cocina integral' },
+    { value: 'Cocina tipo americano', label: 'Cocina tipo americano' },
+    { value: 'Comedor auxiliar', label: 'Comedor auxiliar' },
+    { value: 'Despensa', label: 'Despensa' },
+    { value: 'Doble Ventana', label: 'Doble Ventanlabel'},
+    { value: 'Gas domiciliario', label: 'Gas domiciliario' },
+    { value: 'Habitación conductores', label: 'Habitación conductores' },
+    { value: 'Habitación servicio', label: 'Habitación servicio' },
+    { value: 'Hall de alcobas', label: 'Hall de alcobas' },
+    { value: 'Hospedaje Turismo', label: 'Hospedaje Turismo' },
+    { value: 'Jacuzzi', label: 'Jacuzzi' },
+    { value: 'Sauna', label: 'Sauna' },
+    { value: 'Suelo de cerámica / mármol', label: 'Suelo de cerámica / mármol' },
+    { value: 'Trastero', label: 'Trastero' },
+    { value: 'Turco', label: 'Turco' },
+    { value: 'Vista panorámica', label: 'Vista panorámica' },
+    { value: 'Zona de lavandería', label: 'Zona de lavandería' }
   ]
   
 
   export const DetallesExternos = [
-        { key: 'Acceso pavimentado', value: 'Acceso pavimentado' },
-        { key: 'Árboles frutales', value: 'Árboles frutales' },
-        { key: 'Ascensor', value: 'Ascensor' },
-        { key: 'Bungalow / pareado', value: 'Bungalow / pareado' },
-        { key: 'Calles de Tosca', value: 'Calles de Tosca' },
-        { key: 'Establo', value: 'Establo' },
-        { key: 'Galpón', value: 'Galpón' },
-        { key: 'Garita de Entrada', value: 'Garita de Entrada' },
-        { key: 'Invernadero', value: 'Invernadero' },
-        { key: 'Kiosko', value: 'Kiosko' },
-        { key: 'Lago', value: 'Lago' },
-        { key: 'Laguna', value: 'Laguna' },
-        { key: 'Montaña', value: 'Montaña' },
-        { key: 'Oficina de negocios', value: 'Oficina de negocios' },
-        { key: 'Parqueadero visitantes', value: 'Parqueadero visitantes' },
-        { key: 'Parques cercanos', value: 'Parques cercanos' },
-        { key: 'Pesebrera', value: 'Pesebrera' },
-        { key: 'Planta eléctrica', value: 'Planta eléctrica' },
-        { key: 'Playas', value: 'Playas' },
-        { key: 'Portería / Recepción', value: 'Portería / Recepción' },
-        { key: 'Pozo de agua natural', value: 'Pozo de agua natural' },
-        { key: 'Río/Quebrada cercano', value: 'Río/Quebrada cercano' },
-        { key: 'Sala de internet', value: 'Sala de internet' },
-        { key: 'Sistema de riego', value: 'Sistema de riego' },
-        { key: 'Sobre vía principal', value: 'Sobre vía principal' },
-        { key: 'Trans. público cercano', value: 'Trans. público cercano' },
-        { key: 'Trastero', value: 'Trastero' },
-        { key: 'Urbanización Cerrada', value: 'Urbanización Cerrada' },
-        { key: 'Vigilancia', value: 'Vigilancia' },
-        { key: 'Vivienda unifamiliar', value: 'Vivienda unifamiliar' },
-        { key: 'Vivienda bifamiliar', value: 'Vivienda bifamiliar' },
-        { key: 'Vivienda multifamiliar', value: 'Vivienda multifamiliar' },
-        { key: 'Zona campestre', value: 'Zona campestre' },
-        { key: 'Zona camping', value: 'Zona camping' },
-        { key: 'Zona comercial', value: 'Zona comercial' },
-        { key: 'Zona industrial', value: 'Zona industrial' },
-        { key: 'Zona residencial', value: 'Zona residencial' },
-        { key: 'Zonas verdes', value: 'Zonas verdes' }
+        { value: 'Acceso pavimentado', label: 'Acceso pavimentado' },
+        { value: 'Árboles frutales', label: 'Árboles frutales' },
+        { value: 'Ascensor', label: 'Ascensor' },
+        { value: 'Bungalow / pareado', label: 'Bungalow / pareado' },
+        { value: 'Calles de Tosca', label: 'Calles de Tosca' },
+        { value: 'Establo', label: 'Establo' },
+        { value: 'Galpón', label: 'Galpón' },
+        { value: 'Garita de Entrada', label: 'Garita de Entrada' },
+        { value: 'Invernadero', label: 'Invernadero' },
+        { value: 'Kiosko', label: 'Kiosko' },
+        { value: 'Lago', label: 'Lago' },
+        { value: 'Laguna', label: 'Laguna' },
+        { value: 'Montaña', label: 'Montaña' },
+        { value: 'Oficina de negocios', label: 'Oficina de negocios' },
+        { value: 'Parqueadero visitantes', label: 'Parqueadero visitantes' },
+        { value: 'Parques cercanos', label: 'Parques cercanos' },
+        { value: 'Pesebrera', label: 'Pesebrera' },
+        { value: 'Planta eléctrica', label: 'Planta eléctrica' },
+        { value: 'Playas', label: 'Playas' },
+        { value: 'Portería / Recepción', label: 'Portería / Recepción' },
+        { value: 'Pozo de agua natural', label: 'Pozo de agua natural' },
+        { value: 'Río/Quebrada cercano', label: 'Río/Quebrada cercano' },
+        { value: 'Sala de internet', label: 'Sala de internet' },
+        { value: 'Sistema de riego', label: 'Sistema de riego' },
+        { value: 'Sobre vía principal', label: 'Sobre vía principal' },
+        { value: 'Trans. público cercano', label: 'Trans. público cercano' },
+        { value: 'Trastero', label: 'Trastero' },
+        { value: 'Urbanización Cerrada', label: 'Urbanización Cerrada' },
+        { value: 'Vigilancia', label: 'Vigilancia' },
+        { value: 'Vivienda unifamiliar', label: 'Vivienda unifamiliar' },
+        { value: 'Vivienda bifamiliar', label: 'Vivienda bifamiliar' },
+        { value: 'Vivienda multifamiliar', label: 'Vivienda multifamiliar' },
+        { value: 'Zona campestre', label: 'Zona campestre' },
+        { value: 'Zona camping', label: 'Zona camping' },
+        { value: 'Zona comercial', label: 'Zona comercial' },
+        { value: 'Zona industrial', label: 'Zona industrial' },
+        { value: 'Zona residencial', label: 'Zona residencial' },
+        { value: 'Zonas verdes', label: 'Zonas verdes' }
  ]
+
+
+ export const DetallesExternosMulti = [
+    { value: 'Acceso pavimentado', label: 'Acceso pavimentado' },
+    { value: 'Árboles frutales', label: 'Árboles frutales' },
+    { value: 'Ascensor', label: 'Ascensor' },
+    { value: 'Bungalow / pareado', label: 'Bungalow / pareado' },
+    { value: 'Calles de Tosca', label: 'Calles de Tosca' }
+]
 
  export const Amueblado = [
     {'key': 'No Amueblado', 'value': 'No Amueblado'},
@@ -166,21 +175,20 @@ export const AptoMascotas = [
   ]
 
   export const categories = [
-    {id: 'Alquiler de Bodegas o Similares',label: 'Alquiler de Bodegas o Similares'},
-    {id:'Alquiler de Casas y Apartamentos',label:'Alquiler de Casas y Apartamentos'},
-    {id:'Alquiler de Edificios',label:'Alquiler de Edificios'},
-    {id:'Alquiler de Fincas, Lotes, Predios o Terrenos',label:'Alquiler de Fincas, Lotes, Predios o Terrenos'},
-    {id:'Alquiler de Locales Comerciales',label:'Alquiler de Locales Comerciales'},
-    {id:'Alquiler de Oficinas o Consultorios Médicos',label:'Alquiler de Oficinas o Consultorios Médicos'},
-    {id:'Venta de Bodegas o Similares',label:'Venta de Bodegas o Similares'},
-    {id:'Venta de Casas y Apartamentos',label:'Venta de Casas y Apartamentos'},
-    {id:'Venta de Edificios',label:'Venta de Edificios'},
-    {id:'Venta de Locales Comerciales',label:'Venta de Locales Comerciales'},
-    {id:'Venta de Lotes, Fincas,Terrenos y Predios',label:'Venta de Lotes, Fincas,Terrenos y Predios'},
-    {id:'Venta de Oficinas o Consultorios Médicos',label:'Venta de Oficinas o Consultorios Médicos'},
+    {value:'Venta de Casas y Apartamentos',label:'Venta de Casas y Apartamentos'},
+    {value:'Alquiler de Casas y Apartamentos',label:'Alquiler de Casas y Apartamentos'},
+    {value:'Venta de Lotes, Fincas,Terrenos y Predios',label:'Venta de Lotes, Fincas,Terrenos y Predios'},
+    {value:'Venta de Locales Comerciales',label:'Venta de Locales Comerciales'},
+    {value:'Alquiler de Locales Comerciales',label:'Alquiler de Locales Comerciales'},
+    {value:'Venta de Edificios',label:'Venta de Edificios'},
+    {value:'Alquiler de Edificios',label:'Alquiler de Edificios'},
+    {value:'Venta de Bodegas o Similares',label:'Venta de Bodegas o Similares'},
+    {value: 'Alquiler de Bodegas o Similares',label: 'Alquiler de Bodegas o Similares'},
+    {value:'Venta de Oficinas o Consultorios Médicos',label:'Venta de Oficinas o Consultorios Médicos'},
+    {value:'Alquiler de Oficinas o Consultorios Médicos',label:'Alquiler de Oficinas o Consultorios Médicos'},
+    {value:'Alquiler de Fincas, Lotes, Predios o Terrenos',label:'Alquiler de Fincas, Lotes, Predios o Terrenos'},
 ]
   
-
 export const Electrica = [  
     {'key': '110V', 'value': '110V'},  
     {'key': '220V', 'value': '220V'},  
@@ -239,3 +247,27 @@ export const Estado =[
     {key:'Desactivado' ,value:'Desactivado'},
     {key:'Pendiente' ,value:'Pendiente'},
 ]
+
+export const types = [
+    {key: 'Asesor Inmobiliario Independiente'
+    ,value: 'Asesor Inmobiliario Independiente'
+    ,text: 'Asesor Inmobiliario Independiente'},
+    {key: 'Asesor Agremiado a una cámara, federación de Bienes'
+    ,value:'Asesor Agremiado a una cámara, federación de Bienes'
+    ,text:'Asesor Agremiado a una cámara, federación de Bienes',},
+    {key:'Dueño de Franquicia Inmobiliaria'
+    ,value:'Dueño de Franquicia Inmobiliaria'
+    ,text:'Dueño de Franquicia Inmobiliaria'},
+    {key:'Asesor colaborador en una empresa de Bienes Raíces'
+    ,value:'Asesor colaborador en una empresa de Bienes Raíces'
+    ,text:'Asesor colaborador en una empresa de Bienes Raíces'},
+    {key:'Dueño de una oficina de Bienes Raíces con varios colaboradores'
+    ,value:'Dueño de una oficina de Bienes Raíces con varios colaboradores'
+    ,text:'Dueño de una oficina de Bienes Raíces con varios colaboradores'},
+    {key:'Colaborador en una Institución Financiera con Bienes Adjudicados'
+    ,value:'Colaborador en una Institución Financiera con Bienes Adjudicados'
+    ,text:'Colaborador en una Institución Financiera con Bienes Adjudicados',},
+    {key:'Asistente de Asesor Inmobiliario'
+    ,value:'Asistente de Asesor Inmobiliario'
+    ,text:'Asistente de Asesor Inmobiliario'},
+];

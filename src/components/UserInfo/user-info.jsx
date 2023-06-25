@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+
 import { useSignOut } from 'react-auth-kit';
 import { BiLogOut, BiHomeAlt, BiLockOpenAlt, BiUserCircle, BiUserCheck } from "react-icons/bi";
+
 const UserInfo = () => {
   const signOut = useSignOut();
   const [isOpen, setIsOpen] = useState(false);

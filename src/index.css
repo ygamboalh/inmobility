@@ -313,6 +313,8 @@ html {
 .categories{
   border: 1px solid;
   border-radius: 5px;
+  margin-right: 100px;
+  margin-left: 100px;
 }
 
 .profile-photo{
@@ -337,18 +339,55 @@ html {
 
 .spinner {
   text-align: center;
-  background: (0,0,0,0.01);
+  background: transparent;
   border-radius: 4px;
-  margin-bottom: 20px;
+  margin-top: auto;
   padding: 30px 50px;
-  margin: 20px 0;
-  height: 250px;
+  height: 200px;
+  height: 550px;
 }
 
 .create-user-image {
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
   border: 2px solid;
   border-color: black;
   border-radius: 100px;
+}
+
+.detailButton {
+  background-color: #3F83F8;
+  border-radius: 5px;
+  padding:  2px 10px 2px 10px;
+  color: white;
+}
+.detailButton:hover {
+  background-color: #1863e4;
+}
+.editButton {
+  background-color: #31C48D;
+  border-radius: 5px;
+  padding: 2px 10px 2px 10px;
+  color: white;
+}
+.editButton:hover {
+  background-color: #1ba170;
+}
+.deleteButton {
+  background-color: #d80d0d;
+  border-radius: 5px;
+  padding: 2px 10px 2px 10px;
+  color: white;
+}
+.deleteButton:hover {
+  background-color: #a30b0b;
+}
+
+.pick-photo {
+  background-color: #1863e4;
+  border-radius: 25px;
+  padding: 7px 17px 7px 17px;
+  margin: 15px;
+  align-self: center;
+  color: white;
 }

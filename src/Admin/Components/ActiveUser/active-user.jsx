@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {Alert, Spin, message } from "antd";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-
+import { types } from "../../../BD/bd";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -40,29 +40,6 @@ const RegisterSchema = Yup.object().shape({
   
   const ActiveUser = () => {
 
-    const types = [
-        {key: 'Asesor Inmobiliario Independiente'
-        ,value: 'Asesor Inmobiliario Independiente'
-        ,text: 'Asesor Inmobiliario Independiente'},
-        {key: 'Asesor Agremiado a una cámara, federación de Bienes'
-        ,value:'Asesor Agremiado a una cámara, federación de Bienes'
-        ,text:'Asesor Agremiado a una cámara, federación de Bienes',},
-        {key:'Dueño de Franquicia Inmobiliaria'
-        ,value:'Dueño de Franquicia Inmobiliaria'
-        ,text:'Dueño de Franquicia Inmobiliaria'},
-        {key:'Asesor colaborador en una empresa de Bienes Raíces'
-        ,value:'Asesor colaborador en una empresa de Bienes Raíces'
-        ,text:'Asesor colaborador en una empresa de Bienes Raíces'},
-        {key:'Dueño de una oficina de Bienes Raíces con varios colaboradores'
-        ,value:'Dueño de una oficina de Bienes Raíces con varios colaboradores'
-        ,text:'Dueño de una oficina de Bienes Raíces con varios colaboradores'},
-        {key:'Colaborador en una Institución Financiera con Bienes Adjudicados'
-        ,value:'Colaborador en una Institución Financiera con Bienes Adjudicados'
-        ,text:'Colaborador en una Institución Financiera con Bienes Adjudicados',},
-        {key:'Asistente de Asesor Inmobiliario'
-        ,value:'Asistente de Asesor Inmobiliario'
-        ,text:'Asistente de Asesor Inmobiliario'},
-    ]; 
     const [initialData, setinitialData] = useState({
         username: '',
         email: '',
@@ -131,10 +108,8 @@ const RegisterSchema = Yup.object().shape({
 
     if(isLoading){
       return (
-        <Spin className="spinner" size='large'>
-          <Alert/>
-        </Spin>
-      )
+        <Spin className="spinner" size='large'/>
+    )
   }
 
     return (
