@@ -30,7 +30,7 @@ const Header = () => {
     });
     const data = await response.json();
     if (response.statusCode != 200) {
-      setLink("noBody");
+      setLink("Visiter");
     }
 
     const role = data.role.name;

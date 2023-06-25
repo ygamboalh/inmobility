@@ -56,7 +56,7 @@ const SignIn = () => {
           message.success(`¡Bienvenido ${data.user.username}!`);
         },
         onError: (error) => {
-          message.error(error.response.data.error.message);
+          message.error(`¡Ocurrió un error. Vuelva a intentarlo!`);
         },
       });
     },

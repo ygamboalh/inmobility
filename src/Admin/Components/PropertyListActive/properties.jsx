@@ -38,8 +38,8 @@ const PropertiesList = () => {
     MySwal.fire({
       title: "¿Desea eliminar el inmueble?",
       showDenyButton: true,
-      showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
+      confirmButtonColor: "#1863e4",
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -189,7 +189,7 @@ const PropertiesList = () => {
   }
 
   return (
-    <div className=" w-full">
+    <div className="w-full">
       <DataTable
         columns={column}
         data={records}

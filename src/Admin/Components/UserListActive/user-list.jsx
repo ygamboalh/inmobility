@@ -39,8 +39,8 @@ const UsersList = () => {
     MySwal.fire({
       title: "¿Desea eliminar el usuario?",
       showDenyButton: true,
-      showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
+      confirmButtonColor: "#1863e4",
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -83,7 +83,7 @@ const UsersList = () => {
       name: "Foto",
       id: "photo",
       selector: (row) => row.photo,
-      width: "150px",
+      width: "130px",
     },
     {
       name: "Nombre",
@@ -118,7 +118,7 @@ const UsersList = () => {
       id: "celular",
       selector: (row) => row.mobile,
       sortable: true,
-      width: "160px",
+      width: "150px",
     },
     {
       cell: (row) => (

@@ -39,8 +39,8 @@ const UsersDesact = () => {
     MySwal.fire({
       title: "¿Desea eliminar el usuario?",
       showDenyButton: true,
-      showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
+      confirmButtonColor: "#1863e4",
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {

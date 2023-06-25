@@ -2,11 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Freelancer = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="">
-      <button onClick={()=>navigate('/ ')} className="freelancer-button">
-      </button>
+      <button
+        onClick={() =>
+          window.location.assign(
+            "https://sites.google.com/view/sistema-cic/asistencia-para-freelancers"
+          )
+        }
+        className="freelancer-button"
+      ></button>
     </div>
   );
 };

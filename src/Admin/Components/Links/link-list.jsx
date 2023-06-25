@@ -42,8 +42,8 @@ const LinkList = () => {
     MySwal.fire({
       title: "¿Desea eliminar el enlace?",
       showDenyButton: true,
-      showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
+      confirmButtonColor: "#1863e4",
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -100,14 +100,14 @@ const LinkList = () => {
       cell: (row) => (
         <button
           className="detailButton"
-          onClick={() => window.location.assign(`${row.url}`)}
+          onClick={() => window.location.assign(row.attributes.url)}
         >
           Visitar enlace
         </button>
       ),
       accessor: "id",
       id: "detail",
-      ignoreRowClick: false,
+      ignoreRowClick: true,
       allowOverflow: true,
       button: true,
       width: "150px",

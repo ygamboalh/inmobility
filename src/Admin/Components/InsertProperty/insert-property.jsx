@@ -7,7 +7,6 @@ import { Formik, Form, Field } from "formik";
 
 import { API } from "../../../constant";
 import AxiosInstance from "../../../api/AxiosInstance";
-import { getToken } from "../../../utils/helpers";
 import {
   Amenidades,
   Amueblado,
@@ -71,7 +70,6 @@ const InsertProperty = () => {
   });
 
   const [category, setCategory] = useState({});
-  const [coinsidence, setCoinsidence] = useState({});
   const [categoriesDB, setCategoriesDB] = useState({});
   const [amenidades, setAmenidades] = useState({});
   const [patio, setPatio] = useState({});
@@ -253,14 +251,14 @@ const InsertProperty = () => {
                 Crear una nueva propiedad
               </label>
             </div>
-            <div className="flex mt-3 justify-center align-middle items-center w-full">
+            {/* <div className="flex mt-3 justify-center align-middle items-center w-full">
               <Field
                 type="file"
                 name="imagenes"
                 placeholder="Imágenes"
                 className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
-            </div>
+            </div> */}
             <div className="flex flex-wrap justify-center m-3">
               <Field
                 type="text"

@@ -159,9 +159,9 @@ const InsertUser = () => {
                     alt=""
                     class="create-user-image"
                   />
-                  <button type="button" className="pick-photo">
+                  {/* <button type="button" className="pick-photo">
                     Elige una foto
-                  </button>
+                  </button> */}
                 </div>
               </div>
               <div class="lg:w-1/3 px-10">

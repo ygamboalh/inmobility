@@ -19,7 +19,6 @@ import Terms from './components/Terms/Terms';
 import VerifiedAdviser from './components/Verified/verified-adviser';
 import Profile from './components/Profile/Profile';
 import Properties from './Admin/Components/Properties/Properties';
-import ActiveUser from './Admin/Components/ActiveUser/active-user';
 import Users from './Admin/Components/Users/Users';
 import AdminLayout from './pages/AdminLayout';
 import PublicRoutes from './layouts/components/PublicRoutes';
@@ -51,16 +50,17 @@ const App = () => {
                 <Route path="/user/verified-adviser" element={<VerifiedAdviser />}/>
                 <Route path="/user/profile" element={<Profile />} />
                 <Route path="/auth/change-password" element={<ChangePassword />} />
-                <Route path="/home/banner" element={<Banner />} />
                 <Route path="/home/insert-property" element={<InsertProperty />} />
+                <Route path="/home/banner" element={<Banner />} />
             </Route>
-            <Route element={<PublicRoutes/>}>
+          <Route element={<PublicRoutes />}>
+            <Route path="/home/banner/visiter" element={<Banner />} />
                 <Route path="/auth/signin" element={<SignIn />}/>
                 <Route path="/auth/register-request" element={<RegisterRequest />} />
                 <Route path="/auth/reset-password" element={<ResetPassword />} />
                 <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                 <Route path="/home/visit-record" element={<VisitRecord />} />
-                <Route path="/home/terms" element={<Terms />} />
+                <Route path="/user/terms" element={<Terms />} />
                 <Route path="/user/logout" element={<Logout />} />
                 <Route path='*' element={<NotFound />} />
             </Route>
@@ -70,7 +70,6 @@ const App = () => {
             <Route element={<ProtectedRoutes/>}>
               <Route exact path="/admin/properties/property-detail/:id" element={<PropertyDetailsAdmin />} />
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
-              <Route exact path="/admin/active-user" element={<ActiveUser />} />
               <Route exact path='/admin/properties' element={<Properties />} />
               <Route exact path='/admin/links' element={<Links />} />
               <Route exact path="/admin/users" element={<Users />} />
@@ -84,7 +83,6 @@ const App = () => {
                <Route exact path="/home/investor" element={<Investor />} /> 
           </Route>
           <Route exact path='/' element={<Home />} />
-          
       </Routes>
     </div>)
 };
