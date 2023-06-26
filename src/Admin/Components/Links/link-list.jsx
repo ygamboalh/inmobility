@@ -32,7 +32,6 @@ const LinkList = () => {
         setRecords(foundedLinks);
         setFilterRecords(foundedLinks);
         setPending(false);
-        console.log(res.data.data);
       });
   }, []);
 
@@ -145,7 +144,7 @@ const LinkList = () => {
           type="button"
           className="mr-2 py-2 px-4 rounded bg-green-400 text-white"
         >
-          Crear link
+          Crear enlace
         </button>
       </div>
       <DataTable

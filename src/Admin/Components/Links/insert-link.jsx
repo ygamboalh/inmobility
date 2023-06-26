@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -9,12 +9,16 @@ import AxiosInstance from "../../../api/AxiosInstance";
 
 const InsertLink = () => {
   const navigate = useNavigate();
+
   const urlRegex = "^(https?|ftp)://[^s/$.?#].[^s]*$";
   const InsertLinkSchema = Yup.object().shape({
     url: Yup.string().matches(urlRegex, "*").required("*"),
   });
 
-  const [initialData, setinitialData] = useState();
+  const [initialData, setinitialData] = useState({
+    url: "",
+    descripcion: "",
+  });
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,7 +34,6 @@ const InsertLink = () => {
         data: value,
       });
 
-      console.log("respuesta", response);
       if (response.status === 200) {
         message.success("¡El enlace fue creado correctamente!");
         navigate("/admin/links", { replace: true });
@@ -55,16 +58,15 @@ const InsertLink = () => {
       <Formik
         initialValues={initialData}
         validationSchema={InsertLinkSchema}
-        //onSubmit={onFinish}
+        onSubmit={onFinish}
       >
         {({ errors, touched }) => (
-          <Form onSubmit={onFinish} autoComplete="off">
+          <Form>
             <div className="flex mt-3 justify-center align-middle items-center w-full">
               <label className="font-semibold text-xl">
                 Crear un nuevo enlace
               </label>
             </div>
-
             <div className="flex flex-wrap justify-center m-3">
               <Field
                 type="text"

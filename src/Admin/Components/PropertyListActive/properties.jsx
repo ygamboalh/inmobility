@@ -50,7 +50,6 @@ const PropertiesList = () => {
             Authorization: `Bearer ${getToken()}`,
           },
         });
-        //console.log(response);
         if (result) {
           Swal.fire("Inmueble eliminado!", "", "success");
         } else {
@@ -91,7 +90,7 @@ const PropertiesList = () => {
       id: "distrito",
       selector: (row) => row.attributes.distrito,
       sortable: true,
-      width: "150px",
+      width: "130px",
     },
     {
       name: "Canton",
@@ -144,7 +143,7 @@ const PropertiesList = () => {
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      width: "80px",
+      width: "75px",
     },
     {
       cell: (row) => (
