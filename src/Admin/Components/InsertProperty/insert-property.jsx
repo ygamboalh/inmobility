@@ -67,7 +67,7 @@ const InsertProperty = () => {
     serviciosMedicos: Yup.boolean().oneOf([true, false]).required("*"),
     anunciante: Yup.string().required("*"),
     active: Yup.string().required("*"),
-    categories: Yup.object().required("*"),
+    categories: Yup.array().required("*"),
   });
 
   const [image, setImage] = useState(null);
@@ -75,44 +75,6 @@ const InsertProperty = () => {
     console.log(event.target.files[0]);
     setImage(event.target.files[0]);
   };
-
-  //----------------PARA SUBIR LA IMAGEN------------------------------------------------
-  const ref = "plugin::users-permissions.user";
-  //const refid = userData;
-  //console.log(userData);
-  //const field = "photo";
-
-  /*   const renameFile = (file) => {
-    const renamedFile = new File([file], `u-${userData.id}`, {
-      type: file.type,
-    });
-    return renamedFile;
-  };
- */
-  /* const handleSubmit = async () => {
-    const userPhoto = userData.photo;
-    console.log("foto anterior", userPhoto);
-    if (userData.photo != null) {
-    }
-    const renamedImageFile = renameFile(image);
-    const data = new FormData();
-    data.append("files", renamedImageFile);
-    data.append("ref", ref);
-    data.append("refid", refid.id);
-    data.append("field", field);
-    console.log("los datos ", data);
-
-    const upload = await axios({
-      method: "POST",
-      url: "https://sistemacic.com/backend/api/upload",
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-      data,
-    });
-  }; */
-
-  //----------------------------------------------------------------
 
   const [category, setCategory] = useState({});
   const [categoriesDB, setCategoriesDB] = useState({});
@@ -123,22 +85,17 @@ const InsertProperty = () => {
 
   const handleChangeCategory = (selectedOption) => {
     setCategory(selectedOption);
-    //console.log(category);
   };
   const handleChangeAmenidades = (selectedOption) => {
-    //console.log(selectedOption);
     setAmenidades(selectedOption);
   };
   const handleChangePatioJardin = (selectedOption) => {
-    //console.log(selectedOption);
     setPatio(selectedOption);
   };
   const handleChangeDetallesInternos = (selectedOption) => {
-    //console.log(selectedOption);
     setDetallesInternos(selectedOption);
   };
   const handleChangeDetallesExternos = (selectedOption) => {
-    //console.log(selectedOption);
     setDetallesExternos(selectedOption);
   };
 
@@ -252,15 +209,27 @@ const InsertProperty = () => {
         active: values.active,
       };
 
-      const response = await AxiosInstance.post("/properties", {
-        data: value,
-      });
+      if (!id) {
+        const response = await AxiosInstance.post("/properties", {
+          data: value,
+        });
 
-      if (response.status === 200) {
-        message.success("¡La propiedad fue creada correctamente!");
-        navigate("/admin/properties", { replace: true });
+        if (response.status === 200) {
+          message.success("¡La propiedad fue creada correctamente!");
+          navigate("/admin/properties", { replace: true });
+        } else {
+          message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
+        }
       } else {
-        message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
+        const response = await AxiosInstance.put(`/properties/${id}`, {
+          data: value,
+        });
+        if (response.status === 200) {
+          message.success("¡La propiedad fue actualizada correctamente!");
+          navigate("/admin/properties", { replace: true });
+        } else {
+          message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
+        }
       }
     } catch (error) {
       console.log(error);

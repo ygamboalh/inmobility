@@ -53,13 +53,13 @@ const Profile = () => {
   const { data: userData } = useQuery("profile", authUserData);
 
   const ref = "plugin::users-permissions.user";
-  const refid = userData;
+  const refid = userData?.id;
   const field = "photo";
 
   const [image, setImage] = useState();
 
   const renameFile = (file) => {
-    const renamedFile = new File([file], `u-${userData.id}`, {
+    const renamedFile = new File([file], `u-${userData?.id}`, {
       type: file.type,
     });
     return renamedFile;
@@ -72,9 +72,8 @@ const Profile = () => {
     const data = new FormData();
     data.append("files", renamedImageFile);
     data.append("ref", ref);
-    data.append("refid", refid.id);
+    data.append("refid", refid);
     data.append("field", field);
-    console.log("id del usuario ", refid.id);
 
     const upload = await axios({
       method: "POST",
@@ -84,8 +83,6 @@ const Profile = () => {
       },
       data,
     });
-    console.log("respuesta", upload);
-    console.log("data", data);
   };
   //----------------------------------------------------------------
 
@@ -104,7 +101,6 @@ const Profile = () => {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  console.log("imagen desde el estado", image);
 
   const onFinish = async (values) => {
     const token = getToken();

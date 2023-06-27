@@ -47,8 +47,6 @@ const LoadImage = () => {
     data.append("ref", ref);
     data.append("refId", refid);
     data.append("field", field);
-    console.log(renamedImageFile);
-    console.log("los datos ", data);
 
     const upload = await axios({
       method: "POST",
@@ -58,8 +56,6 @@ const LoadImage = () => {
       },
       data,
     });
-    console.log("respuesta", upload);
-    console.log("data", data);
   };
 
   return (
