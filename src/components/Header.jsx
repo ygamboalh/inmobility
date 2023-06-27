@@ -29,11 +29,11 @@ const Header = () => {
       headers: { Authorization: `${BEARER} ${token}` },
     });
     const data = await response.json();
-    if (response.statusCode != 200) {
+    if (response.statusCode !== 200) {
       setLink("Visiter");
     }
 
-    const role = data.role.name;
+    const role = data?.role?.name;
     if (role === "SuperAdmin") {
       setLink("SuperAdmin");
     } else if (role === "Authenticated") {

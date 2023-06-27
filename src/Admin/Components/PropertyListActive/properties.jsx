@@ -150,7 +150,7 @@ const PropertiesList = () => {
         <button
           className="editButton"
           onClick={() =>
-            navigate(`/admin/properties/property-detail/${row.id}`)
+            navigate(`/admin/properties/insert-property/${row.id}`)
           }
         >
           Editar

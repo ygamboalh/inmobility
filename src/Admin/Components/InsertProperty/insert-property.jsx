@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
 import { Alert, message, Spin } from "antd";
@@ -28,6 +28,7 @@ import {
 import Select from "react-select";
 
 const InsertProperty = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const InsertPropertySchema = Yup.object().shape({
@@ -36,14 +37,14 @@ const InsertProperty = () => {
     distrito: Yup.string().required("*"),
     precio: Yup.number().required("*"),
     tipoPropiedad: Yup.string().required("*"),
-    //amenidades: Yup.object().required('*'),
+    amenidades: Yup.object().required("*"),
     areaContruccion: Yup.number().required("*"),
     habitaciones: Yup.number().required("*"),
     banos: Yup.number().required("*"),
-    //jardinPatio: Yup.object().required('*'),
+    jardinPatio: Yup.object().required("*"),
     ley7600: Yup.boolean().oneOf([true, false]).required("*"),
-    //detallesInternos: Yup.object().required('*'),
-    //detallesExternos: Yup.object().required('*'),
+    detallesInternos: Yup.object().required("*"),
+    detallesExternos: Yup.object().required("*"),
     amueblado: Yup.string().required("*"),
     aptoHijos: Yup.string().required("*"),
     aptoMascotas: Yup.string().required("*"),
@@ -66,8 +67,52 @@ const InsertProperty = () => {
     serviciosMedicos: Yup.boolean().oneOf([true, false]).required("*"),
     anunciante: Yup.string().required("*"),
     active: Yup.string().required("*"),
-    //categories: Yup.object().required('*'),
+    categories: Yup.object().required("*"),
   });
+
+  const [image, setImage] = useState(null);
+  const handleChange = (event) => {
+    console.log(event.target.files[0]);
+    setImage(event.target.files[0]);
+  };
+
+  //----------------PARA SUBIR LA IMAGEN------------------------------------------------
+  const ref = "plugin::users-permissions.user";
+  //const refid = userData;
+  //console.log(userData);
+  //const field = "photo";
+
+  /*   const renameFile = (file) => {
+    const renamedFile = new File([file], `u-${userData.id}`, {
+      type: file.type,
+    });
+    return renamedFile;
+  };
+ */
+  /* const handleSubmit = async () => {
+    const userPhoto = userData.photo;
+    console.log("foto anterior", userPhoto);
+    if (userData.photo != null) {
+    }
+    const renamedImageFile = renameFile(image);
+    const data = new FormData();
+    data.append("files", renamedImageFile);
+    data.append("ref", ref);
+    data.append("refid", refid.id);
+    data.append("field", field);
+    console.log("los datos ", data);
+
+    const upload = await axios({
+      method: "POST",
+      url: "https://sistemacic.com/backend/api/upload",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+      data,
+    });
+  }; */
+
+  //----------------------------------------------------------------
 
   const [category, setCategory] = useState({});
   const [categoriesDB, setCategoriesDB] = useState({});
@@ -98,11 +143,11 @@ const InsertProperty = () => {
   };
 
   const [initialData, setinitialData] = useState({
-    provincia: "Provincia",
-    canton: "Canton",
-    distrito: "Distrito",
+    provincia: "",
+    canton: "",
+    distrito: "",
     precio: 0,
-    tipoPropiedad: "Tipo de propiedad",
+    tipoPropiedad: "",
     amenidades: amenidades,
     areaContruccion: 0,
     habitaciones: 0,
@@ -111,27 +156,27 @@ const InsertProperty = () => {
     ley7600: false,
     detallesInternos: detallesInternos,
     detallesExternos: detallesExternos,
-    amueblado: "Amueblado",
-    aptoHijos: "12",
-    aptoMascotas: "12",
+    amueblado: "",
+    aptoHijos: "",
+    aptoMascotas: "",
     cuotaMantenimiento: 0,
     areaBodega: 0,
     altura: 0,
-    concepcionElectrica: "220v",
+    concepcionElectrica: "",
     areaCarga: false,
     areaPlantas: 0,
     numeroPlantas: 0,
-    propositoTerreno: "Proposito",
-    ubicacionCastral: "Ubicacion catastral",
-    ubicacionDemografica: "Ubicacion Demografica",
-    ubicacionGeografica: "Ubicacion Geografica",
+    propositoTerreno: "",
+    ubicacionCastral: "",
+    ubicacionDemografica: "",
+    ubicacionGeografica: "",
     areaMesanini: 0,
     areaSotano: 0,
-    tipoDensidad: "12",
-    servicios: "12",
+    tipoDensidad: "",
+    servicios: "",
     serviciosMedicos: false,
-    anunciante: "12",
-    categories: 1,
+    anunciante: "",
+    categories: [],
     active: "",
     areaTerreno: 0,
   });
@@ -230,8 +275,8 @@ const InsertProperty = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="inset-y-0 mb-20 left-0 flex h-screen justify-center align-middle items-center pl-3"></div>
+    <div className="flex flex-col h-fit">
+      <div className="inset-y-0 mb-20 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
       <Formik
         initialValues={initialData}
         validationSchema={InsertPropertySchema}

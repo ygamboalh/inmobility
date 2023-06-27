@@ -44,9 +44,6 @@ const App = () => {
                 <Route path='/alquiler' element={<Alquileres />} />
                 <Route path='/alquiler/*' element={<Search />} />
                 <Route path='/property/:id' element={<PropertyDetails />} />
-                <Route path="/user/sent-request" element={<SentRequest />} />
-                <Route path="/user/evaluating" element={<Evaluating />} />
-                <Route path="/user/access-denied" element={<AccessDenied />} />
                 <Route path="/user/verified-adviser" element={<VerifiedAdviser />}/>
                 <Route path="/user/profile" element={<Profile />} />
                 <Route path="/auth/change-password" element={<ChangePassword />} />
@@ -54,7 +51,10 @@ const App = () => {
                 <Route path="/home/banner" element={<Banner />} />
             </Route>
           <Route element={<PublicRoutes />}>
-            <Route path="/home/banner/visiter" element={<Banner />} />
+                <Route path="/home/banner/visiter" element={<Banner />} />
+                <Route path="/user/sent-request" element={<SentRequest />} />
+                <Route path="/user/evaluating" element={<Evaluating />} />
+                <Route path="/user/access-denied" element={<AccessDenied />} />
                 <Route path="/auth/signin" element={<SignIn />}/>
                 <Route path="/auth/register-request" element={<RegisterRequest />} />
                 <Route path="/auth/reset-password" element={<ResetPassword />} />
@@ -70,6 +70,7 @@ const App = () => {
             <Route element={<ProtectedRoutes/>}>
               <Route exact path="/admin/properties/property-detail/:id" element={<PropertyDetailsAdmin />} />
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
+              <Route exact path="/admin/properties/insert-property/:id" element={<InsertProperty />} />
               <Route exact path='/admin/properties' element={<Properties />} />
               <Route exact path='/admin/links' element={<Links />} />
               <Route exact path="/admin/users" element={<Users />} />

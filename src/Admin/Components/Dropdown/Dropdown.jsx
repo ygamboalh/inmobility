@@ -7,9 +7,29 @@ import {
   BiUserCircle,
   BiWrench,
 } from "react-icons/bi";
+import { authUserData } from "../../../api/usersApi";
+import { useQuery } from "react-query";
+import AxiosInstance from "../../../api/AxiosInstance";
 
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState(
+    "https://sistemacic.com/backend/uploads/small_userinfo_dac703068b.png"
+  );
+  const { data: userData } = useQuery("profile", authUserData);
+  const id = userData?.id;
+  const user = AxiosInstance.get(`users/${id}?populate=photo`).then((data) => {
+    const image = data?.data?.photo?.url;
+    const url = `https://sistemacic.com/backend${image}`;
+
+    setImageUrl(url);
+  });
+  const buttonStyle = {
+    backgroundImage: `url("${imageUrl}")`,
+    backgroundSize: "cover",
+    width: "40px",
+    height: "40px",
+  };
   const signOut = useSignOut();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -17,7 +37,11 @@ const Dropdown = () => {
 
   return (
     <div className="">
-      <button onClick={toggleMenu} className="user-info-button"></button>
+      <button
+        onClick={toggleMenu}
+        className="user-info-button"
+        style={buttonStyle}
+      ></button>
       {isOpen && (
         <div className="absolute mt-2 py-2 w-40 bg-white rounded-lg shadow-lg">
           <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">

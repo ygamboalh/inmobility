@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
-import { Spin, Alert, message } from "antd";
+import { Spin, message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -10,6 +10,11 @@ import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 import UpLoadImage from "../UploadImage/upload-image";
+import { types } from "../../BD/bd";
+import LoadImage from "../UploadImage/my-upload-image";
+import axios from "axios";
+import AxiosInstance from "../../api/AxiosInstance";
+import Thumbnail from "../Thumbnail/thumbnail";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -45,45 +50,44 @@ const ProfileSchema = Yup.object().shape({
 });
 
 const Profile = () => {
-  const { data: userData, loading } = useQuery("profile", authUserData);
+  const { data: userData } = useQuery("profile", authUserData);
 
-  const types = [
-    {
-      key: "Asesor Inmobiliario Independiente",
-      value: "Asesor Inmobiliario Independiente",
-      text: "Asesor Inmobiliario Independiente",
-    },
-    {
-      key: "Asesor Agremiado a una cámara, federación de Bienes",
-      value: "Asesor Agremiado a una cámara, federación de Bienes",
-      text: "Asesor Agremiado a una cámara, federación de Bienes",
-    },
-    {
-      key: "Dueño de Franquicia Inmobiliaria",
-      value: "Dueño de Franquicia Inmobiliaria",
-      text: "Dueño de Franquicia Inmobiliaria",
-    },
-    {
-      key: "Asesor colaborador en una empresa de Bienes Raíces",
-      value: "Asesor colaborador en una empresa de Bienes Raíces",
-      text: "Asesor colaborador en una empresa de Bienes Raíces",
-    },
-    {
-      key: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-      value: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-      text: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-    },
-    {
-      key: "Colaborador en una Institución Financiera con Bienes Adjudicados",
-      value: "Colaborador en una Institución Financiera con Bienes Adjudicados",
-      text: "Colaborador en una Institución Financiera con Bienes Adjudicados",
-    },
-    {
-      key: "Asistente de Asesor Inmobiliario",
-      value: "Asistente de Asesor Inmobiliario",
-      text: "Asistente de Asesor Inmobiliario",
-    },
-  ];
+  const ref = "plugin::users-permissions.user";
+  const refid = userData;
+  const field = "photo";
+
+  const [image, setImage] = useState();
+
+  const renameFile = (file) => {
+    const renamedFile = new File([file], `u-${userData.id}`, {
+      type: file.type,
+    });
+    return renamedFile;
+  };
+  const handleChange = (event) => {
+    setImage(event.target.files[0]);
+  };
+  const handleSubmit = async () => {
+    const renamedImageFile = renameFile(image);
+    const data = new FormData();
+    data.append("files", renamedImageFile);
+    data.append("ref", ref);
+    data.append("refid", refid.id);
+    data.append("field", field);
+    console.log("id del usuario ", refid.id);
+
+    const upload = await axios({
+      method: "POST",
+      url: "https://sistemacic.com/backend/api/upload",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+      data,
+    });
+    console.log("respuesta", upload);
+    console.log("data", data);
+  };
+  //----------------------------------------------------------------
 
   const [initialData, setinitialData] = useState({
     username: userData?.username,
@@ -93,12 +97,14 @@ const Profile = () => {
     company: userData?.company,
     address: userData?.address,
     mobile: userData?.mobile,
+    type: userData?.type,
     personalId: userData?.personalId,
+    photo: userData?.photo,
   });
 
-  console.log(userData);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  console.log("imagen desde el estado", image);
 
   const onFinish = async (values) => {
     const token = getToken();
@@ -113,6 +119,8 @@ const Profile = () => {
         address: values.address,
         mobile: values.mobile,
         personalId: values.personalId,
+        photo: image,
+        type: values.type,
       };
       //find the user that is logged in
       const response = await fetch(`${API}/users/me?populate=role`, {
@@ -121,8 +129,8 @@ const Profile = () => {
       });
       const data = await response.json();
 
-      //setinitialData(data);
-      if (response.ok || data.role.name == "SuperAdmin") {
+      handleSubmit();
+      if (response.ok || data.role.name === "SuperAdmin") {
         const response = await fetch(`${API}/users/${data.id}`, {
           method: "PUT",
           headers: {
@@ -131,8 +139,9 @@ const Profile = () => {
           },
           body: JSON.stringify(value),
         });
-        message.success("¡Datos actualizados correctamente!");
+
         navigate("/user/logout");
+        message.success("¡Datos actualizados correctamente!");
       } else {
         message.error("¡Ocurrió un error. Inténtelo de nuevo!");
       }
@@ -147,11 +156,12 @@ const Profile = () => {
 
   return (
     <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
-      <div className="mb-0 mt-0 sm:my-2 flex flex-col">
+      <div className="mb-4 mt-0 sm:my-2 flex flex-col">
         <label className="loginh my-2">Actualizar perfil</label>
-        {/* <label className="loginh5 w-72 mb-1">
-          <UpLoadImage />
-        </label> */}
+        <div className="flex flex-col">
+          <Thumbnail />
+          <LoadImage />
+        </div>
       </div>
       <Formik
         initialValues={{
@@ -164,13 +174,14 @@ const Profile = () => {
           address: userData?.address,
           mobile: userData?.mobile,
           personalId: userData?.personalId,
+          photo: userData?.photo,
         }}
         validationSchema={ProfileSchema}
         onSubmit={onFinish}
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="div -mt-4">
+            <div className="div mt-4">
               <div className="flex flex-col text-gray-500 text-left">
                 <Field
                   placeholder="Nombre completo"

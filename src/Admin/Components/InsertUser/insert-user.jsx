@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Alert, message, Spin } from "antd";
+import { message, Spin } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import { Estado, TipoAsesor } from "../../../BD/bd";
 import AxiosInstance from "../../../api/AxiosInstance";
-import { passedUser, userIntser } from "../../../api/usersApi";
+import { authUserData, passedUser, userIntser } from "../../../api/usersApi";
+import LoadImage from "../../../components/UploadImage/my-upload-image";
+import Thumbnail from "../../../components/Thumbnail/thumbnail";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -58,6 +60,8 @@ const InsertUser = () => {
   } = useMutation(userIntser);
 
   const { data: pasedUser } = useQuery(["id", id], () => passedUser(id));
+  const { data: userData } = useQuery("profile", authUserData);
+  const role = userData?.role.name;
 
   const [initialData, setinitialData] = useState({
     username: pasedUser?.username,
@@ -116,7 +120,6 @@ const InsertUser = () => {
           },
           onError: (error) => {
             message.error("Ocurrió un error inesperado");
-            //(error.response.data.error.message);
           },
         });
       }
@@ -154,14 +157,13 @@ const InsertUser = () => {
             <div class="flex flex-col mx-20 mt-40 align-middle lg:flex-row items-center justify-center ">
               <div class="lg:w-1/3 align-top  flex flex-col mb-4 -mt-20">
                 <div className="flex flex-col justify-center">
-                  <img
-                    src="ruta_de_la_imagen.jpg"
-                    alt=""
-                    class="create-user-image"
-                  />
-                  {/* <button type="button" className="pick-photo">
-                    Elige una foto
-                  </button> */}
+                  {role === "Authenticated" ? (
+                    <div className="flex flex-col">
+                      <Thumbnail /> <LoadImage />
+                    </div>
+                  ) : (
+                    <span></span>
+                  )}
                 </div>
               </div>
               <div class="lg:w-1/3 px-10">

@@ -221,7 +221,6 @@ html {
   margin-right: 10px;
   border-radius: 50px;
   background-color: white;
-  background-image: url(../src/assets/images/userinfo.png);
   background-position: center;
   background-size: 50px 50px;
 }
@@ -317,16 +316,15 @@ html {
   margin-left: 100px;
 }
 
-.profile-photo{
-  width: 150px;
-  height: 150px;
-  border-radius: 100px;
+.input-upload{
+  width: 110px;
+  border-radius: 15px;
   align-content: center;
   align-items: center;
   opacity: 100;
-  color: white;
+  color: black;
   border: 1px solid;
-  background-color: rebeccapurple;
+  
 }
 .profile-thumb{
   width: 100px;
@@ -340,11 +338,8 @@ html {
 .spinner {
   text-align: center;
   background: transparent;
-  border-radius: 4px;
-  margin-top: auto;
-  padding: 30px 50px;
-  height: 200px;
-  height: 550px;
+  flex: 1;
+  align-self: center;
 }
 
 .create-user-image {
