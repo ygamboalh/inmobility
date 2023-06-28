@@ -62,6 +62,7 @@ const App = () => {
                 <Route path="/home/visit-record" element={<VisitRecord />} />
                 <Route path="/user/terms" element={<Terms />} />
                 <Route path="/user/logout" element={<Logout />} />
+               <Route path="/user/profile" element={<Profile />} />
                 <Route path='*' element={<NotFound />} />
             </Route>
           </Route>

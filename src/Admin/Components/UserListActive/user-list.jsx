@@ -179,7 +179,7 @@ const UsersList = () => {
             <input
               type="text"
               onChange={handleFilter}
-              class="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
               placeholder="Buscar"
             />
           </div>

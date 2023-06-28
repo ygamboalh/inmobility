@@ -28,8 +28,8 @@ const Header = () => {
       method: "GET",
       headers: { Authorization: `${BEARER} ${token}` },
     });
-    const data = await response.json();
-    if (response.statusCode !== 200) {
+    const data = await response?.json();
+    if (response?.statusCode !== 200) {
       setLink("Visiter");
     }
 

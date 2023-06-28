@@ -123,7 +123,7 @@ const Profile = () => {
         method: "GET",
         headers: { Authorization: `${BEARER} ${token}` },
       });
-      const data = await response.json();
+      const data = await response?.json();
 
       handleSubmit();
       if (response.ok || data.role.name === "SuperAdmin") {
@@ -181,7 +181,7 @@ const Profile = () => {
               <div className="flex flex-col text-gray-500 text-left">
                 <Field
                   placeholder="Nombre completo"
-                  defaultValue={userData.username}
+                  defaultValue={userData?.username}
                   type="text"
                   name="username"
                   className="regular-input focus:outline-none"
@@ -196,7 +196,7 @@ const Profile = () => {
             <div className="div -mt-4">
               <div className="flex flex-col text-gray-500 text-left">
                 <Field
-                  defaultValue={userData.personalId}
+                  defaultValue={userData?.personalId}
                   placeholder="Identificador personal"
                   type="text"
                   name="personalId"
@@ -212,7 +212,7 @@ const Profile = () => {
             <div className="div -mt-1">
               <div className="flex flex-col text-gray-500">
                 <Field
-                  defaultValue={userData.email}
+                  defaultValue={userData?.email}
                   placeholder="Correo electrónico"
                   name="email"
                   type="email"
@@ -228,7 +228,7 @@ const Profile = () => {
             <div className="div -mt-1 mb-0">
               <div className="flex flex-col text-gray-500">
                 <Field
-                  defaultValue={userData.phone}
+                  defaultValue={userData?.phone}
                   placeholder="Teléfono de la oficina"
                   name="phone"
                   type="text"
@@ -244,7 +244,7 @@ const Profile = () => {
             <div className="div -mt-1 mb-0">
               <div className="flex flex-col text-gray-500">
                 <Field
-                  defaultValue={userData.mobile}
+                  defaultValue={userData?.mobile}
                   placeholder="Teléfono celular"
                   name="mobile"
                   type="text"
@@ -275,7 +275,7 @@ const Profile = () => {
             <div className="div -mt-4">
               <div className="flex flex-col text-gray-500 text-left">
                 <Field
-                  defaultValue={userData.address}
+                  defaultValue={userData?.address}
                   placeholder="Dirección física"
                   type="text"
                   name="address"
@@ -292,7 +292,7 @@ const Profile = () => {
               <div className="flex flex-col text-gray-500">
                 <Field
                   placeholder="Contraseña"
-                  defaultValue={userData.password}
+                  defaultValue={userData?.password}
                   name="password"
                   type="password"
                   className="regular-input"

@@ -154,8 +154,8 @@ const InsertUser = () => {
       >
         {({ errors, touched }) => (
           <Form autoComplete="off">
-            <div class="flex flex-col mx-20 mt-40 align-middle lg:flex-row items-center justify-center ">
-              <div class="lg:w-1/3 align-top  flex flex-col mb-4 -mt-20">
+            <div className="flex flex-col mx-20 mt-40 align-middle lg:flex-row items-center justify-center ">
+              <div className="lg:w-1/3 align-top  flex flex-col mb-4 -mt-20">
                 <div className="flex flex-col justify-center">
                   {role === "Authenticated" ? (
                     <div className="flex flex-col">
@@ -166,11 +166,11 @@ const InsertUser = () => {
                   )}
                 </div>
               </div>
-              <div class="lg:w-1/3 px-10">
+              <div className="lg:w-1/3 px-10">
                 <Field
                   type="text"
                   name="username"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Nombre completo"
                 />
                 <div className="space">
@@ -181,7 +181,7 @@ const InsertUser = () => {
                 <Field
                   type="text"
                   name="personalId"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Identificador personal"
                 />
                 <div className="space">
@@ -192,7 +192,7 @@ const InsertUser = () => {
                 <Field
                   type="text"
                   name="email"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Correo electrónico"
                 />
                 <div className="space">
@@ -203,7 +203,7 @@ const InsertUser = () => {
                 <Field
                   type="text"
                   name="phone"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Teléfono oficina"
                 />
                 <div className="space">
@@ -214,7 +214,7 @@ const InsertUser = () => {
                 <Field
                   type="text"
                   name="mobile"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Teléfono celular"
                 />
                 <div className="space">
@@ -223,11 +223,11 @@ const InsertUser = () => {
                   ) : null}
                 </div>
               </div>
-              <div class="lg:w-1/3 px-10">
+              <div className="lg:w-1/3 px-10">
                 <Field
                   type="text"
                   name="company"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Nombre de la empresa"
                 />
                 <div className="space">
@@ -238,7 +238,7 @@ const InsertUser = () => {
                 <Field
                   type="text"
                   name="address"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Dirección física"
                 />
                 <div className="space">
@@ -249,7 +249,7 @@ const InsertUser = () => {
                 <Field
                   type="password"
                   name="password"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Contraseña"
                 />
                 <div className="space">
@@ -261,7 +261,7 @@ const InsertUser = () => {
                   as="select"
                   id="type"
                   name="type"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Tipo de asesor"
                 >
                   <option value="" label="">
@@ -282,7 +282,7 @@ const InsertUser = () => {
                   as="select"
                   name="active"
                   id="active"
-                  class="w-full input-admin-property"
+                  className="w-full input-admin-property"
                   placeholder="Estado"
                 >
                   <option value="" label="">

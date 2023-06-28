@@ -32,12 +32,12 @@ const RegisterSchema = Yup.object().shape({
   acept: Yup.boolean().oneOf([true], "¡Debe aceptar los términos!"),
   phone: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
-    .min(10, "¡Teléfono invalido!")
+    .min(8, "¡Teléfono invalido!")
     .max(15, "¡Teléfono invalido!")
     .required("¡El teléfono de la oficina es requerido!"),
   mobile: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
-    .min(10, "¡Teléfono invalido!")
+    .min(8, "¡Teléfono invalido!")
     .max(15, "¡Teléfono invalido!")
     .required("¡El teléfono celular es requerido!"),
   personalId: Yup.string().required("¡El identificador personal es requerido!"),
@@ -172,121 +172,103 @@ const RegisterRequest = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="div -mt-4">
-              <div className="flex flex-col text-gray-500 text-left">
-                <Field
-                  placeholder="Nombre completo"
-                  type="text"
-                  name="username"
-                  className="regular-input focus:outline-none"
-                />
-              </div>
-            </div>
-            <div className="space mb-2.5">
+            <Field
+              placeholder="Nombre completo"
+              type="text"
+              name="username"
+              className="common-input"
+            />
+            <div className="space">
               {errors.username && touched.username ? (
                 <div className="errordiv text-xs">{errors.username}</div>
               ) : null}
             </div>
-            <div className="div -mt-4">
-              <div className="flex flex-col text-gray-500 text-left">
-                <Field
-                  placeholder="Identificador personal"
-                  type="text"
-                  name="personalId"
-                  className="regular-input focus:outline-none"
-                />
-              </div>
-            </div>
+
+            <Field
+              placeholder="Identificador personal"
+              type="text"
+              name="personalId"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.personalId && touched.personalId ? (
                 <div className="errordiv text-xs">{errors.personalId}</div>
               ) : null}
             </div>
-            <div className="div -mt-1">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  placeholder="Correo electrónico"
-                  name="email"
-                  type="email"
-                  className="regular-input"
-                />
-              </div>
-            </div>
+
+            <Field
+              placeholder="Correo electrónico"
+              name="email"
+              type="email"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.email && touched.email ? (
                 <div className="errordiv text-xs">{errors.email}</div>
               ) : null}
             </div>
-            <div className="div -mt-1 mb-0">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  placeholder="Teléfono de la oficina"
-                  name="phone"
-                  type="text"
-                  className="regular-input"
-                />
-              </div>
-            </div>
+
+            <Field
+              placeholder="Teléfono de la oficina"
+              name="phone"
+              type="text"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.phone && touched.phone ? (
                 <div className="errordiv text-xs">{errors.phone}</div>
               ) : null}
             </div>
-            <div className="div -mt-1 mb-0">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  placeholder="Teléfono celular"
-                  name="mobile"
-                  type="text"
-                  className="regular-input"
-                />
-              </div>
-            </div>
+
+            <Field
+              placeholder="Teléfono celular"
+              name="mobile"
+              type="text"
+              className="common-input"
+            />
+
             <div className="space mb-2.5">
               {errors.mobile && touched.mobile ? (
                 <div className="errordiv text-xs">{errors.mobile}</div>
               ) : null}
             </div>
-            <div className="div -mt-4">
-              <div className="flex flex-col text-gray-500 text-left">
-                <Field
-                  placeholder="Nombre de la empresa"
-                  type="text"
-                  name="company"
-                  className="regular-input focus:outline-none"
-                />
-              </div>
-            </div>
+
+            <Field
+              placeholder="Nombre de la empresa"
+              type="text"
+              name="company"
+              className="common-input"
+            />
+
             <div className="space mb-2.5">
               {errors.company && touched.company ? (
                 <div className="errordiv text-xs">{errors.company}</div>
               ) : null}
             </div>
-            <div className="div -mt-4">
-              <div className="flex flex-col text-gray-500 text-left">
-                <Field
-                  placeholder="Dirección física"
-                  type="text"
-                  name="address"
-                  className="regular-input focus:outline-none"
-                />
-              </div>
-            </div>
+
+            <Field
+              placeholder="Dirección física"
+              type="text"
+              name="address"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.address && touched.address ? (
                 <div className="errordiv text-xs">{errors.address}</div>
               ) : null}
             </div>
-            <div className="div -mt-1 mb-0">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  placeholder="Contraseña"
-                  name="password"
-                  type="password"
-                  className="regular-input"
-                />
-              </div>
-            </div>
+
+            <Field
+              placeholder="Contraseña"
+              name="password"
+              type="password"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.password && touched.password ? (
                 <div className="errordiv text-xs">{errors.password}</div>
@@ -297,25 +279,22 @@ const RegisterRequest = () => {
                 Tipo de asesor inmobiliario
               </label>
             </div>
-            <div className="div mt-1 mb-1">
-              <div className="flex flex-col">
-                <Field
-                  className="w-60 regular-input"
-                  as="select"
-                  name="type"
-                  id="type"
-                >
-                  <option value="" label="">
-                    {"Seleccione el tipo de asesor"}
-                  </option>
-                  {types.map((item) => (
-                    <option value={item.value} label={item.label}>
-                      {item.value}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
+
+            <Field
+              className="common-input mb-2"
+              as="select"
+              name="type"
+              id="type"
+            >
+              <option value="" label="">
+                {"Seleccione el tipo de asesor"}
+              </option>
+              {types.map((item) => (
+                <option value={item.value} label={item.label}>
+                  {item.value}
+                </option>
+              ))}
+            </Field>
             <div className="space">
               {errors.type && touched.type ? (
                 <div className="errordiv text-xs">{errors.type}</div>

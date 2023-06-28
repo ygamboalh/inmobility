@@ -26,6 +26,7 @@ import {
   CategoriaInmueble,
 } from "../../../BD/bd";
 import Select from "react-select";
+import PropertyLoadImage from "../../../components/UploadImage/property-upload-image";
 
 const InsertProperty = () => {
   const { id } = useParams();
@@ -82,6 +83,7 @@ const InsertProperty = () => {
   const [patio, setPatio] = useState({});
   const [detallesInternos, setDetallesInternos] = useState({});
   const [detallesExternos, setDetallesExternos] = useState({});
+  const [property, setProperty] = useState();
 
   const handleChangeCategory = (selectedOption) => {
     setCategory(selectedOption);
@@ -99,43 +101,49 @@ const InsertProperty = () => {
     setDetallesExternos(selectedOption);
   };
 
+  useEffect(() => {
+    const response = AxiosInstance.get(`properties/${id}`).then((property) =>
+      setProperty(property.data.data.attributes)
+    );
+  }, []);
+
   const [initialData, setinitialData] = useState({
-    provincia: "",
-    canton: "",
-    distrito: "",
-    precio: 0,
-    tipoPropiedad: "",
+    provincia: property?.provincia,
+    canton: property?.canton,
+    distrito: property?.distrito,
+    precio: property?.precio,
+    tipoPropiedad: property?.tipoPropiedad,
     amenidades: amenidades,
-    areaContruccion: 0,
-    habitaciones: 0,
-    banos: 0,
+    areaContruccion: property?.areaContruccion,
+    habitaciones: property?.habitaciones,
+    banos: property?.banos,
     jardinPatio: patio,
-    ley7600: false,
+    ley7600: property?.ley7600,
     detallesInternos: detallesInternos,
     detallesExternos: detallesExternos,
-    amueblado: "",
-    aptoHijos: "",
-    aptoMascotas: "",
-    cuotaMantenimiento: 0,
-    areaBodega: 0,
-    altura: 0,
-    concepcionElectrica: "",
-    areaCarga: false,
-    areaPlantas: 0,
-    numeroPlantas: 0,
-    propositoTerreno: "",
-    ubicacionCastral: "",
-    ubicacionDemografica: "",
-    ubicacionGeografica: "",
-    areaMesanini: 0,
-    areaSotano: 0,
-    tipoDensidad: "",
-    servicios: "",
-    serviciosMedicos: false,
-    anunciante: "",
-    categories: [],
-    active: "",
-    areaTerreno: 0,
+    amueblado: property?.amueblado,
+    aptoHijos: property?.aptoHijos,
+    aptoMascotas: property?.aptoMascotas,
+    cuotaMantenimiento: property?.cuotaMantenimiento,
+    areaBodega: property?.areaBodega,
+    altura: property?.altura,
+    concepcionElectrica: property?.concepcionElectrica,
+    areaCarga: property?.areaCarga,
+    areaPlantas: property?.areaPlantas,
+    numeroPlantas: property?.numeroPlantas,
+    propositoTerreno: property?.propositoTerren,
+    ubicacionCastral: property?.ubicacionCastral,
+    ubicacionDemografica: property?.ubicacionDemografica,
+    ubicacionGeografica: property?.ubicacionGeografica,
+    areaMesanini: property?.areaMesanini,
+    areaSotano: property?.areaSotano,
+    tipoDensidad: property?.tipoDensidad,
+    servicios: property?.servicios,
+    serviciosMedicos: property?.serviciosMedicos,
+    anunciante: property?.anunciante,
+    categories: property?.categories,
+    active: property?.active,
+    areaTerreno: property?.areaTerreno,
   });
 
   useEffect(() => {
@@ -169,7 +177,6 @@ const InsertProperty = () => {
           catFounded.push(categoria.id);
         }
       });
-      console.log(catFounded);
 
       const value = {
         provincia: values.provincia,
@@ -246,6 +253,12 @@ const InsertProperty = () => {
   return (
     <div className="flex flex-col h-fit">
       <div className="inset-y-0 mb-20 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
+      <div className="flex mt-3 justify-center align-middle items-center w-full">
+        <label className="font-semibold text-xl">
+          Crear o editar una propiedad
+        </label>
+      </div>
+      <PropertyLoadImage />
       <Formik
         initialValues={initialData}
         validationSchema={InsertPropertySchema}
@@ -253,25 +266,13 @@ const InsertProperty = () => {
       >
         {({ errors, touched }) => (
           <Form /* onFinish={onFinish} */ autoComplete="off">
-            <div className="flex mt-3 justify-center align-middle items-center w-full">
-              <label className="font-semibold text-xl">
-                Crear una nueva propiedad
-              </label>
-            </div>
-            {/* <div className="flex mt-3 justify-center align-middle items-center w-full">
-              <Field
-                type="file"
-                name="imagenes"
-                placeholder="Imágenes"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-            </div> */}
             <div className="flex flex-wrap justify-center m-3">
               <Field
                 type="text"
                 name="provincia"
+                defaultInputValue={property?.provincia}
                 placeholder="Provincia"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.provincia && touched.provincia ? (
@@ -281,8 +282,9 @@ const InsertProperty = () => {
               <Field
                 type="text"
                 name="canton"
+                defaultInputValue={property?.canton}
                 placeholder="Canton"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.canton && touched.canton ? (
@@ -292,8 +294,9 @@ const InsertProperty = () => {
               <Field
                 type="text"
                 name="distrito"
+                defaultInputValue={property?.distrito}
                 placeholder="Distrito"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.distrito && touched.distrito ? (
@@ -303,8 +306,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="precio"
+                defaultInputValue={property?.precio}
                 placeholder="Precio"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.precio && touched.precio ? (
@@ -314,8 +318,9 @@ const InsertProperty = () => {
               <Field
                 as="select"
                 name="tipoPropiedad"
+                defaultInputValue={property?.tipoPropiedad}
                 placeholder="Tipo de propiedad"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Tipo de inmueble"}
@@ -335,8 +340,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="areaContruccion"
+                defaultInputValue={property?.areaContruccion}
                 placeholder="Área construcción"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.areaContruccion && touched.areaContruccion ? (
@@ -348,8 +354,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="habitaciones"
+                defaultInputValue={property?.habitaciones}
                 placeholder="Habitaciones"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.habitaciones && touched.habitaciones ? (
@@ -359,8 +366,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="banos"
+                defaultInputValue={property?.banos}
                 placeholder="Baños"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.banos && touched.banos ? (
@@ -371,8 +379,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="areaTerreno"
+                defaultInputValue={property?.areaTerreno}
                 placeholder="Área terreno"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.areaTerreno && touched.areaTerreno ? (
@@ -384,8 +393,9 @@ const InsertProperty = () => {
                 as="select"
                 name="amueblado"
                 id="amueblado"
+                defaultInputValue={property?.amueblado}
                 placeholder="Amueblado"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Amueblado"}
@@ -404,9 +414,10 @@ const InsertProperty = () => {
               <Field
                 as="select"
                 name="aptoHijos"
+                defaultInputValue={property?.aptoHijos}
                 id="aptoHijos"
                 placeholder="Apto hijos"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Apto hijos"}
@@ -425,9 +436,10 @@ const InsertProperty = () => {
               <Field
                 as="select"
                 name="aptoMascotas"
+                defaultInputValue={property?.aptoMascotas}
                 id="aptoMascotas"
                 placeholder="Apto mascotas"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Apto mascotas"}
@@ -446,16 +458,10 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="cuotaMantenimiento"
+                defaultInputValue={property?.cuotaMantenimiento}
                 placeholder="Cuota mantenimiento"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
-              <div className="space mb-2.5">
-                {errors.cuotaMantenimiento && touched.cuotaMantenimiento ? (
-                  <div className="errordiv text-xs">
-                    {errors.cuotaMantenimiento}
-                  </div>
-                ) : null}
-              </div>
               <div className="space mb-2.5">
                 {errors.cuotaMantenimiento && touched.cuotaMantenimiento ? (
                   <div className="errordiv text-xs">
@@ -466,8 +472,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="areaBodega"
+                defaultInputValue={property?.areaBodega}
                 placeholder="Área bodega"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.areaBodega && touched.areaBodega ? (
@@ -477,8 +484,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="altura"
+                defaultInputValue={property?.altura}
                 placeholder="Altura"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.altura && touched.altura ? (
@@ -488,9 +496,10 @@ const InsertProperty = () => {
               <Field
                 as="select"
                 name="concepcionElectrica"
+                defaultInputValue={property?.concepcionElectrica}
                 id="concepcionElectrica"
                 placeholder="Concepción eléctrica"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Concepción eléctrica"}
@@ -511,8 +520,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="areaPlantas"
+                defaultInputValue={property?.areaPlantas}
                 placeholder="Área plantas"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.areaPlantas && touched.areaPlantas ? (
@@ -522,8 +532,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="numeroPlantas"
+                defaultInputValue={property?.numeroPlantas}
                 placeholder="Número de plantas"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.numeroPlantas && touched.numeroPlantas ? (
@@ -533,8 +544,9 @@ const InsertProperty = () => {
               <Field
                 type="text"
                 name="propositoTerreno"
+                defaultInputValue={property?.propositoTerreno}
                 placeholder="Propósito terreno"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.propositoTerreno && touched.propositoTerreno ? (
@@ -547,8 +559,9 @@ const InsertProperty = () => {
                 as="select"
                 name="ubicacionCastral"
                 id="ubicacionCastral"
+                defaultInputValue={property?.ubicacionCastral}
                 placeholder="Ubicación castral"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Ubicación catastral"}
@@ -570,8 +583,9 @@ const InsertProperty = () => {
                 as="select"
                 name="ubicacionDemografica"
                 id="ubicacionDemografica"
+                defaultInputValue={property?.ubicacionDemografica}
                 placeholder="Ubicación demográfica"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Ubicación demográfica"}
@@ -592,9 +606,10 @@ const InsertProperty = () => {
               <Field
                 as="select"
                 name="ubicacionGeografica"
+                defaultInputValue={property?.ubicacionGeografica}
                 id="ubicacionGeografica"
                 placeholder="Ubicación geográfica"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Ubicación geográfica"}
@@ -615,9 +630,10 @@ const InsertProperty = () => {
               <Field
                 as="select"
                 name="active"
+                defaultInputValue={property?.active}
                 id="active"
                 placeholder="Activa"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Estado"}
@@ -636,8 +652,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="areaMesanini"
+                defaultInputValue={property?.areaMesanini}
                 placeholder="Área mesanini"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.areaMesanini && touched.areaMesanini ? (
@@ -647,8 +664,9 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="areaSotano"
+                defaultInputValue={property?.areaSotano}
                 placeholder="Área sótano"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.areaSotano && touched.areaSotano ? (
@@ -658,8 +676,9 @@ const InsertProperty = () => {
               <Field
                 type="text"
                 name="tipoDensidad"
+                defaultInputValue={property?.tipoDensidad}
                 placeholder="Tipo densidad"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.tipoDensidad && touched.tipoDensidad ? (
@@ -669,8 +688,9 @@ const InsertProperty = () => {
               <Field
                 type="text"
                 placeholder="Anunciante"
+                defaultInputValue={property?.anunciante}
                 name="anunciante"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.anunciante && touched.anunciante ? (
@@ -680,72 +700,76 @@ const InsertProperty = () => {
               <Field
                 type="text"
                 placeholder="Servicios"
+                defaultInputValue={property?.servicios}
                 name="servicios"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
                 {errors.servicios && touched.servicios ? (
                   <div className="errordiv text-xs">{errors.servicios}</div>
                 ) : null}
               </div>
-              <div className="flex flex-row  w-full justify-center">
-                <div className="m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
-                  <Field
-                    type="checkbox"
-                    name="ley7600"
-                    id="ley7600"
-                    value="Ley 7600"
-                    className="mr-1"
-                    placeholder="Ley 7600"
-                  />
-                  <label>Ley 7600</label>
+              <div className="flex flex-wrap  w-full justify-center">
+                <div className="m-1 w-60 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value=""
+                      defaultValue={property?.ley7600}
+                      id="ley7600"
+                      name="ley7600"
+                      class="sr-only peer"
+                    />
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                      Ley 7600
+                    </span>
+                  </label>
                 </div>
-                <div className="m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
-                  <Field
-                    type="checkbox"
-                    name="serviciosMedicos"
-                    id="serviciosMedicos"
-                    className="mr-1"
-                    value="Servicios médicos"
-                    placeholder="Servicios médicos"
-                  />
-                  <label htmlFor="serviciosMedicos">Servicios médicos</label>
+                <div className="m-1 w-60 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value=""
+                      defaultValue={property?.serviciosMedicos}
+                      id="serviciosMedicos"
+                      name="serviciosMedicos"
+                      class="sr-only peer"
+                    />
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                      Servicios médicos
+                    </span>
+                  </label>
                 </div>
-                <div className="space mb-2.5">
-                  {errors.serviciosMedicos && touched.serviciosMedicos ? (
-                    <div className="errordiv text-xs">
-                      {errors.serviciosMedicos}
-                    </div>
-                  ) : null}
-                </div>
-                <div className="m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
-                  <Field
-                    type="checkbox"
-                    name="areaCarga"
-                    id="areaCarga"
-                    className="mr-1"
-                    value="Área carga"
-                    placeholder="Área carga"
-                  />
-                  <label htmlFor="areaCarga">Área carga</label>
-                </div>
-                <div className="space mb-2.5">
-                  {errors.areaCarga && touched.areaCarga ? (
-                    <div className="errordiv text-xs">{errors.areaCarga}</div>
-                  ) : null}
+                <div className="m-1 w-60 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value=""
+                      defaultValue={property?.areaCarga}
+                      id="areaCarga"
+                      name="areaCarga"
+                      class="sr-only peer"
+                    />
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                      Área carga
+                    </span>
+                  </label>
                 </div>
               </div>
             </div>
-
             <Select
-              className="categories"
+              className="categories "
               name="categories"
+              defaultInputValue={property?.categories}
               options={categories}
-              placeholder={"Seleccione las categorías"}
+              placeholder={"Categorías"}
               isMulti
               onChange={handleChangeCategory}
             />
-            <div className="space mb-2.5">
+            <div className="space mb-2.5 ">
               {errors.categories && touched.categories ? (
                 <div className="errordiv text-xs">{errors.categories}</div>
               ) : null}
@@ -754,7 +778,7 @@ const InsertProperty = () => {
               className="categories"
               name="amenidades"
               options={Amenidades}
-              placeholder={"Seleccione las amenidades"}
+              placeholder={"Amenidades"}
               isMulti
               onChange={handleChangeAmenidades}
             />
@@ -766,8 +790,9 @@ const InsertProperty = () => {
             <Select
               className="categories"
               name="jardinPatio"
+              defaultInputValue={property?.jardinPatio}
               options={PatioJardin}
-              placeholder={"Seleccione opciones de patio"}
+              placeholder={"Patio"}
               isMulti
               onChange={handleChangePatioJardin}
             />
@@ -779,8 +804,9 @@ const InsertProperty = () => {
             <Select
               className="categories"
               name="detallesInternos"
+              defaultInputValue={property?.detallesInternos}
               options={DetallesInternos}
-              placeholder={"Seleccione los detalles internos"}
+              placeholder={"Detalles internos"}
               isMulti
               onChange={handleChangeDetallesInternos}
             />
@@ -794,8 +820,9 @@ const InsertProperty = () => {
             <Select
               className="categories"
               name="detallesExternos"
+              defaultInputValue={property?.detallesExternos}
               options={DetallesExternos}
-              placeholder={"Seleccione los detalles externos"}
+              placeholder={"Detalles externos"}
               isMulti
               onChange={handleChangeDetallesExternos}
             />

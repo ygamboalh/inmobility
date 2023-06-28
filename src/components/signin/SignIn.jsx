@@ -72,48 +72,40 @@ const SignIn = () => {
         <label className="loginh5">Ingresa tus datos</label>
       </div>
       <form onSubmit={formik.handleSubmit} autoComplete="off">
-        <div className="div">
-          <span className="image-container">
+        <div class="relative w-80">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <BiUserCircle size={25} />
-          </span>
-          <div className="flex flex-col text-gray-500 text-left">
-            <label className="text-xs font-semibold text-gray-400 text-left ml-3">
-              Correo
-            </label>
-            <input
-              value={formik.values.identifier}
-              onChange={formik.handleChange}
-              placeholder="Correo electrónico"
-              type="email"
-              name="identifier"
-              className="input signin-email outline-none"
-            />
           </div>
+          <input
+            value={formik.values.identifier}
+            onChange={formik.handleChange}
+            placeholder="Correo electrónico"
+            type="email"
+            name="identifier"
+            class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
         </div>
-        <div className="space">
+        <div className="space -mt-4 mb-3">
           {formik.errors.identifier && formik.touched.identifier ? (
             <div className="errordiv text-xs">{formik.errors.identifier}</div>
           ) : null}
         </div>
-        <div className="div">
-          <div className="image-container">
+
+        <div class="relative w-80">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <BiLock size={25} />
           </div>
-          <div className="flex flex-col text-gray-500">
-            <label className="text-xs font-semibold text-gray-400 text-left ml-3">
-              Contraseña
-            </label>
-            <input
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              placeholder="Contraseña"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              className="input signin-email"
-            />
-          </div>
-          <div
-            className="input-container-right"
+          <input
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            placeholder="Contraseña"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+          <button
+            type="button"
+            class="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? (
@@ -121,9 +113,9 @@ const SignIn = () => {
             ) : (
               <BiHide size={25} color="#84a8e1" />
             )}
-          </div>
+          </button>
         </div>
-        <div className="space">
+        <div className="space -mt-4">
           {formik.errors.password && formik.touched.password ? (
             <div className="errordiv text-xs">{formik.errors.password}</div>
           ) : null}

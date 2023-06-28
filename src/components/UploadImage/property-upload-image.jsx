@@ -7,69 +7,69 @@ import { authUserData } from "../../api/usersApi";
 import * as Yup from "yup";
 import axios from "axios";
 
-const LoadImage = () => {
+const PropertyLoadImage = () => {
+  const [images, setImages] = useState(null);
+
+  const handleChange = (event) => {
+    setImages(event.target.files);
+  };
   const { data: userData } = useQuery("profile", authUserData);
   const id = userData?.id;
   const ref = "plugin::users-permissions.user";
   const refid = id;
   const field = "photo";
 
-  const [image, setImage] = useState(null);
+  const renameFile = (files) => {
+    const renamedFiles = [];
+    console.log(images);
+    const arrayLike = images;
+    const imagesArray = Array.from(arrayLike);
+    imagesArray.forEach((file, index) => {
+      const renamedFile = new File([file], `p-${"nombre"}_${index + 1}`, {
+        type: file.type,
+      });
 
-  const renameFile = (file) => {
-    const renamedFile = new File([file], `u-${userData.id}`, {
-      type: file.type,
+      renamedFiles.push(renamedFile);
     });
-    return renamedFile;
+    console.log(renameFile);
+    return renamedFiles;
   };
-  const handleChange = (event) => {
-    setImage(event.target.files[0]);
-  };
-  const deleteOldPhoto = async () => {
-    const id = `u-${userData.id}`;
-    const upload = await axios({
-      method: "DELETE",
-      url: `https://sistemacic.com/backend/api/upload/files/${id}`,
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    });
-  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    //buscar la imagen de perfil anterior y borrarla
-    if (userData.photo != null) {
-      deleteOldPhoto();
-    }
-    const renamedImageFile = renameFile(image);
+    const renamedImageFile = renameFile(images);
     const data = new FormData();
+    for (let i = 0; i < images.length; i++) {
+      data.append(`renamedImageFile[${i}]`, renamedImageFile[i]);
+    }
     data.append("files", renamedImageFile);
     data.append("ref", ref);
     data.append("refId", refid);
     data.append("field", field);
+    console.log(renamedImageFile);
 
-    const upload = await axios({
+    /* const upload = await axios({
       method: "POST",
       url: "https://sistemacic.com/backend/api/upload",
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
       data,
-    });
+    }); */
   };
 
   return (
-    <div className="profile-photo flex -mt-20 items-center justify-center">
+    <div className="profile-photo flex items-center justify-center">
       <form onSubmit={handleSubmit}>
         <div class="flex flex-col items-center justify-center w-full">
           <label
             for="dropzone-file"
-            className="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
           >
-            <div className="flex flex-col items-center justify-center my-2  pb-1">
+            <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
                 aria-hidden="true"
-                class="w-10 h-10 mb-3  text-gray-400"
+                class="w-10 h-10 mb-3 text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -86,12 +86,10 @@ const LoadImage = () => {
                 <span className="font-semibold">Agregar imagen</span>
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                {image ? (
-                  <span className="px-6">Imagen seleccionada</span>
+                {images?.length === 0 || !images ? (
+                  <span className="px-6">No hay imágenes</span>
                 ) : (
-                  <span className="font-semibold px-6">
-                    No ha seleccionado imagen
-                  </span>
+                  <span className="font-semibold px-6">{`${images?.length} imágenes seleccionadas`}</span>
                 )}
               </p>
             </div>
@@ -103,6 +101,7 @@ const LoadImage = () => {
               text="files"
               accept=".jpg,.png"
               onChange={handleChange}
+              multiple
             />
           </label>
           <button className="mt-4 text-xl mr-2 py-2 px-4 rounded bg-green-400 text-white">
@@ -114,4 +113,4 @@ const LoadImage = () => {
   );
 };
 
-export default LoadImage;
+export default PropertyLoadImage;

@@ -181,6 +181,7 @@ html {
 }
 .space{
   height: 21px;
+  margin-top: -20px;
 }
 .button-rq {
   background-color: white;
@@ -385,4 +386,20 @@ html {
   margin: 15px;
   align-self: center;
   color: white;
+}
+.myinput{
+  padding: 15px;
+  font-size: 12px;
+  border: 1px solid #585656;
+  border-radius: 15px;
+}
+.common-input{
+  width: 300px;
+  padding: 12px;
+  font-size: 13px;
+  border-radius: 10px;
+  border: 1px solid #8d8989;
+}
+.common-input:hover{
+  border-color: rgb(14, 13, 13);
 }

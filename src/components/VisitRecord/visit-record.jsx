@@ -19,7 +19,7 @@ const VisitSchema = Yup.object().shape({
     .required("¡El correo es requerido!"),
   phone: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
-    .min(10, "¡Teléfono invalido!")
+    .min(8, "¡Teléfono invalido!")
     .max(15, "¡Teléfono invalido!")
     .required("¡El número de teléfono es requerido!"),
   managment: Yup.string().required("¡La gestión es requerida!"),
