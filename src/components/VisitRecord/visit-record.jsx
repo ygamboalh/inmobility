@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-import { Alert, message, Spin } from "antd";
+import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import useScreenSize from "../../hooks/useScreenSize";
 import { API } from "../../constant";
 import { getToken } from "../../utils/helpers";
+import MySpinner from "../Spinner/spinner";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -86,7 +87,7 @@ const VisitRecord = () => {
     }
   };
   if (isLoading) {
-    return <Spin className="spinner" size="large" />;
+    return <MySpinner />;
   }
   return (
     <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">

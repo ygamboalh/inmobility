@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
-import { message, Spin } from "antd";
+import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 
 import AxiosInstance from "../../../api/AxiosInstance";
+import MySpinner from "../../../components/Spinner/spinner";
 
 const InsertLink = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const InsertLink = () => {
   };
 
   if (isLoading) {
-    return <Spin className="spinner" size="large" />;
+    return <MySpinner />;
   }
 
   return (

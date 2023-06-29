@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { Spin } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
+import MySpinner from "../../../components/Spinner/spinner";
 
 const LinkList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +133,7 @@ const LinkList = () => {
     setRecords(searchData);
   };
   if (isLoading || !records) {
-    return <Spin className="spinner" size="large" />;
+    return <MySpinner />;
   }
 
   return (
@@ -158,7 +158,7 @@ const LinkList = () => {
         title="Enlaces de interés"
         progressPending={pending}
         highlightOnHover
-        progressComponent={<Spin size="large" />}
+        progressComponent={<MySpinner />}
         paginationComponentOptions={paginationComponentOptions}
         subHeader
         subHeaderComponent={

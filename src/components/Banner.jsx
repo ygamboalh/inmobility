@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { Alert, Spin } from 'antd';
-
-import { getToken, getUser } from '../utils/helpers';
-import { API, BEARER } from '../constant';
+import { getToken } from "../utils/helpers";
+import { API, BEARER } from "../constant";
+import MySpinner from "./Spinner/spinner";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -12,59 +11,61 @@ const Banner = () => {
   const SelectLink = async () => {
     setIsLoading(true);
     const token = getToken();
-        
+
     const response = await fetch(`${API}/users/me?populate=role`, {
       method: "GET",
       headers: { Authorization: `${BEARER} ${token}` },
     });
     const data = await response.json();
-    if(response.statusCode !=200) 
-    {
+    if (response.statusCode != 200) {
       navigate("/user/access-denied", { replace: true });
     }
     const role = data.role.name;
-    
-    if(role == "Authenticated"){
-      navigate("/home/insert-property", { replace: true }); 
-    }
-    else if(role == "Visiter")
-    {
+
+    if (role == "Authenticated") {
+      navigate("/home/insert-property", { replace: true });
+    } else if (role == "Visiter") {
       navigate("/user/evaluating", { replace: true });
-    }
-    else {
+    } else {
       navigate("/user/access-denied", { replace: true });
     }
     setIsLoading(false);
+  };
+  if (isLoading) {
+    return <MySpinner />;
   }
-  if(isLoading){
-    return (
-      <Spin className="spinner" size='large'/>
-  )
-}
-  return <section className='h-full max-h-[640px] my-10' >
-    <div className='flex flex-col lg:flex-row' >
-      <div className='text-center flex flex-col w-full px-5 lg:flex-row lg:my-16 mx-auto gap-10 justify-center text-white font-semibold' >
-        <Link to='/ventas' >
-          <div className='border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-primary' >
-            <div className='text-lg' >Buscar Inmuebles en Venta</div>
-            <div className='font-thin text-sm' >presiona para ver todas las ventas</div>
-          </div>
-        </Link>
-        <Link to='/alquiler' >
-          <div className='border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-primary' >
-            <div className='text-lg' >Alquileres de Inmuebles</div>
-            <div className='font-thin text-sm' >presiona para ver todas los alquileres</div>
-          </div>
-        </Link>
-        <button onClick={SelectLink} type='button' >
-          <div className='border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-primary' >
-            <div className='text-lg' >Subir un inmueble</div>
-            <div className='font-thin text-sm' >si eres un asesor verificado podrás subir un inmueble</div>
-          </div>
-        </button>
+  return (
+    <section className="h-full max-h-[640px] my-10">
+      <div className="flex flex-col lg:flex-row">
+        <div className="text-center flex flex-col w-full px-5 lg:flex-row lg:my-16 mx-auto gap-10 justify-center text-white font-semibold">
+          <Link to="/ventas">
+            <div className="border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-primary">
+              <div className="text-lg">Buscar Inmuebles en Venta</div>
+              <div className="font-thin text-sm">
+                presiona para ver todas las ventas
+              </div>
+            </div>
+          </Link>
+          <Link to="/alquiler">
+            <div className="border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-primary">
+              <div className="text-lg">Alquileres de Inmuebles</div>
+              <div className="font-thin text-sm">
+                presiona para ver todas los alquileres
+              </div>
+            </div>
+          </Link>
+          <button onClick={SelectLink} type="button">
+            <div className="border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-primary">
+              <div className="text-lg">Subir un inmueble</div>
+              <div className="font-thin text-sm">
+                si eres un asesor verificado podrás subir un inmueble
+              </div>
+            </div>
+          </button>
+        </div>
       </div>
-    </div>
-  </section>;
+    </section>
+  );
 };
 
 export default Banner;

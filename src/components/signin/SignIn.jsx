@@ -4,12 +4,13 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 import { useSignIn } from "react-auth-kit";
-import { Alert, message, Spin } from "antd";
+import { message } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { BiShow, BiHide, BiUserCircle, BiLock } from "react-icons/bi";
 
 import { authUser } from "../../api/usersApi";
+import MySpinner from "../Spinner/spinner";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const SigninSchema = Yup.object().shape({
@@ -63,7 +64,7 @@ const SignIn = () => {
   });
 
   if (isLoading) {
-    return <Spin className="spinner" size="large" />;
+    return <MySpinner />;
   }
   return (
     <div className="flex my-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">

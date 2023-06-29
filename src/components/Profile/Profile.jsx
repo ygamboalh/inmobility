@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
-import { Spin, message } from "antd";
+import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
-import UpLoadImage from "../UploadImage/upload-image";
 import { types } from "../../BD/bd";
 import LoadImage from "../UploadImage/my-upload-image";
 import axios from "axios";
-import AxiosInstance from "../../api/AxiosInstance";
 import Thumbnail from "../Thumbnail/thumbnail";
+import MySpinner from "../Spinner/spinner";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -147,7 +146,7 @@ const Profile = () => {
   };
 
   if (isLoading || !userData) {
-    return <Spin className="spinner" size="large" />;
+    return <MySpinner />;
   }
 
   return (

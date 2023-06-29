@@ -4,11 +4,11 @@ import DataTable from "react-data-table-component";
 import { useQuery } from "react-query";
 import { API } from "../../../constant";
 import axios from "axios";
-import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { getToken } from "../../../utils/helpers";
+import MySpinner from "../../../components/Spinner/spinner";
 
 const UsersDesact = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -155,7 +155,7 @@ const UsersDesact = () => {
     setRecords(searchData);
   };
   if (isLoading || !records) {
-    return <Spin className="spinner" size="large" />;
+    return <MySpinner />;
   }
 
   return (
@@ -171,7 +171,7 @@ const UsersDesact = () => {
         title="Usuarios inactivos"
         progressPending={pending}
         highlightOnHover
-        progressComponent={<Spin size="large" />}
+        progressComponent={<MySpinner />}
         paginationComponentOptions={paginationComponentOptions}
         subHeader
         subHeaderComponent={

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
-import { Alert, message, Spin } from "antd";
+import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 
 import { API } from "../../../constant";
@@ -27,6 +27,7 @@ import {
 } from "../../../BD/bd";
 import Select from "react-select";
 import PropertyLoadImage from "../../../components/UploadImage/property-upload-image";
+import MySpinner from "../../../components/Spinner/spinner";
 
 const InsertProperty = () => {
   const { id } = useParams();
@@ -247,7 +248,7 @@ const InsertProperty = () => {
   };
 
   if (isLoading) {
-    return <Spin className="spinner" size="large" />;
+    return <MySpinner />;
   }
 
   return (

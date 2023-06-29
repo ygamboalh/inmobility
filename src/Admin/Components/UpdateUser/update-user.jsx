@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { message, Spin } from "antd";
+import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -9,6 +9,7 @@ import { Estado, TipoAsesor } from "../../../BD/bd";
 import { API } from "../../../constant";
 import { authUserData } from "../../../api/usersApi";
 import AxiosInstance from "../../../api/AxiosInstance";
+import MySpinner from "../../../components/Spinner/spinner";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -100,7 +101,7 @@ const UpdateUser = () => {
     }
   };
   if (isLoading) {
-    return <Spin className="spinner" size="large" />;
+    return <MySpinner />;
   }
 
   return (
@@ -271,7 +272,7 @@ const UpdateUser = () => {
                   type="submit"
                   className="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
                 >
-                  Agregar{isLoading && <Spin size="small" />}
+                  Agregar
                 </button>
               </div>
             </div>

@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "react-query";
 
-import { message, Spin } from "antd";
+import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import { API } from "../../constant";
 import { userIntser } from "../../api/usersApi";
+import MySpinner from "../Spinner/spinner";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -154,7 +155,7 @@ const RegisterRequest = () => {
     }
   };
   if (isLoading) {
-    return <Spin className="spinner" size="large" />;
+    return <MySpinner />;
   }
   return (
     <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
@@ -230,7 +231,7 @@ const RegisterRequest = () => {
               className="common-input"
             />
 
-            <div className="space mb-2.5">
+            <div className="space">
               {errors.mobile && touched.mobile ? (
                 <div className="errordiv text-xs">{errors.mobile}</div>
               ) : null}
@@ -243,7 +244,7 @@ const RegisterRequest = () => {
               className="common-input"
             />
 
-            <div className="space mb-2.5">
+            <div className="space">
               {errors.company && touched.company ? (
                 <div className="errordiv text-xs">{errors.company}</div>
               ) : null}
@@ -274,7 +275,7 @@ const RegisterRequest = () => {
                 <div className="errordiv text-xs">{errors.password}</div>
               ) : null}
             </div>
-            <div className="mb-1 -mt-3 text-left">
+            <div className="mb-1 mt-1 text-left">
               <label className="text-sm ml-2">
                 Tipo de asesor inmobiliario
               </label>
