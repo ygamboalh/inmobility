@@ -175,9 +175,9 @@ html {
 
 .errordiv {
   color: red;
-  margin-top: 24px;
+  margin-top: 14px;
   margin-left: -6px;
-  font-size: 16px;
+  font-size: 12px;
 }
 .space{
   height: 21px;
@@ -337,10 +337,11 @@ html {
 }
 
 .spinner {
-  text-align: center;
-  background: transparent;
-  flex: 1;
-  align-self: center;
+  position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
 }
 
 .create-user-image {

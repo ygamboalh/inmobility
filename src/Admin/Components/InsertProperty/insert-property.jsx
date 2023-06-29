@@ -24,6 +24,7 @@ import {
   Estado,
   DetallesExternosMulti,
   CategoriaInmueble,
+  types,
 } from "../../../BD/bd";
 import Select from "react-select";
 import PropertyLoadImage from "../../../components/UploadImage/property-upload-image";
@@ -259,6 +260,7 @@ const InsertProperty = () => {
           Crear o editar una propiedad
         </label>
       </div>
+
       <PropertyLoadImage />
       <Formik
         initialValues={initialData}
@@ -267,6 +269,22 @@ const InsertProperty = () => {
       >
         {({ errors, touched }) => (
           <Form /* onFinish={onFinish} */ autoComplete="off">
+            <div className="flex justify-center w-screen flex-row content-center items-center">
+              <Field
+                as="select"
+                name="selectCategory"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/3 p-2"
+              >
+                <option value="" label="">
+                  {"Seleccione la categoría"}
+                </option>
+                {categories.map((item) => (
+                  <option value={item.value} label={item.label}>
+                    {item.value}
+                  </option>
+                ))}
+              </Field>
+            </div>
             <div className="flex flex-wrap justify-center m-3">
               <Field
                 type="text"
