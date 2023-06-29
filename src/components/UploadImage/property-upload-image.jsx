@@ -6,18 +6,19 @@ import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 import * as Yup from "yup";
 import axios from "axios";
-
+import { API } from "../../constant";
+import MySpinner from "../../components/Spinner/spinner";
+import { Spin, message } from "antd";
 const PropertyLoadImage = () => {
   const [images, setImages] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event) => {
-    setImages(event.target.files);
+    setImages(event.target.files[0]);
   };
-  const { data: userData } = useQuery("profile", authUserData);
-  const id = userData?.id;
-  const ref = "plugin::users-permissions.user";
-  const refid = id;
-  const field = "photo";
+  const ref = "api::property.property";
+  const refid = 154;
+  const field = "photos";
 
   const renameFile = (files) => {
     const renamedFiles = [];
@@ -31,31 +32,36 @@ const PropertyLoadImage = () => {
 
       renamedFiles.push(renamedFile);
     });
-    console.log(renameFile);
     return renamedFiles;
   };
 
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
-    const renamedImageFile = renameFile(images);
+    //const renamedImageFile = renameFile(images);
     const data = new FormData();
-    for (let i = 0; i < images.length; i++) {
-      data.append(`renamedImageFile[${i}]`, renamedImageFile[i]);
-    }
-    data.append("files", renamedImageFile);
+    /* for (let i = 0; i < images.length; i++) {
+      data.append(`images[${i}]`, images[i]);
+    } */
+    data.append("files", images);
     data.append("ref", ref);
     data.append("refId", refid);
     data.append("field", field);
-    console.log(renamedImageFile);
-
-    /* const upload = await axios({
+    console.log(images);
+    console.log("data", data);
+    const upload = await axios({
       method: "POST",
-      url: "https://sistemacic.com/backend/api/upload",
+      url: `${API}upload`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
       data,
-    }); */
+    })
+      .then(message.success("¡La imagen se envió correctamente!"))
+      .catch((error) => {
+        message.error("¡No se pudo enviar la imagen. Intente de nuevo!");
+      });
+    setIsLoading(false);
   };
 
   return (
@@ -101,11 +107,11 @@ const PropertyLoadImage = () => {
               text="files"
               accept=".jpg,.png"
               onChange={handleChange}
-              multiple
+              /* multiple */
             />
           </label>
           <button className="mt-4 text-xl mr-2 py-2 px-4 rounded bg-green-400 text-white">
-            Actualizar
+            Actualizar{isLoading && <Spin color="white" size="medium" />}
           </button>
         </div>
       </form>

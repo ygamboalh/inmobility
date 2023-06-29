@@ -6,6 +6,7 @@ import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 import * as Yup from "yup";
 import axios from "axios";
+import { API } from "../../constant";
 
 const LoadImage = () => {
   const { data: userData } = useQuery("profile", authUserData);
@@ -16,20 +17,20 @@ const LoadImage = () => {
 
   const [image, setImage] = useState(null);
 
+  const handleChange = (event) => {
+    setImage(event.target.files[0]);
+  };
   const renameFile = (file) => {
     const renamedFile = new File([file], `u-${userData.id}`, {
       type: file.type,
     });
     return renamedFile;
   };
-  const handleChange = (event) => {
-    setImage(event.target.files[0]);
-  };
   const deleteOldPhoto = async () => {
     const id = `u-${userData.id}`;
     const upload = await axios({
       method: "DELETE",
-      url: `https://sistemacic.com/backend/api/upload/files/${id}`,
+      url: `${API}upload/files/${id}`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
@@ -50,7 +51,7 @@ const LoadImage = () => {
 
     const upload = await axios({
       method: "POST",
-      url: "https://sistemacic.com/backend/api/upload",
+      url: `${API}upload`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },

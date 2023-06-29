@@ -76,7 +76,7 @@ const Profile = () => {
 
     const upload = await axios({
       method: "POST",
-      url: "https://sistemacic.com/backend/api/upload",
+      url: `${API}/upload`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },

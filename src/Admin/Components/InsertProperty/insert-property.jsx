@@ -104,7 +104,7 @@ const InsertProperty = () => {
 
   useEffect(() => {
     const response = AxiosInstance.get(`properties/${id}`).then((property) =>
-      setProperty(property.data.data.attributes)
+      setProperty(property?.data?.data?.attributes)
     );
   }, []);
 

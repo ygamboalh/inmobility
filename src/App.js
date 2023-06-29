@@ -45,7 +45,7 @@ const App = () => {
                 <Route path='/alquiler/*' element={<Search />} />
                 <Route path='/property/:id' element={<PropertyDetails />} />
                 <Route path="/user/verified-adviser" element={<VerifiedAdviser />}/>
-               {/*  <Route path="/user/profile" element={<Profile />} /> */}
+                <Route path="/user/profile" element={<Profile />} />
                 <Route path="/auth/change-password" element={<ChangePassword />} />
                 <Route path="/home/insert-property" element={<InsertProperty />} />
                 <Route path="/home/banner" element={<Banner />} />
@@ -62,16 +62,15 @@ const App = () => {
                 <Route path="/home/visit-record" element={<VisitRecord />} />
                 <Route path="/user/terms" element={<Terms />} />
                 <Route path="/user/logout" element={<Logout />} />
-               <Route path="/user/profile" element={<Profile />} />
                <Route path='*' element={<NotFound />} />
-               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
+               
             </Route>
           </Route>
 
           <Route element={<AdminLayout />}>
             <Route element={<ProtectedRoutes/>}>
               <Route exact path="/admin/properties/property-detail/:id" element={<PropertyDetailsAdmin />} />
-            {/*   <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} /> */}
+              <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
               <Route exact path="/admin/properties/insert-property/:id" element={<InsertProperty />} />
               <Route exact path='/admin/properties' element={<Properties />} />
               <Route exact path='/admin/links' element={<Links />} />

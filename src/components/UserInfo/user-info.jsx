@@ -16,13 +16,13 @@ const UserInfo = () => {
   const signOut = useSignOut();
   const [isOpen, setIsOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState(
-    "https://sistemacic.com/backend/uploads/small_userinfo_dac703068b.png"
+    "http://147.182.188.52/backend/uploads/small_userinfo_dac703068b.png"
   );
   const { data: userData } = useQuery("profile", authUserData);
   const id = userData?.id;
   const user = AxiosInstance.get(`users/${id}?populate=photo`).then((data) => {
     const image = data?.data?.photo?.url;
-    const url = `https://sistemacic.com/backend${image}`;
+    const url = `http://147.182.188.52/backend${image}`;
 
     setImageUrl(url);
   });

@@ -1,7 +1,7 @@
 export const AVATAR_API = "https://ui-avatars.com/api";
       //export const API = "https://sistemacic-backend.herokuapp.com/api";
-      //export const API = "http://147.182.188.52/backend/api/"; 
-      export const API = "https://sistemacic.com/backend/api/";
+      export const API = "http://147.182.188.52/backend/api/"; 
+      //export const API = "https://sistemacic.com/backend/api/";
       export const AUTH_USER = "authUser";
       export const AUTH_TOKEN = "access_token";
       export const ACCESS_TOKEN_STATE = "access_token_state";
