@@ -30,19 +30,19 @@ const RegisterSchema = Yup.object().shape({
     .required("¡El nombre de la empresa es requerido!"),
   address: Yup.string()
     .min(4, "¡Debe ser más larga!")
-    .max(50, "¡Demasiado larga!")
+    .max(400, "¡Demasiado larga!")
     .required("¡Su dirección es requerida!"),
   type: Yup.string().required("¡El tipo de asesor es requerido!"),
   active: Yup.string().required("¡El estado es requerido!"),
   acept: Yup.boolean().oneOf([true], "¡Debe aceptar los términos!"),
   phone: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
-    .min(10, "¡Teléfono invalido!")
+    .min(8, "¡Teléfono invalido!")
     .max(15, "¡Teléfono invalido!")
     .required("¡El teléfono de la oficina es requerido!"),
   mobile: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
-    .min(10, "¡Teléfono invalido!")
+    .min(8, "¡Teléfono invalido!")
     .max(15, "¡Teléfono invalido!")
     .required("¡El teléfono celular es requerido!"),
   personalId: Yup.string()

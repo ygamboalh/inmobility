@@ -11,7 +11,7 @@ import MySpinner from "../../../components/Spinner/spinner";
 const InsertLink = () => {
   const navigate = useNavigate();
 
-  const urlRegex = "^(https?|ftp)://[^s/$.?#].[^s]*$";
+  const urlRegex = "^(http|https|ftp)://.*";
   const InsertLinkSchema = Yup.object().shape({
     url: Yup.string().matches(urlRegex, "*").required("*"),
   });

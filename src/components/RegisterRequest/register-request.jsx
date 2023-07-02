@@ -27,7 +27,7 @@ const RegisterSchema = Yup.object().shape({
     .required("¡El nombre de la empresa es requerido!"),
   address: Yup.string()
     .min(4, "¡Debe ser más larga!")
-    .max(50, "¡Demasiado larga!")
+    .max(400, "¡Demasiado larga!")
     .required("¡Su dirección es requerida!"),
   type: Yup.string().required("¡El tipo de asesor es requerido!"),
   acept: Yup.boolean().oneOf([true], "¡Debe aceptar los términos!"),

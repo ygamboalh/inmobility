@@ -87,23 +87,19 @@ const ChangePassword = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="div">
-              <div className="image-container">
-                <BiLockOpen size={25} />
+            <div class="relative w-80">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <BiLock size={25} />
               </div>
-              <div className="flex flex-col text-gray-500">
-                <label className="text-xs font-semibold text-gray-400 text-left ml-3">
-                  Contraseña anterior
-                </label>
-                <Field
-                  placeholder="Contraseña"
-                  type={showPassword ? "text" : "password"}
-                  name="currentPassword"
-                  className="input signin-email"
-                />
-              </div>
-              <div
-                className="input-container-right"
+              <Field
+                placeholder="Contraseña actual"
+                type={showPassword ? "text" : "password"}
+                name="currentPassword"
+                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+              <button
+                type="button"
+                class="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
@@ -111,30 +107,27 @@ const ChangePassword = () => {
                 ) : (
                   <BiHide size={25} color="#84a8e1" />
                 )}
-              </div>
+              </button>
             </div>
             <div className="space">
               {errors.currentPassword && touched.currentPassword ? (
                 <div className="errordiv text-xs">{errors.currentPassword}</div>
               ) : null}
             </div>
-            <div className="div">
-              <div className="image-container">
+
+            <div class="relative w-80">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <BiLock size={25} />
               </div>
-              <div className="flex flex-col text-gray-500">
-                <label className="text-xs font-semibold text-gray-400 text-left ml-3">
-                  Contraseña
-                </label>
-                <Field
-                  placeholder="Contraseña"
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  className="input signin-email"
-                />
-              </div>
-              <div
-                className="input-container-right"
+              <Field
+                placeholder="Nueva contraseña"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+              <button
+                type="button"
+                class="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
@@ -142,30 +135,26 @@ const ChangePassword = () => {
                 ) : (
                   <BiHide size={25} color="#84a8e1" />
                 )}
-              </div>
+              </button>
             </div>
             <div className="space">
               {errors.password && touched.password ? (
                 <div className="errordiv text-xs">{errors.password}</div>
               ) : null}
             </div>
-            <div className="div">
-              <div className="image-container">
+            <div class="relative w-80">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <BiLock size={25} />
               </div>
-              <div className="flex flex-col text-gray-500">
-                <label className="text-xs font-semibold text-gray-400 text-left ml-3">
-                  Repetir Contraseña
-                </label>
-                <Field
-                  placeholder="Repetir Contraseña"
-                  type={showPassword ? "text" : "password"}
-                  name="passwordConfirmation"
-                  className="input signin-email"
-                />
-              </div>
-              <div
-                className="input-container-right"
+              <Field
+                placeholder="Repetir contraseña"
+                type={showPassword ? "text" : "password"}
+                name="passwordConfirmation"
+                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+              <button
+                type="button"
+                class="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
@@ -173,7 +162,7 @@ const ChangePassword = () => {
                 ) : (
                   <BiHide size={25} color="#84a8e1" />
                 )}
-              </div>
+              </button>
             </div>
             <div className="space">
               {errors.passwordConfirmation && touched.passwordConfirmation ? (

@@ -54,7 +54,9 @@ const SignIn = () => {
             authState: data.user,
           });
           window.location.reload(true);
-          message.success(`¡Bienvenido ${data.user.username}!`);
+          message.success(
+            `¡Bienvenido(a) al Sistema Costarricense de Consultas Inmobiliarias Centralizadas.!`
+          );
         },
         onError: (error) => {
           message.error(`¡Ocurrió un error. Vuelva a intentarlo!`);

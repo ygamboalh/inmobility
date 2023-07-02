@@ -9,6 +9,7 @@ import axios from "axios";
 import { API } from "../../constant";
 import MySpinner from "../../components/Spinner/spinner";
 import { Spin, message } from "antd";
+
 const PropertyLoadImage = () => {
   const [images, setImages] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -110,8 +111,8 @@ const PropertyLoadImage = () => {
               /* multiple */
             />
           </label>
-          <button className="mt-4 text-xl mr-2 py-2 px-4 rounded bg-green-400 text-white">
-            Actualizar{isLoading && <Spin color="white" size="medium" />}
+          <button className="mt-4 text-l mr-2 py-2 px-4 rounded bg-green-400 text-white">
+            Subir imágenes{isLoading && <Spin color="white" size="medium" />}
           </button>
         </div>
       </form>

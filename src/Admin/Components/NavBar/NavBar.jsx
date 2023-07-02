@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import Dropdown from "../Dropdown/Dropdown";
 
@@ -12,6 +12,11 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const inactiveClass =
+    "block py-2 pl-3 pr-4 md:p-0 rounded md:bg-transparent text-white";
+  const activeClass = "block py-2 pl-3 pr-4 md:p-0 rounded  text-black ";
+
   return (
     <nav className="bg-white nav-bar z-10 fixed w-screen border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -47,42 +52,30 @@ const Navbar = () => {
           id="mobile-menu-2"
         >
           <ul className="flex nav-bar flex-col font-medium p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
-            <Link to="/admin/properties" className="">
-              <button
-                type="button"
-                onClick={() => handleActive(1)}
-                className={`block py-2 pl-3 pr-4 md:p-0 rounded md:bg-transparent" ${
-                  active === 1 ? "text-black" : "text-white"
-                }`}
-                aria-current="page"
-              >
-                Inmuebles
-              </button>
-            </Link>
-            <Link to="/admin/users" className="">
-              <button
-                type="button"
-                onClick={() => handleActive(2)}
-                className={`block py-2 pl-3 pr-4 md:p-0 rounded md:bg-transparent" ${
-                  active === 2 ? "text-black" : "text-white"
-                }`}
-                aria-current="page"
-              >
-                Usuarios
-              </button>
-            </Link>
-            <Link to="/admin/links" className="">
-              <button
-                type="button"
-                onClick={() => handleActive(3)}
-                className={`block py-2 pl-3 pr-4 md:p-0 rounded md:bg-transparent" ${
-                  active === 3 ? "text-black" : "text-white"
-                }`}
-                aria-current="page"
-              >
-                Enlaces de interés
-              </button>
-            </Link>
+            <NavLink
+              to="/admin/properties"
+              className={({ isActive }) =>
+                isActive ? activeClass : inactiveClass
+              }
+            >
+              Inmuebles
+            </NavLink>
+            <NavLink
+              to="/admin/users"
+              className={({ isActive }) =>
+                isActive ? activeClass : inactiveClass
+              }
+            >
+              Usuarios
+            </NavLink>
+            <NavLink
+              to="/admin/links"
+              className={({ isActive }) =>
+                isActive ? activeClass : inactiveClass
+              }
+            >
+              Enlaces de interés
+            </NavLink>
           </ul>
         </div>
       </div>

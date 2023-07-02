@@ -78,7 +78,9 @@ const VisitRecord = () => {
       });
 
       const data = await response.json();
-      message.success(`¡Bienvenido(a)! ${value.fullname}`);
+      message.success(
+        `¡Bienvenido(a) al Sistema Costarricense de Consultas Inmobiliarias Centralizadas.!`
+      );
       navigate("/home/banner/visiter", { replace: true });
     } catch (error) {
       message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
@@ -105,81 +107,75 @@ const VisitRecord = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="div -mt-4">
-              <div className="flex flex-col text-gray-500 text-left">
-                <Field
-                  placeholder="Nombre completo"
-                  type="text"
-                  name="fullname"
-                  className="regular-input focus:outline-none"
-                />
-              </div>
+            <div className="flex flex-col text-gray-500 text-left">
+              <Field
+                placeholder="Nombre completo"
+                type="text"
+                name="fullname"
+                className="common-input"
+              />
             </div>
             <div className="space">
               {errors.fullname && touched.fullname ? (
                 <div className="errordiv text-xs">{errors.fullname}</div>
               ) : null}
             </div>
-            <div className="div -mt-1">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  placeholder="Correo electrónico"
-                  name="email"
-                  type="email"
-                  className="regular-input"
-                />
-              </div>
+            <div className="flex flex-col text-gray-500 text-left">
+              <Field
+                placeholder="Correo electrónico"
+                type="text"
+                name="email"
+                className="common-input"
+              />
             </div>
             <div className="space">
               {errors.email && touched.email ? (
                 <div className="errordiv text-xs">{errors.email}</div>
               ) : null}
             </div>
-            <div className="div -mt-1 mb-0">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  placeholder="Número de teléfono"
-                  name="phone"
-                  type="text"
-                  className="regular-input"
-                />
-              </div>
+
+            <div className="flex flex-col text-gray-500 text-left">
+              <Field
+                placeholder="Número de teléfono"
+                type="text"
+                name="phone"
+                className="common-input"
+              />
             </div>
             <div className="space">
               {errors.phone && touched.phone ? (
                 <div className="errordiv text-xs">{errors.phone}</div>
               ) : null}
             </div>
-            <div className="mb-1 -mt-3 text-left">
+            <div className="mb-1 text-left">
               <label className="text-sm ml-2">
                 ¿Qué gestión deseas hacer hoy?
               </label>
             </div>
-            <div className="div mt-1 mb-1">
-              <div className="flex flex-col">
-                <Field
-                  className="w-60 regular-input"
-                  as="select"
-                  name="managment"
-                  id="type"
-                >
-                  <option value="" label="">
-                    {"OPCIONES"}
+
+            <div className="flex flex-col">
+              <Field
+                className="w-60 common-input"
+                as="select"
+                name="managment"
+                id="type"
+              >
+                <option value="" label="">
+                  {"OPCIONES"}
+                </option>
+                {options.map((item) => (
+                  <option value={item.value} label={item.label}>
+                    {item.value}
                   </option>
-                  {options.map((item) => (
-                    <option value={item.value} label={item.label}>
-                      {item.value}
-                    </option>
-                  ))}
-                </Field>
-              </div>
+                ))}
+              </Field>
             </div>
             <div className="space">
               {errors.managment && touched.managment ? (
                 <div className="errordiv text-xs">{errors.managment}</div>
               ) : null}
             </div>
-            <div className="text-left -mt-2">
+            <div className="text-left mt-2">
               <b className="text-s">Sistema CIC</b>
             </div>
             <div className="mb-0 text-left mt-0 flex flex-col">

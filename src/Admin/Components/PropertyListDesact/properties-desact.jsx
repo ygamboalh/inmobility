@@ -7,28 +7,38 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
+import { useQuery, useQueryClient } from "react-query";
+import { getAllPropertiesRQ } from "../../../api/propertiesApi";
 
 const PropertiesDesact = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
   const [filterRecords, setFilterRecords] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const foundedProperties = [];
-    const data = axios.get(`${API}properties`).then((res) => {
-      res.data.data &&
-        res.data.data.forEach((property) => {
+  const { data, isLoading: loadingProperties } = useQuery(
+    "properties",
+    getAllPropertiesRQ,
+    {
+      onSuccess: (data) => {
+        const foundedProperties = [];
+        data.data.forEach((property) => {
           if (property.attributes.active === "Desactivado") {
             foundedProperties.push(property);
           }
         });
-      setRecords(foundedProperties);
-      setFilterRecords(foundedProperties);
-      setPending(false);
-    });
-  }, []);
+
+        setRecords(foundedProperties);
+        setFilterRecords(foundedProperties);
+        setPending(false);
+      },
+    }
+  );
+  if (loadingProperties) {
+    return <MySpinner />;
+  }
 
   const DeleteProperty = async (id) => {
     setIsLoading(true);
@@ -49,6 +59,7 @@ const PropertiesDesact = () => {
           },
         });
         if (result) {
+          queryClient.invalidateQueries(["properties"]);
           Swal.fire("Inmueble eliminado!", "", "success");
         } else {
           Swal.fire("El Inmueble no fue eliminado", "", "error");
@@ -75,6 +86,14 @@ const PropertiesDesact = () => {
       sortable: true,
       width: "60px",
       id: "id",
+    },
+    {
+      name: "Categoria",
+      id: "categoria",
+      selector: (row, index) =>
+        row.attributes.categories.data[0]?.attributes.nombre,
+      sortable: true,
+      width: "150px",
     },
     {
       name: "Provincia",
@@ -115,13 +134,6 @@ const PropertiesDesact = () => {
       name: "Precio",
       id: "precio",
       selector: (row) => row.attributes.precio,
-      sortable: true,
-      width: "90px",
-    },
-    {
-      name: "Baños",
-      id: "banos",
-      selector: (row) => row.attributes.banos,
       sortable: true,
       width: "90px",
     },

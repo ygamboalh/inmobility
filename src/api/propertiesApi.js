@@ -9,6 +9,10 @@ export const getAllProperties = async () => {
   const { data } = await AxiosInstance.get('/properties');
   return data
 }
+export const getAllPropertiesRQ = async () => {
+  const { data } = await AxiosInstance.get('/properties?populate=*');
+  return data
+}
 
 export const getAllLinks = async () => {
   const { data } = await AxiosInstance.get('/links');
