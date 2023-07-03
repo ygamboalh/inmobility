@@ -24,6 +24,9 @@ export const getToken = () => {
 };
 export const getUser = () => {
   return localStorage.getItem(AUTH_USER);
+}; 
+export const getUserRole = () => {
+  return localStorage.getItem(ACCESS_TOKEN_STATE);
 };  
 
  export const setToken = (token) => {

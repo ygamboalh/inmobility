@@ -17,14 +17,17 @@ const Banner = () => {
       headers: { Authorization: `${BEARER} ${token}` },
     });
     const data = await response.json();
-    if (response.statusCode != 200) {
+    if (response.statusCode !== 200) {
       navigate("/user/access-denied", { replace: true });
     }
     const role = data.role.name;
 
-    if (role == "Authenticated") {
+    if (role === "SuperAdmin") {
+      navigate("/admin/properties/insert-property", { replace: true });
+    }
+    if (role === "Authenticated") {
       navigate("/home/insert-property", { replace: true });
-    } else if (role == "Visiter") {
+    } else if (role === "Visiter") {
       navigate("/user/evaluating", { replace: true });
     } else {
       navigate("/user/access-denied", { replace: true });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getActiveProperties } from "../../../api/propertiesApi";
 import DataTable from "react-data-table-component";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { API } from "../../../constant";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
+import { getAllUsers } from "../../../api/usersApi";
 
 const UsersDesact = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,26 +17,25 @@ const UsersDesact = () => {
   const [pending, setPending] = React.useState(true);
   const [filterRecords, setFilterRecords] = useState([]);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const foundedUsers = [];
-    const data = axios.get(`${API}users`).then((res) => {
-      res.data &&
-        res.data.forEach((user) => {
-          if (user.active === "Desactivado") {
-            foundedUsers.push(user);
-          }
-        });
-      console.log(res);
+  const { data, isLoading: loadingUsers } = useQuery("users", getAllUsers, {
+    onSuccess: (data) => {
+      const foundedUsers = [];
+      data.forEach((user) => {
+        if (user.active === "Desactivado") {
+          foundedUsers.push(user);
+        }
+      });
       setRecords(foundedUsers);
       setFilterRecords(foundedUsers);
       setPending(false);
-    });
-  }, []);
+    },
+  });
 
   const DeleteUser = async (id) => {
-    setIsLoading(true);
     const MySwal = withReactContent(Swal);
+    setIsLoading(true);
     MySwal.fire({
       title: "¿Desea eliminar el usuario?",
       showDenyButton: true,
@@ -50,7 +50,11 @@ const UsersDesact = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
-        });
+        }).then((result) =>
+          queryClient
+            .invalidateQueries(["users"])
+            .then((resultado) => console.log(resultado))
+        );
         if (result) {
           Swal.fire("Usuario eliminado!", "", "success");
         } else {

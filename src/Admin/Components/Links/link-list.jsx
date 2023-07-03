@@ -9,6 +9,8 @@ import withReactContent from "sweetalert2-react-content";
 import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
+import { useQuery, useQueryClient } from "react-query";
+import { getAllLinks } from "../../../api/propertiesApi";
 
 const LinkList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,28 +18,25 @@ const LinkList = () => {
   const [pending, setPending] = React.useState(true);
   const [filterRecords, setFilterRecords] = useState([]);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    let foundedLinks = [];
-    const response = axios
-      .get(`${API}links`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      })
-      .then((res) => {
-        foundedLinks = res.data.data;
-        setRecords(foundedLinks);
-        setFilterRecords(foundedLinks);
-        setPending(false);
+  const { data, isLoading: loadingLinks } = useQuery("links", getAllLinks, {
+    onSuccess: (data) => {
+      const foundedLinks = [];
+      data.data.forEach((link) => {
+        foundedLinks.push(link);
       });
-  }, []);
-
+      setRecords(foundedLinks);
+      setFilterRecords(foundedLinks);
+      setPending(false);
+    },
+  });
+  if (loadingLinks) {
+    return <MySpinner />;
+  }
   const DeleteLink = async (id) => {
-    setIsLoading(true);
     const MySwal = withReactContent(Swal);
+    setIsLoading(true);
     MySwal.fire({
       title: "¿Desea eliminar el enlace?",
       showDenyButton: true,
@@ -52,7 +51,7 @@ const LinkList = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
-        });
+        }).then((result) => queryClient.invalidateQueries(["links"]));
         if (result) {
           Swal.fire("Enlace eliminado!", "", "success");
         } else {

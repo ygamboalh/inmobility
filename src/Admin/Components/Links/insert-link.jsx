@@ -42,7 +42,6 @@ const InsertLink = () => {
         message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
       }
     } catch (error) {
-      console.log(error);
       message.error("¡Ocurrió un error inesperado!");
     } finally {
       setIsLoading(false);

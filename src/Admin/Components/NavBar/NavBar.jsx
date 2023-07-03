@@ -5,10 +5,6 @@ import Dropdown from "../Dropdown/Dropdown";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [active, setActive] = useState(1);
-  const handleActive = (menuNumber) => {
-    setActive(menuNumber);
-  };
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };

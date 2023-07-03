@@ -106,7 +106,6 @@ const InsertUser = () => {
           value
         );
 
-        console.log(response);
         if (response.status === 200) {
           message.success("El usuario se actualizó exitosamente");
           navigate("/admin/users");
@@ -125,7 +124,6 @@ const InsertUser = () => {
         });
       }
     } catch (error) {
-      console.log(error);
       message.error("Ocurrió un error inesperado. Intente de nuevo!");
     } finally {
       setIsLoading(false);
@@ -160,7 +158,12 @@ const InsertUser = () => {
                 <div className="flex flex-col justify-center">
                   {role === "Authenticated" ? (
                     <div className="flex flex-col">
-                      <Thumbnail /> <LoadImage />
+                      <div className="my-24">
+                        <Thumbnail />
+                      </div>
+                      <div>
+                        <LoadImage />
+                      </div>
                     </div>
                   ) : (
                     <span></span>
@@ -176,7 +179,7 @@ const InsertUser = () => {
                 />
                 <div className="space">
                   {errors.username && touched.username ? (
-                    <div className="errordiv text-xs">{errors.username}</div>
+                    <div className="errordivp text-xs">{errors.username}</div>
                   ) : null}
                 </div>
                 <Field
@@ -187,7 +190,7 @@ const InsertUser = () => {
                 />
                 <div className="space">
                   {errors.personalId && touched.personalId ? (
-                    <div className="errordiv text-xs">{errors.personalId}</div>
+                    <div className="errordivp text-xs">{errors.personalId}</div>
                   ) : null}
                 </div>
                 <Field
@@ -198,7 +201,7 @@ const InsertUser = () => {
                 />
                 <div className="space">
                   {errors.email && touched.email ? (
-                    <div className="errordiv text-xs">{errors.email}</div>
+                    <div className="errordivp text-xs">{errors.email}</div>
                   ) : null}
                 </div>
                 <Field
@@ -209,7 +212,7 @@ const InsertUser = () => {
                 />
                 <div className="space">
                   {errors.phone && touched.phone ? (
-                    <div className="errordiv text-xs">{errors.phone}</div>
+                    <div className="errordivp text-xs">{errors.phone}</div>
                   ) : null}
                 </div>
                 <Field
@@ -220,7 +223,7 @@ const InsertUser = () => {
                 />
                 <div className="space">
                   {errors.mobile && touched.mobile ? (
-                    <div className="errordiv text-xs">{errors.mobile}</div>
+                    <div className="errordivp text-xs">{errors.mobile}</div>
                   ) : null}
                 </div>
               </div>
@@ -233,7 +236,7 @@ const InsertUser = () => {
                 />
                 <div className="space">
                   {errors.company && touched.company ? (
-                    <div className="errordiv text-xs">{errors.company}</div>
+                    <div className="errordivp text-xs">{errors.company}</div>
                   ) : null}
                 </div>
                 <Field
@@ -244,7 +247,7 @@ const InsertUser = () => {
                 />
                 <div className="space">
                   {errors.address && touched.address ? (
-                    <div className="errordiv text-xs">{errors.address}</div>
+                    <div className="errordivp text-xs">{errors.address}</div>
                   ) : null}
                 </div>
                 <Field
@@ -255,7 +258,7 @@ const InsertUser = () => {
                 />
                 <div className="space">
                   {errors.password && touched.password ? (
-                    <div className="errordiv text-xs">{errors.password}</div>
+                    <div className="errordivp text-xs">{errors.password}</div>
                   ) : null}
                 </div>
                 <Field
@@ -276,7 +279,7 @@ const InsertUser = () => {
                 </Field>
                 <div className="space">
                   {errors.type && touched.type ? (
-                    <div className="errordiv text-xs">{errors.type}</div>
+                    <div className="errordivp text-xs">{errors.type}</div>
                   ) : null}
                 </div>
                 <Field
@@ -297,7 +300,7 @@ const InsertUser = () => {
                 </Field>
                 <div className="space">
                   {errors.active && touched.active ? (
-                    <div className="errordiv text-xs">{errors.active}</div>
+                    <div className="errordivp text-xs">{errors.active}</div>
                   ) : null}
                 </div>
               </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
-import { message } from "antd";
+import { Spin, message } from "antd";
 import { Formik, Form, Field } from "formik";
 
 import { API } from "../../../constant";
@@ -40,6 +40,8 @@ import {
 import Select from "react-select";
 import PropertyLoadImage from "../../../components/UploadImage/property-upload-image";
 import MySpinner from "../../../components/Spinner/spinner";
+import axios from "axios";
+import { getToken } from "../../../utils/helpers";
 
 const InsertProperty = () => {
   const { id } = useParams();
@@ -51,7 +53,7 @@ const InsertProperty = () => {
     distrito: Yup.string().required("*"),
     precio: Yup.number().required("*"),
 
-    //cochera: Yup.string().required("*"),
+    //cochera: Yup.string(),
     //usoDeSuelo: Yup.string().required("*"),
     //parqueo: Yup.string().required("*"),
     //tipoPropiedad: Yup.string().required("*"),
@@ -63,7 +65,7 @@ const InsertProperty = () => {
     //areaPropiedad: Yup.string().required("*"),
     //amenidades: Yup.object().required("*"),
     //areaContruccion: Yup.string().required("*"),
-    //habitaciones: Yup.number().required("*"),
+    habitaciones: Yup.number().min(0, "*").max(15, "*"),
     //banos: Yup.number().required("*"),
     // jardinPatio: Yup.object().required("*"),
     //ley7600: Yup.boolean().oneOf([true, false]).required("*"),
@@ -95,11 +97,6 @@ const InsertProperty = () => {
   });
 
   const [selectedOption, setSelectedOption] = useState("");
-  const [image, setImage] = useState(null);
-  const handleChange = (event) => {
-    console.log(event.target.files[0]);
-    setImage(event.target.files[0]);
-  };
 
   const [category, setCategory] = useState({});
   const [categoriesDB, setCategoriesDB] = useState({});
@@ -108,10 +105,14 @@ const InsertProperty = () => {
   const [detallesInternos, setDetallesInternos] = useState({});
   const [detallesExternos, setDetallesExternos] = useState({});
   const [property, setProperty] = useState();
+  const [images, setImages] = useState(null);
 
   //Para manejar la seleccion del tipo de propiedad
   const [selectedPropertyType, setSelectedPropertyType] = useState("");
-  console.log(selectedPropertyType);
+
+  const handleImageChange = (event) => {
+    setImages(event.target.files);
+  };
   const handleHouseProperty = (event) => {
     const option = event.target.value;
     setSelectedPropertyType(option);
@@ -263,20 +264,36 @@ const InsertProperty = () => {
         break;
     }
   }; */
+  const handleImageSubmit = async (id) => {
+    const formData = new FormData();
+    for (let i = 0; i < images.length; i++) {
+      formData.append(`${id}-imagen-${i}`, images[0]);
+    }
+    //formData.append("files", images);
+    formData.append("ref", "api::property.property");
+    formData.append("refId", id);
+    formData.append("field", "photos");
+
+    const upload = await axios({
+      method: "POST",
+      url: `${API}upload`,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+      formData,
+    });
+  };
   const [isLoading, setIsLoading] = useState(false);
   const onFinish = async (values) => {
     setIsLoading(true);
+
     try {
       const catFounded = [];
-
-      console.log("categoria seleccionada", selectedOption);
-      console.log("categorias db", categoriesDB);
       const cat = categoriesDB?.find((c) => c.nombre === selectedOption);
       if (cat) {
         catFounded.push(cat.id);
       }
 
-      console.log("tipo propiedad seleccionada", selectedPropertyType);
       const value = {
         provincia: values.provincia,
         canton: values.canton,
@@ -322,6 +339,7 @@ const InsertProperty = () => {
         anunciante: values.anunciante,
         categories: catFounded,
         active: values.active,
+        photos: images,
       };
 
       if (!id) {
@@ -330,6 +348,10 @@ const InsertProperty = () => {
         });
 
         if (response.status === 200) {
+          /* const id = response.data.data.id;
+          const handleResponse = handleImageSubmit(id);
+          console.log(handleResponse); */
+
           message.success("¡La propiedad fue creada correctamente!");
           navigate("/admin/properties", { replace: true });
         } else {
@@ -347,7 +369,6 @@ const InsertProperty = () => {
         }
       }
     } catch (error) {
-      console.log(error);
       message.error("¡Ocurrió un error inesperado!");
     } finally {
       setIsLoading(false);
@@ -359,7 +380,7 @@ const InsertProperty = () => {
   }
 
   return (
-    <div className="flex flex-col h-fit">
+    <div className="flex flex-col justify-center items-center h-fit">
       <div className="inset-y-0 mb-20 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
       <div className="flex mt-3 justify-center align-middle items-center w-full">
         <label className="font-semibold text-xl">
@@ -367,14 +388,61 @@ const InsertProperty = () => {
         </label>
       </div>
 
-      <PropertyLoadImage />
+      {/* <PropertyLoadImage /> */}
+
       <Formik
         initialValues={initialData}
         validationSchema={InsertPropertySchema}
         onSubmit={onFinish}
       >
         {({ errors, touched }) => (
-          <Form /* onFinish={onFinish} */ autoComplete="off">
+          <Form onFinish={onFinish} autoComplete="off">
+            <div className="items-center justify-center flex flex-row">
+              <div className="profile-photo flex items-center w-fit justify-center">
+                <label
+                  for="dropzone-file"
+                  className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                >
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      aria-hidden="true"
+                      class="w-10 h-10 mb-3 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      ></path>
+                    </svg>
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold">Agregar imagen</span>
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {images?.length === 0 || !images ? (
+                        <span className="px-6">No hay imágenes</span>
+                      ) : (
+                        <span className="font-semibold px-6">{`${images?.length} imágenes seleccionadas`}</span>
+                      )}
+                    </p>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    multiple
+                    className="hidden"
+                    name="files"
+                    accept=".jpg,.png"
+                    onChange={handleImageChange}
+                  />
+                </label>
+              </div>
+            </div>
+
             <div className="flex justify-center w-screen flex-row content-center items-center">
               <Field
                 as="select"
@@ -790,7 +858,6 @@ const InsertProperty = () => {
                     "Venta de Lotes, Fincas,Terrenos y Predios" ||
                   selectedOption === ""
                 }
-                den
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">

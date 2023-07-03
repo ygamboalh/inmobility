@@ -106,7 +106,7 @@ const LoadImage = () => {
               onChange={handleChange}
             />
           </label>
-          <button className="mt-4 text-xl mr-2 py-2 px-4 rounded bg-green-400 text-white">
+          <button className="mt-4 text-l mr-2 py-2 px-4 rounded bg-green-400 text-white">
             Actualizar
           </button>
         </div>

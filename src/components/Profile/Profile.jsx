@@ -76,7 +76,7 @@ const Profile = () => {
 
     const upload = await axios({
       method: "POST",
-      url: `${API}/upload`,
+      url: `${API}upload`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
@@ -125,6 +125,7 @@ const Profile = () => {
       const data = await response?.json();
 
       handleSubmit();
+
       if (response.ok || data.role.name === "SuperAdmin") {
         const response = await fetch(`${API}/users/${data.id}`, {
           method: "PUT",
@@ -154,8 +155,12 @@ const Profile = () => {
       <div className="mb-4 mt-0 sm:my-2 flex flex-col">
         <label className="loginh my-2">Actualizar perfil</label>
         <div className="flex flex-col">
-          <Thumbnail />
-          <LoadImage />
+          <div className="mb-20">
+            <Thumbnail />
+          </div>
+          <div>
+            <LoadImage />
+          </div>
         </div>
       </div>
       <Formik
@@ -176,131 +181,114 @@ const Profile = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="div mt-4">
-              <div className="flex flex-col text-gray-500 text-left">
-                <Field
-                  placeholder="Nombre completo"
-                  defaultValue={userData?.username}
-                  type="text"
-                  name="username"
-                  className="regular-input focus:outline-none"
-                />
-              </div>
-            </div>
-            <div className="space mb-2.5">
+            <Field
+              placeholder="Nombre completo"
+              defaultValue={userData?.username}
+              type="text"
+              name="username"
+              className="common-input"
+            />
+
+            <div className="space">
               {errors.username && touched.username ? (
-                <div className="errordiv text-xs">{errors.username}</div>
+                <div className="errordivp text-xs">{errors.username}</div>
               ) : null}
             </div>
-            <div className="div -mt-4">
-              <div className="flex flex-col text-gray-500 text-left">
-                <Field
-                  defaultValue={userData?.personalId}
-                  placeholder="Identificador personal"
-                  type="text"
-                  name="personalId"
-                  className="regular-input focus:outline-none"
-                />
-              </div>
-            </div>
+
+            <Field
+              defaultValue={userData?.personalId}
+              placeholder="Identificador personal"
+              type="text"
+              name="personalId"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.personalId && touched.personalId ? (
-                <div className="errordiv text-xs">{errors.personalId}</div>
+                <div className="errordivp text-xs">{errors.personalId}</div>
               ) : null}
             </div>
-            <div className="div -mt-1">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  defaultValue={userData?.email}
-                  placeholder="Correo electrónico"
-                  name="email"
-                  type="email"
-                  className="regular-input"
-                />
-              </div>
-            </div>
+
+            <Field
+              defaultValue={userData?.email}
+              placeholder="Correo electrónico"
+              name="email"
+              type="email"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.email && touched.email ? (
-                <div className="errordiv text-xs">{errors.email}</div>
+                <div className="errordivp text-xs">{errors.email}</div>
               ) : null}
             </div>
-            <div className="div -mt-1 mb-0">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  defaultValue={userData?.phone}
-                  placeholder="Teléfono de la oficina"
-                  name="phone"
-                  type="text"
-                  className="regular-input"
-                />
-              </div>
-            </div>
+
+            <Field
+              defaultValue={userData?.phone}
+              placeholder="Teléfono de la oficina"
+              name="phone"
+              type="text"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.phone && touched.phone ? (
-                <div className="errordiv text-xs">{errors.phone}</div>
+                <div className="errordivp text-xs">{errors.phone}</div>
               ) : null}
             </div>
-            <div className="div -mt-1 mb-0">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  defaultValue={userData?.mobile}
-                  placeholder="Teléfono celular"
-                  name="mobile"
-                  type="text"
-                  className="regular-input"
-                />
-              </div>
-            </div>
-            <div className="space mb-2.5">
+
+            <Field
+              defaultValue={userData?.mobile}
+              placeholder="Teléfono celular"
+              name="mobile"
+              type="text"
+              className="common-input"
+            />
+
+            <div className="space">
               {errors.mobile && touched.mobile ? (
-                <div className="errordiv text-xs">{errors.mobile}</div>
+                <div className="errordivp text-xs">{errors.mobile}</div>
               ) : null}
             </div>
-            <div className="div -mt-4">
-              <div className="flex flex-col text-gray-500 text-left">
-                <Field
-                  placeholder="Nombre de la empresa"
-                  type="text"
-                  name="company"
-                  className="regular-input focus:outline-none"
-                />
-              </div>
-            </div>
-            <div className="space mb-2.5">
+
+            <Field
+              placeholder="Nombre de la empresa"
+              type="text"
+              name="company"
+              className="common-input"
+            />
+
+            <div className="space">
               {errors.company && touched.company ? (
-                <div className="errordiv text-xs">{errors.company}</div>
+                <div className="errordivp text-xs">{errors.company}</div>
               ) : null}
             </div>
-            <div className="div -mt-4">
-              <div className="flex flex-col text-gray-500 text-left">
-                <Field
-                  defaultValue={userData?.address}
-                  placeholder="Dirección física"
-                  type="text"
-                  name="address"
-                  className="regular-input focus:outline-none"
-                />
-              </div>
-            </div>
+
+            <Field
+              defaultValue={userData?.address}
+              placeholder="Dirección física"
+              type="text"
+              name="address"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.address && touched.address ? (
-                <div className="errordiv text-xs">{errors.address}</div>
+                <div className="errordivp text-xs">{errors.address}</div>
               ) : null}
             </div>
-            <div className="div -mt-1 mb-0">
-              <div className="flex flex-col text-gray-500">
-                <Field
-                  placeholder="Contraseña"
-                  defaultValue={userData?.password}
-                  name="password"
-                  type="password"
-                  className="regular-input"
-                />
-              </div>
-            </div>
+
+            <Field
+              placeholder="Contraseña"
+              defaultValue={userData?.password}
+              name="password"
+              type="password"
+              className="common-input"
+            />
+
             <div className="space">
               {errors.password && touched.password ? (
-                <div className="errordiv text-xs">{errors.password}</div>
+                <div className="errordivp text-xs">{errors.password}</div>
               ) : null}
             </div>
             <div className="mb-1 -mt-3 text-left">
@@ -308,28 +296,28 @@ const Profile = () => {
                 Tipo de asesor inmobiliario
               </label>
             </div>
-            <div className="div mt-1 mb-1">
-              <div className="flex flex-col">
-                <Field
-                  className="w-60 regular-input"
-                  as="select"
-                  name="type"
-                  id="type"
-                >
-                  <option value="" label="">
-                    {"Seleccione el tipo de asesor"}
+
+            <div className="flex flex-col">
+              <Field
+                className="w-60 common-input"
+                as="select"
+                name="type"
+                id="type"
+              >
+                <option value="" label="">
+                  {"Seleccione el tipo de asesor"}
+                </option>
+                {types.map((item) => (
+                  <option value={item.value} label={item.label}>
+                    {item.value}
                   </option>
-                  {types.map((item) => (
-                    <option value={item.value} label={item.label}>
-                      {item.value}
-                    </option>
-                  ))}
-                </Field>
-              </div>
+                ))}
+              </Field>
             </div>
+
             <div className="space">
               {errors.type && touched.type ? (
-                <div className="errordiv text-xs">{errors.type}</div>
+                <div className="errordivp text-xs">{errors.type}</div>
               ) : null}
             </div>
             <div className="max-w-60 flex flex-col">

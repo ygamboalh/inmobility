@@ -23,7 +23,6 @@ const PropertyLoadImage = () => {
 
   const renameFile = (files) => {
     const renamedFiles = [];
-    console.log(images);
     const arrayLike = images;
     const imagesArray = Array.from(arrayLike);
     imagesArray.forEach((file, index) => {
@@ -48,8 +47,7 @@ const PropertyLoadImage = () => {
     data.append("ref", ref);
     data.append("refId", refid);
     data.append("field", field);
-    console.log(images);
-    console.log("data", data);
+
     const upload = await axios({
       method: "POST",
       url: `${API}upload`,

@@ -6,7 +6,6 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { BiShow, BiHide, BiLock, BiMailSend } from "react-icons/bi";
 
-import { useAuthContext } from "../../context/AuthContext";
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
 
@@ -28,8 +27,6 @@ const RecoverySchema = Yup.object().shape({
 const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
-  const { setUser } = useAuthContext();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -55,9 +52,8 @@ const ResetPassword = () => {
       if (data?.error) {
         throw data?.error;
       } else {
-        setUser(data.user);
         message.success(`¡Su contraseña se cambió exitosamente!`);
-        navigate("/signin", { replace: true });
+        navigate("/auth/signin", { replace: true });
       }
     } catch (error) {
       console.error(error);

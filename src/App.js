@@ -32,6 +32,7 @@ import InsertLink from './Admin/Components/Links/insert-link';
 
 // Import pages
 import { Alquileres, Home, NotFound, Ventas, Search, PropertyDetails } from './pages';
+import RequireRole from './layouts/components/RequireRole';
 
 const App = () => {
   return (

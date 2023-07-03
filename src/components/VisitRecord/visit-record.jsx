@@ -117,7 +117,7 @@ const VisitRecord = () => {
             </div>
             <div className="space">
               {errors.fullname && touched.fullname ? (
-                <div className="errordiv text-xs">{errors.fullname}</div>
+                <div className="errordivp text-xs">{errors.fullname}</div>
               ) : null}
             </div>
             <div className="flex flex-col text-gray-500 text-left">
@@ -130,7 +130,7 @@ const VisitRecord = () => {
             </div>
             <div className="space">
               {errors.email && touched.email ? (
-                <div className="errordiv text-xs">{errors.email}</div>
+                <div className="errordivp text-xs">{errors.email}</div>
               ) : null}
             </div>
 
@@ -144,7 +144,7 @@ const VisitRecord = () => {
             </div>
             <div className="space">
               {errors.phone && touched.phone ? (
-                <div className="errordiv text-xs">{errors.phone}</div>
+                <div className="errordivp text-xs">{errors.phone}</div>
               ) : null}
             </div>
             <div className="mb-1 text-left">
@@ -172,7 +172,7 @@ const VisitRecord = () => {
             </div>
             <div className="space">
               {errors.managment && touched.managment ? (
-                <div className="errordiv text-xs">{errors.managment}</div>
+                <div className="errordivp text-xs">{errors.managment}</div>
               ) : null}
             </div>
             <div className="text-left mt-2">

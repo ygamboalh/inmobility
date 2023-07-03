@@ -34,6 +34,10 @@ export const getAllUsers = async () => {
   const { data } = await AxiosInstance.get('/users?populate=role');
   return data
 }
+export const getAllLinks = async () => {
+  const { data } = await AxiosInstance.get('/links');
+  return data
+}
 
 export const getActiveUsers = async () => {
   const foundedUsers = [];

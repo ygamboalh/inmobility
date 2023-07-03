@@ -41,8 +41,8 @@ const PropertiesDesact = () => {
   }
 
   const DeleteProperty = async (id) => {
-    setIsLoading(true);
     const MySwal = withReactContent(Swal);
+    setIsLoading(true);
     MySwal.fire({
       title: "¿Desea eliminar el inmueble?",
       showDenyButton: true,
@@ -57,9 +57,12 @@ const PropertiesDesact = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
-        });
+        }).then((result) =>
+          queryClient
+            .invalidateQueries(["properties"])
+            .then((resultado) => console.log(resultado))
+        );
         if (result) {
-          queryClient.invalidateQueries(["properties"]);
           Swal.fire("Inmueble eliminado!", "", "success");
         } else {
           Swal.fire("El Inmueble no fue eliminado", "", "error");

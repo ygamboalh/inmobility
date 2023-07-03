@@ -179,6 +179,12 @@ html {
   margin-left: -6px;
   font-size: 12px;
 }
+.errordivp {
+  color: red;
+  margin-top: 10px;
+  margin-left: -6px;
+  font-size: 12px;
+}
 .space{
   height: 21px;
   margin-top: -10px;
@@ -224,6 +230,8 @@ html {
   background-color: white;
   background-position: center;
   background-size: 50px 50px;
+  border: 1px solid #000
+  
 }
 .user-info-button:hover{
   opacity: 60%;

@@ -94,7 +94,6 @@ const UpdateUser = () => {
         message.error("¡Ocurrió un error. Inténtelo de nuevo!");
       }
     } catch (error) {
-      console.log(error);
       message.error("Ocurrió un error inesperado!");
     } finally {
       setIsLoading(false);

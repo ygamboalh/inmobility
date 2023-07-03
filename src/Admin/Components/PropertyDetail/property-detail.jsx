@@ -7,6 +7,7 @@ import no_image from "../../../assets/images/no_image_default.jpg";
 import { API } from "../../../constant";
 import AxiosInstance from "../../../api/AxiosInstance";
 import MySpinner from "../../../components/Spinner/spinner";
+import Slideshow from "../../../components/Carrusel/slideShow";
 
 const PropertyDetailsAdmin = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,14 +17,26 @@ const PropertyDetailsAdmin = () => {
 
   const { id } = useParams();
   const [property, setProperty] = useState([]);
+  const [images, setImages] = useState([]);
+
   const getProperty = async () => {
     setIsLoading(true);
-    const propertyResponse = await AxiosInstance.get(`${API}properties/${id}`);
+    let propertyFound = [];
+    let imagesCount = [];
+    const propertyResponse = await AxiosInstance.get(
+      `${API}properties/${id}?populate=*`
+    ).then((response) => {
+      propertyFound = response.data.data.attributes;
+      imagesCount = response.data.data.attributes.photos;
+    });
 
-    console.log(propertyResponse.data.data.attributes);
-    const propertyFound = propertyResponse.data.data.attributes;
     setProperty(propertyFound);
     setIsLoading(false);
+    const imagesUrl = [];
+    imagesCount?.data?.forEach((image) => {
+      imagesUrl.push(image.attributes.url);
+    });
+    setImages(imagesUrl);
   };
 
   if (isLoading || !property) {
@@ -58,7 +71,21 @@ const PropertyDetailsAdmin = () => {
         <div className="flex flex-col items-start gap-8 lg:flex-row">
           <div className="max-w-[768px]">
             <div className="mb-8">
-              <img src={property.image ? property.image : no_image} alt="" />
+              {images.length !== 0 ? (
+                <Slideshow slideImages={images} />
+              ) : (
+                <span></span>
+              )}
+              <img
+                src={
+                  images.length !== 0 ? (
+                    <Slideshow slideImages={images} />
+                  ) : (
+                    no_image
+                  )
+                }
+                alt=""
+              />
             </div>
             <div className="flex gap-x-6 text-blue-700 mb-6">
               <div className="flex gap-x-2 items-center">
