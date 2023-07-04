@@ -22,11 +22,6 @@ import {
   UbicacionDemografica,
   UbicacionGeografica,
   Estado,
-  DetallesExternosMulti,
-  CategoriaInmueble,
-  types,
-  AreaConstruccion,
-  Cocheras,
   Cochera,
   Densidad,
   Servicios,
@@ -36,6 +31,7 @@ import {
   Parqueo,
   TipoLote,
   Locales,
+  UsoSuelo,
 } from "../../../BD/bd";
 import Select from "react-select";
 import PropertyLoadImage from "../../../components/UploadImage/property-upload-image";
@@ -48,25 +44,35 @@ const InsertProperty = () => {
   const navigate = useNavigate();
 
   const InsertPropertySchema = Yup.object().shape({
-    provincia: Yup.string().required("*"),
-    canton: Yup.string().required("*"),
-    distrito: Yup.string().required("*"),
-    precio: Yup.number().required("*"),
+    provincia: Yup.string().required("*").min(6, "*").max(150, "*"),
+    canton: Yup.string().required("*").min(6, "*").max(150, "*"),
+    distrito: Yup.string().required("*").min(6, "*").max(150, "*"),
+    precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
+    areaTerreno: Yup.number().required("*").min(0, "*").max(500000, "*"),
+    anunciante: Yup.string().required("*").min(6, "*").max(150, "*"),
+    active: Yup.string().required("*"),
 
+    habitaciones: Yup.number().min(0, "*").max(15, "*"),
+    areaPropiedad: Yup.string().min(0, "*").max(10000, "*"),
+    areaContruccion: Yup.number().min(0, "*").max(100000, "*"),
+    banos: Yup.number().min(0, "*").max(10, "*"),
+    cuotaMantenimiento: Yup.number().min(0, "*").max(15, "*"),
+    areaBodega: Yup.number().min(0, "*").max(10000000, "*"),
+    altura: Yup.number().min(0, "*").max(500, "*"),
+    areaPlantas: Yup.number().min(0, "*").max(100000, "*"),
+    numeroPlantas: Yup.number().min(0, "*").max(100, "*"),
+    areaMesanini: Yup.number().min(0, "*").max(6000, "*"),
+    areaSotano: Yup.number().min(0, "*").max(6000, "*"),
+    //parqueo: Yup.string(),
+    //tipoPropiedad: Yup.string(),
     //cochera: Yup.string(),
     //usoDeSuelo: Yup.string().required("*"),
-    //parqueo: Yup.string().required("*"),
-    //tipoPropiedad: Yup.string().required("*"),
     //tipoEdificio: Yup.string().required("*"),
     //tipoLocal: Yup.string().required("*"),
     //tipoOficina: Yup.string().required("*"),
     //tipoLote: Yup.string().required("*"),
     //tipoBodega: Yup.string().required("*"),
-    //areaPropiedad: Yup.string().required("*"),
     //amenidades: Yup.object().required("*"),
-    //areaContruccion: Yup.string().required("*"),
-    habitaciones: Yup.number().min(0, "*").max(15, "*"),
-    //banos: Yup.number().required("*"),
     // jardinPatio: Yup.object().required("*"),
     //ley7600: Yup.boolean().oneOf([true, false]).required("*"),
     //detallesInternos: Yup.object().required("*"),
@@ -74,25 +80,15 @@ const InsertProperty = () => {
     //amueblado: Yup.string().required("*"),
     //aptoHijos: Yup.string().required("*"),
     //aptoMascotas: Yup.string().required("*"),
-    //cuotaMantenimiento: Yup.number().required("*"),
-    //areaBodega: Yup.number().required("*"),
-    //altura: Yup.number().required("*"),
     //concepcionElectrica: Yup.string().required("*"),
     //areaCarga: Yup.boolean().oneOf([true, false]).required("*"),
-    //areaPlantas: Yup.number().required("*"),
-    //numeroPlantas: Yup.number().required("*"),
     // propositoTerreno: Yup.string().required("*"),
     // ubicacionCastral: Yup.string().required("*"),
     //ubicacionDemografica: Yup.string().required("*"),
     //ubicacionGeografica: Yup.string().required("*"),
-    //areaMesanini: Yup.number().required("*"),
-    // areaSotano: Yup.number().required("*"),
     // tipoDensidad: Yup.string().required("*"),
     // servicios: Yup.string().required("*"),
     // serviciosMedicos: Yup.boolean().oneOf([true, false]).required("*"),
-    areaTerreno: Yup.number().required("*"),
-    anunciante: Yup.string().required("*"),
-    active: Yup.string().required("*"),
     //categories: Yup.string().required("*"),
   });
 
@@ -107,7 +103,6 @@ const InsertProperty = () => {
   const [property, setProperty] = useState();
   const [images, setImages] = useState(null);
 
-  //Para manejar la seleccion del tipo de propiedad
   const [selectedPropertyType, setSelectedPropertyType] = useState("");
 
   const handleImageChange = (event) => {
@@ -469,6 +464,16 @@ const InsertProperty = () => {
               </div>
             </div>
             <div className="flex flex-wrap justify-center m-3">
+              {/*  <div class="relative mb-6">
+                <input
+                  type="text"
+                  class=" border  border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 p-2.5 "
+                  placeholder="name@flowbite.com"
+                />
+                <div class="absolute inset-y-0 right-2 flex items-center pl-3 pointer-events-none">
+                  m<sup>2</sup>
+                </div>
+              </div> */}
               <Field
                 type="text"
                 hidden={selectedOption === ""}
@@ -477,6 +482,7 @@ const InsertProperty = () => {
                 placeholder="Provincia"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
+
               <div className="space mb-2.5">
                 {errors.provincia && touched.provincia ? (
                   <div className="errordiv text-xs">{errors.provincia}</div>
@@ -1442,10 +1448,10 @@ const InsertProperty = () => {
                   </option>
                 ))}
               </Field>
-
               <Field
-                type="text"
-                placeholder="Uso del suelo"
+                as="select"
+                name="usoDeSuelo"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
                 hidden={
                   selectedOption ===
                     "Alquiler de Oficinas o Consultorios Médicos" ||
@@ -1458,10 +1464,16 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.usoDeSuelo}
-                name="usoDeSuelo"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
+              >
+                <option value="" label="">
+                  {"Uso del suelo"}
+                </option>
+                {UsoSuelo.map((item) => (
+                  <option value={item.value} label={item.label}>
+                    {item.value}
+                  </option>
+                ))}
+              </Field>
               <div className="space mb-2.5">
                 {errors.usoDeSuelo && touched.usoDeSuelo ? (
                   <div className="errordiv text-xs">{errors.usoDeSuelo}</div>

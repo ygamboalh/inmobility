@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import { message } from "antd";
 import { Formik, Form, Field } from "formik";
-import { BiShow, BiHide, BiLock, BiLockOpen } from "react-icons/bi";
+import { BiShow, BiHide, BiLock } from "react-icons/bi";
 import * as Yup from "yup";
 
 import { API } from "../../constant";
-import { setToken, getToken } from "../../utils/helpers";
+import { getToken } from "../../utils/helpers";
 import MySpinner from "../Spinner/spinner";
 
 const ChangePasswordSchema = Yup.object().shape({
@@ -106,7 +106,9 @@ const ChangePassword = () => {
             </div>
             <div className="space">
               {errors.currentPassword && touched.currentPassword ? (
-                <div className="errordiv text-xs">{errors.currentPassword}</div>
+                <div className="errordivp text-xs">
+                  {errors.currentPassword}
+                </div>
               ) : null}
             </div>
 
@@ -134,7 +136,7 @@ const ChangePassword = () => {
             </div>
             <div className="space">
               {errors.password && touched.password ? (
-                <div className="errordiv text-xs">{errors.password}</div>
+                <div className="errordivp text-xs">{errors.password}</div>
               ) : null}
             </div>
             <div class="relative w-80">
@@ -161,7 +163,7 @@ const ChangePassword = () => {
             </div>
             <div className="space">
               {errors.passwordConfirmation && touched.passwordConfirmation ? (
-                <div className="errordiv text-xs">
+                <div className="errordivp text-xs">
                   {errors.passwordConfirmation}
                 </div>
               ) : null}

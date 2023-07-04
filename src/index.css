@@ -259,7 +259,6 @@ html {
   margin: 2px;
   padding: 2px 0 2px 0;
   font-size: 10px;
-  justify-content: space-evenly;
   cursor: pointer;
 }
 .orange-button:hover{
@@ -284,6 +283,7 @@ html {
   margin-bottom: 5px;
   text-align: center;
   font-size: 12px;
+  justify-content: center;
 }
 .policies{
   background-color: bg-primary;

@@ -9,6 +9,7 @@ export const CategoriaInmueble = [
     value: "Oficinas y Consultorios médicos",
   },
 ];
+
 export const Oficina = [
   {
     value: "Oficina independiente",
