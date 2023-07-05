@@ -21,7 +21,6 @@ const Thumbnail = () => {
   const id = userData?.id;
   const user = AxiosInstance.get(`users/${id}?populate=photo`).then((data) => {
     const image = data?.data?.photo?.url;
-    console.log(image);
     const url = `http://147.182.188.52/backend${image}`;
 
     setImageUrl(url);

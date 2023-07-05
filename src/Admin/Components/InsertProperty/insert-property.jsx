@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { Spin, message } from "antd";
 import { Formik, Form, Field } from "formik";
 
-import { API } from "../../../constant";
+import { API, BEARER } from "../../../constant";
 import AxiosInstance from "../../../api/AxiosInstance";
 import {
   Amenidades,
@@ -38,6 +38,7 @@ import PropertyLoadImage from "../../../components/UploadImage/property-upload-i
 import MySpinner from "../../../components/Spinner/spinner";
 import axios from "axios";
 import { getToken } from "../../../utils/helpers";
+import LoadPropertyImage from "../../../components/UploadImage/my-upload-property";
 
 const InsertProperty = () => {
   const { id } = useParams();
@@ -102,11 +103,20 @@ const InsertProperty = () => {
   const [detallesExternos, setDetallesExternos] = useState({});
   const [property, setProperty] = useState();
   const [images, setImages] = useState(null);
-
+  const [createdPropertyId, setCreatedPropertyId] = useState(null);
+  const [userRole, setUserRole] = useState();
   const [selectedPropertyType, setSelectedPropertyType] = useState("");
 
+  const response = axios(`${API}/users/me?populate=role`, {
+    method: "GET",
+    headers: { Authorization: `${BEARER} ${getToken()}` },
+  }).then((response) => {
+    setUserRole(response.data.role.name);
+  });
+
   const handleImageChange = (event) => {
-    setImages(event.target.files);
+    console.log(event.target.files);
+    setImages(event.target.files[0]);
   };
   const handleHouseProperty = (event) => {
     const option = event.target.value;
@@ -227,57 +237,6 @@ const InsertProperty = () => {
         console.error(error);
       });
   }, []);
-
-  /* const [SelectedPropertyType, setSelectedPropertyType] = useState();
-  const SelectedPropertyTypeF = (selected) => {
-    switch (selected) {
-      case selected.includes("Casa") ||
-        selected.includes("Apartamento") ||
-        selected.includes("Loft") ||
-        selected.includes("Chalet"):
-        setSelectedPropertyType(selected);
-        return selected;
-      case selected.includes("Lote") ||
-        selected.includes("Finca") ||
-        selected.includes("Terreno") ||
-        selected.includes("Predio"):
-        setSelectedPropertyType(selected);
-        return selected;
-      case selected.includes("Local") || selected.includes("Todo"):
-        setSelectedPropertyType(selected);
-        return selected;
-      case selected.includes("Edificio"):
-        setSelectedPropertyType(selected);
-        return selected;
-      case selected.includes("Bodega"):
-        setSelectedPropertyType(selected);
-        return selected;
-      case selected.includes("Oficina") || selected.includes("Consultorio"):
-        setSelectedPropertyType(selected);
-        return selected;
-      default:
-        break;
-    }
-  }; */
-  const handleImageSubmit = async (id) => {
-    const formData = new FormData();
-    for (let i = 0; i < images.length; i++) {
-      formData.append(`${id}-imagen-${i}`, images[0]);
-    }
-    //formData.append("files", images);
-    formData.append("ref", "api::property.property");
-    formData.append("refId", id);
-    formData.append("field", "photos");
-
-    const upload = await axios({
-      method: "POST",
-      url: `${API}upload`,
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-      formData,
-    });
-  };
   const [isLoading, setIsLoading] = useState(false);
   const onFinish = async (values) => {
     setIsLoading(true);
@@ -334,34 +293,42 @@ const InsertProperty = () => {
         anunciante: values.anunciante,
         categories: catFounded,
         active: values.active,
-        photos: images,
+        //photos: images,
       };
 
       if (!id) {
         const response = await AxiosInstance.post("/properties", {
           data: value,
-        });
-
-        if (response.status === 200) {
-          /* const id = response.data.data.id;
-          const handleResponse = handleImageSubmit(id);
-          console.log(handleResponse); */
-
-          message.success("¡La propiedad fue creada correctamente!");
-          navigate("/admin/properties", { replace: true });
-        } else {
-          message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
-        }
+        })
+          .then((respons) => {
+            message.success("¡La propiedad fue creada correctamente!");
+            const propertyId = respons.data.data.id;
+            setCreatedPropertyId(propertyId);
+            if (userRole === "SuperAdmin") {
+              navigate(`/admin/upload/${propertyId}`, { replace: true });
+            } else {
+              navigate(`/home/upload/${propertyId}`, { replace: true });
+            }
+          })
+          .catch((error) => {
+            message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
+          });
       } else {
         const response = await AxiosInstance.put(`/properties/${id}`, {
           data: value,
-        });
-        if (response.status === 200) {
-          message.success("¡La propiedad fue actualizada correctamente!");
-          navigate("/admin/properties", { replace: true });
-        } else {
-          message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
-        }
+        })
+          .then((response) => {
+            message.success("¡La propiedad fue actualizada correctamente!");
+            if (userRole === "SuperAdmin") {
+              navigate(`/admin/upload/${id}`, { replace: true });
+            } else {
+              navigate(`/home/upload/${id}`, { replace: true });
+            }
+            //navigate("/admin/properties", { replace: true });
+          })
+          .catch((error) => {
+            message.error("¡Ocurrió un error inesperado!");
+          });
       }
     } catch (error) {
       message.error("¡Ocurrió un error inesperado!");
@@ -382,9 +349,6 @@ const InsertProperty = () => {
           Crear o editar una propiedad
         </label>
       </div>
-
-      {/* <PropertyLoadImage /> */}
-
       <Formik
         initialValues={initialData}
         validationSchema={InsertPropertySchema}
@@ -392,59 +356,14 @@ const InsertProperty = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="items-center justify-center flex flex-row">
-              <div className="profile-photo flex items-center w-fit justify-center">
-                <label
-                  for="dropzone-file"
-                  className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                >
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg
-                      aria-hidden="true"
-                      class="w-10 h-10 mb-3 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                      ></path>
-                    </svg>
-                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold">Agregar imagen</span>
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {images?.length === 0 || !images ? (
-                        <span className="px-6">No hay imágenes</span>
-                      ) : (
-                        <span className="font-semibold px-6">{`${images?.length} imágenes seleccionadas`}</span>
-                      )}
-                    </p>
-                  </div>
-                  <input
-                    id="dropzone-file"
-                    type="file"
-                    multiple
-                    className="hidden"
-                    name="files"
-                    accept=".jpg,.png"
-                    onChange={handleImageChange}
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div className="flex justify-center w-screen flex-row content-center items-center">
+            <div className="flex justify-center  flex-row content-center items-center">
               <Field
                 as="select"
                 name="categories"
                 value={selectedOption}
+                defaultValue={property?.categories}
                 onChange={handleOptionSelectChange}
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/3 p-2"
+                className="categories  m-2 w-full  md:w-fit lg:mx-80"
               >
                 <option value="" label="">
                   {"Seleccione la categoría"}
@@ -464,18 +383,9 @@ const InsertProperty = () => {
               </div>
             </div>
             <div className="flex flex-wrap justify-center m-3">
-              {/*  <div class="relative mb-6">
-                <input
-                  type="text"
-                  class=" border  border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 p-2.5 "
-                  placeholder="name@flowbite.com"
-                />
-                <div class="absolute inset-y-0 right-2 flex items-center pl-3 pointer-events-none">
-                  m<sup>2</sup>
-                </div>
-              </div> */}
               <Field
                 type="text"
+                defaultValue={property?.provincia}
                 hidden={selectedOption === ""}
                 name="provincia"
                 defaultInputValue={property?.provincia}
@@ -490,9 +400,9 @@ const InsertProperty = () => {
               </div>
               <Field
                 type="text"
+                defaultValue={property?.canton}
                 hidden={selectedOption === ""}
                 name="canton"
-                defaultInputValue={property?.canton}
                 placeholder="Canton"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -505,7 +415,7 @@ const InsertProperty = () => {
                 type="text"
                 hidden={selectedOption === ""}
                 name="distrito"
-                defaultInputValue={property?.distrito}
+                defaultValue={property?.distrito}
                 placeholder="Distrito"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -519,7 +429,7 @@ const InsertProperty = () => {
                 type="number"
                 name="precio"
                 hidden={selectedOption === ""}
-                defaultInputValue={property?.precio}
+                defaultValue={property?.precio}
                 placeholder="Precio"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -532,7 +442,7 @@ const InsertProperty = () => {
                 type="number"
                 hidden={selectedOption === ""}
                 name="areaTerreno"
-                defaultInputValue={property?.areaTerreno}
+                defaultValue={property?.areaTerreno}
                 placeholder="Área del terreno"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -562,7 +472,7 @@ const InsertProperty = () => {
                 }
                 name="tipoPropiedad"
                 onChange={handleHouseProperty}
-                defaultInputValue={property?.tipoPropiedad}
+                defaultValue={property?.tipoPropiedad}
                 placeholder="Tipo de propiedad"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
@@ -596,7 +506,7 @@ const InsertProperty = () => {
                 }
                 onChange={handleBodegasProperty}
                 name="tipoBodega"
-                defaultInputValue={property?.tipoBodega}
+                defaultValue={property?.tipoBodega}
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
@@ -627,7 +537,7 @@ const InsertProperty = () => {
                 }
                 onChange={handleFincaProperty}
                 name="tipoLote"
-                defaultInputValue={property?.tipoLote}
+                defaultValue={property?.tipoLote}
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
@@ -663,7 +573,7 @@ const InsertProperty = () => {
                 }
                 onChange={handleOficinasProperty}
                 name="tipoOficina"
-                defaultInputValue={property?.tipoOficina}
+                defaultValue={property?.tipoOficina}
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
@@ -678,7 +588,7 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="areaPropiedad"
-                defaultInputValue={property?.areaPropiedad}
+                defaultValue={property?.areaPropiedad}
                 placeholder="Área de la propiedad"
                 hidden={
                   selectedOption ===
@@ -723,7 +633,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Bodegas o Similares"
                 }
                 onChange={handleEdificioProperty}
-                defaultInputValue={property?.tipoEdificio}
+                defaultValue={property?.tipoEdificio}
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
@@ -760,7 +670,7 @@ const InsertProperty = () => {
                   selectedOption ===
                     "Alquiler de Oficinas o Consultorios Médicos"
                 }
-                defaultInputValue={property?.tipoLocal}
+                defaultValue={property?.tipoLocal}
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
@@ -798,7 +708,7 @@ const InsertProperty = () => {
                   selectedOption === ""
                 }
                 name="cochera"
-                defaultInputValue={property?.cochera}
+                defaultValue={property?.cochera}
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
@@ -831,7 +741,7 @@ const InsertProperty = () => {
                   selectedOption === ""
                 }
                 name="areaContruccion"
-                defaultInputValue={property?.areaContruccion}
+                defaultValue={property?.areaContruccion}
                 placeholder="Área construcción"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -845,7 +755,7 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="habitaciones"
-                defaultInputValue={property?.habitaciones}
+                defaultValue={property?.habitaciones}
                 placeholder="Habitaciones"
                 hidden={
                   selectedOption ===
@@ -874,7 +784,7 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="banos"
-                defaultInputValue={property?.banos}
+                defaultValue={property?.banos}
                 placeholder="Baños"
                 hidden={
                   selectedOption ===
@@ -905,7 +815,7 @@ const InsertProperty = () => {
                 as="select"
                 name="amueblado"
                 id="amueblado"
-                defaultInputValue={property?.amueblado}
+                defaultValue={property?.amueblado}
                 placeholder="Amueblado"
                 hidden={selectedOption !== "Alquiler de Casas y Apartamentos"}
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -945,7 +855,7 @@ const InsertProperty = () => {
                   selectedOption ===
                     "Alquiler de Oficinas o Consultorios Médicos"
                 }
-                defaultInputValue={property?.aptoHijos}
+                defaultValue={property?.aptoHijos}
                 id="aptoHijos"
                 placeholder="Apto hijos"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -976,7 +886,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.parqueo}
+                defaultValue={property?.parqueo}
                 id="parqueo"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
@@ -1015,7 +925,7 @@ const InsertProperty = () => {
                     "Alquiler de Oficinas o Consultorios Médicos"
                 }
                 name="aptoMascotas"
-                defaultInputValue={property?.aptoMascotas}
+                defaultValue={property?.aptoMascotas}
                 id="aptoMascotas"
                 placeholder="Apto mascotas"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -1037,7 +947,7 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="cuotaMantenimiento"
-                defaultInputValue={property?.cuotaMantenimiento}
+                defaultValue={property?.cuotaMantenimiento}
                 placeholder="Cuota mantenimiento"
                 hidden={
                   selectedOption ===
@@ -1063,7 +973,7 @@ const InsertProperty = () => {
               <Field
                 type="number"
                 name="areaBodega"
-                defaultInputValue={property?.areaBodega}
+                defaultValue={property?.areaBodega}
                 placeholder="Área bodega"
                 hidden={
                   selectedOption ===
@@ -1111,7 +1021,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.altura}
+                defaultValue={property?.altura}
                 placeholder="Altura"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -1132,7 +1042,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.concepcionElectrica}
+                defaultValue={property?.concepcionElectrica}
                 id="concepcionElectrica"
                 placeholder="Concepción eléctrica"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -1174,7 +1084,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.areaPlantas}
+                defaultValue={property?.areaPlantas}
                 placeholder="Área por plantas"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -1203,7 +1113,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.numeroPlantas}
+                defaultValue={property?.numeroPlantas}
                 placeholder="Número de plantas"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -1215,7 +1125,7 @@ const InsertProperty = () => {
               <Field
                 type="text"
                 name="propositoTerreno"
-                defaultInputValue={property?.propositoTerreno}
+                defaultValue={property?.propositoTerreno}
                 placeholder="Propósito terreno"
                 hidden
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -1244,7 +1154,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.ubicacionCastral}
+                defaultValue={property?.ubicacionCastral}
                 placeholder="Ubicación castral"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
@@ -1281,7 +1191,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.ubicacionDemografica}
+                defaultValue={property?.ubicacionDemografica}
                 placeholder="Ubicación demográfica"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
@@ -1317,7 +1227,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.ubicacionGeografica}
+                defaultValue={property?.ubicacionGeografica}
                 id="ubicacionGeografica"
                 placeholder="Ubicación geográfica"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -1341,7 +1251,7 @@ const InsertProperty = () => {
               <Field
                 as="select"
                 name="active"
-                defaultInputValue={property?.active}
+                defaultValue={property?.active}
                 id="active"
                 hidden={selectedOption === ""}
                 placeholder="Activa"
@@ -1381,7 +1291,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.areaMesanini}
+                defaultValue={property?.areaMesanini}
                 placeholder="Área mezanine"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -1410,7 +1320,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                defaultInputValue={property?.areaSotano}
+                defaultValue={property?.areaSotano}
                 placeholder="Área sótano"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
@@ -1451,6 +1361,7 @@ const InsertProperty = () => {
               <Field
                 as="select"
                 name="usoDeSuelo"
+                defaultValue={property?.usoDeSuelo}
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
                 hidden={
                   selectedOption ===
@@ -1481,6 +1392,7 @@ const InsertProperty = () => {
               </div>
               <Field
                 as="select"
+                defaultValue={property?.servicios}
                 name="servicios"
                 hidden={
                   selectedOption ===
@@ -1511,7 +1423,7 @@ const InsertProperty = () => {
               <Field
                 type="text"
                 placeholder="Anunciante"
-                defaultInputValue={property?.anunciante}
+                defaultValue={property?.anunciante}
                 name="anunciante"
                 hidden={selectedOption === ""}
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -1521,8 +1433,10 @@ const InsertProperty = () => {
                   <div className="errordiv text-xs">{errors.anunciante}</div>
                 ) : null}
               </div>
-              <div className="flex flex-wrap  w-full justify-center">
-                <div className="m-1 w-60 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+            </div>
+            <div className="flex m-4 content-center items-center justify-center ">
+              <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
+                <div className="m-1 flex justify-center items-center content-center self-start">
                   <label class="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
@@ -1549,7 +1463,7 @@ const InsertProperty = () => {
                     </span>
                   </label>
                 </div>
-                <div className="m-1 w-60 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+                <div className="m-1 justify-center items-center content-center flex self-start">
                   <label class="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
@@ -1579,7 +1493,7 @@ const InsertProperty = () => {
                     </span>
                   </label>
                 </div>
-                <div className="m-1 w-60 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+                <div className="m-1 justify-center items-center content-center flex self-start">
                   <label class="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
@@ -1612,23 +1526,10 @@ const InsertProperty = () => {
                 </div>
               </div>
             </div>
-            {/* <Select
-              className="categories "
-              name="categories"
-              defaultInputValue={property?.categories}
-              options={categories}
-              placeholder={"Categorías"}
-              isMulti
-              onChange={handleChangeCategory}
-            />
-            <div className="space mb-2.5 ">
-              {errors.categories && touched.categories ? (
-                <div className="errordiv text-xs">{errors.categories}</div>
-              ) : null}
-            </div> */}
             <Select
-              className="categories"
+              className="categories lg:mx-80"
               name="amenidades"
+              defaultValue={property?.amenidades}
               options={Amenidades}
               placeholder={"Amenidades"}
               isMulti
@@ -1656,7 +1557,7 @@ const InsertProperty = () => {
               ) : null}
             </div>
             <Select
-              className="categories"
+              className="categories lg:mx-80"
               name="jardinPatio"
               isDisabled={
                 selectedOption ===
@@ -1674,7 +1575,7 @@ const InsertProperty = () => {
                   "Venta de Lotes, Fincas,Terrenos y Predios" ||
                 selectedOption === ""
               }
-              defaultInputValue={property?.jardinPatio}
+              defaultValue={property?.jardinPatio}
               options={PatioJardin}
               placeholder={"Patio"}
               isMulti
@@ -1686,7 +1587,7 @@ const InsertProperty = () => {
               ) : null}
             </div>
             <Select
-              className="categories"
+              className="categories lg:mx-80"
               name="detallesInternos"
               isDisabled={
                 selectedOption ===
@@ -1704,7 +1605,7 @@ const InsertProperty = () => {
                   "Venta de Lotes, Fincas,Terrenos y Predios" ||
                 selectedOption === ""
               }
-              defaultInputValue={property?.detallesInternos}
+              defaultValue={property?.detallesInternos}
               options={DetallesInternos}
               placeholder={"Detalles internos"}
               isMulti
@@ -1718,9 +1619,9 @@ const InsertProperty = () => {
               ) : null}
             </div>
             <Select
-              className="categories"
+              className="categories lg:mx-80"
               name="detallesExternos"
-              defaultInputValue={property?.detallesExternos}
+              defaultValue={property?.detallesExternos}
               options={DetallesExternos}
               placeholder={"Detalles externos"}
               isMulti

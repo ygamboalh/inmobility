@@ -21,7 +21,7 @@ export const authUserData = async () => {
 }
 
 export const passedUser = async (id) => {
-  const { data } = await AxiosInstance.get(`/users/${id}`);
+  const { data } = await AxiosInstance.get(`/users/${id}?populate=*`);
   return data;
 }
 

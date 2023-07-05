@@ -33,6 +33,7 @@ import InsertLink from './Admin/Components/Links/insert-link';
 // Import pages
 import { Alquileres, Home, NotFound, Ventas, Search, PropertyDetails } from './pages';
 import RequireRole from './layouts/components/RequireRole';
+import Upload from './components/UploadImage/upload';
 
 const App = () => {
   return (
@@ -50,6 +51,7 @@ const App = () => {
                 <Route path="/auth/change-password" element={<ChangePassword />} />
                 <Route path="/home/insert-property" element={<InsertProperty />} />
                 <Route path="/home/banner" element={<Banner />} />
+                <Route exact path="/home/upload/:id" element={<Upload />} />
             </Route>
           <Route element={<PublicRoutes />}>
                 <Route path="/home/banner/visiter" element={<Banner />} />
@@ -80,6 +82,7 @@ const App = () => {
               <Route exact path="/admin/links/insert-link" element={<InsertLink />} />
               <Route exact path="/admin/links/insert-link/:id" element={<InsertLink />} />
               <Route exact path="/admin/users/insert-user/:id" element={<InsertUser />} />
+              <Route exact path="/admin/upload/:id" element={<Upload />} />
             </Route>
           </Route>
           <Route element={<ExtraLayout />}>

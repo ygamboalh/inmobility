@@ -124,7 +124,7 @@ const Profile = () => {
       });
       const data = await response?.json();
 
-      handleSubmit();
+      //handleSubmit();
 
       if (response.ok || data.role.name === "SuperAdmin") {
         const response = await fetch(`${API}/users/${data.id}`, {

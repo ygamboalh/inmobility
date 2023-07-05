@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-
+import { userinfo } from "../../../assets/images/userinfo.png";
 import { Estado, TipoAsesor } from "../../../BD/bd";
 import AxiosInstance from "../../../api/AxiosInstance";
 import { authUserData, passedUser, userIntser } from "../../../api/usersApi";
@@ -59,11 +59,13 @@ const InsertUser = () => {
     isError,
     errors,
   } = useMutation(userIntser);
+  const [userImage, setUserImage] = useState(null);
 
   const { data: pasedUser } = useQuery(["id", id], () => passedUser(id));
   const { data: userData } = useQuery("profile", authUserData);
   const role = userData?.role.name;
-
+  const userImg = pasedUser?.photo?.url;
+  //setUserImage(userImg);
   const [initialData, setinitialData] = useState({
     username: pasedUser?.username,
     email: pasedUser?.email,
@@ -84,6 +86,15 @@ const InsertUser = () => {
 
   const onFinish = async (values) => {
     setIsLoading(true);
+    /*  if (values.active === "Activo") {
+      values.role = [1];
+    } else if (values.active === "Desactivado") {
+      values.role = [2];
+    } else if (values.active === "Pendiente") {
+      values.role = [3];
+    } else {
+      values.role = [3];
+    } */
     try {
       const value = {
         username: values.username,
@@ -97,34 +108,34 @@ const InsertUser = () => {
         personalId: values.personalId,
         active: values.active,
         photo: values.photo,
+        //role: values.role,
       };
 
       //si trae un id modificar, sino crear un nuevo registro
       if (pasedUser) {
-        const response = await AxiosInstance.put(
-          `users/${pasedUser.id}`,
-          value
-        );
-
-        if (response.status === 200) {
-          message.success("El usuario se actualizó exitosamente");
-          navigate("/admin/users");
-        } else {
-          message.error("El usuario no se pudo actualizar");
-          return;
-        }
+        const response = await AxiosInstance.put(`users/${pasedUser.id}`, value)
+          .then((response) => {
+            message.success("El usuario se actualizó exitosamente");
+            console.log(pasedUser);
+            navigate("/admin/users");
+          })
+          .error((err) => {
+            message.error("El usuario no se pudo actualizar");
+            return;
+          });
       } else {
         insertMutation(value, {
           onSuccess: () => {
             message.success("El usuario se registró exitosamente");
+            navigate("/admin/users");
           },
           onError: (error) => {
-            message.error("Ocurrió un error inesperado");
+            message.error("Ocurrió un error inesperado.Intente de nuevo");
           },
         });
       }
     } catch (error) {
-      message.error("Ocurrió un error inesperado. Intente de nuevo!");
+      message.error("Ocurrió un error inesperado!");
     } finally {
       setIsLoading(false);
     }
@@ -152,18 +163,40 @@ const InsertUser = () => {
         onSubmit={onFinish}
       >
         {({ errors, touched }) => (
-          <Form autoComplete="off">
+          <Form onFinish={onFinish} autoComplete="off">
             <div className="flex flex-col mx-20 mt-40 align-middle lg:flex-row items-center justify-center ">
               <div className="lg:w-1/3 align-top  flex flex-col mb-4 -mt-20">
                 <div className="flex flex-col justify-center">
                   {role === "Authenticated" ? (
                     <div className="flex flex-col">
-                      <div className="my-24">
-                        <Thumbnail />
-                      </div>
-                      <div>
-                        <LoadImage />
-                      </div>
+                      {/*  <div className="my-24">
+                        {role === "SuperAdmin" ? <Thumbnail /> : <span></span>}
+                      </div> */}
+                      {/*  <div>
+                        {role === "SuperAdmin" ? <LoadImage /> : <span></span>}
+                      </div> */}
+                      {userImg ? (
+                        <div
+                          className="w-16 h-16 rounded-full"
+                          style={{
+                            backgroundImage: `url('http://147.182.188.52/backend${userImg?.url}')`,
+                            backgroundPosition: "center",
+                            backgroundSize: "100%",
+                            backgroundRepeat: "no-repeat",
+                          }}
+                        ></div>
+                      ) : (
+                        <div
+                          alt="perfil"
+                          className="w-16 h-16 rounded-full"
+                          style={{
+                            backgroundImage: `url('../../../assets/images/userinfo.png')`,
+                            backgroundPosition: "cover",
+                            backgroundSize: "100%",
+                            backgroundRepeat: "no-repeat",
+                          }}
+                        />
+                      )}
                     </div>
                   ) : (
                     <span></span>
