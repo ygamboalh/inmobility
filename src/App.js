@@ -34,6 +34,18 @@ import InsertLink from './Admin/Components/Links/insert-link';
 import { Alquileres, Home, NotFound, Ventas, Search, PropertyDetails } from './pages';
 import RequireRole from './layouts/components/RequireRole';
 import Upload from './components/UploadImage/upload';
+import VentaCasaApartamento from './components/Searchers/venta-casa-apartamento';
+import AlquilerCasaApartamento from './components/Searchers/alquiler-casa-apartamento';
+import VentaLotes from './components/Searchers/venta-lotes';
+import AlquilerLotes from './components/Searchers/alquiler-lotes';
+import VentaLocalesComerciales from './components/Searchers/venta-locales-comerciales';
+import AlquilerLocalesComerciales from './components/Searchers/alquiler-locales-comerciales';
+import VentaEdificios from './components/Searchers/venta-edificios';
+import AlquilerEdificios from './components/Searchers/alquiler-edificios';
+import VentaBodegas from './components/Searchers/venta-bodegas';
+import AlquilerBodegas from './components/Searchers/alquiler-bodegas';
+import VentaOficinas from './components/Searchers/venta-oficinas';
+import AlquilerOficinas from './components/Searchers/alquiler-oficinas';
 
 const App = () => {
   return (
@@ -52,6 +64,18 @@ const App = () => {
                 <Route path="/home/insert-property" element={<InsertProperty />} />
                 <Route path="/home/banner" element={<Banner />} />
                 <Route exact path="/home/upload/:id" element={<Upload />} />
+                <Route path="/home/search/selling-house-apartment" element={<VentaCasaApartamento />} />
+                <Route path="/home/search/rent-house-apartment" element={<AlquilerCasaApartamento />} />
+                <Route path="/home/search/selling-lots" element={<VentaLotes />} />
+                <Route path="/home/search/rent-lots" element={<AlquilerLotes />} />
+                <Route path="/home/search/selling-commercials" element={<VentaLocalesComerciales />} />
+                <Route path="/home/search/rent-commercials" element={<AlquilerLocalesComerciales />} />
+                <Route path="/home/search/selling-buildings" element={<VentaEdificios />} />
+                <Route path="/home/search/rent-buildings" element={<AlquilerEdificios />} />
+                <Route path="/home/search/selling-store" element={<VentaBodegas />} />
+                <Route path="/home/search/rent-store" element={<AlquilerBodegas />} />
+                <Route path="/home/search/selling-office" element={<VentaOficinas />} />
+                <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
             </Route>
           <Route element={<PublicRoutes />}>
                 <Route path="/home/banner/visiter" element={<Banner />} />
@@ -65,8 +89,8 @@ const App = () => {
                 <Route path="/home/visit-record" element={<VisitRecord />} />
                 <Route path="/user/terms" element={<Terms />} />
                 <Route path="/user/logout" element={<Logout />} />
-               <Route path='*' element={<NotFound />} />
-               
+                
+                <Route path='*' element={<NotFound />} />
             </Route>
           </Route>
 

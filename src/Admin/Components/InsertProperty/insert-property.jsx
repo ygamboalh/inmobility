@@ -32,6 +32,7 @@ import {
   TipoLote,
   Locales,
   UsoSuelo,
+  Provincia,
 } from "../../../BD/bd";
 import Select from "react-select";
 import PropertyLoadImage from "../../../components/UploadImage/property-upload-image";
@@ -47,7 +48,7 @@ const InsertProperty = () => {
   const navigate = useNavigate();
 
   const InsertPropertySchema = Yup.object().shape({
-    provincia: Yup.string().required("*").min(6, "*").max(150, "*"),
+    provincia: Yup.string().required("*"),
     canton: Yup.string().required("*").min(6, "*").max(150, "*"),
     distrito: Yup.string().required("*").min(6, "*").max(150, "*"),
     precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
@@ -390,20 +391,27 @@ const InsertProperty = () => {
             </div>
             <div className="flex flex-wrap justify-center m-3">
               <Field
-                type="text"
+                as="select"
                 defaultValue={property?.provincia}
                 hidden={selectedOption === ""}
                 name="provincia"
-                defaultInputValue={property?.provincia}
-                placeholder="Provincia"
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-
+              >
+                <option value="" label="">
+                  {"Provincia"}
+                </option>
+                {Provincia.map((item) => (
+                  <option value={item.value} label={item.label}>
+                    {item.value}
+                  </option>
+                ))}
+              </Field>
               <div className="space mb-2.5">
                 {errors.provincia && touched.provincia ? (
                   <div className="errordiv text-xs">{errors.provincia}</div>
                 ) : null}
               </div>
+
               <Field
                 type="text"
                 defaultValue={property?.canton}
@@ -1353,7 +1361,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/3 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Tipo de densidad"}
@@ -1379,6 +1387,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Locales Comerciales" ||
                   selectedOption === "Alquiler de Casas y Apartamentos" ||
                   selectedOption === "Venta de Casas y Apartamentos" ||
+                  selectedOption === "Venta de Bodegas o Similares" ||
                   selectedOption === ""
                 }
               >
@@ -1415,7 +1424,7 @@ const InsertProperty = () => {
                   selectedOption === "Venta de Casas y Apartamentos" ||
                   selectedOption === ""
                 }
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/3 p-2"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               >
                 <option value="" label="">
                   {"Servicios"}

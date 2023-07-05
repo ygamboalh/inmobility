@@ -179,7 +179,7 @@ const InsertUser = () => {
                         <div
                           className="w-16 h-16 rounded-full"
                           style={{
-                            backgroundImage: `url('http://147.182.188.52/backend${userImg?.url}')`,
+                            backgroundImage: `url('https://siccic.com/backend${userImg?.url}')`,
                             backgroundPosition: "center",
                             backgroundSize: "100%",
                             backgroundRepeat: "no-repeat",

@@ -10,6 +10,16 @@ export const CategoriaInmueble = [
   },
 ];
 
+export const Provincia = [
+  {
+    value: "Alajuela",
+    label: "Alajuela",
+  },
+  { value: "Cartago", label: "Cartago" },
+  { value: "Heredia", label: "Heredia" },
+  { value: "Limón", label: "Limón" },
+  { value: "San José", label: "San Jose" },
+];
 export const Oficina = [
   {
     value: "Oficina independiente",

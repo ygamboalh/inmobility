@@ -11,7 +11,7 @@ const Ventas = () => {
     <section>
       <div className="grid grid-cols-2 p-10 gap-10 max-md:grid-cols-1 text-center text-white font-medium">
         <Category
-          path={AlquilerRoutes.CASA_APARTAMENTO}
+          path={"/home/search/rent-house-apartment"}
           title="Alquiler Casas y Apartamentos"
         >
           <SiHomeassistantcommunitystore
@@ -25,7 +25,7 @@ const Ventas = () => {
         </Category>
 
         <Category
-          path={AlquilerRoutes.LOTES_FINCAS_TERRENOS}
+          path={"/home/search/rent-lots"}
           title="Alquiler Lotes, Fincas, Terrenos"
         >
           <GiFarmTractor
@@ -39,7 +39,7 @@ const Ventas = () => {
         </Category>
 
         <Category
-          path={AlquilerRoutes.LOCALES_COMERCIALES}
+          path={"/home/search/rent-commercials"}
           title="Alquiler Locales Comerciales"
         >
           <FaWarehouse
@@ -53,7 +53,7 @@ const Ventas = () => {
         </Category>
 
         <Category
-          path={AlquilerRoutes.BODEGAS_SIMILARES}
+          path={"/home/search/rent-store"}
           title="Alquiler Bodegas y Similares"
         >
           <GiFactory
@@ -66,7 +66,10 @@ const Ventas = () => {
           />
         </Category>
 
-        <Category path={AlquilerRoutes.EDIFICIOS} title="Alquiler de Edificios">
+        <Category
+          path={"/home/search/rent-buildings"}
+          title="Alquiler de Edificios"
+        >
           <BsFillBuildingsFill
             style={{
               color: "#fff",
@@ -78,7 +81,7 @@ const Ventas = () => {
         </Category>
 
         <Category
-          path={AlquilerRoutes.OFICINAS_CONSULTORIOS}
+          path={"/home/search/rent-office"}
           title="Alquiler Oficinas y Consultorios Médicos"
         >
           <BsPersonRolodex
