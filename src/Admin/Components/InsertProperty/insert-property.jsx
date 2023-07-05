@@ -39,6 +39,8 @@ import MySpinner from "../../../components/Spinner/spinner";
 import axios from "axios";
 import { getToken } from "../../../utils/helpers";
 import LoadPropertyImage from "../../../components/UploadImage/my-upload-property";
+import { useQuery } from "react-query";
+import { authUserData } from "../../../api/usersApi";
 
 const InsertProperty = () => {
   const { id } = useParams();
@@ -105,8 +107,10 @@ const InsertProperty = () => {
   const [images, setImages] = useState(null);
   const [createdPropertyId, setCreatedPropertyId] = useState(null);
   const [userRole, setUserRole] = useState();
-  const [selectedPropertyType, setSelectedPropertyType] = useState("");
 
+  const [selectedPropertyType, setSelectedPropertyType] = useState("");
+  const { data: userData } = useQuery("profile", authUserData);
+  const userId = userData?.id;
   const response = axios(`${API}/users/me?populate=role`, {
     method: "GET",
     headers: { Authorization: `${BEARER} ${getToken()}` },
@@ -293,6 +297,7 @@ const InsertProperty = () => {
         anunciante: values.anunciante,
         categories: catFounded,
         active: values.active,
+        creadoPor: userId,
         //photos: images,
       };
 
@@ -304,6 +309,7 @@ const InsertProperty = () => {
             message.success("¡La propiedad fue creada correctamente!");
             const propertyId = respons.data.data.id;
             setCreatedPropertyId(propertyId);
+            console.log(respons);
             if (userRole === "SuperAdmin") {
               navigate(`/admin/upload/${propertyId}`, { replace: true });
             } else {

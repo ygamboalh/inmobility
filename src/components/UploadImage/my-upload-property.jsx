@@ -11,7 +11,7 @@ import { message } from "antd";
 import MySpinner from "../Spinner/spinner";
 import { useNavigate, useParams } from "react-router-dom";
 
-const LoadPropertyImage = () => {
+const LoadPropertyImage = ({ creadoPor }) => {
   const id = useParams();
   const ref = "api::property.property";
   const refid = id.id;
@@ -21,6 +21,8 @@ const LoadPropertyImage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userRole, setUserRole] = useState();
   const navigate = useNavigate();
+  const { data: userData } = useQuery("profile", authUserData);
+  const userId = userData?.id;
   const response = axios(`${API}/users/me?populate=role`, {
     method: "GET",
     headers: { Authorization: `${BEARER} ${getToken()}` },
@@ -47,28 +49,35 @@ const LoadPropertyImage = () => {
     data.append("refId", refid);
     data.append("field", field);
     console.log(data.getAll("files"));
-    const upload = await axios({
-      method: "POST",
-      url: `${API}upload`,
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-      data,
-    })
-      .then((response) => {
-        message.success("¡Las imágenes fueron cargadas correctamente!");
-        if (userRole === "SuperAdmin") {
-          navigate("/admin/properties");
-        } else {
-          navigate("/home/banner");
-        }
+    //Aqui verifico que el id del usuario logueado sea el mismo del usuario que creo la propiedad
+    if (userId === creadoPor) {
+      const upload = await axios({
+        method: "POST",
+        url: `${API}upload`,
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+        data,
       })
-      .catch((err) =>
-        message.error(
-          "¡Ocurrió un error cargando las imágenes. Vuelva a intentarlo!"
+        .then((response) => {
+          message.success("¡Las imágenes fueron cargadas correctamente!");
+          console.log(response);
+          if (userRole === "SuperAdmin") {
+            navigate("/admin/properties");
+          } else {
+            navigate("/home/banner");
+          }
+        })
+        .catch((err) =>
+          message.error(
+            "¡Ocurrió un error cargando las imágenes. Vuelva a intentarlo!"
+          )
         )
-      )
-      .finally(() => setIsLoading(false));
+        .finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+      message.error("¡Ocurrió un error cargando las imágenes!");
+    }
   };
   if (isLoading) {
     return <MySpinner />;

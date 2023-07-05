@@ -10,7 +10,7 @@ const Welcome = () => {
       <div className="flex-5 lg:w-96 md:w-96 text-white">
         <label className="mb-4">
           Esta es la principal herramienta de trabajo de los Asesores
-          Inmobiliarios en Costa Rica lll
+          Inmobiliarios en Costa Rica
         </label>
       </div>
       <div className="flex-5 lg:w-96 md:w-96 text-white">
