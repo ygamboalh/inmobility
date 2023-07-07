@@ -32,7 +32,7 @@ const ProfileSchema = Yup.object().shape({
     .required("¡El nombre de la empresa es requerido!"),
   address: Yup.string()
     .min(4, "¡Debe ser más larga!")
-    .max(50, "¡Demasiado larga!")
+    .max(500, "¡Demasiado larga!")
     .required("¡Su dirección es requerida!"),
   type: Yup.string().required("¡El tipo de asesor es requerido!"),
   phone: Yup.string()
@@ -265,6 +265,7 @@ const Profile = () => {
             </div>
 
             <Field
+              as="textarea"
               defaultValue={userData?.address}
               placeholder="Dirección física"
               type="text"

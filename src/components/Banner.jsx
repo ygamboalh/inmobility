@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getToken } from "../utils/helpers";
 import { API, BEARER } from "../constant";
 import MySpinner from "./Spinner/spinner";
+import { Category } from "./Category";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -38,34 +39,50 @@ const Banner = () => {
     return <MySpinner />;
   }
   return (
-    <section className="h-full max-h-[640px] my-10">
-      <div className="flex flex-col lg:flex-row">
-        <div className="text-center flex flex-col w-full px-5 lg:flex-row lg:my-16 mx-auto gap-10 justify-center text-white font-semibold">
-          <Link to="/ventas">
-            <div className="border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-primary">
-              <div className="text-lg">Buscar Inmuebles en Venta</div>
-              <div className="font-thin text-sm">
-                presiona para ver todas las ventas
-              </div>
-            </div>
-          </Link>
-          <Link to="/alquiler">
-            <div className="border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-primary">
-              <div className="text-lg">Alquileres de Inmuebles</div>
-              <div className="font-thin text-sm">
-                presiona para ver todas los alquileres
-              </div>
-            </div>
-          </Link>
-          <button onClick={SelectLink} type="button">
-            <div className="border py-14 lg:p-20 shadow-1 hover:shadow-2xl rounded-lg bg-primary">
-              <div className="text-lg">Subir un inmueble</div>
-              <div className="font-thin text-sm">
-                si eres un asesor verificado podrás subir un inmueble
-              </div>
-            </div>
-          </button>
-        </div>
+    <section className="h-full max-h-[640px] my-8">
+      <div className="grid grid-cols-3 p-5 gap-10 lg:py-16  max-[1000px]:grid-cols-1 max-md:grid-cols-1 text-center text-white font-medium">
+        <Link
+          to="/ventas"
+          className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary"
+        >
+          <div className="px-2">
+            <h1>Buscar Inmuebles en Venta</h1>
+          </div>
+          <div>
+            <label className="font-thin">
+              presiona para ver todas las ventas
+            </label>
+          </div>
+        </Link>
+        <Link
+          to="/alquiler"
+          className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary"
+        >
+          <div className="px-2">
+            <h1>Alquileres de Inmuebles</h1>
+          </div>
+          <div>
+            <label className="font-thin">
+              presiona para ver todas los alquileres
+            </label>
+          </div>
+        </Link>
+        <button
+          type="button"
+          onClick={SelectLink}
+          className="border flex flex-col py-14 justify-center
+          align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg
+          bg-primary text-center items-center"
+        >
+          <div className="px-2">
+            <h1>Subir un inmueble</h1>
+          </div>
+          <div>
+            <label className="font-thin">
+              si eres un asesor verificado podrás subir un inmueble
+            </label>
+          </div>
+        </button>
       </div>
     </section>
   );

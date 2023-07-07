@@ -35,6 +35,7 @@ import { useIsSearched } from "../../store/Globals";
 import { GetAllProperties } from "../../api/GetProperties";
 import SearchResultsActive from "../SearchResults/search-results-active";
 import SearchResults from "../SearchResults/search-results";
+import PropertyDetailsSearch from "../PropertyDetails/property-search-detail";
 
 const VentaCasaApartamento = () => {
   const navigate = useNavigate();
@@ -205,8 +206,10 @@ const VentaCasaApartamento = () => {
         })
         .then((response) => {
           const data = response.data.data;
+          setIsLoading(false);
+          console.log("resultado de la busqueda", data);
           //Recorrer las propiedades y ver cuales coinciden con los criterior de busqueda de amenidades, patio, detalles internos y externos
-          let amenidad = [];
+          /* let amenidad = [];
           let patioJ = [];
           let detallesInt = [];
           let detallesExt = [];
@@ -231,9 +234,9 @@ const VentaCasaApartamento = () => {
             });
             console.log("dddddd", d);
             return d;
-          });
+          }); */
 
-          console.log("coindicencia amenidades", coincidencias);
+          //console.log("coindicencia amenidades", coincidencias);
           /*  if (amenidad.length > 0) {
             data.map((prop) => {
               if (prop.attributes.amenidades.value === amenidad.value) {
@@ -241,14 +244,14 @@ const VentaCasaApartamento = () => {
               }
             });
           } */
-          const filtros = response.data.data.filter((item) =>
+          /* const filtros = response.data.data.filter((item) =>
             amenidad.includes(item.value)
           );
           console.log("filtros", filtros);
           setIsLoading(false);
           setSearchResult(response.data.data);
           console.log(response.data.data);
-          console.log("resultados de busqueda", response.data.data);
+          console.log("resultados de busqueda", response.data.data); */
         });
     },
     validationSchema: Yup.object().shape({
@@ -533,11 +536,11 @@ const VentaCasaApartamento = () => {
         </div>
       </form>
       <div>
-        {/*  {searchResult ? (
-          <SearchResults searchResults={searchResult} />
+        {searchResult ? (
+          <PropertyDetailsSearch searchResults={searchResult} />
         ) : (
           <>No hay resultados</>
-        )} */}
+        )}
       </div>
     </div>
   );

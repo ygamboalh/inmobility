@@ -27,7 +27,7 @@ const RegisterSchema = Yup.object().shape({
     .required("¡El nombre de la empresa es requerido!"),
   address: Yup.string()
     .min(4, "¡Debe ser más larga!")
-    .max(400, "¡Demasiado larga!")
+    .max(500, "¡Demasiado larga!")
     .required("¡Su dirección es requerida!"),
   type: Yup.string().required("¡El tipo de asesor es requerido!"),
   acept: Yup.boolean().oneOf([true], "¡Debe aceptar los términos!"),
@@ -181,7 +181,7 @@ const RegisterRequest = () => {
             />
             <div className="space">
               {errors.username && touched.username ? (
-                <div className="errordiv text-xs">{errors.username}</div>
+                <div className="errordivp text-xs">{errors.username}</div>
               ) : null}
             </div>
 
@@ -194,7 +194,7 @@ const RegisterRequest = () => {
 
             <div className="space">
               {errors.personalId && touched.personalId ? (
-                <div className="errordiv text-xs">{errors.personalId}</div>
+                <div className="errordivp text-xs">{errors.personalId}</div>
               ) : null}
             </div>
 
@@ -207,7 +207,7 @@ const RegisterRequest = () => {
 
             <div className="space">
               {errors.email && touched.email ? (
-                <div className="errordiv text-xs">{errors.email}</div>
+                <div className="errordivp text-xs">{errors.email}</div>
               ) : null}
             </div>
 
@@ -220,7 +220,7 @@ const RegisterRequest = () => {
 
             <div className="space">
               {errors.phone && touched.phone ? (
-                <div className="errordiv text-xs">{errors.phone}</div>
+                <div className="errordivp text-xs">{errors.phone}</div>
               ) : null}
             </div>
 
@@ -233,7 +233,7 @@ const RegisterRequest = () => {
 
             <div className="space">
               {errors.mobile && touched.mobile ? (
-                <div className="errordiv text-xs">{errors.mobile}</div>
+                <div className="errordivp text-xs">{errors.mobile}</div>
               ) : null}
             </div>
 
@@ -246,20 +246,20 @@ const RegisterRequest = () => {
 
             <div className="space">
               {errors.company && touched.company ? (
-                <div className="errordiv text-xs">{errors.company}</div>
+                <div className="errordivp text-xs">{errors.company}</div>
               ) : null}
             </div>
 
             <Field
+              as="textarea"
               placeholder="Dirección física"
-              type="text"
               name="address"
               className="common-input"
             />
 
             <div className="space">
               {errors.address && touched.address ? (
-                <div className="errordiv text-xs">{errors.address}</div>
+                <div className="errordivp text-xs">{errors.address}</div>
               ) : null}
             </div>
 
@@ -272,7 +272,7 @@ const RegisterRequest = () => {
 
             <div className="space">
               {errors.password && touched.password ? (
-                <div className="errordiv text-xs">{errors.password}</div>
+                <div className="errordivp text-xs">{errors.password}</div>
               ) : null}
             </div>
             <div className="mb-1 mt-1 text-left">
@@ -298,7 +298,7 @@ const RegisterRequest = () => {
             </Field>
             <div className="space">
               {errors.type && touched.type ? (
-                <div className="errordiv text-xs">{errors.type}</div>
+                <div className="errordivp text-xs">{errors.type}</div>
               ) : null}
             </div>
             <div className="flex mx-4 justify-between items-center">
@@ -311,7 +311,7 @@ const RegisterRequest = () => {
             </div>
             <div className="space">
               {errors.acept && touched.acept ? (
-                <div className="errordiv text-xs">{errors.acept}</div>
+                <div className="errordivp text-xs">{errors.acept}</div>
               ) : null}
             </div>
             <div className="max-w-60 flex flex-col">

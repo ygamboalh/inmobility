@@ -30,7 +30,7 @@ const RegisterSchema = Yup.object().shape({
     .required("¡El nombre de la empresa es requerido!"),
   address: Yup.string()
     .min(4, "¡Debe ser más larga!")
-    .max(400, "¡Demasiado larga!")
+    .max(500, "¡Demasiado larga!")
     .required("¡Su dirección es requerida!"),
   type: Yup.string().required("¡El tipo de asesor es requerido!"),
   active: Yup.string().required("¡El estado es requerido!"),
@@ -272,17 +272,7 @@ const InsertUser = () => {
                     <div className="errordivp text-xs">{errors.company}</div>
                   ) : null}
                 </div>
-                <Field
-                  type="text"
-                  name="address"
-                  className="w-full input-admin-property"
-                  placeholder="Dirección física"
-                />
-                <div className="space">
-                  {errors.address && touched.address ? (
-                    <div className="errordivp text-xs">{errors.address}</div>
-                  ) : null}
-                </div>
+
                 <Field
                   type="password"
                   name="password"
@@ -336,8 +326,20 @@ const InsertUser = () => {
                     <div className="errordivp text-xs">{errors.active}</div>
                   ) : null}
                 </div>
+                <Field
+                  as="textarea"
+                  name="address"
+                  className="w-full input-admin-property"
+                  placeholder="Dirección física"
+                />
+                <div className="space">
+                  {errors.address && touched.address ? (
+                    <div className="errordivp text-xs">{errors.address}</div>
+                  ) : null}
+                </div>
               </div>
             </div>
+            <div></div>
             <div className="flex flex-row align-middle justify-center content-center">
               <div className="max-w-60 flex flex-col">
                 <button
