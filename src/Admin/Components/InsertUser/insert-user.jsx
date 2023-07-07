@@ -46,8 +46,8 @@ const RegisterSchema = Yup.object().shape({
     .max(15, "¡Teléfono invalido!")
     .required("¡El teléfono celular es requerido!"),
   personalId: Yup.string()
-    .min(11, "¡Debe ser más larga!")
-    .max(15, "¡Demasiado larga!")
+    .min(9, "¡Debe ser más larga!")
+    .max(20, "¡Demasiado larga!")
     .required("¡El identificador personal es requerido!"),
 });
 

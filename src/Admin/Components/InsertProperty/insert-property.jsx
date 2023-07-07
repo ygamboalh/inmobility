@@ -60,7 +60,7 @@ const InsertProperty = () => {
     areaPropiedad: Yup.string().min(0, "*").max(10000, "*"),
     areaContruccion: Yup.number().min(0, "*").max(100000, "*"),
     banos: Yup.number().min(0, "*").max(10, "*"),
-    cuotaMantenimiento: Yup.number().min(0, "*").max(15, "*"),
+    cuotaMantenimiento: Yup.number().min(0, "*").max(500000, "*"),
     areaBodega: Yup.number().min(0, "*").max(10000000, "*"),
     altura: Yup.number().min(0, "*").max(500, "*"),
     areaPlantas: Yup.number().min(0, "*").max(100000, "*"),

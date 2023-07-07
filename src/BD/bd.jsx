@@ -103,9 +103,9 @@ export const CuotaMantenimiento = [
 export const Densidad = [
   { value: "No aplica", label: "No aplica" },
   { value: "Sin especificar", label: "Sin especificar" },
-  { value: "Baja densidadd", label: "Baja densidad" },
-  { value: "Mediana densidadd", label: "Mediana densidad" },
-  { value: "Alta densidadd", label: "Alta densidad" },
+  { value: "Baja densidad", label: "Baja densidad" },
+  { value: "Mediana densidad", label: "Mediana densidad" },
+  { value: "Alta densidad", label: "Alta densidad" },
 ];
 export const Cochera = [
   { value: "Parqueo solo para 1 moto", label: "Parqueo solo para 1 moto" },

@@ -20,15 +20,15 @@ const Search = () => {
 
   // ? Hook para manipular la URL e introducir los parametros de consulta
   const [params, setParams] = useSearchParams();
-  // console.log(params);
+  //console.log("params", params);
 
   // ? Consultas que se reciben desde la url que introduce la pagina anterior
   const { search } = useLocation();
-  // console.log(search);
+  // console.log("search", search);
 
   // ? El pathname informa el proposito de la consulta, venta o alquiler
   const { pathname } = useResolvedPath();
-  console.log(pathname);
+  //console.log("pathname", pathname);
 
   // ? Hook para la llamada a la api con el proposito, venta o alquiler
   const { data, isLoading, isError, isSuccess, error } = useQuery({
@@ -40,7 +40,7 @@ const Search = () => {
   const makeQueries = (filterValue) => {
     //** Recibe los filtros y retorna consultas */
     const valuesFiltered = QueriesByFilters(filterValue);
-    console.log(valuesFiltered);
+    //console.log("valores", valuesFiltered);
 
     valuesFiltered.map((value) => {
       // * Almacena los valores de las consultas en el arreglo de params para luego pasarlos a setParams y actualizar el path
@@ -51,6 +51,7 @@ const Search = () => {
     });
     setParams(params);
     setIsSearched(!isSearched);
+    //console.log("paramss", params);
   };
 
   // * Condicion para mostrar cargando

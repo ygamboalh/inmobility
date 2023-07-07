@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
 import { Spin, message } from "antd";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, useFormik } from "formik";
 
 import { Electrica, Bodega, Parqueo, Provincia } from "../../BD/bd";
-import Select from "react-select";
+
 import axios from "axios";
 import { useQuery } from "react-query";
 import { authUserData } from "../../api/usersApi";
@@ -14,145 +13,66 @@ import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import AxiosInstance from "../../api/AxiosInstance";
 import MySpinner from "../Spinner/spinner";
+import { useIsSearched } from "../../store/Globals";
+import { QueriesByFilters } from "../../utils/QueriesByFilters";
 
-const VentaBodegas = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+const AlquilerBodegas = () => {
+  //----------------------------------------------------------------
+  const [searchResult, setSearchResult] = useState({});
+  //----------------------------------------------------------------
 
-  const InsertPropertySchema = Yup.object().shape({
-    canton: Yup.string().min(6, "*").max(150, "*"),
-    distrito: Yup.string().min(6, "*").max(150, "*"),
-    precio: Yup.number().min(0, "*").max(2000000, "*"),
-    areaTerreno: Yup.number().min(0, "*").max(500000, "*"),
-    areaPropiedad: Yup.string().min(0, "*").max(10000, "*"),
-    areaContruccion: Yup.number().min(0, "*").max(100000, "*"),
-    //cuotaMantenimiento: Yup.number().min(0, "*").max(15, "*"),
-    areaBodega: Yup.number().min(0, "*").max(10000000, "*"),
-    altura: Yup.number().min(0, "*").max(500, "*"),
-    parqueo: Yup.string(),
-    concepcionElectrica: Yup.string(),
-    areaCarga: Yup.boolean().oneOf([true, false]),
-  });
+  const [initialData, setinitialData] = useState({});
 
-  const [selectedOption, setSelectedOption] = useState("");
-
-  const [category, setCategory] = useState({});
-  const [categoriesDB, setCategoriesDB] = useState({});
-  const [amenidades, setAmenidades] = useState({});
-  const [patio, setPatio] = useState({});
-  const [detallesInternos, setDetallesInternos] = useState({});
-  const [detallesExternos, setDetallesExternos] = useState({});
-  const [property, setProperty] = useState();
-  const [images, setImages] = useState(null);
-  const [createdPropertyId, setCreatedPropertyId] = useState(null);
-  const [userRole, setUserRole] = useState();
-
-  const [selectedPropertyType, setSelectedPropertyType] = useState("");
-  const { data: userData } = useQuery("profile", authUserData);
-  const userId = userData?.id;
-  const response = axios(`${API}/users/me?populate=role`, {
-    method: "GET",
-    headers: { Authorization: `${BEARER} ${getToken()}` },
-  }).then((response) => {
-    setUserRole(response.data.role.name);
-  });
-  const handleBodegasProperty = (event) => {
-    const option = event.target.value;
-
-    if (option) setSelectedPropertyType(option);
-  };
-
-  useEffect(() => {
-    const response = AxiosInstance.get(`properties/${id}`).then((property) =>
-      setProperty(property?.data?.data?.attributes)
-    );
-  }, []);
-
-  const [initialData, setinitialData] = useState();
-
-  useEffect(() => {
-    fetch(`${API}categories`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const categories = [];
-        data?.data?.map((category) => {
-          const { nombre } = category.attributes;
-          categories.push({ id: category.id, nombre: nombre });
-        });
-        setCategoriesDB(categories);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
   const [isLoading, setIsLoading] = useState(false);
-  const onFinish = async (values) => {
-    setIsLoading(true);
 
-    try {
-      const catFounded = [];
-      const cat = categoriesDB?.find((c) => c.nombre === selectedOption);
-      if (cat) {
-        catFounded.push(cat.id);
-      }
-
-      const value = {
-        provincia: values.provincia,
-        canton: values.canton,
-        distrito: values.distrito,
-        precio: values.precio,
-        tipoPropiedad: selectedPropertyType,
-        areaPropiedad: values.areaPropiedad,
-        areaContruccion: values.areaContruccion,
-        parqueo: values.parqueo,
-        //cuotaMantenimiento: values.cuotaMantenimiento,
-        areaBodega: values.areaBodega,
-        altura: values.altura,
-        concepcionElectrica: values.concepcionElectrica,
-        areaCarga: values.areaCarga,
-      };
-
-      if (!id) {
-        const response = await AxiosInstance.post("/properties", {
-          data: value,
+  const { handleChange, handleSubmit, values, errors, touched } = useFormik({
+    initialValues: {
+      provincia: "",
+      canton: "",
+    },
+    onSubmit: (values) => {
+      setIsLoading(true);
+      const urlPortion = makeQueries(values);
+      let urlFinal = "";
+      urlPortion.map((value) => {
+        urlFinal += value.name;
+      });
+      const urlQuery = urlFinal.replace(/ /g, "%20");
+      const url = `${API}properties?filters[categories][id][$eq]=9${urlQuery}`;
+      console.log("url: ", url);
+      const busqueda = axios
+        .get(url, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${BEARER} ${getToken()}`,
+          },
         })
-          .then((respons) => {
-            message.success("¡La propiedad fue creada correctamente!");
-            const propertyId = respons.data.data.id;
-            setCreatedPropertyId(propertyId);
-            console.log(respons);
-            if (userRole === "SuperAdmin") {
-              navigate(`/admin/upload/${propertyId}`, { replace: true });
-            } else {
-              navigate(`/home/upload/${propertyId}`, { replace: true });
-            }
-          })
-          .catch((error) => {
-            message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
-          });
-      } else {
-        const response = await AxiosInstance.put(`/properties/${id}`, {
-          data: value,
+        .then((response) => {
+          const data = response.data.data;
+          console.log(data);
+          setSearchResult(response.data.data);
         })
-          .then((response) => {
-            message.success("¡La propiedad fue actualizada correctamente!");
-            if (userRole === "SuperAdmin") {
-              navigate(`/admin/upload/${id}`, { replace: true });
-            } else {
-              navigate(`/home/upload/${id}`, { replace: true });
-            }
-          })
-          .catch((error) => {
-            message.error("¡Ocurrió un error inesperado!");
-          });
-      }
-    } catch (error) {
-      message.error("¡Ocurrió un error inesperado!");
-    } finally {
-      setIsLoading(false);
-    }
+        .finally(() => {
+          setIsLoading(false);
+        });
+    },
+    validationSchema: Yup.object({
+      canton: Yup.string().min(3, "*").max(150, "*"),
+      distrito: Yup.string().min(3, "*").max(150, "*"),
+      precio: Yup.number().min(0, "*").max(2000000, "*"),
+      areaTerreno: Yup.number().min(0, "*").max(500000, "*"),
+      areaPropiedad: Yup.string().min(0, "*").max(10000, "*"),
+      areaContruccion: Yup.number().min(0, "*").max(100000, "*"),
+      areaBodega: Yup.number().min(0, "*").max(1000000, "*"),
+      altura: Yup.number().min(0, "*").max(500, "*"),
+    }),
+  });
+  const makeQueries = (values) => {
+    //** Recibe los filtros y retorna consultas */
+    const valuesFiltered = QueriesByFilters(values);
+
+    //console.log("valores que quiero", valuesFiltered);
+    return valuesFiltered;
   };
 
   if (isLoading) {
@@ -167,225 +87,214 @@ const VentaBodegas = () => {
           Búsqueda: Venta de bodegas o similares
         </label>
       </div>
-      <Formik
-        initialValues={initialData}
-        validationSchema={InsertPropertySchema}
-        onSubmit={onFinish}
-      >
-        {({ errors, touched }) => (
-          <Form onFinish={onFinish} autoComplete="off">
-            <div className="flex flex-wrap justify-center m-3">
-              <Field
-                as="select"
-                name="provincia"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Provincia"}
-                </option>
-                {Provincia.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-              <div className="space mb-2.5">
-                {errors.provincia && touched.provincia ? (
-                  <div className="errordiv text-xs">{errors.provincia}</div>
-                ) : null}
-              </div>
 
-              <Field
-                type="text"
-                name="canton"
-                placeholder="Canton"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.canton && touched.canton ? (
-                  <div className="errordiv text-xs">{errors.canton}</div>
-                ) : null}
-              </div>
-              <Field
-                type="text"
-                name="distrito"
-                placeholder="Distrito"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.distrito && touched.distrito ? (
-                  <div className="errordiv text-xs">{errors.distrito}</div>
-                ) : null}
-              </div>
+      <form onSubmit={handleSubmit} autoComplete="off">
+        <div className="flex flex-wrap justify-center m-3">
+          <select
+            value={values.provincia}
+            onChange={handleChange}
+            name="provincia"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Provincia"}
+            </option>
+            {Provincia.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
 
-              <Field
-                type="number"
-                name="precio"
-                placeholder="Precio"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.precio && touched.precio ? (
-                  <div className="errordiv text-xs">{errors.precio}</div>
-                ) : null}
-              </div>
-              <Field
-                type="number"
-                name="areaTerreno"
-                placeholder="Área del terreno"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.areaTerreno && touched.areaTerreno ? (
-                  <div className="errordiv text-xs">{errors.areaTerreno}</div>
-                ) : null}
-              </div>
+          <input
+            type="text"
+            name="canton"
+            placeholder="Canton"
+            value={values.canton}
+            onChange={handleChange}
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.canton && touched.canton ? (
+              <div className="errordiv text-xs">{errors.canton}</div>
+            ) : null}
+          </div>
+          <input
+            type="text"
+            value={values.distrito}
+            onChange={handleChange}
+            name="distrito"
+            placeholder="Distrito"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.distrito && touched.distrito ? (
+              <div className="errordiv text-xs">{errors.distrito}</div>
+            ) : null}
+          </div>
+          <input
+            type="number"
+            name="precio"
+            value={values.precio}
+            onChange={handleChange}
+            placeholder="Precio"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.precio && touched.precio ? (
+              <div className="errordiv text-xs">{errors.precio}</div>
+            ) : null}
+          </div>
+          <input
+            type="number"
+            value={values.areaTerreno}
+            onChange={handleChange}
+            name="areaTerreno"
+            placeholder="Área del terreno"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaTerreno && touched.areaTerreno ? (
+              <div className="errordiv text-xs">{errors.areaTerreno}</div>
+            ) : null}
+          </div>
+          <select
+            value={values.tipoPropiedad}
+            onChange={handleChange}
+            name="tipoBodega"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble ( Bodega )"}
+            </option>
+            {Bodega.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
 
-              <Field
-                as="select"
-                onChange={handleBodegasProperty}
-                name="tipoBodega"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Tipo de inmueble ( Bodega )"}
-                </option>
-                {Bodega.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-
-              <Field
-                type="number"
-                name="areaPropiedad"
-                placeholder="Área de la propiedad"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.areaPropiedad && touched.areaPropiedad ? (
-                  <div className="errordiv text-xs">{errors.areaPropiedad}</div>
-                ) : null}
-              </div>
-
-              <Field
-                type="number"
-                name="areaContruccion"
-                placeholder="Área construcción"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.areaContruccion && touched.areaContruccion ? (
-                  <div className="errordiv text-xs">
-                    {errors.areaContruccion}
-                  </div>
-                ) : null}
-              </div>
-
-              <Field
-                as="select"
-                name="parqueo"
-                id="parqueo"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Parqueo"}
-                </option>
-                {Parqueo.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-              <div className="space mb-2.5">
-                {errors.parqueo && touched.parqueo ? (
-                  <div className="errordiv text-xs">{errors.parqueo}</div>
-                ) : null}
-              </div>
-
-              <Field
-                type="number"
-                name="areaBodega"
-                placeholder="Área bodega"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.areaBodega && touched.areaBodega ? (
-                  <div className="errordiv text-xs">{errors.areaBodega}</div>
-                ) : null}
-              </div>
-              <Field
-                type="number"
-                name="altura"
-                placeholder="Altura"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.altura && touched.altura ? (
-                  <div className="errordiv text-xs">{errors.altura}</div>
-                ) : null}
-              </div>
-              <Field
-                as="select"
-                name="concepcionElectrica"
-                id="concepcionElectrica"
-                placeholder="Concepción eléctrica"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Concepción eléctrica"}
-                </option>
-                {Electrica.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-              <div className="space mb-2.5">
-                {errors.concepcionElectrica && touched.concepcionElectrica ? (
-                  <div className="errordiv text-xs">
-                    {errors.concepcionElectrica}
-                  </div>
-                ) : null}
-              </div>
+          <input
+            type="number"
+            value={values.areaPropiedad}
+            onChange={handleChange}
+            name="areaPropiedad"
+            placeholder="Área de la propiedad"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaPropiedad && touched.areaPropiedad ? (
+              <div className="errordiv text-xs">{errors.areaPropiedad}</div>
+            ) : null}
+          </div>
+          <input
+            type="number"
+            value={values.areaContruccion}
+            onChange={handleChange}
+            name="areaContruccion"
+            placeholder="Área construcción"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaContruccion && touched.areaContruccion ? (
+              <div className="errordiv text-xs">{errors.areaContruccion}</div>
+            ) : null}
+          </div>
+          <select
+            name="parqueo"
+            value={values.parqueo}
+            onChange={handleChange}
+            id="parqueo"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Parqueo"}
+            </option>
+            {Parqueo.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            value={values.areaBodega}
+            onChange={handleChange}
+            name="areaBodega"
+            placeholder="Área bodega"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaBodega && touched.areaBodega ? (
+              <div className="errordiv text-xs">{errors.areaBodega}</div>
+            ) : null}
+          </div>
+          <input
+            type="number"
+            value={values.altura}
+            onChange={handleChange}
+            name="altura"
+            placeholder="Altura"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.altura && touched.altura ? (
+              <div className="errordiv text-xs">{errors.altura}</div>
+            ) : null}
+          </div>
+          <select
+            name="concepcionElectrica"
+            value={values.concepcionElectrica}
+            onChange={handleChange}
+            id="concepcionElectrica"
+            placeholder="Concepción eléctrica"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Concepción eléctrica"}
+            </option>
+            {Electrica.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex m-4 content-center items-center justify-center ">
+          <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
+            <div className="m-1 justify-center items-center content-center flex self-start">
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  value={values.areaCarga}
+                  onChange={handleChange}
+                  id="areaCarga"
+                  name="areaCarga"
+                  class="sr-only peer"
+                />
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Área carga
+                </span>
+              </label>
             </div>
-            <div className="flex m-4 content-center items-center justify-center ">
-              <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
-                <div className="m-1 justify-center items-center content-center flex self-start">
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      value=""
-                      id="areaCarga"
-                      name="areaCarga"
-                      class="sr-only peer"
-                    />
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Área carga
-                    </span>
-                  </label>
-                </div>
-              </div>
-            </div>
+          </div>
+        </div>
 
-            <hr></hr>
-            <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
-              <div className="">
-                <button
-                  type="submit"
-                  className="mr-2 mb-3 py-2 px-4 rounded bg-blue-700 text-white"
-                >
-                  Realizar búsqueda
-                </button>
-              </div>
-            </div>
-          </Form>
-        )}
-      </Formik>
+        <hr></hr>
+        <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
+          <div className="">
+            <button
+              type="submit"
+              className="mr-2 mb-3 py-2 px-4 rounded bg-blue-700 text-white"
+            >
+              Realizar búsqueda
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };
 
-export default VentaBodegas;
+export default AlquilerBodegas;
