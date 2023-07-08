@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import DataTable from "react-data-table-component";
 import { useQuery, useQueryClient } from "react-query";
@@ -9,15 +10,14 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import MySpinner from "../Spinner/spinner";
 
-const SearchResults = ({ searchResults }) => {
+const SearchResults = () => {
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
   const [filterRecords, setFilterRecords] = useState([]);
   const navigate = useNavigate();
-
-  console.log(searchResults);
+  const location = useLocation();
 
   const paginationComponentOptions = {
     rowsPerPageText: "Inmuebles por página",
@@ -25,7 +25,11 @@ const SearchResults = ({ searchResults }) => {
     selectAllRowsItem: true,
     selectAllRowsItemText: "Todos",
   };
-
+  useEffect(() => {
+    const data = location.state.data;
+    setRecords(data);
+    console.log("datos de la busqueda", data);
+  }, []);
   const column = [
     {
       name: "ID",
@@ -37,8 +41,7 @@ const SearchResults = ({ searchResults }) => {
     {
       name: "Categoria",
       id: "categoria",
-      selector: (row, index) =>
-        row.attributes.categories.data[0]?.attributes.nombre,
+      selector: (row, index) => "Venta de Casas y apartamentos",
       sortable: true,
       width: "150px",
     },
@@ -109,21 +112,21 @@ const SearchResults = ({ searchResults }) => {
     );
     setRecords(searchData);
   };
-  if (isLoading || !searchResults) {
+  /*   if (isLoading || !records) {
     return <MySpinner />;
-  }
+  } */
 
   return (
     <div className="w-full">
       <DataTable
         columns={column}
-        data={searchResults}
+        data={records}
         pagination
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight
         title="Resultados de la búsqueda"
-        progressPending={pending}
+        //progressPending={pending}
         highlightOnHover
         progressComponent={<MySpinner />}
         paginationComponentOptions={paginationComponentOptions}

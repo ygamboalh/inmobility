@@ -1,30 +1,20 @@
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Spin, message } from "antd";
-import { Formik, Form, Field, useFormik } from "formik";
+import * as Yup from "yup";
+import { message } from "antd";
+import { useFormik } from "formik";
+import axios from "axios";
 
 import { Electrica, Bodega, Parqueo, Provincia } from "../../BD/bd";
-
-import axios from "axios";
-import { useQuery } from "react-query";
-import { authUserData } from "../../api/usersApi";
 import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
-import AxiosInstance from "../../api/AxiosInstance";
 import MySpinner from "../Spinner/spinner";
-import { useIsSearched } from "../../store/Globals";
 import { QueriesByFilters } from "../../utils/QueriesByFilters";
 
 const AlquilerBodegas = () => {
-  //----------------------------------------------------------------
-  const [searchResult, setSearchResult] = useState({});
-  //----------------------------------------------------------------
-
-  const [initialData, setinitialData] = useState({});
-
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
     initialValues: {
       provincia: "",
@@ -38,24 +28,33 @@ const AlquilerBodegas = () => {
       urlPortion.map((value) => {
         urlFinal += value.name;
       });
-      const urlQuery = urlFinal.replace(/ /g, "%20");
-      const url = `${API}properties?filters[categories][id][$eq]=10${urlQuery}`;
-      console.log("url: ", url);
-      const busqueda = axios
-        .get(url, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${BEARER} ${getToken()}`,
-          },
-        })
-        .then((response) => {
-          const data = response.data.data;
-          console.log(data);
-          setSearchResult(response.data.data);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      if (urlFinal.length !== 0) {
+        const urlQuery = urlFinal.replace(/ /g, "%20");
+        const url = `${API}properties?filters[categories][id][$eq]=10${urlQuery}`;
+        console.log("url: ", url);
+        const busqueda = axios
+          .get(url, {
+            headers: {
+              Authorization: `Bearer ${BEARER} ${getToken()}`,
+            },
+          })
+          .then((response) => {
+            const data = response.data.data;
+            if (data.length !== 0) {
+              navigate("/home/search/search-results", { state: { data } });
+            } else {
+              message.info("No se encontraron resultados");
+              return;
+            }
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } else {
+        message.error(`Debe introducir al menos un criterio de búsqueda`);
+        setIsLoading(false);
+        return;
+      }
     },
     validationSchema: Yup.object({
       canton: Yup.string().min(3, "*").max(150, "*"),
@@ -70,10 +69,7 @@ const AlquilerBodegas = () => {
     }),
   });
   const makeQueries = (values) => {
-    //** Recibe los filtros y retorna consultas */
     const valuesFiltered = QueriesByFilters(values);
-
-    //console.log("valores que quiero", valuesFiltered);
     return valuesFiltered;
   };
 

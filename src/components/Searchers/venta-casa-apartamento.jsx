@@ -35,7 +35,6 @@ import { useIsSearched } from "../../store/Globals";
 import { GetAllProperties } from "../../api/GetProperties";
 import SearchResultsActive from "../SearchResults/search-results-active";
 import SearchResults from "../SearchResults/search-results";
-import PropertyDetailsSearch from "../PropertyDetails/property-search-detail";
 
 const VentaCasaApartamento = () => {
   const navigate = useNavigate();
@@ -194,65 +193,76 @@ const VentaCasaApartamento = () => {
       urlPortion.map((value) => {
         urlFinal += value.name;
       });
-      const urlQuery = urlFinal.replace(/ /g, "%20");
-      const url = `${API}properties?filters[categories][id][$eq]=1${urlQuery}`;
-      console.log("url: ", url);
-      const busqueda = axios
-        .get(url, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${BEARER} ${getToken()}`,
-          },
-        })
-        .then((response) => {
-          const data = response.data.data;
-          setIsLoading(false);
-          console.log("resultado de la busqueda", data);
-          //Recorrer las propiedades y ver cuales coinciden con los criterior de busqueda de amenidades, patio, detalles internos y externos
-          /* let amenidad = [];
-          let patioJ = [];
-          let detallesInt = [];
-          let detallesExt = [];
-          let listaFinalPropiedades = [];
-          if (amenidades.length > 0) {
-            amenidad = amenidades?.map((a) => a.value);
-          }
-          if (patio.length > 0) {
-            patioJ = patio?.map((p) => p.value);
-          }
-          if (detallesInternos.length > 0) {
-            detallesInt = detallesInternos?.map((d) => d.value);
-          }
-          if (detallesExternos.length > 0) {
-            detallesExt = detallesExternos?.map((d) => d.value);
-          }
-          let amenidadeBD = [];
-          const coincidencias = data.map((d) => {
-            d.attributes.amenidades.filter((elemento1) => {
-              amenidades.some((elemento2) => elemento2 === elemento1);
-              // console.log("elemento2", amenidades);
-            });
-            console.log("dddddd", d);
-            return d;
-          }); */
+      if (urlFinal.length !== 0) {
+        const urlQuery = urlFinal.replace(/ /g, "%20");
+        const url = `${API}properties?filters[categories][id][$eq]=1${urlQuery}`;
+        console.log("url: ", url);
+        const busqueda = axios
+          .get(url, {
+            headers: {
+              Authorization: `Bearer ${BEARER} ${getToken()}`,
+            },
+          })
+          .then((response) => {
+            const data = response.data.data;
+            setIsLoading(false);
+            console.log("resultado de la busqueda", data);
+            if (data.length !== 0) {
+              navigate("/home/search/search-results", { state: { data } });
+            } else {
+              message.info("No se encontraron resultados");
+              return;
+            }
+            //Recorrer las propiedades y ver cuales coinciden con los criterior de busqueda de amenidades, patio, detalles internos y externos
+            /* let amenidad = [];
+            let patioJ = [];
+            let detallesInt = [];
+            let detallesExt = [];
+            let listaFinalPropiedades = [];
+            if (amenidades.length > 0) {
+              amenidad = amenidades?.map((a) => a.value);
+            }
+            if (patio.length > 0) {
+              patioJ = patio?.map((p) => p.value);
+            }
+            if (detallesInternos.length > 0) {
+              detallesInt = detallesInternos?.map((d) => d.value);
+            }
+            if (detallesExternos.length > 0) {
+              detallesExt = detallesExternos?.map((d) => d.value);
+            }
+            let amenidadeBD = [];
+            const coincidencias = data.map((d) => {
+              d.attributes.amenidades.filter((elemento1) => {
+                amenidades.some((elemento2) => elemento2 === elemento1);
+                // console.log("elemento2", amenidades);
+              });
+              console.log("dddddd", d);
+              return d;
+            }); */
 
-          //console.log("coindicencia amenidades", coincidencias);
-          /*  if (amenidad.length > 0) {
-            data.map((prop) => {
-              if (prop.attributes.amenidades.value === amenidad.value) {
-
-              }
-            });
-          } */
-          /* const filtros = response.data.data.filter((item) =>
-            amenidad.includes(item.value)
-          );
-          console.log("filtros", filtros);
-          setIsLoading(false);
-          setSearchResult(response.data.data);
-          console.log(response.data.data);
-          console.log("resultados de busqueda", response.data.data); */
-        });
+            //console.log("coindicencia amenidades", coincidencias);
+            /*  if (amenidad.length > 0) {
+              data.map((prop) => {
+                if (prop.attributes.amenidades.value === amenidad.value) {
+  
+                }
+              });
+            } */
+            /* const filtros = response.data.data.filter((item) =>
+              amenidad.includes(item.value)
+            );
+            console.log("filtros", filtros);
+            setIsLoading(false);
+            setSearchResult(response.data.data);
+            console.log(response.data.data);
+            console.log("resultados de busqueda", response.data.data); */
+          });
+      } else {
+        message.error(`Debe introducir al menos un criterio de búsqueda`);
+        setIsLoading(false);
+        return;
+      }
     },
     validationSchema: Yup.object().shape({
       provincia: Yup.string().min(3, "*").max(150, "*"),
@@ -536,11 +546,11 @@ const VentaCasaApartamento = () => {
         </div>
       </form>
       <div>
-        {searchResult ? (
-          <PropertyDetailsSearch searchResults={searchResult} />
+        {/*  {searchResult ? (
+          <SearchResults searchResult={searchResult} />
         ) : (
           <>No hay resultados</>
-        )}
+        )} */}
       </div>
     </div>
   );
