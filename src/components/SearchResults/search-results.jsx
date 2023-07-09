@@ -26,7 +26,7 @@ const SearchResults = () => {
     selectAllRowsItemText: "Todos",
   };
   useEffect(() => {
-    const data = location.state.data;
+    const data = location.state.propertyList;
     setRecords(data);
     console.log("datos de la busqueda", data);
   }, []);

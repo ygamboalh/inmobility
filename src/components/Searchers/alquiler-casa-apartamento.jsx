@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import * as Yup from "yup";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Spin, message } from "antd";
-import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import { message } from "antd";
+import { useFormik } from "formik";
+import Select from "react-select";
+import axios from "axios";
 
 import {
   Amenidades,
@@ -14,177 +16,162 @@ import {
   Cochera,
   Provincia,
   Amueblado,
-  AptoNinos,
-  AptoMascotas,
 } from "../../BD/bd";
-import Select from "react-select";
 
-import axios from "axios";
-
-import { useQuery } from "react-query";
-
-import AxiosInstance from "../../api/AxiosInstance";
 import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import MySpinner from "../Spinner/spinner";
-import { authUserData } from "../../api/usersApi";
+import { QueriesByFilters } from "../../utils/QueriesByFilters";
 
 const AlquilerCasaApartamento = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
 
-  const InsertPropertySchema = Yup.object().shape({
-    provincia: Yup.string().min(3, "*").max(150, "*"),
-    canton: Yup.string().min(3, "*").max(150, "*"),
-    distrito: Yup.string().min(3, "*").max(150, "*"),
-    precio: Yup.number().min(0, "*").max(2000000, "*"),
-    areaTerreno: Yup.number().min(0, "*").max(500000, "*"),
-    habitaciones: Yup.number().min(0, "*").max(15, "*"),
-    areaPropiedad: Yup.string().min(0, "*").max(10000, "*"),
-    areaContruccion: Yup.number().min(0, "*").max(100000, "*"),
-    banos: Yup.number().min(0, "*").max(10, "*"),
-    cuotaMantenimiento: Yup.number().min(0, "*").max(500000, "*"),
-  });
-
-  const [selectedOption, setSelectedOption] = useState("");
-
-  const [categoriesDB, setCategoriesDB] = useState({});
-  const [amenidades, setAmenidades] = useState({});
-  const [patio, setPatio] = useState({});
-  const [detallesInternos, setDetallesInternos] = useState({});
-  const [detallesExternos, setDetallesExternos] = useState({});
-  const [property, setProperty] = useState();
-  const [images, setImages] = useState(null);
-  const [createdPropertyId, setCreatedPropertyId] = useState(null);
-  const [userRole, setUserRole] = useState();
-
-  const [selectedPropertyType, setSelectedPropertyType] = useState("");
-  const { data: userData } = useQuery("profile", authUserData);
-  const userId = userData?.id;
-  const response = axios(`${API}/users/me?populate=role`, {
-    method: "GET",
-    headers: { Authorization: `${BEARER} ${getToken()}` },
-  }).then((response) => {
-    setUserRole(response.data.role.name);
-  });
-
-  const handleHouseProperty = (event) => {
-    const option = event.target.value;
-    setSelectedPropertyType(option);
-  };
+  const [amenidades, setAmenidades] = useState(null);
+  const [patio, setPatio] = useState(null);
+  const [detallesInternos, setDetallesInternos] = useState(null);
+  const [detallesExternos, setDetallesExternos] = useState(null);
 
   const handleChangeAmenidades = (selectedOption) => {
     setAmenidades(selectedOption);
+    console.log(selectedOption);
   };
   const handleChangePatioJardin = (selectedOption) => {
     setPatio(selectedOption);
+    console.log(selectedOption);
   };
   const handleChangeDetallesInternos = (selectedOption) => {
     setDetallesInternos(selectedOption);
+    console.log(selectedOption);
   };
   const handleChangeDetallesExternos = (selectedOption) => {
     setDetallesExternos(selectedOption);
+    console.log(selectedOption);
   };
 
-  useEffect(() => {
-    const response = AxiosInstance.get(`properties/${id}`).then((property) =>
-      setProperty(property?.data?.data?.attributes)
-    );
-  }, []);
-
-  const [initialData, setinitialData] = useState();
-
-  useEffect(() => {
-    fetch(`${API}categories`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const categories = [];
-        data?.data?.map((category) => {
-          const { nombre } = category.attributes;
-          categories.push({ id: category.id, nombre: nombre });
-        });
-        setCategoriesDB(categories);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
   const [isLoading, setIsLoading] = useState(false);
-  const onFinish = async (values) => {
-    setIsLoading(true);
 
-    try {
-      const catFounded = [];
-      const cat = categoriesDB?.find((c) => c.nombre === selectedOption);
-      if (cat) {
-        catFounded.push(cat.id);
-      }
-
-      const value = {
-        provincia: values.provincia,
-        canton: values.canton,
-        distrito: values.distrito,
-        precio: values.precio,
-        tipoPropiedad: selectedPropertyType,
-        amenidades: amenidades,
-        areaPropiedad: values.areaPropiedad,
-        areaContruccion: values.areaContruccion,
-        habitaciones: values.habitaciones,
-        cochera: values.cochera,
-        banos: values.banos,
-        ley7600: values.ley7600,
-        detallesInternos: detallesInternos,
-        detallesExternos: detallesExternos,
-        serviciosMedicos: values.serviciosMedicos,
-        anunciante: values.anunciante,
-        categories: catFounded,
-        creadoPor: userId,
-        cuotaMantenimiento: values.cuotaMantenimiento,
-      };
-
-      if (!id) {
-        const response = await AxiosInstance.post("/properties", {
-          data: value,
-        })
-          .then((respons) => {
-            message.success("¡La propiedad fue creada correctamente!");
-            const propertyId = respons.data.data.id;
-            setCreatedPropertyId(propertyId);
-            console.log(respons);
-            if (userRole === "SuperAdmin") {
-              navigate(`/admin/upload/${propertyId}`, { replace: true });
-            } else {
-              navigate(`/home/upload/${propertyId}`, { replace: true });
-            }
+  const { handleChange, handleSubmit, values, errors, touched } = useFormik({
+    initialValues: {
+      provincia: "",
+      canton: "",
+    },
+    onSubmit: (values) => {
+      setIsLoading(true);
+      const urlPortion = makeQueries(values);
+      let urlFinal = "";
+      urlPortion.map((value) => {
+        urlFinal += value.name;
+      });
+      if (
+        urlFinal.length !== 0 ||
+        patio?.length > 0 ||
+        amenidades?.length > 0 ||
+        detallesInternos?.length > 0 ||
+        detallesExternos?.length > 0
+      ) {
+        const urlQuery = urlFinal.replace(/ /g, "%20");
+        const url = `${API}properties?filters[categories][id][$eq]=2${urlQuery}`;
+        console.log("url: ", url);
+        const busqueda = axios
+          .get(url, {
+            headers: {
+              Authorization: `Bearer ${BEARER} ${getToken()}`,
+            },
           })
-          .catch((error) => {
-            message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
+          .then((response) => {
+            const data = response.data.data;
+
+            let propertyList = [];
+
+            data.map((property) => {
+              //Verfica si cumple al menos con 1 criterio,
+              //si pongo que coincidan todos se pierden datos en la busqueda
+              if (
+                areArraysEqual(property.attributes.jardinPatio, patio) ||
+                areArraysEqual(property.attributes.amenidades, amenidades) ||
+                areArraysEqual(
+                  property.attributes.detallesInternos,
+                  detallesInternos
+                ) ||
+                areArraysEqual(
+                  property.attributes.detallesExternos,
+                  detallesExternos
+                ) ||
+                (patio === null &&
+                  amenidades === null &&
+                  detallesInternos === null &&
+                  detallesExternos === null)
+              ) {
+                propertyList.push(property);
+              }
+            });
+            console.log("todos los detalles", amenidades);
+            console.log("lista final", propertyList);
+            console.log("data completa", data);
+            setIsLoading(false);
+
+            if (propertyList.length !== 0) {
+              navigate("/home/search/search-results", {
+                state: { propertyList },
+              });
+            } else {
+              message.info("No se encontraron resultados");
+              return;
+            }
           });
       } else {
-        const response = await AxiosInstance.put(`/properties/${id}`, {
-          data: value,
-        })
-          .then((response) => {
-            message.success("¡La propiedad fue actualizada correctamente!");
-            if (userRole === "SuperAdmin") {
-              navigate(`/admin/upload/${id}`, { replace: true });
-            } else {
-              navigate(`/home/upload/${id}`, { replace: true });
-            }
-          })
-          .catch((error) => {
-            message.error("¡Ocurrió un error inesperado!");
-          });
+        message.error(`Debe introducir al menos un criterio de búsqueda`);
+        setIsLoading(false);
+        return;
       }
-    } catch (error) {
-      message.error("¡Ocurrió un error inesperado!");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    validationSchema: Yup.object().shape({
+      provincia: Yup.string().min(3, "*").max(150, "*"),
+      canton: Yup.string().min(3, "*").max(150, "*"),
+      distrito: Yup.string().min(3, "*").max(150, "*"),
+      precio: Yup.number().min(0, "*").max(2000000, "*"),
+      areaTerreno: Yup.number().min(0, "*").max(500000, "*"),
+      habitaciones: Yup.number().min(0, "*").max(15, "*"),
+      areaPropiedad: Yup.string().min(0, "*").max(10000, "*"),
+      areaContruccion: Yup.number().min(0, "*").max(100000, "*"),
+      banos: Yup.number().min(0, "*").max(10, "*"),
+    }),
+  });
+  const makeQueries = (values) => {
+    //** Recibe los filtros y retorna consultas */
+    const valuesFiltered = QueriesByFilters(values);
 
+    return valuesFiltered;
+  };
+  function areArraysEqual(array1, array2) {
+    if (!array1 || !array2 || !array1.length || !array2.length) {
+      return false;
+    }
+    // Verificar si la longitud de los arreglos es la misma
+    if (array1?.length !== array2?.length) {
+      return false;
+    }
+
+    // Crear una copia de los arreglos originales para evitar modificarlos
+    const copyArray1 = [...array1];
+    const copyArray2 = [...array2];
+
+    // Ordenar las copias de los arreglos basado en la clave 'label'
+    copyArray1.sort((a, b) => a.label.localeCompare(b.label));
+    copyArray2.sort((a, b) => a.label.localeCompare(b.label));
+
+    // Verificar si los arreglos ordenados son iguales
+    for (let i = 0; i < copyArray1.length; i++) {
+      if (
+        copyArray1[i].label !== copyArray2[i].label ||
+        copyArray1[i].value !== copyArray2[i].value
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
   if (isLoading) {
     return <MySpinner />;
   }
@@ -194,363 +181,262 @@ const AlquilerCasaApartamento = () => {
       <div className="inset-y-0 mb-4 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
       <div className="flex mt-3 justify-center align-middle items-center w-full">
         <label className="font-semibold text-xl flex text-center">
-          Búsqueda: Alquiler de Casas y apartamentos
+          Búsqueda: Alquiler de casas y apartamentos
         </label>
       </div>
-      <Formik
-        initialValues={initialData}
-        validationSchema={InsertPropertySchema}
-        onSubmit={onFinish}
-      >
-        {({ errors, touched }) => (
-          <Form onFinish={onFinish} autoComplete="off">
-            <div className="flex justify-center  flex-row content-center items-center"></div>
-            <div className="flex flex-wrap justify-center m-3">
-              <Field
-                as="select"
-                name="provincia"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Provincia"}
-                </option>
-                {Provincia.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-              <div className="space mb-2.5">
-                {errors.provincia && touched.provincia ? (
-                  <div className="errordiv text-xs">{errors.provincia}</div>
-                ) : null}
-              </div>
 
-              <Field
-                type="text"
-                defaultValue={property?.canton}
-                name="canton"
-                placeholder="Canton"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.canton && touched.canton ? (
-                  <div className="errordiv text-xs">{errors.canton}</div>
-                ) : null}
-              </div>
-              <Field
-                type="text"
-                name="distrito"
-                defaultValue={property?.distrito}
-                placeholder="Distrito"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.distrito && touched.distrito ? (
-                  <div className="errordiv text-xs">{errors.distrito}</div>
-                ) : null}
-              </div>
+      <form onSubmit={handleSubmit} autoComplete="off">
+        <div className="flex flex-wrap justify-center m-3">
+          <select
+            name="provincia"
+            type="select"
+            value={values.provincia}
+            onChange={handleChange}
+            className="input-admin-property m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6
+          p-2"
+          >
+            <option value="" label="">
+              {"Provincia"}
+            </option>
+            {Provincia.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
 
-              <Field
-                type="number"
-                name="precio"
-                hidden={selectedOption === ""}
-                defaultValue={property?.precio}
-                placeholder="Precio"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.precio && touched.precio ? (
-                  <div className="errordiv text-xs">{errors.precio}</div>
-                ) : null}
+          <input
+            type="text"
+            name="canton"
+            value={values.canton}
+            onChange={handleChange}
+            placeholder="Canton"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.canton && touched.canton ? (
+              <div className="errordiv text-xs">{errors.canton}</div>
+            ) : null}
+          </div>
+          <input
+            type="text"
+            name="distrito"
+            placeholder="Distrito"
+            onChange={handleChange}
+            value={values.distrito}
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.distrito && touched.distrito ? (
+              <div className="errordiv text-xs">{errors.cantodistriton}</div>
+            ) : null}
+          </div>
+          <input
+            type="number"
+            name="precio"
+            placeholder="Precio"
+            onChange={handleChange}
+            value={values.precio}
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.precio && touched.precio ? (
+              <div className="errordiv text-xs">{errors.precio}</div>
+            ) : null}
+          </div>
+          <input
+            type="number"
+            name="areaTerreno"
+            onChange={handleChange}
+            value={values.areaTerreno}
+            placeholder="Área del terreno"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaTerreno && touched.areaTerreno ? (
+              <div className="errordiv text-xs">{errors.areaTerreno}</div>
+            ) : null}
+          </div>
+          <select
+            name="tipoPropiedad"
+            placeholder="Tipo de propiedad"
+            onChange={handleChange}
+            value={values.tipoPropiedad}
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble"}
+            </option>
+            {TipoInmueble.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            onChange={handleChange}
+            value={values.cuotaMantenimiento}
+            name="cuotaMantenimiento"
+            placeholder="Cuota de mantenimiento"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.cuotaMantenimiento && touched.cuotaMantenimiento ? (
+              <div className="errordiv text-xs">
+                {errors.cuotaMantenimiento}
               </div>
-              <Field
-                type="number"
-                hidden={selectedOption === ""}
-                name="areaTerreno"
-                defaultValue={property?.areaTerreno}
-                placeholder="Área del terreno"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.areaTerreno && touched.areaTerreno ? (
-                  <div className="errordiv text-xs">{errors.areaTerreno}</div>
-                ) : null}
-              </div>
-              <Field
-                as="select"
-                name="tipoPropiedad"
-                onChange={handleHouseProperty}
-                defaultValue={property?.tipoPropiedad}
-                placeholder="Tipo de propiedad"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Tipo de inmueble"}
-                </option>
-                {TipoInmueble.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-              <Field
-                type="number"
-                name="areaPropiedad"
-                defaultValue={property?.areaPropiedad}
-                placeholder="Área de la propiedad"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.areaPropiedad && touched.areaPropiedad ? (
-                  <div className="errordiv text-xs">{errors.areaPropiedad}</div>
-                ) : null}
-              </div>
+            ) : null}
+          </div>
+          <select
+            onChange={handleChange}
+            value={values.cochera}
+            name="cochera"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Cochera"}
+            </option>
+            {Cochera.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
 
-              <Field
-                as="select"
-                name="cochera"
-                defaultValue={property?.cochera}
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Cochera"}
-                </option>
-                {Cochera.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-              <div className="space mb-2.5">
-                {errors.cochera && touched.cochera ? (
-                  <div className="errordiv text-xs">{errors.cochera}</div>
-                ) : null}
-              </div>
-              <Field
-                type="number"
-                name="areaContruccion"
-                defaultValue={property?.areaContruccion}
-                placeholder="Área construcción"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.areaContruccion && touched.areaContruccion ? (
-                  <div className="errordiv text-xs">
-                    {errors.areaContruccion}
-                  </div>
-                ) : null}
-              </div>
-              <Field
-                type="number"
-                name="habitaciones"
-                defaultValue={property?.habitaciones}
-                placeholder="Habitaciones"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.habitaciones && touched.habitaciones ? (
-                  <div className="errordiv text-xs">{errors.habitaciones}</div>
-                ) : null}
-              </div>
-              <Field
-                type="number"
-                name="banos"
-                defaultValue={property?.banos}
-                placeholder="Baños"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.banos && touched.banos ? (
-                  <div className="errordiv text-xs">{errors.banos}</div>
-                ) : null}
-              </div>
-              <Field
-                as="select"
-                name="amueblado"
-                id="amueblado"
-                placeholder="Amueblado"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Amueblado"}
-                </option>
-                {Amueblado.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-              <div className="space mb-2.5">
-                {errors.amueblado && touched.amueblado ? (
-                  <div className="errordiv text-xs">{errors.amueblado}</div>
-                ) : null}
-              </div>
-              <Field
-                as="select"
-                name="aptoHijos"
-                id="aptoHijos"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Apto hijos"}
-                </option>
-                {AptoNinos.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-              <div className="space mb-2.5">
-                {errors.aptoHijos && touched.aptoHijos ? (
-                  <div className="errordiv text-xs">{errors.aptoHijos}</div>
-                ) : null}
-              </div>
-              <Field
-                as="select"
-                name="aptoMascotas"
-                id="aptoMascotas"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              >
-                <option value="" label="">
-                  {"Apto mascotas"}
-                </option>
-                {AptoMascotas.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-              <div className="space mb-2.5">
-                {errors.aptoMascotas && touched.aptoMascotas ? (
-                  <div className="errordiv text-xs">{errors.aptoMascotas}</div>
-                ) : null}
-              </div>
-              <Field
-                type="number"
-                name="cuotaMantenimiento"
-                defaultValue={property?.cuotaMantenimiento}
-                placeholder="Cuota mantenimiento"
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.cuotaMantenimiento && touched.cuotaMantenimiento ? (
-                  <div className="errordiv text-xs">
-                    {errors.cuotaMantenimiento}
-                  </div>
-                ) : null}
+          <input
+            type="number"
+            onChange={handleChange}
+            value={values.areaContruccion}
+            name="areaContruccion"
+            placeholder="Área construcción"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaContruccion && touched.areaContruccion ? (
+              <div className="errordiv text-xs">{errors.areaContruccion}</div>
+            ) : null}
+          </div>
+          <select
+            onChange={handleChange}
+            value={values.amueblado}
+            name="amueblado"
+            id="amueblado"
+            placeholder="Amueblado"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Amueblado"}
+            </option>
+            {Amueblado.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            onChange={handleChange}
+            value={values.habitaciones}
+            name="habitaciones"
+            placeholder="Habitaciones"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.habitaciones && touched.habitaciones ? (
+              <div className="errordiv text-xs">{errors.habitaciones}</div>
+            ) : null}
+          </div>
+          <input
+            type="number"
+            name="banos"
+            onChange={handleChange}
+            value={values.banos}
+            placeholder="Baños"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.banos && touched.banos ? (
+              <div className="errordiv text-xs">{errors.banos}</div>
+            ) : null}
+          </div>
+        </div>
+        <div>
+          <div className="flex m-4 content-center items-center justify-center ">
+            <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
+              <div className="m-1 flex justify-center items-center content-center self-start">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    onChange={handleChange}
+                    value={values.ley7600}
+                    id="ley7600"
+                    name="ley7600"
+                    class="sr-only peer"
+                  />
+                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                  <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Ley 7600
+                  </span>
+                </label>
               </div>
             </div>
-            <div className="flex m-4 content-center items-center justify-center ">
-              <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
-                <div className="m-1 flex justify-center items-center content-center self-start">
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      value=""
-                      defaultValue={property?.ley7600}
-                      id="ley7600"
-                      name="ley7600"
-                      class="sr-only peer"
-                    />
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Ley 7600
-                    </span>
-                  </label>
-                </div>
-                <div className="m-1 justify-center items-center content-center flex self-start">
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      value=""
-                      defaultValue={property?.serviciosMedicos}
-                      id="serviciosMedicos"
-                      name="serviciosMedicos"
-                      class="sr-only peer"
-                    />
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Servicios médicos
-                    </span>
-                  </label>
-                </div>
-              </div>
-            </div>
+          </div>
+          <div className="">
             <Select
-              className="categories lg:mx-80"
+              className="categories mb-2 lg:mx-80"
               name="amenidades"
-              defaultValue={property?.amenidades}
               options={Amenidades}
               placeholder={"Amenidades"}
               isMulti
               onChange={handleChangeAmenidades}
+              value={values.amenidades}
             />
-            <div className="space mb-2.5">
-              {errors.amenidades && touched.amenidades ? (
-                <div className="errordiv text-xs">{errors.amenidades}</div>
-              ) : null}
-            </div>
+
             <Select
-              className="categories lg:mx-80"
+              className="categories mb-2 lg:mx-80"
               name="jardinPatio"
-              defaultValue={property?.jardinPatio}
               options={PatioJardin}
               placeholder={"Patio"}
               isMulti
               onChange={handleChangePatioJardin}
+              value={values.jardinPatio}
             />
-            <div className="space mb-2.5">
-              {errors.jardinPatio && touched.jardinPatio ? (
-                <div className="errordiv text-xs">{errors.jardinPatio}</div>
-              ) : null}
-            </div>
+
             <Select
-              className="categories lg:mx-80"
+              className="categories mb-2 lg:mx-80"
               name="detallesInternos"
-              defaultValue={property?.detallesInternos}
               options={DetallesInternos}
               placeholder={"Detalles internos"}
               isMulti
               onChange={handleChangeDetallesInternos}
+              value={values.detallesInternos}
             />
-            <div className="space mb-2.5">
-              {errors.detallesInternos && touched.detallesInternos ? (
-                <div className="errordiv text-xs">
-                  {errors.detallesInternos}
-                </div>
-              ) : null}
-            </div>
+
             <Select
-              className="categories lg:mx-80"
+              className="categories mb-2 lg:mx-80"
               name="detallesExternos"
-              defaultValue={property?.detallesExternos}
               options={DetallesExternos}
               placeholder={"Detalles externos"}
               isMulti
               onChange={handleChangeDetallesExternos}
+              value={values.detallesExternos}
             />
-            <div className="space mb-2.5">
-              {errors.detallesExternos && touched.detallesExternos ? (
-                <div className="errordiv text-xs">
-                  {errors.detallesExternos}
-                </div>
-              ) : null}
+          </div>
+
+          <hr></hr>
+          <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
+            <div className="">
+              <button
+                type="submit"
+                className="mr-2 mb-3 py-2 px-4 rounded bg-blue-700 text-white"
+              >
+                Realizar búsqueda
+              </button>
             </div>
-            <hr></hr>
-            <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
-              <div className="">
-                <button
-                  type="submit"
-                  className="mr-2 mb-3 py-2 px-4 rounded bg-blue-700 text-white"
-                >
-                  Realizar búsqueda
-                </button>
-              </div>
-            </div>
-          </Form>
-        )}
-      </Formik>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };

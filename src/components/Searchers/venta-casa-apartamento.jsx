@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useResolvedPath,
-  useSearchParams,
-} from "react-router-dom";
-import * as Yup from "yup";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Spin, message } from "antd";
+import * as Yup from "yup";
+import { message } from "antd";
 import { useFormik } from "formik";
+import Select from "react-select";
+import axios from "axios";
 
 import {
   Amenidades,
@@ -20,93 +16,19 @@ import {
   Cochera,
   Provincia,
 } from "../../BD/bd";
-import Select from "react-select";
-
-import axios from "axios";
-
-import { useQuery } from "react-query";
 
 import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import MySpinner from "../Spinner/spinner";
-import { authUserData } from "../../api/usersApi";
 import { QueriesByFilters } from "../../utils/QueriesByFilters";
-import { useIsSearched } from "../../store/Globals";
-import { GetAllProperties } from "../../api/GetProperties";
-import SearchResultsActive from "../SearchResults/search-results-active";
-import SearchResults from "../SearchResults/search-results";
 
 const VentaCasaApartamento = () => {
   const navigate = useNavigate();
 
-  const [selectedOption, setSelectedOption] = useState("");
-  const [property, setProperty] = useState();
-
-  const [categoriesDB, setCategoriesDB] = useState({});
-  const [amenidades, setAmenidades] = useState({});
-  const [patio, setPatio] = useState({});
-  const [detallesInternos, setDetallesInternos] = useState({});
-  const [detallesExternos, setDetallesExternos] = useState({});
-  //----------------------------------------------------------------
-  const { isSearched, setIsSearched } = useIsSearched();
-  const [params, setParams] = useSearchParams();
-  //console.log("los parametros", params.toString());
-  const { search } = useLocation();
-  //console.log("la busqueda", search);
-  const { pathname } = useResolvedPath();
-  //console.log("la ruta", pathname);
-  const { data, isLoadings, isError, isSuccess, error } = useQuery({
-    queryKey: ["properties", search],
-    queryFn: () => GetAllProperties({ search }),
-  });
-  const [searchResult, setSearchResult] = useState({});
-  //----------------------------------------------------------------
-  const [userRole, setUserRole] = useState();
-
-  const [selectedPropertyType, setSelectedPropertyType] = useState("");
-  const { data: userData } = useQuery("profile", authUserData);
-  const userId = userData?.id;
-  const response = axios(`${API}/users/me?populate=role`, {
-    method: "GET",
-    headers: { Authorization: `${BEARER} ${getToken()}` },
-  }).then((response) => {
-    setUserRole(response.data.role.name);
-  });
-  //quitar esta funcion despues de revisar
-  const fetchData = async (searchParams, event) => {
-    event.preventDefault();
-    const {
-      provincia,
-      canton,
-      distriro,
-      tipoPropiedad,
-      areaPropiedad,
-      cochera,
-      areaContruccion,
-      habitaciones,
-      banos,
-    } = searchParams;
-
-    const url = `${API}properties?filters[provincia][$eq]=San%20José`;
-
-    const response = await axios(url, {
-      method: "GET",
-      headers: { Authorization: `${BEARER} ${getToken()}` },
-    })
-      .then((resp) => {
-        console.log(resp);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    return response;
-  };
-
-  const handleHouseProperty = (event) => {
-    const option = event.target.value;
-    setSelectedPropertyType(option);
-  };
+  const [amenidades, setAmenidades] = useState(null);
+  const [patio, setPatio] = useState(null);
+  const [detallesInternos, setDetallesInternos] = useState(null);
+  const [detallesExternos, setDetallesExternos] = useState(null);
 
   const handleChangeAmenidades = (selectedOption) => {
     setAmenidades(selectedOption);
@@ -125,62 +47,8 @@ const VentaCasaApartamento = () => {
     console.log(selectedOption);
   };
 
-  const [initialData, setinitialData] = useState({});
-
-  useEffect(() => {
-    fetch(`${API}categories`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const categories = [];
-        data?.data?.map((category) => {
-          const { nombre } = category.attributes;
-          categories.push({ id: category.id, nombre: nombre });
-        });
-        setCategoriesDB(categories);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
   const [isLoading, setIsLoading] = useState(false);
-  /*   const onFinish = async (values) => {
-    setIsLoading(true);
 
-    try {
-      const catFounded = [];
-      const cat = categoriesDB?.find((c) => c.nombre === selectedOption);
-      if (cat) {
-        catFounded.push(cat.id);
-      }
-
-      const value = {
-        provincia: values.provincia,
-        canton: values.canton,
-        distrito: values.distrito,
-        precio: values.precio,
-        tipoPropiedad: selectedPropertyType,
-        amenidades: amenidades,
-        areaPropiedad: values.areaPropiedad,
-        areaContruccion: values.areaContruccion,
-        habitaciones: values.habitaciones,
-        cochera: values.cochera,
-        banos: values.banos,
-        ley7600: values.ley7600,
-        detallesInternos: detallesInternos,
-        detallesExternos: detallesExternos,
-        serviciosMedicos: values.serviciosMedicos,
-        anunciante: values.anunciante,
-        categories: catFounded,
-        creadoPor: userId,
-      };
-    } catch (error) {
-      message.error("¡Ocurrió un error inesperado!");
-    } finally {
-      setIsLoading(false);
-    }
-  }; */
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
     initialValues: {
       provincia: "",
@@ -193,7 +61,13 @@ const VentaCasaApartamento = () => {
       urlPortion.map((value) => {
         urlFinal += value.name;
       });
-      if (urlFinal.length !== 0) {
+      if (
+        urlFinal.length !== 0 ||
+        patio?.length > 0 ||
+        amenidades?.length > 0 ||
+        detallesInternos?.length > 0 ||
+        detallesExternos?.length > 0
+      ) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[categories][id][$eq]=1${urlQuery}`;
         console.log("url: ", url);
@@ -205,58 +79,44 @@ const VentaCasaApartamento = () => {
           })
           .then((response) => {
             const data = response.data.data;
+
+            let propertyList = [];
+
+            data.map((property) => {
+              //Verfica si cumple al menos con 1 criterio,
+              //si pongo que coincidan todos se pierden datos en la busqueda
+              if (
+                areArraysEqual(property.attributes.jardinPatio, patio) ||
+                areArraysEqual(property.attributes.amenidades, amenidades) ||
+                areArraysEqual(
+                  property.attributes.detallesInternos,
+                  detallesInternos
+                ) ||
+                areArraysEqual(
+                  property.attributes.detallesExternos,
+                  detallesExternos
+                ) ||
+                (patio === null &&
+                  amenidades === null &&
+                  detallesInternos === null &&
+                  detallesExternos === null)
+              ) {
+                propertyList.push(property);
+              }
+            });
+            console.log("todos los detalles", amenidades);
+            console.log("lista final", propertyList);
+            console.log("data completa", data);
             setIsLoading(false);
-            console.log("resultado de la busqueda", data);
-            if (data.length !== 0) {
-              navigate("/home/search/search-results", { state: { data } });
+
+            if (propertyList.length !== 0) {
+              navigate("/home/search/search-results", {
+                state: { propertyList },
+              });
             } else {
               message.info("No se encontraron resultados");
               return;
             }
-            //Recorrer las propiedades y ver cuales coinciden con los criterior de busqueda de amenidades, patio, detalles internos y externos
-            /* let amenidad = [];
-            let patioJ = [];
-            let detallesInt = [];
-            let detallesExt = [];
-            let listaFinalPropiedades = [];
-            if (amenidades.length > 0) {
-              amenidad = amenidades?.map((a) => a.value);
-            }
-            if (patio.length > 0) {
-              patioJ = patio?.map((p) => p.value);
-            }
-            if (detallesInternos.length > 0) {
-              detallesInt = detallesInternos?.map((d) => d.value);
-            }
-            if (detallesExternos.length > 0) {
-              detallesExt = detallesExternos?.map((d) => d.value);
-            }
-            let amenidadeBD = [];
-            const coincidencias = data.map((d) => {
-              d.attributes.amenidades.filter((elemento1) => {
-                amenidades.some((elemento2) => elemento2 === elemento1);
-                // console.log("elemento2", amenidades);
-              });
-              console.log("dddddd", d);
-              return d;
-            }); */
-
-            //console.log("coindicencia amenidades", coincidencias);
-            /*  if (amenidad.length > 0) {
-              data.map((prop) => {
-                if (prop.attributes.amenidades.value === amenidad.value) {
-  
-                }
-              });
-            } */
-            /* const filtros = response.data.data.filter((item) =>
-              amenidad.includes(item.value)
-            );
-            console.log("filtros", filtros);
-            setIsLoading(false);
-            setSearchResult(response.data.data);
-            console.log(response.data.data);
-            console.log("resultados de busqueda", response.data.data); */
           });
       } else {
         message.error(`Debe introducir al menos un criterio de búsqueda`);
@@ -280,9 +140,37 @@ const VentaCasaApartamento = () => {
     //** Recibe los filtros y retorna consultas */
     const valuesFiltered = QueriesByFilters(values);
 
-    //console.log("valores que quiero", valuesFiltered);
     return valuesFiltered;
   };
+  function areArraysEqual(array1, array2) {
+    if (!array1 || !array2 || !array1.length || !array2.length) {
+      return false;
+    }
+    // Verificar si la longitud de los arreglos es la misma
+    if (array1?.length !== array2?.length) {
+      return false;
+    }
+
+    // Crear una copia de los arreglos originales para evitar modificarlos
+    const copyArray1 = [...array1];
+    const copyArray2 = [...array2];
+
+    // Ordenar las copias de los arreglos basado en la clave 'label'
+    copyArray1.sort((a, b) => a.label.localeCompare(b.label));
+    copyArray2.sort((a, b) => a.label.localeCompare(b.label));
+
+    // Verificar si los arreglos ordenados son iguales
+    for (let i = 0; i < copyArray1.length; i++) {
+      if (
+        copyArray1[i].label !== copyArray2[i].label ||
+        copyArray1[i].value !== copyArray2[i].value
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
   if (isLoading) {
     return <MySpinner />;
   }
@@ -472,22 +360,6 @@ const VentaCasaApartamento = () => {
                   </span>
                 </label>
               </div>
-              <div className="m-1 justify-center items-center content-center flex self-start">
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    id="serviciosMedicos"
-                    name="serviciosMedicos"
-                    onChange={handleChange}
-                    value={values.serviciosMedicos}
-                    class="sr-only peer"
-                  />
-                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                  <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Servicios médicos
-                  </span>
-                </label>
-              </div>
             </div>
           </div>
           <div className="">
@@ -545,13 +417,6 @@ const VentaCasaApartamento = () => {
           </div>
         </div>
       </form>
-      <div>
-        {/*  {searchResult ? (
-          <SearchResults searchResult={searchResult} />
-        ) : (
-          <>No hay resultados</>
-        )} */}
-      </div>
     </div>
   );
 };
