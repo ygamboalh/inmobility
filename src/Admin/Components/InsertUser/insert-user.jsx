@@ -86,15 +86,7 @@ const InsertUser = () => {
 
   const onFinish = async (values) => {
     setIsLoading(true);
-    /*  if (values.active === "Activo") {
-      values.role = [1];
-    } else if (values.active === "Desactivado") {
-      values.role = [2];
-    } else if (values.active === "Pendiente") {
-      values.role = [3];
-    } else {
-      values.role = [3];
-    } */
+
     try {
       const value = {
         username: values.username,
@@ -169,12 +161,6 @@ const InsertUser = () => {
                 <div className="flex flex-col justify-center">
                   {role === "Authenticated" ? (
                     <div className="flex flex-col">
-                      {/*  <div className="my-24">
-                        {role === "SuperAdmin" ? <Thumbnail /> : <span></span>}
-                      </div> */}
-                      {/*  <div>
-                        {role === "SuperAdmin" ? <LoadImage /> : <span></span>}
-                      </div> */}
                       {userImg ? (
                         <div
                           className="w-16 h-16 rounded-full"

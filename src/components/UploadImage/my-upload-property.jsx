@@ -37,7 +37,7 @@ const LoadPropertyImage = ({ creadoPor }) => {
     setIsLoading(true);
 
     const data = new FormData();
-    if (image.length <= 10) {
+    if (image.length <= 25) {
       for (let i = 0; i < image.length; i++) {
         data.append("files", image[i]);
       }

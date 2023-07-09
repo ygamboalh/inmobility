@@ -11,8 +11,6 @@ import withReactContent from "sweetalert2-react-content";
 import MySpinner from "../Spinner/spinner";
 
 const SearchResults = () => {
-  const queryClient = useQueryClient();
-  const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
   const [filterRecords, setFilterRecords] = useState([]);
@@ -28,6 +26,7 @@ const SearchResults = () => {
   useEffect(() => {
     const data = location.state.propertyList;
     setRecords(data);
+    setFilterRecords(data);
     console.log("datos de la busqueda", data);
   }, []);
   const column = [
@@ -112,9 +111,6 @@ const SearchResults = () => {
     );
     setRecords(searchData);
   };
-  /*   if (isLoading || !records) {
-    return <MySpinner />;
-  } */
 
   return (
     <div className="w-full">
@@ -137,7 +133,7 @@ const SearchResults = () => {
               type="text"
               onChange={handleFilter}
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
-              placeholder="Buscar"
+              placeholder="Filtrar por tipo de propiedad"
             />
           </div>
         }

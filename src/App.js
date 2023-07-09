@@ -47,7 +47,7 @@ import AlquilerBodegas from './components/Searchers/alquiler-bodegas';
 import VentaOficinas from './components/Searchers/venta-oficinas';
 import AlquilerOficinas from './components/Searchers/alquiler-oficinas';
 import SearchResults from './components/SearchResults/search-results';
-import SearchResultsActive from './components/SearchResults/search-results-active';
+
 import PropertyDetailsSearch from './components/PropertyDetailSearch/property-detail-search';
 
 const App = () => {

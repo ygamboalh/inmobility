@@ -35,11 +35,9 @@ import {
   Provincia,
 } from "../../../BD/bd";
 import Select from "react-select";
-import PropertyLoadImage from "../../../components/UploadImage/property-upload-image";
 import MySpinner from "../../../components/Spinner/spinner";
 import axios from "axios";
 import { getToken } from "../../../utils/helpers";
-import LoadPropertyImage from "../../../components/UploadImage/my-upload-property";
 import { useQuery } from "react-query";
 import { authUserData } from "../../../api/usersApi";
 
