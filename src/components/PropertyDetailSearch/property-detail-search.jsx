@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { BiArea, BiBath, BiBed } from "react-icons/bi";
 import AxiosInstance from "../../api/AxiosInstance";
@@ -7,6 +7,8 @@ import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
 import Slideshow from "../Carrusel/slideShow";
 import no_image from "../../assets/images/no_image_default.jpg";
+import { Document, PDFViewer, Page, Text } from "@react-pdf/renderer";
+import PdfView from "../PdfView/pdf-view";
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -16,6 +18,8 @@ const PropertyDetailsSearch = () => {
   const { id } = useParams();
   const [property, setProperty] = useState([]);
   const [images, setImages] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
 
   const getProperty = async () => {
     setIsLoading(true);
@@ -37,8 +41,7 @@ const PropertyDetailsSearch = () => {
     });
     setImages(imagesUrl);
   };
-  /* console.log("cantidad de elemtos", property.jardinPatio?.length);
-  console.log("objeto vacio", Object.keys(property.jardinPatio).length); */
+
   if (isLoading || !property) {
     return <MySpinner />;
   }
@@ -53,6 +56,17 @@ const PropertyDetailsSearch = () => {
   return (
     <section>
       <div className="container mx-auto min-h-[800px] pt-20">
+        <div>
+          <button
+            onClick={() => {
+              setVisible(!visible);
+            }}
+            className="bg-blue-700 text-white text-sm rounded-md px-3 py-2"
+            type="button"
+          >
+            Ver en formato pdf
+          </button>
+        </div>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-2xl font-semibold">{property.tipoPropiedad}</h2>
@@ -97,17 +111,34 @@ const PropertyDetailsSearch = () => {
               />
             </div>
             <div className="flex gap-x-6 text-blue-700 mb-6">
-              <div className="flex gap-x-2 items-center">
+              <div
+                className={
+                  property.habitaciones ? "flex gap-x-2 items-center" : "hidden"
+                }
+              >
                 <BiBed className="text-2xl" />
                 <div>{property.habitaciones}</div>
               </div>
-              <div className="flex gap-x-2 items-center">
+              <div
+                className={
+                  property.banos ? "flex gap-x-2 items-center" : "hidden"
+                }
+              >
                 <BiBath className="text-2xl " />
                 <div>{property.banos}</div>
               </div>
-              <div className="flex gap-x-2 items-center">
+              <div
+                className={
+                  property.areaTerreno ? "flex gap-x-2 items-center" : "hidden"
+                }
+              >
                 <BiArea className="text-2xl " />
-                <div>{property.footage} m2</div>
+                <div>
+                  {property.areaTerreno}{" "}
+                  <label>
+                    m<sup>2</sup>
+                  </label>
+                </div>
               </div>
             </div>
             <div>{property.description}</div>
@@ -382,10 +413,9 @@ const PropertyDetailsSearch = () => {
                   <label className="font-semibold mr-1">
                     Cuota de mantenimiento:
                   </label>
-                  <label>{property.cuotaMantenimiento}</label>
+                  <label>${property.cuotaMantenimiento}</label>
                 </div>
               ) : null}
-              {property.cuotaMantenimiento}
             </div>
             <div
               className={
@@ -608,6 +638,39 @@ const PropertyDetailsSearch = () => {
           </div>
         </div>
       </div>
+      {visible && property ? (
+        <div className="flex flex-row justify-center -mt-6">
+          <div>
+            <button type="button">Facebook</button>
+          </div>
+          <div>
+            <button type="button">WhatsApp</button>
+          </div>
+          <div>
+            <button type="button">Instagram</button>
+          </div>
+          <div>
+            <button type="button">Twitter</button>
+          </div>
+          <div>
+            <button type="button">TikTok</button>
+          </div>
+          <div>
+            <button type="button">Telegram</button>
+          </div>
+        </div>
+      ) : null}
+      {visible && property ? (
+        <div className="flex justify-center min-h-screen">
+          <PDFViewer
+            style={{
+              width: "60%",
+            }}
+          >
+            <PdfView property={property} />
+          </PDFViewer>
+        </div>
+      ) : null}
     </section>
   );
 };

@@ -98,7 +98,7 @@ const PropertyDetailsAdmin = () => {
               </div>
               <div className="flex gap-x-2 items-center">
                 <BiArea className="text-2xl " />
-                <div>{property.footage} m2</div>
+                <div>{property.areaPropiedad} m2</div>
               </div>
             </div>
             <div>{property.description}</div>

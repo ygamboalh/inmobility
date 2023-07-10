@@ -76,7 +76,7 @@ const InsertProperty = () => {
   const [detallesInternos, setDetallesInternos] = useState({});
   const [detallesExternos, setDetallesExternos] = useState({});
   const [property, setProperty] = useState();
-  const [images, setImages] = useState(null);
+
   const [createdPropertyId, setCreatedPropertyId] = useState(null);
   const [userRole, setUserRole] = useState();
 
@@ -90,10 +90,6 @@ const InsertProperty = () => {
     setUserRole(response.data.role.name);
   });
 
-  const handleImageChange = (event) => {
-    console.log(event.target.files);
-    setImages(event.target.files[0]);
-  };
   const handleHouseProperty = (event) => {
     const option = event.target.value;
     setSelectedPropertyType(option);

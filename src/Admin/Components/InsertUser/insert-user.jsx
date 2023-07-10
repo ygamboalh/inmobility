@@ -5,12 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { userinfo } from "../../../assets/images/userinfo.png";
+
 import { Estado, TipoAsesor } from "../../../BD/bd";
 import AxiosInstance from "../../../api/AxiosInstance";
 import { authUserData, passedUser, userIntser } from "../../../api/usersApi";
-import LoadImage from "../../../components/UploadImage/my-upload-image";
-import Thumbnail from "../../../components/Thumbnail/thumbnail";
 import MySpinner from "../../../components/Spinner/spinner";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -59,7 +57,6 @@ const InsertUser = () => {
     isError,
     errors,
   } = useMutation(userIntser);
-  const [userImage, setUserImage] = useState(null);
 
   const { data: pasedUser } = useQuery(["id", id], () => passedUser(id));
   const { data: userData } = useQuery("profile", authUserData);
@@ -100,19 +97,27 @@ const InsertUser = () => {
         personalId: values.personalId,
         active: values.active,
         photo: values.photo,
-        //role: values.role,
+        role: values.role,
       };
 
       //si trae un id modificar, sino crear un nuevo registro
       if (pasedUser) {
+        /* pasedUser.role = {
+          disconnect: [
+            {
+              id: 1,
+            },
+          ],
+        }; */
         const response = await AxiosInstance.put(`users/${pasedUser.id}`, value)
           .then((response) => {
             message.success("El usuario se actualizó exitosamente");
             console.log(pasedUser);
             navigate("/admin/users");
           })
-          .error((err) => {
+          .catch((err) => {
             message.error("El usuario no se pudo actualizar");
+            console.log("error desde actualizar", err);
             return;
           });
       } else {
@@ -122,11 +127,13 @@ const InsertUser = () => {
             navigate("/admin/users");
           },
           onError: (error) => {
+            console.log("error desde la mutacion", error);
             message.error("Ocurrió un error inesperado.Intente de nuevo");
           },
         });
       }
     } catch (error) {
+      console.log("error desde la exception", error);
       message.error("Ocurrió un error inesperado!");
     } finally {
       setIsLoading(false);

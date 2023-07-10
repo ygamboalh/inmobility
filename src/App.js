@@ -49,6 +49,7 @@ import AlquilerOficinas from './components/Searchers/alquiler-oficinas';
 import SearchResults from './components/SearchResults/search-results';
 
 import PropertyDetailsSearch from './components/PropertyDetailSearch/property-detail-search';
+import PdfView from './components/PdfView/pdf-view';
 
 const App = () => {
   return (
@@ -81,6 +82,7 @@ const App = () => {
                 <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
                 <Route path="/home/search/search-results" element={<SearchResults />} />
                 <Route exact path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
+                <Route exact path="/home/search/pdf/:id" element={<PdfView />} />
             </Route>
           <Route element={<PublicRoutes />}>
                 <Route path="/home/banner/visiter" element={<Banner />} />

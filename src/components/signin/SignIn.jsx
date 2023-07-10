@@ -53,6 +53,7 @@ const SignIn = () => {
             tokenType: "Bearer",
             authState: data.user,
           });
+
           window.location.reload(true);
           message.success(
             `¡Bienvenido(a) al Sistema Costarricense de Consultas Inmobiliarias Centralizadas.!`

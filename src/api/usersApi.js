@@ -1,13 +1,13 @@
 import AxiosInstance from "./AxiosInstance"
 
-export const authUser = async ( userData ) => {
-  const { data } = await AxiosInstance.post('/auth/local', userData);
+export const authUser = async (userData) => {
+  const { data } = await AxiosInstance.post('/auth/local', userData);   
   return data
 }
 
-export const userIntser = async ( userData ) => {
-  const { data } = await AxiosInstance.post('/auth/local/register', userData);
-  return data
+export const userIntser = async (userData) => {
+    const { data } = await AxiosInstance.post('/auth/local/register', userData);
+    return data
 }
 
 // export const updateCategory = async ( categoryData ) => {

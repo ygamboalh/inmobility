@@ -8,8 +8,8 @@ const Upload = () => {
   const userId = userData?.id;
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col  justify-center align-middle items-center mt-24">
-      <div className="mb-24">
+    <div className="flex flex-col  justify-center align-middle items-center">
+      <div className="mb-24 mt-32">
         <button
           type="button"
           className="text-l mr-2 py-2 px-4 rounded bg-blue-700 text-white"
