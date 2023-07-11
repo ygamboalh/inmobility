@@ -9,27 +9,49 @@ import Slideshow from "../Carrusel/slideShow";
 import no_image from "../../assets/images/no_image_default.jpg";
 import { Document, PDFViewer, Page, Text } from "@react-pdf/renderer";
 import PdfView from "../PdfView/pdf-view";
+import {
+  EmailIcon,
+  EmailShareButton,
+  FacebookIcon,
+  FacebookMessengerIcon,
+  FacebookMessengerShareButton,
+  FacebookShareButton,
+  InstapaperIcon,
+  InstapaperShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+} from "react-share";
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     getProperty();
+    /* const id = property.id;
+    const url = `${API}home/search/pdf/${id}`;
+    setPdfUrl(url); */
   }, []);
 
   const { id } = useParams();
-  const [property, setProperty] = useState([]);
+  const [property, setProperty] = useState();
   const [images, setImages] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState();
   const navigate = useNavigate();
 
   const getProperty = async () => {
     setIsLoading(true);
-    let propertyFound = [];
+    let propertyFound = null;
     let imagesCount = [];
     const propertyResponse = await AxiosInstance.get(
       `${API}properties/${id}?populate=*`
     ).then((response) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
+      console.log(response.data.data.id);
+      setPdfUrl(`${API}home/search/pdf/${response.data.data.id}`);
     });
 
     setProperty(propertyFound);
@@ -40,6 +62,12 @@ const PropertyDetailsSearch = () => {
       imagesUrl.push(image.attributes.url);
     });
     setImages(imagesUrl);
+  };
+  const buildPdf = () => {
+    const id = property.id;
+    navigate(`/home/search/pdf`, {
+      state: { property },
+    });
   };
 
   if (isLoading || !property) {
@@ -61,6 +89,7 @@ const PropertyDetailsSearch = () => {
             onClick={() => {
               setVisible(!visible);
             }}
+            /* onClick={buildPdf} */
             className="bg-blue-700 text-white text-sm rounded-md px-3 py-2"
             type="button"
           >
@@ -141,7 +170,33 @@ const PropertyDetailsSearch = () => {
                 </div>
               </div>
             </div>
-            <div>{property.description}</div>
+            <div>
+              <EmailShareButton url={pdfUrl}>
+                <EmailIcon round={true} size={30}></EmailIcon>
+              </EmailShareButton>
+              <FacebookShareButton url={pdfUrl}>
+                <FacebookIcon
+                  size={30}
+                  logoFillColor="blue"
+                  round={true}
+                ></FacebookIcon>
+              </FacebookShareButton>
+              <WhatsappShareButton url={pdfUrl}>
+                <WhatsappIcon size={30} round={true}></WhatsappIcon>
+              </WhatsappShareButton>
+              <FacebookMessengerShareButton url={pdfUrl}>
+                <FacebookMessengerIcon
+                  size={30}
+                  round={true}
+                ></FacebookMessengerIcon>
+              </FacebookMessengerShareButton>
+              <TwitterShareButton url={pdfUrl}>
+                <TwitterIcon size={30} round={true}></TwitterIcon>
+              </TwitterShareButton>
+              <TelegramShareButton url={pdfUrl}>
+                <TelegramIcon size={30} round={true}></TelegramIcon>
+              </TelegramShareButton>
+            </div>
           </div>
           <div className="max-w-[500px] w-full">
             <div className=" text-black px-3 mt-3 font-semibold text-lg">
@@ -638,28 +693,7 @@ const PropertyDetailsSearch = () => {
           </div>
         </div>
       </div>
-      {visible && property ? (
-        <div className="flex flex-row justify-center -mt-6">
-          <div>
-            <button type="button">Facebook</button>
-          </div>
-          <div>
-            <button type="button">WhatsApp</button>
-          </div>
-          <div>
-            <button type="button">Instagram</button>
-          </div>
-          <div>
-            <button type="button">Twitter</button>
-          </div>
-          <div>
-            <button type="button">TikTok</button>
-          </div>
-          <div>
-            <button type="button">Telegram</button>
-          </div>
-        </div>
-      ) : null}
+
       {visible && property ? (
         <div className="flex justify-center min-h-screen">
           <PDFViewer

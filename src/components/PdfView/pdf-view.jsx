@@ -10,9 +10,7 @@ import {
 } from "@react-pdf/renderer";
 
 import { BiArea, BiBath, BiBed } from "react-icons/bi";
-
 import MySpinner from "../Spinner/spinner";
-import no_image from "../../assets/images/no_image_default.jpg";
 
 const PdfView = ({ property }) => {
   const [isLoading, setIsLoading] = useState(false);

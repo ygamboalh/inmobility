@@ -27,7 +27,6 @@ const SearchResults = () => {
     const data = location.state.propertyList;
     setRecords(data);
     setFilterRecords(data);
-    console.log("datos de la busqueda", data);
   }, []);
   const column = [
     {
