@@ -7,7 +7,7 @@ import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
 import Slideshow from "../Carrusel/slideShow";
 import no_image from "../../assets/images/no_image_default.jpg";
-import { Document, PDFViewer, Page, Text } from "@react-pdf/renderer";
+import { PDFViewer } from "@react-pdf/renderer";
 import PdfView from "../PdfView/pdf-view";
 import {
   EmailIcon,
@@ -16,8 +16,6 @@ import {
   FacebookMessengerIcon,
   FacebookMessengerShareButton,
   FacebookShareButton,
-  InstapaperIcon,
-  InstapaperShareButton,
   TelegramIcon,
   TelegramShareButton,
   TwitterIcon,
@@ -51,7 +49,7 @@ const PropertyDetailsSearch = () => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
       console.log(response.data.data.id);
-      setPdfUrl(`${API}home/search/pdf/${response.data.data.id}`);
+      setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
     });
 
     setProperty(propertyFound);
@@ -77,7 +75,7 @@ const PropertyDetailsSearch = () => {
     display: "flex",
     padding: "4px",
     overflow: " auto",
-    height: "100px",
+
     alignItems: "left",
     justifyContent: "left",
   };
@@ -618,8 +616,8 @@ const PropertyDetailsSearch = () => {
             </div>
             {!property.jardinPatio ||
             Object.keys(property.jardinPatio).length === 0 ? null : (
-              <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
-                <div style={divStyle} className="flex flex-col">
+              <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm h-fit">
+                <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">
                     Opciones de patio / jardin
                   </label>
@@ -639,7 +637,7 @@ const PropertyDetailsSearch = () => {
             {!property.amenidades ||
             Object.keys(property.amenidades).length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
-                <div style={divStyle} className="flex flex-col">
+                <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Amenidades</label>
                   <ul>
                     {!property.amenidades ||
@@ -657,7 +655,7 @@ const PropertyDetailsSearch = () => {
             {!property.detallesInternos ||
             Object.keys(property.detallesInternos).length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
-                <div style={divStyle} className="flex flex-col">
+                <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Detalles Internos</label>
                   <ul>
                     {!property.detallesInternos ||
@@ -672,10 +670,10 @@ const PropertyDetailsSearch = () => {
                 </div>
               </div>
             )}
-            {!property.detallesInternos ||
-            Object.keys(property.detallesInternos).length === 0 ? null : (
+            {!property.detallesExternos ||
+            Object.keys(property.detallesExternos).length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
-                <div style={divStyle} className="flex flex-col">
+                <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Detalles Externos</label>
                   <ul>
                     {!property.detallesExternos ||

@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Document,
-  Image,
-  PDFViewer,
-  Page,
-  Text,
-  View,
-} from "@react-pdf/renderer";
+import { Document, Image, Page, Text, View } from "@react-pdf/renderer";
 
 import { BiArea, BiBath, BiBed } from "react-icons/bi";
 import MySpinner from "../Spinner/spinner";
@@ -39,7 +32,7 @@ const PdfView = ({ property }) => {
     display: "flex",
     padding: "4px",
     overflow: " auto",
-    height: "100px",
+
     alignItems: "left",
     justifyContent: "left",
   };
@@ -53,29 +46,17 @@ const PdfView = ({ property }) => {
           <View className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <Image
-                src={`https://siccic.com/backend/uploads/logo192_120833ad5e.png?updated_at=2023-07-10T05:07:46.597Z`}
-                style={{
-                  width: "80px",
-                }}
+                src={`https://siccic.com/backend/uploads/biglogo_8b9bf26113.png?updated_at=2023-07-11T15:23:36.365Z`}
+                style={{}}
               ></Image>
-              <Text
-                style={{
-                  textAlign: "center",
-                  justifyContent: "center",
-                  fontWeight: "extrabold",
-                  fontSize: "24px",
-                }}
-              >
-                Sistema CIC
-              </Text>
             </View>
             <View
               style={{
-                borderRadius: "10px",
-                marginBottom: "10px",
-                marginTop: "10px",
+                marginBottom: "2px",
+                marginTop: "1px",
                 padding: "10px",
-                backgroundColor: "#89CFF0",
+                color: "white",
+                backgroundColor: "#323996",
               }}
             >
               <Text className="text-2xl font-semibold">
@@ -119,7 +100,17 @@ const PdfView = ({ property }) => {
         </View>
       </Page>
       <Page>
-        <View className=" text-black px-3 mt-3 font-semibold text-lg">
+        <View
+          style={{
+            marginTop: "15px",
+            height: "50px",
+            backgroundColor: "#323996",
+            justifyContent: "center",
+            marginHorizontal: "10px",
+            color: "white",
+          }}
+          className=" text-black px-3 mt-3 font-semibold text-lg"
+        >
           <Text
             style={{
               fontSize: "22px",
@@ -127,7 +118,7 @@ const PdfView = ({ property }) => {
               justifyContent: "center",
               alignItems: "center",
               fontWeight: "extrabold",
-              marginTop: "10px",
+              color: "white",
             }}
           >
             Otros detalles de la propiedad
@@ -135,15 +126,17 @@ const PdfView = ({ property }) => {
         </View>
         <View
           style={{
-            borderRadius: "10px",
-            marginBottom: "10px",
-            marginTop: "10px",
-            padding: "10px",
-            backgroundColor: "#B6D0E2",
+            marginTop: "1px",
+            padding: "15px",
+            backgroundColor: "#323996",
             marginHorizontal: "10px",
+            color: "white",
           }}
         >
-          <View className="max-w-[568px]">
+          <View
+            style={{ backgroundColor: "#323996", color: "white" }}
+            className="max-w-[568px]"
+          >
             <View className="flex gap-x-6 text-blue-700 mb-6">
               <View className="flex gap-x-2 items-center">
                 <BiBed className="text-2xl" />
@@ -164,6 +157,7 @@ const PdfView = ({ property }) => {
                 </Text>
               </View>
               <View
+                style={{ color: "white" }}
                 className={
                   property.areaPropiedad
                     ? "flex gap-x-2 items-center"
@@ -180,6 +174,7 @@ const PdfView = ({ property }) => {
           </View>
           <View className="max-w-[500px] w-full">
             <View
+              style={{ color: "white" }}
               className={
                 property.altura
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -197,6 +192,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.amueblado
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -213,6 +209,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.aptoHijos
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -231,6 +228,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.aptoMascotas
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -249,6 +247,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.areaBodega
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -269,6 +268,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.areaCarga
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -288,6 +288,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.areaContruccion
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -308,6 +309,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.areaMesanini
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -328,6 +330,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.areaPlantas
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -349,6 +352,7 @@ const PdfView = ({ property }) => {
             </View>
 
             <View
+              style={{ color: "white" }}
               className={
                 property.areaSotano
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -369,6 +373,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.areaTerreno
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -389,6 +394,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.cochera
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -405,6 +411,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.concepcionElectrica
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -423,6 +430,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.cuotaMantenimiento
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -441,6 +449,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.ley7600
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -460,6 +469,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.numeroPlantas
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -478,6 +488,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.parqueo
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -494,6 +505,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.servicios
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -510,6 +522,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.serviciosMedicos
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -529,6 +542,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.ubicacionCastral
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -547,6 +561,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.ubicacionDemografica
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -565,6 +580,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.ubicacionGeografica
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -583,6 +599,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             <View
+              style={{ color: "white" }}
               className={
                 property.usoDeSuelo
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
@@ -602,7 +619,15 @@ const PdfView = ({ property }) => {
             Object.keys(property.jardinPatio).length === 0 ? null : (
               <View className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <View style={divStyle} className="flex flex-col">
-                  <Text className="font-semibold">
+                  <Text
+                    style={{
+                      fontWeight: "extrabold",
+                      marginTop: "-3px",
+                      marginLeft: "-3px",
+                      color: "white",
+                    }}
+                    className="font-semibold"
+                  >
                     Opciones de patio / jardin
                   </Text>
                   <ul>
@@ -612,7 +637,16 @@ const PdfView = ({ property }) => {
                     property.jardinPatio?.length === 0
                       ? null
                       : property?.jardinPatio?.map((elemento, index) => (
-                          <Text key={index}>{elemento.Text}</Text>
+                          <Text
+                            style={{
+                              marginLeft: "5px",
+                              marginVertical: "2px",
+                              color: "white",
+                            }}
+                            key={index}
+                          >
+                            - {elemento.label}
+                          </Text>
                         ))}
                   </ul>
                 </View>
@@ -620,9 +654,17 @@ const PdfView = ({ property }) => {
             )}
             {!property.amenidades ||
             Object.keys(property.amenidades).length === 0 ? null : (
-              <View className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
+              <View>
                 <View style={divStyle} className="flex flex-col">
-                  <Text className="font-semibold">Amenidades</Text>
+                  <Text
+                    style={{
+                      fontWeight: "extrabold",
+                      marginTop: "-3px",
+                      marginLeft: "-3px",
+                    }}
+                  >
+                    Amenidades
+                  </Text>
                   <ul>
                     {!property.amenidades ||
                     Object.keys(property.amenidades).length === 0 ||
@@ -630,7 +672,15 @@ const PdfView = ({ property }) => {
                     property.amenidades?.length === 0
                       ? null
                       : property?.amenidades?.map((elemento, index) => (
-                          <Text key={index}>{elemento.Text}</Text>
+                          <Text
+                            style={{
+                              marginLeft: "5px",
+                              marginVertical: "2px",
+                            }}
+                            key={index}
+                          >
+                            - {elemento.label}
+                          </Text>
                         ))}
                   </ul>
                 </View>
@@ -640,7 +690,16 @@ const PdfView = ({ property }) => {
             Object.keys(property.detallesInternos).length === 0 ? null : (
               <View className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <View style={divStyle} className="flex flex-col">
-                  <Text className="font-semibold">Detalles Internos</Text>
+                  <Text
+                    style={{
+                      fontWeight: "extrabold",
+                      marginTop: "-3px",
+                      marginLeft: "-3px",
+                    }}
+                    className="font-semibold"
+                  >
+                    Detalles Internos
+                  </Text>
                   <ul>
                     {!property.detallesInternos ||
                     Object.keys(property.detallesInternos).length === 0 ||
@@ -648,17 +707,34 @@ const PdfView = ({ property }) => {
                     property.detallesInternos?.length === 0
                       ? null
                       : property?.detallesInternos?.map((elemento, index) => (
-                          <Text key={index}>{elemento.Text}</Text>
+                          <Text
+                            style={{
+                              marginLeft: "5px",
+                              marginVertical: "2px",
+                            }}
+                            key={index}
+                          >
+                            - {elemento.label}
+                          </Text>
                         ))}
                   </ul>
                 </View>
               </View>
             )}
-            {!property.detallesInternos ||
-            Object.keys(property.detallesInternos).length === 0 ? null : (
+            {!property.detallesExternos ||
+            Object.keys(property.detallesExternos).length === 0 ? null : (
               <View className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <View style={divStyle} className="flex flex-col">
-                  <Text className="font-semibold">Detalles Externos</Text>
+                  <Text
+                    style={{
+                      fontWeight: "extrabold",
+                      marginTop: "-3px",
+                      marginLeft: "-3px",
+                    }}
+                    className="font-semibold"
+                  >
+                    Detalles Externos
+                  </Text>
                   <ul>
                     {!property.detallesExternos ||
                     Object.keys(property.detallesExternos).length === 0 ||
@@ -666,7 +742,15 @@ const PdfView = ({ property }) => {
                     property.detallesExternos?.length === 0
                       ? null
                       : property?.detallesExternos?.map((elemento, index) => (
-                          <Text key={index}>{elemento.Text}</Text>
+                          <Text
+                            style={{
+                              marginLeft: "5px",
+                              marginVertical: "2px",
+                            }}
+                            key={index}
+                          >
+                            - {elemento.label}
+                          </Text>
                         ))}
                   </ul>
                 </View>

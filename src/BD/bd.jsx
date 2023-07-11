@@ -145,7 +145,7 @@ export const TipoInmueble = [
   { key: "Apartamento en 2do Piso", value: "Apartamento en 2do Piso" },
   { key: "Apartamento en 3er Piso", value: "Apartamento en 3er Piso" },
   { key: "Apartamento en 4to Piso", value: "Apartamento en 4to Piso" },
-  { key: "Apartametno en 5to Piso", value: "Apartametno en 5to Piso" },
+  { key: "Apartamento en 5to Piso", value: "Apartamento en 5to Piso" },
   { key: "Apartamento de 2 niveles", value: "Apartamento de 2 niveles" },
   { key: "Apartamento de 3 niveles", value: "Apartamento de 3 niveles" },
   { key: "Chalet", value: "Chalet" },
