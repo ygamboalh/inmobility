@@ -5,6 +5,12 @@ export const authUser = async (userData) => {
   return data
 }
 
+export const resetPassword = async (userData) => {
+  const { data } = await AxiosInstance.post('/auth/reset-password', userData);   
+  return data
+}
+
+
 export const userIntser = async (userData) => {
     const { data } = await AxiosInstance.post('/auth/local/register', userData);
     return data

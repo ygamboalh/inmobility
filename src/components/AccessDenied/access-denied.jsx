@@ -12,7 +12,7 @@ const AccessDenied = () => {
         </label>
       </div>
       <div className="max-w-60 flex flex-col">
-        <Link to="/user/register-request" link-to className="button-rq">
+        <Link to="/auth/register-request" link-to className="button-rq">
           Solicitar ahora
         </Link>
       </div>
