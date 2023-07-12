@@ -9,6 +9,7 @@ import Slideshow from "../Carrusel/slideShow";
 import no_image from "../../assets/images/no_image_default.jpg";
 import { PDFViewer } from "@react-pdf/renderer";
 import PdfView from "../PdfView/pdf-view";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {
   EmailIcon,
   EmailShareButton,
@@ -23,6 +24,8 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
+import MyNewCarousel from "../Carrusel/carrusel";
+import { render } from "react-dom";
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -81,7 +84,7 @@ const PropertyDetailsSearch = () => {
   };
   return (
     <section>
-      <div className="container mx-auto min-h-[800px] pt-20">
+      <div className="container mx-auto min-h-[800px] pt-6">
         <div>
           <button
             onClick={() => {
@@ -120,16 +123,16 @@ const PropertyDetailsSearch = () => {
 
         <div className="flex flex-col items-start gap-8 lg:flex-row">
           <div className="max-w-[568px]">
-            <div className="mb-8">
+            <div className="mb-3">
               {images.length !== 0 ? (
-                <Slideshow slideImages={images} />
+                <MyNewCarousel images={images} />
               ) : (
                 <span></span>
               )}
               <img
                 src={
                   images.length !== 0 ? (
-                    <Slideshow slideImages={images} />
+                    <MyNewCarousel images={images} />
                   ) : (
                     no_image
                   )

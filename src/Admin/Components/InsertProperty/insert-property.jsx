@@ -52,6 +52,7 @@ const InsertProperty = () => {
     precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
     areaTerreno: Yup.number().required("*").min(0, "*").max(500000, "*"),
     anunciante: Yup.string().required("*").min(6, "*").max(150, "*"),
+    uniqueId: Yup.string().required("*").min(1, "*").max(20, "*"),
     active: Yup.string().required("*"),
 
     habitaciones: Yup.number().min(0, "*").max(15, "*"),
@@ -190,6 +191,7 @@ const InsertProperty = () => {
     categories: property?.categories,
     active: property?.active,
     areaTerreno: property?.areaTerreno,
+    uniqueId: property?.uniqueId,
   });
 
   useEffect(() => {
@@ -266,6 +268,7 @@ const InsertProperty = () => {
         categories: catFounded,
         active: values.active,
         creadoPor: userId,
+        uniqueId: values.uniqueId,
         //photos: images,
       };
 
@@ -357,6 +360,19 @@ const InsertProperty = () => {
               </div>
             </div>
             <div className="flex flex-wrap justify-center m-3">
+              <Field
+                type="text"
+                defaultValue={property?.uniqueId}
+                hidden={selectedOption === ""}
+                name="uniqueId"
+                placeholder="Identificador único"
+                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+              />
+              <div className="space mb-2.5">
+                {errors.uniqueId && touched.uniqueId ? (
+                  <div className="errordiv text-xs">{errors.uniqueId}</div>
+                ) : null}
+              </div>
               <Field
                 as="select"
                 defaultValue={property?.provincia}

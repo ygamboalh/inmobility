@@ -27,7 +27,7 @@ const PdfViewShared = () => {
     let propertyFound = null;
     let imagesCount = [];
     const imagesUrl = [];
-    console.log("id de nuevo", id);
+
     const propertyResponse = await AxiosInstance.get(
       `${API}properties/${id}?populate=*`
     ).then((response) => {
@@ -89,6 +89,12 @@ const PdfViewShared = () => {
                     backgroundColor: "#323996",
                   }}
                 >
+                  <Text className="text-2xl font-semibold">
+                    <Text style={{ fontWeight: "bold" }}>
+                      Identificador único:{" "}
+                    </Text>
+                    {property.uniqueId}
+                  </Text>
                   <Text className="text-2xl font-semibold">
                     <Text style={{ fontWeight: "bold" }}>
                       Tipo de propiedad:{" "}
