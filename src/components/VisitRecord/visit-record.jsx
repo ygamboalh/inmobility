@@ -10,6 +10,8 @@ import useScreenSize from "../../hooks/useScreenSize";
 import { API } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import MySpinner from "../Spinner/spinner";
+import enviarCorreo from "../../utils/email/send-email";
+import enviarCorreoPersonalizadoOrigen from "../../utils/email/send-personalized-email-origin";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -82,6 +84,13 @@ const VisitRecord = () => {
         `¡Bienvenido(a) al Sistema Costarricense de Consultas Inmobiliarias Centralizadas.!`
       );
       navigate("/home/banner/visiter", { replace: true });
+      const body = `Hemos recibido una nueva visita al Sistema CIC.`;
+      enviarCorreoPersonalizadoOrigen(
+        "infosistemacic@gmail.com",
+        body,
+        value.email
+      );
+      enviarCorreo("infosistemacic@gmail.com", 3);
     } catch (error) {
       message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
     } finally {

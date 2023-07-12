@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
+import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
+import { authUserData } from "../../../api/usersApi";
 
 const PropertiesList = () => {
   const queryClient = useQueryClient();
@@ -20,6 +22,7 @@ const PropertiesList = () => {
   const [pending, setPending] = React.useState(true);
   const [filterRecords, setFilterRecords] = useState([]);
   const navigate = useNavigate();
+  const { data: userData, loading } = useQuery("profile", authUserData);
 
   const { data, isLoading: loadingProperties } = useQuery(
     "properties",
@@ -54,18 +57,20 @@ const PropertiesList = () => {
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("antes de confirmar", isLoading);
-        const response = fetch(`${API}properties/${id}`, {
+        const response = axios(`${API}properties/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
-        }).then((result) =>
+        }).then((result) => {
+          const property = result.data.data.attributes;
+          const body = `El siguiente inmueble ha sido eliminado por el usuario: ${userData.email}`;
+          enviarCorreoPersonalizado("infosistemacic@gmail.com", property, body);
           queryClient
             .invalidateQueries(["properties"])
-            .then((resultado) => console.log(resultado))
-        );
+            .then((resultado) => console.log(resultado));
+        });
         if (result) {
           Swal.fire("Inmueble eliminado!", "", "success");
         } else {

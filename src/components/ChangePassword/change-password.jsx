@@ -82,19 +82,19 @@ const ChangePassword = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div class="relative w-80">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="relative w-80">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <BiLock size={25} />
               </div>
               <Field
                 placeholder="Contraseña actual"
                 type={showPassword ? "text" : "password"}
                 name="currentPassword"
-                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
               <button
                 type="button"
-                class="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
+                className="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
@@ -112,19 +112,19 @@ const ChangePassword = () => {
               ) : null}
             </div>
 
-            <div class="relative w-80">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="relative w-80">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <BiLock size={25} />
               </div>
               <Field
                 placeholder="Nueva contraseña"
                 type={showPassword ? "text" : "password"}
                 name="password"
-                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
               <button
                 type="button"
-                class="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
+                className="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
@@ -139,19 +139,19 @@ const ChangePassword = () => {
                 <div className="errordivp text-xs">{errors.password}</div>
               ) : null}
             </div>
-            <div class="relative w-80">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="relative w-80">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <BiLock size={25} />
               </div>
               <Field
                 placeholder="Repetir contraseña"
                 type={showPassword ? "text" : "password"}
                 name="passwordConfirmation"
-                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
               <button
                 type="button"
-                class="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
+                className="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (

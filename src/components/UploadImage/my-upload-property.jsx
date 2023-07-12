@@ -88,7 +88,7 @@ const LoadPropertyImage = ({ creadoPor }) => {
         <label className="flex">
           Seleccione las imágenes para la propiedad: {id?.id}
         </label>
-        <div class="flex flex-col items-center justify-center w-full ">
+        <div className="flex flex-col items-center justify-center w-full ">
           <label
             for="dropzone-file"
             className="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -96,7 +96,7 @@ const LoadPropertyImage = ({ creadoPor }) => {
             <div className="flex flex-col items-center justify-center my-2  pb-1">
               <svg
                 aria-hidden="true"
-                class="w-10 h-10 mb-3  text-gray-400"
+                className="w-10 h-10 mb-3  text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

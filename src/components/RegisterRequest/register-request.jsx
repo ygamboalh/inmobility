@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import { API } from "../../constant";
 import { userIntser } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
+import enviarCorreo from "../../utils/email/send-email";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -134,15 +135,15 @@ const RegisterRequest = () => {
         insertMutation(value, {
           onSuccess: () => {
             message.success("El usuario se registró exitosamente");
-            navigate("/home/banner");
+            enviarCorreo(value.email, 1);
+            enviarCorreo("infosistemacic@gmail.com", 2);
+            navigate("/user/sent-request", { replace: true });
           },
           onError: (error) => {
             message.error("Ocurrió un error inesperado");
             //(error.response.data.error.message);
           },
         });
-
-        navigate("/user/sent-request", { replace: true });
       }
       //if he is waiting for approval say you are evaluating the case
       else {
