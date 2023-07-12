@@ -17,7 +17,7 @@ function enviarCorreo(destinatario, template) {
       },
       {
         headers: {
-          "api-key": "",
+          "api-key": "dfdf",
         },
       }
     )
