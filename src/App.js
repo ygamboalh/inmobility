@@ -32,7 +32,6 @@ import InsertLink from './Admin/Components/Links/insert-link';
 
 // Import pages
 import { Alquileres, Home, NotFound, Ventas, Search, PropertyDetails } from './pages';
-import RequireRole from './layouts/components/RequireRole';
 import Upload from './components/UploadImage/upload';
 import VentaCasaApartamento from './components/Searchers/venta-casa-apartamento';
 import AlquilerCasaApartamento from './components/Searchers/alquiler-casa-apartamento';
@@ -49,7 +48,6 @@ import AlquilerOficinas from './components/Searchers/alquiler-oficinas';
 import SearchResults from './components/SearchResults/search-results';
 
 import PropertyDetailsSearch from './components/PropertyDetailSearch/property-detail-search';
-import PdfView from './components/PdfView/pdf-view';
 import PdfViewShared from './components/PdfView/pdf-view-shared';
 import ExtraLayoutShared from './layouts/out-layout-shared';
 
@@ -125,7 +123,7 @@ const App = () => {
                 
         </Route>
        <Route element={<ExtraLayoutShared />}>
-                <Route exact path="/home/search/pdf/:id" element={<PdfViewShared />} /> 
+                <Route exact path="/home/search/pdf/:uniqueId" element={<PdfViewShared />} /> 
           </Route>
           <Route exact path='/' element={<Home />} />
       </Routes>

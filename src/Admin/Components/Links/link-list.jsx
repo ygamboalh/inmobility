@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import DataTable from "react-data-table-component";
-import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -85,14 +84,14 @@ const LinkList = () => {
       id: "descripcion",
       selector: (row) => row.attributes.descripcion,
       sortable: true,
-      width: "200px",
+      width: "300px",
     },
     {
       name: "URL",
       id: "url",
       selector: (row) => row.attributes.url,
       sortable: true,
-      width: "600px",
+      width: "670px",
     },
     {
       cell: (row) => (

@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { getToken } from "../utils/helpers";
 import { API, BEARER } from "../constant";
 import MySpinner from "./Spinner/spinner";
-import { Category } from "./Category";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -24,7 +23,7 @@ const Banner = () => {
     const role = data.role.name;
 
     if (role === "SuperAdmin") {
-      navigate("/admin/properties/insert-property", { replace: true });
+      navigate("/home/insert-property", { replace: true });
     }
     if (role === "Authenticated") {
       navigate("/home/insert-property", { replace: true });

@@ -70,9 +70,7 @@ const Header = () => {
             </div>
           </Link>
         </div>
-        <div className="flex flex-row justify-center justify-self-center">
-          <Freelancer /> <span></span>
-        </div>
+
         {!userData ? (
           <span></span>
         ) : (
@@ -84,6 +82,9 @@ const Header = () => {
             </div>
           </div>
         )}
+        <div className="flex flex-row justify-center justify-self-center">
+          <Freelancer /> <span></span>
+        </div>
       </div>
     </header>
   );

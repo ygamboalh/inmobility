@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { BiArea, BiBath, BiBed } from "react-icons/bi";
+import { PDFViewer } from "@react-pdf/renderer";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
-import Slideshow from "../Carrusel/slideShow";
+
 import no_image from "../../assets/images/no_image_default.jpg";
-import { PDFViewer } from "@react-pdf/renderer";
 import PdfView from "../PdfView/pdf-view";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {
   EmailIcon,
   EmailShareButton,
@@ -30,9 +31,6 @@ const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     getProperty();
-    /* const id = property.id;
-    const url = `${API}home/search/pdf/${id}`;
-    setPdfUrl(url); */
   }, []);
 
   const { id } = useParams();
@@ -51,24 +49,20 @@ const PropertyDetailsSearch = () => {
     ).then((response) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
-      console.log(response.data.data.id);
-      setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
+
+      setPdfUrl(
+        `https://siccic.com/home/search/pdf/${response.data.data.attributes.uniqueId}`
+      );
     });
 
     setProperty(propertyFound);
-    console.log(propertyFound);
+
     setIsLoading(false);
     const imagesUrl = [];
     imagesCount?.data?.forEach((image) => {
       imagesUrl.push(image.attributes.url);
     });
     setImages(imagesUrl);
-  };
-  const buildPdf = () => {
-    const id = property.id;
-    navigate(`/home/search/pdf`, {
-      state: { property },
-    });
   };
 
   if (isLoading || !property) {

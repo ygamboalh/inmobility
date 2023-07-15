@@ -32,19 +32,15 @@ const VentaCasaApartamento = () => {
 
   const handleChangeAmenidades = (selectedOption) => {
     setAmenidades(selectedOption);
-    console.log(selectedOption);
   };
   const handleChangePatioJardin = (selectedOption) => {
     setPatio(selectedOption);
-    console.log(selectedOption);
   };
   const handleChangeDetallesInternos = (selectedOption) => {
     setDetallesInternos(selectedOption);
-    console.log(selectedOption);
   };
   const handleChangeDetallesExternos = (selectedOption) => {
     setDetallesExternos(selectedOption);
-    console.log(selectedOption);
   };
 
   const [isLoading, setIsLoading] = useState(false);
@@ -70,7 +66,7 @@ const VentaCasaApartamento = () => {
       ) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[categories][id][$eq]=1${urlQuery}`;
-        console.log("url: ", url);
+
         const busqueda = axios
           .get(url, {
             headers: {
@@ -104,9 +100,7 @@ const VentaCasaApartamento = () => {
                 propertyList.push(property);
               }
             });
-            console.log("todos los detalles", amenidades);
-            console.log("lista final", propertyList);
-            console.log("data completa", data);
+
             setIsLoading(false);
 
             if (propertyList.length !== 0) {

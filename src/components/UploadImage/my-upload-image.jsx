@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
 
-import { Field, Formik, useFormik } from "formik";
+import axios from "axios";
+
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
-import * as Yup from "yup";
-import axios from "axios";
 import { API } from "../../constant";
 
 const LoadImage = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -31,7 +31,7 @@ const AlquilerOficinas = () => {
         const urlQuery = urlFinal.replace(/ /g, "%20");
 
         const url = `${API}properties?filters[categories][id][$eq]=12${urlQuery}`;
-        console.log("url: ", url);
+
         const busqueda = axios
           .get(url, {
             headers: {

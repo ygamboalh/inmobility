@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Field, Formik, useFormik } from "formik";
+import axios from "axios";
+import { message } from "antd";
+
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
-import * as Yup from "yup";
-import axios from "axios";
+
 import { API, BEARER } from "../../constant";
-import { message } from "antd";
 import MySpinner from "../Spinner/spinner";
-import { useNavigate, useParams } from "react-router-dom";
 
 const LoadPropertyImage = ({ creadoPor }) => {
   const id = useParams();
@@ -48,7 +48,7 @@ const LoadPropertyImage = ({ creadoPor }) => {
     data.append("ref", ref);
     data.append("refId", refid);
     data.append("field", field);
-    console.log(data.getAll("files"));
+
     //Aqui verifico que el id del usuario logueado sea el mismo del usuario que creo la propiedad
     if (userId === creadoPor) {
       const upload = await axios({
@@ -61,7 +61,7 @@ const LoadPropertyImage = ({ creadoPor }) => {
       })
         .then((response) => {
           message.success("¡Las imágenes fueron cargadas correctamente!");
-          console.log(response);
+
           if (userRole === "SuperAdmin") {
             navigate("/admin/properties");
           } else {

@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  getActiveProperties,
-  getAllPropertiesRQ,
-} from "../../../api/propertiesApi";
+import { getAllPropertiesRQ } from "../../../api/propertiesApi";
 import DataTable from "react-data-table-component";
 import { useQuery, useQueryClient } from "react-query";
 import { API } from "../../../constant";

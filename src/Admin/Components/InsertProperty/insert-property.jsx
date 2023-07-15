@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
-import { Spin, message } from "antd";
+import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 
 import { API, BEARER } from "../../../constant";
@@ -40,6 +40,7 @@ import axios from "axios";
 import { getToken } from "../../../utils/helpers";
 import { useQuery } from "react-query";
 import { authUserData } from "../../../api/usersApi";
+import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
 
 const InsertProperty = () => {
   const { id } = useParams();
@@ -52,7 +53,7 @@ const InsertProperty = () => {
     distrito: Yup.string().required("*").min(6, "*").max(150, "*"),
     precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
     areaTerreno: Yup.number().required("*").min(0, "*").max(500000, "*"),
-    anunciante: Yup.string().required("*").min(6, "*").max(150, "*"),
+    //    anunciante: Yup.string().required("*").min(6, "*").max(150, "*"),
     uniqueId: Yup.string()
       .matches(idregex, "*")
       .required("*")
@@ -85,10 +86,13 @@ const InsertProperty = () => {
 
   const [createdPropertyId, setCreatedPropertyId] = useState(null);
   const [userRole, setUserRole] = useState();
+  const [selectCategory, setSelectCategory] = useState();
 
   const [selectedPropertyType, setSelectedPropertyType] = useState("");
   const { data: userData } = useQuery("profile", authUserData);
   const userId = userData?.id;
+  const anunciante = userData?.email;
+  console.log("anunciante", anunciante);
   const response = axios(`${API}/users/me?populate=role`, {
     method: "GET",
     headers: { Authorization: `${BEARER} ${getToken()}` },
@@ -103,17 +107,23 @@ const InsertProperty = () => {
   const handleFincaProperty = (event) => {
     const option = event.target.value;
 
-    if (option) setSelectedPropertyType(option);
+    if (option) {
+      setSelectedPropertyType(option);
+    }
   };
   const handleLocalesProperty = (event) => {
     const option = event.target.value;
 
-    if (option) setSelectedPropertyType(option);
+    if (option) {
+      setSelectedPropertyType(option);
+    }
   };
   const handleBodegasProperty = (event) => {
     const option = event.target.value;
 
-    if (option) setSelectedPropertyType(option);
+    if (option) {
+      setSelectedPropertyType(option);
+    }
   };
   const handleOficinasProperty = (event) => {
     const option = event.target.value;
@@ -128,9 +138,7 @@ const InsertProperty = () => {
     const selectedOption = event.target.value;
     setSelectedOption(selectedOption);
   };
-  const handleChangeCategory = (selectedOption) => {
-    setCategory(selectedOption);
-  };
+
   const handleChangeAmenidades = (selectedOption) => {
     setAmenidades(selectedOption);
   };
@@ -145,9 +153,13 @@ const InsertProperty = () => {
   };
 
   useEffect(() => {
-    const response = AxiosInstance.get(`properties/${id}`).then((property) =>
-      setProperty(property?.data?.data?.attributes)
-    );
+    const response = AxiosInstance.get(`properties/${id}?populate=*`)
+      .then((property) => {
+        setProperty(property?.data?.data?.attributes);
+      })
+      .catch((error) => {
+        return;
+      });
   }, []);
 
   const [initialData, setinitialData] = useState({
@@ -192,8 +204,10 @@ const InsertProperty = () => {
     tipoDensidad: property?.tipoDensidad,
     servicios: property?.servicios,
     serviciosMedicos: property?.serviciosMedicos,
-    anunciante: property?.anunciante,
-    categories: property?.categories,
+    Anunciante: property?.anunciante,
+    categories:
+      property?.data?.data?.attributes?.categories?.data[0]?.attributes?.nombre,
+
     active: property?.active,
     areaTerreno: property?.areaTerreno,
     uniqueId: property?.uniqueId,
@@ -202,6 +216,10 @@ const InsertProperty = () => {
   useEffect(() => {
     fetch(`${API}categories`, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -210,7 +228,9 @@ const InsertProperty = () => {
           const { nombre } = category.attributes;
           categories.push({ id: category.id, nombre: nombre });
         });
+
         setCategoriesDB(categories);
+        console.log(categories);
       })
       .catch((error) => {
         console.error(error);
@@ -240,6 +260,7 @@ const InsertProperty = () => {
         tipoLocal: values.tipoLocal,
         amenidades: amenidades,
         areaPropiedad: values.areaPropiedad,
+        areaTerreno: values.areaTerreno,
         areaContruccion: values.areaContruccion,
         habitaciones: values.habitaciones,
         cochera: values.cochera,
@@ -269,23 +290,31 @@ const InsertProperty = () => {
         tipoDensidad: values.tipoDensidad,
         servicios: values.servicios,
         serviciosMedicos: values.serviciosMedicos,
-        anunciante: values.anunciante,
+        Anunciante: anunciante,
         categories: catFounded,
         active: values.active,
         creadoPor: userId,
         uniqueId: values.uniqueId,
-        //photos: images,
       };
 
       if (!id) {
+        console.log(value);
         const response = await AxiosInstance.post("/properties", {
           data: value,
         })
           .then((respons) => {
             message.success("¡La propiedad fue creada correctamente!");
+
+            const property = respons.data.data.attributes;
+            const body = `El siguiente inmueble fue creado por el usuario: ${userData.email}`;
+            enviarCorreoPersonalizado(
+              "infosistemacic@gmail.com",
+              property,
+              body
+            );
             const propertyId = respons.data.data.id;
             setCreatedPropertyId(propertyId);
-            console.log(respons);
+
             if (userRole === "SuperAdmin") {
               navigate(`/admin/upload/${propertyId}`, { replace: true });
             } else {
@@ -293,6 +322,7 @@ const InsertProperty = () => {
             }
           })
           .catch((error) => {
+            console.log(error);
             message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
           });
       } else {
@@ -301,6 +331,13 @@ const InsertProperty = () => {
         })
           .then((response) => {
             message.success("¡La propiedad fue actualizada correctamente!");
+            const property = response.data.data.attributes;
+            const body = `El siguiente inmueble fue modificado por el usuario: ${userData.email}`;
+            enviarCorreoPersonalizado(
+              "infosistemacic@gmail.com",
+              property,
+              body
+            );
             if (userRole === "SuperAdmin") {
               navigate(`/admin/upload/${id}`, { replace: true });
             } else {
@@ -343,7 +380,7 @@ const InsertProperty = () => {
                 as="select"
                 name="categories"
                 value={selectedOption}
-                defaultValue={property?.categories}
+                defaultValue="{property?.categories}"
                 onChange={handleOptionSelectChange}
                 className="categories  m-2 w-full  md:w-fit lg:mx-80"
               >
@@ -1423,7 +1460,7 @@ const InsertProperty = () => {
                   </option>
                 ))}
               </Field>
-              <Field
+              {/* <Field
                 type="text"
                 placeholder="Anunciante"
                 defaultValue={property?.anunciante}
@@ -1432,10 +1469,10 @@ const InsertProperty = () => {
                 className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
               />
               <div className="space mb-2.5">
-                {errors.anunciante && touched.anunciante ? (
-                  <div className="errordiv text-xs">{errors.anunciante}</div>
+                {errors.Anunciante && touched.Anunciante ? (
+                  <div className="errordiv text-xs">{errors.Anunciante}</div>
                 ) : null}
-              </div>
+              </div> */}
             </div>
             <div className="flex m-4 content-center items-center justify-center ">
               <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">

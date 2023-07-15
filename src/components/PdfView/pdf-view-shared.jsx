@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import {
   Document,
@@ -10,14 +11,14 @@ import {
 } from "@react-pdf/renderer";
 
 import { BiArea, BiBath, BiBed } from "react-icons/bi";
+
 import MySpinner from "../Spinner/spinner";
-import { useParams } from "react-router-dom";
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 
 const PdfViewShared = () => {
-  const { id } = useParams();
-  console.log(id);
+  const { uniqueId } = useParams();
+
   const [property, setProperty] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
@@ -29,10 +30,10 @@ const PdfViewShared = () => {
     const imagesUrl = [];
 
     const propertyResponse = await AxiosInstance.get(
-      `${API}properties/${id}?populate=*`
+      `${API}properties/${uniqueId}?populate=*`
     ).then((response) => {
       propertyFound = response.data.data.attributes;
-      console.log("la propiedad", propertyFound);
+
       imagesCount = response.data.data.attributes.photos;
       setProperty(propertyFound);
     });
@@ -184,25 +185,25 @@ const PdfViewShared = () => {
                       property.banos ? "flex gap-x-2 items-center" : "hidden"
                     }
                   >
-                    <BiBath className="text-2xl " />
                     <Text>
                       <Text>Cantidad de baños: </Text>
                       {property?.banos}
                     </Text>
                   </View>
-                  <View
-                    className={
-                      property.areaPropiedad
-                        ? "flex gap-x-2 items-center"
-                        : "hidden"
-                    }
-                  >
-                    <BiArea className="text-2xl " />
-                    <Text>
-                      <Text>Área de la propiedad: </Text>
-                      {property.areaPropiedad} m²
-                    </Text>
-                  </View>
+                  {property.areaPropiedad ? (
+                    <View
+                      className={
+                        property.areaPropiedad
+                          ? "flex gap-x-2 items-center"
+                          : "hidden"
+                      }
+                    >
+                      <Text>
+                        <Text>Área de la propiedad: </Text>
+                        {property.areaPropiedad} m²
+                      </Text>
+                    </View>
+                  ) : null}
                 </View>
               </View>
               <View className="max-w-[500px] w-full">

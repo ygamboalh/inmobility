@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 
 import { message } from "antd";
@@ -30,7 +30,7 @@ const AlquilerBodegas = () => {
       if (urlFinal.length !== 0) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[categories][id][$eq]=9${urlQuery}`;
-        console.log("url: ", url);
+
         const busqueda = axios
           .get(url, {
             headers: {
@@ -39,8 +39,6 @@ const AlquilerBodegas = () => {
           })
           .then((response) => {
             const data = response.data.data;
-
-            console.log("resultado de la busqueda", data);
             if (data.length !== 0) {
               navigate("/home/search/search-results", { state: { data } });
             } else {

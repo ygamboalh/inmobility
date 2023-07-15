@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import DataTable from "react-data-table-component";
-import { useNavigate } from "react-router-dom";
+
 import MySpinner from "../Spinner/spinner";
 
 const SearchResults = () => {
@@ -21,6 +22,7 @@ const SearchResults = () => {
     const data = location.state.propertyList;
     setRecords(data);
     setFilterRecords(data);
+    console.log(data);
   }, []);
   const column = [
     {
@@ -29,6 +31,13 @@ const SearchResults = () => {
       sortable: true,
       width: "60px",
       id: "id",
+    },
+    {
+      name: "ID Único",
+      selector: (row) => row.attributes.uniqueId,
+      sortable: true,
+      width: "120px",
+      id: "uniqueId",
     },
     {
       name: "Categoria",
@@ -66,11 +75,11 @@ const SearchResults = () => {
       width: "230px",
     },
     {
-      name: "Habitaciones",
-      id: "habitaciones",
-      selector: (row) => row.attributes.habitaciones,
+      name: "Área terreno",
+      id: "areaTerreno",
+      selector: (row) => row.attributes.areaTerreno,
       sortable: true,
-      width: "100px",
+      width: "160px",
     },
     {
       name: "Precio",
@@ -106,7 +115,7 @@ const SearchResults = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full  z-1 px-4">
       <DataTable
         columns={column}
         data={records}

@@ -112,12 +112,12 @@ const InsertUser = () => {
         const response = await AxiosInstance.put(`users/${pasedUser.id}`, value)
           .then((response) => {
             message.success("El usuario se actualizó exitosamente");
-            console.log(pasedUser);
+
             navigate("/admin/users");
           })
           .catch((err) => {
             message.error("El usuario no se pudo actualizar");
-            console.log("error desde actualizar", err);
+
             return;
           });
       } else {
@@ -127,13 +127,11 @@ const InsertUser = () => {
             navigate("/admin/users");
           },
           onError: (error) => {
-            console.log("error desde la mutacion", error);
             message.error("Ocurrió un error inesperado.Intente de nuevo");
           },
         });
       }
     } catch (error) {
-      console.log("error desde la exception", error);
       message.error("Ocurrió un error inesperado!");
     } finally {
       setIsLoading(false);

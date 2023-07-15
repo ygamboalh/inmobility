@@ -1,17 +1,8 @@
 import React, { useState } from "react";
 
-import { useSignOut } from "react-auth-kit";
-import {
-  BiLogOut,
-  BiHomeAlt,
-  BiLockOpenAlt,
-  BiUserCircle,
-  BiUserCheck,
-} from "react-icons/bi";
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
 import AxiosInstance from "../../api/AxiosInstance";
-import { API } from "../../constant";
 
 const Thumbnail = () => {
   const [imageUrl, setImageUrl] = useState(

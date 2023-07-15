@@ -1,7 +1,8 @@
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+
 import LoadPropertyImage from "./my-upload-property";
 import { authUserData } from "../../api/usersApi";
-import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
   const { data: userData } = useQuery("profile", authUserData);

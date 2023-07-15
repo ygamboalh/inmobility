@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { Document, Image, Page, Text, View } from "@react-pdf/renderer";
-
 import { BiArea, BiBath, BiBed } from "react-icons/bi";
+
 import MySpinner from "../Spinner/spinner";
 
 const PdfView = ({ property }) => {
@@ -59,6 +59,12 @@ const PdfView = ({ property }) => {
                 backgroundColor: "#323996",
               }}
             >
+              <Text className="text-2xl font-semibold">
+                <Text style={{ fontWeight: "bold" }}>
+                  Identificador único:{" "}
+                </Text>
+                {property.uniqueId}
+              </Text>
               <Text className="text-2xl font-semibold">
                 <Text style={{ fontWeight: "bold" }}>Tipo de propiedad: </Text>
                 {property.tipoPropiedad}
@@ -150,26 +156,25 @@ const PdfView = ({ property }) => {
                   property.banos ? "flex gap-x-2 items-center" : "hidden"
                 }
               >
-                <BiBath className="text-2xl " />
                 <Text>
                   <Text>Cantidad de baños: </Text>
                   {property?.banos}
                 </Text>
               </View>
-              <View
-                style={{ color: "white" }}
-                className={
-                  property.areaPropiedad
-                    ? "flex gap-x-2 items-center"
-                    : "hidden"
-                }
-              >
-                <BiArea className="text-2xl " />
-                <Text>
-                  <Text>Área de la propiedad: </Text>
-                  {property.areaPropiedad} m²
-                </Text>
-              </View>
+              {property.areaPropiedad ? (
+                <View
+                  className={
+                    property?.areaPropiedad
+                      ? "flex gap-x-2 items-center"
+                      : "hidden"
+                  }
+                >
+                  <Text>
+                    <Text>Área de la propiedad: </Text>
+                    {property.areaPropiedad} m²
+                  </Text>
+                </View>
+              ) : null}
             </View>
           </View>
           <View className="max-w-[500px] w-full">

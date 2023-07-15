@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
-import { API } from "../../../constant";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useQuery, useQueryClient } from "react-query";
+
+import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+
+import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
-import { useQuery, useQueryClient } from "react-query";
 import { getAllPropertiesRQ } from "../../../api/propertiesApi";
 
 const PropertiesPending = () => {
