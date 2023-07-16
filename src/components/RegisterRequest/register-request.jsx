@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useMutation } from "react-query";
 
 import { message } from "antd";
@@ -31,7 +31,6 @@ const RegisterSchema = Yup.object().shape({
     .max(500, "¡Demasiado larga!")
     .required("¡Su dirección es requerida!"),
   type: Yup.string().required("¡El tipo de asesor es requerido!"),
-  acept: Yup.boolean().oneOf([true], "¡Debe aceptar los términos!"),
   phone: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
     .min(8, "¡Teléfono invalido!")
@@ -88,14 +87,20 @@ const RegisterRequest = () => {
     email: "",
     password: "",
     type: "",
-    acept: false,
     phone: null,
     company: "",
     address: "",
     mobile: "",
     personalId: "",
+    acepted: false,
   });
 
+  const location = useLocation();
+  useEffect(() => {
+    const data = location?.state?.acepted;
+    data !== undefined ? setAcepted(true) : setAcepted(false);
+    console.log(data);
+  }, []);
   const {
     mutate: insertMutation,
     isLoading: isLoadingInsert,
@@ -106,7 +111,7 @@ const RegisterRequest = () => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
-
+  const [acepted, setAcepted] = useState(false);
   const onFinish = async (values) => {
     setIsLoading(true);
     try {
@@ -120,6 +125,7 @@ const RegisterRequest = () => {
         mobile: values.mobile,
         personalId: values.personalId,
         type: values.type,
+        aceptedd: acepted,
       };
 
       const userResponse = await fetch(`${API}/users`, {
@@ -129,25 +135,30 @@ const RegisterRequest = () => {
       const userData = await userResponse.json();
 
       const found = userData.find((userf) => userf.email === values.email);
-
-      //if the user is not found then register
-      if (!found) {
-        insertMutation(value, {
-          onSuccess: () => {
-            message.success("El usuario se registró exitosamente");
-            enviarCorreo(value.email, 1);
-            enviarCorreo("infosistemacic@gmail.com", 2);
-            navigate("/user/sent-request", { replace: true });
-          },
-          onError: (error) => {
-            message.error("Ocurrió un error inesperado");
-            //(error.response.data.error.message);
-          },
-        });
-      }
-      //if he is waiting for approval say you are evaluating the case
-      else {
-        navigate("/user/evaluating", { replace: true });
+      console.log(value);
+      if (!acepted || acepted === undefined) {
+        message.error("Debe aceptar los términos y condiciones");
+        return;
+      } else {
+        //if the user is not found then register
+        if (!found) {
+          insertMutation(value, {
+            onSuccess: () => {
+              message.success("El usuario se registró exitosamente");
+              enviarCorreo(value.email, 1);
+              enviarCorreo("infosistemacic@gmail.com", 2);
+              navigate("/user/sent-request", { replace: true });
+            },
+            onError: (error) => {
+              message.error("Ocurrió un error inesperado");
+              //(error.response.data.error.message);
+            },
+          });
+        }
+        //if he is waiting for approval say you are evaluating the case
+        else {
+          navigate("/user/evaluating", { replace: true });
+        }
       }
     } catch (error) {
       message.error("Ocurrió un error inesperado!");
@@ -302,11 +313,10 @@ const RegisterRequest = () => {
                 <div className="errordivp text-xs">{errors.type}</div>
               ) : null}
             </div>
-            <div className="flex mx-4 justify-between items-center">
-              <label className="flex items-center text-xs">
-                <Field type="checkbox" name="acept" className="mr-2" />
+            <div className="flex mx-4 -mb-5 mt-1 justify-center items-center">
+              <label className="flex items-center text-sm font-semibold">
                 <a href="/user/terms">
-                  <span>Acepto términos y condiciones</span>
+                  <span>Leer términos y condiciones</span>
                 </a>
               </label>
             </div>
