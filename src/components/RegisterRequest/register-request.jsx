@@ -185,116 +185,175 @@ const RegisterRequest = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <Field
-              placeholder="Nombre completo"
-              type="text"
-              name="username"
-              className="common-input"
-            />
+            <div className="relative mb-1">
+              <Field
+                type="text"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="username"
+                name="username"
+                placeholder="Nombre completo"
+              />
+              <label
+                for="username"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Nombre completo
+              </label>
+            </div>
             <div className="space">
               {errors.username && touched.username ? (
                 <div className="errordivp text-xs">{errors.username}</div>
               ) : null}
             </div>
-
-            <Field
-              placeholder="Identificador personal"
-              type="text"
-              name="personalId"
-              className="common-input"
-            />
-
+            <div className="relative mb-1">
+              <Field
+                type="number"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="personalId"
+                name="personalId"
+                placeholder="Identificador personal"
+              />
+              <label
+                for="personalId"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Identificador personal
+              </label>
+            </div>
             <div className="space">
               {errors.personalId && touched.personalId ? (
                 <div className="errordivp text-xs">{errors.personalId}</div>
               ) : null}
             </div>
 
-            <Field
-              placeholder="Correo electrónico"
-              name="email"
-              type="email"
-              className="common-input"
-            />
-
+            <div className="relative mb-1">
+              <Field
+                type="email"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="email"
+                name="email"
+                placeholder="Correo electrónico"
+              />
+              <label
+                for="email"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Correo electrónico
+              </label>
+            </div>
             <div className="space">
               {errors.email && touched.email ? (
                 <div className="errordivp text-xs">{errors.email}</div>
               ) : null}
             </div>
-
-            <Field
-              placeholder="Teléfono de la oficina"
-              name="phone"
-              type="text"
-              className="common-input"
-            />
-
+            <div className="relative mb-1">
+              <Field
+                type="tel"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="phone"
+                name="phone"
+                placeholder="Teléfono de la oficina"
+              />
+              <label
+                for="phone"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Teléfono de la oficina
+              </label>
+            </div>
             <div className="space">
               {errors.phone && touched.phone ? (
                 <div className="errordivp text-xs">{errors.phone}</div>
               ) : null}
             </div>
-
-            <Field
-              placeholder="Teléfono celular"
-              name="mobile"
-              type="text"
-              className="common-input"
-            />
-
+            <div className="relative mb-1">
+              <Field
+                type="tel"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="mobile"
+                name="mobile"
+                placeholder="Teléfono celular"
+              />
+              <label
+                for="mobile"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Teléfono celular
+              </label>
+            </div>
             <div className="space">
               {errors.mobile && touched.mobile ? (
                 <div className="errordivp text-xs">{errors.mobile}</div>
               ) : null}
             </div>
-
-            <Field
-              placeholder="Nombre de la empresa"
-              type="text"
-              name="company"
-              className="common-input"
-            />
-
+            <div className="relative mb-1">
+              <Field
+                type="text"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="company"
+                name="company"
+                placeholder="Nombre de la empresa"
+              />
+              <label
+                for="company"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Nombre de la empresa
+              </label>
+            </div>
             <div className="space">
               {errors.company && touched.company ? (
                 <div className="errordivp text-xs">{errors.company}</div>
               ) : null}
             </div>
-
-            <Field
-              as="textarea"
-              placeholder="Dirección física"
-              name="address"
-              className="common-input"
-            />
-
+            <div className="relative mb-1">
+              <Field
+                as="textarea"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="address"
+                name="address"
+                placeholder="Dirección física"
+              />
+              <label
+                for="address"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Dirección física
+              </label>
+            </div>
             <div className="space">
               {errors.address && touched.address ? (
                 <div className="errordivp text-xs">{errors.address}</div>
               ) : null}
             </div>
-
-            <Field
-              placeholder="Contraseña"
-              name="password"
-              type="password"
-              className="common-input"
-            />
-
+            <div className="relative mb-1">
+              <Field
+                type="password"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="password"
+                name="password"
+                placeholder="Contraseña"
+              />
+              <label
+                for="password"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Contraseña
+              </label>
+            </div>
             <div className="space">
               {errors.password && touched.password ? (
                 <div className="errordivp text-xs">{errors.password}</div>
               ) : null}
             </div>
-            <div className="mb-1 mt-1 text-left">
+            <div className="mb-1 mt-0 text-left">
               <label className="text-sm ml-2">
                 Tipo de asesor inmobiliario
               </label>
             </div>
 
             <Field
-              className="common-input mb-2"
+              className="common-input mb-2 h-[58px]"
               as="select"
               name="type"
               id="type"
@@ -313,17 +372,12 @@ const RegisterRequest = () => {
                 <div className="errordivp text-xs">{errors.type}</div>
               ) : null}
             </div>
-            <div className="flex mx-4 -mb-5 mt-1 justify-center items-center">
+            <div className="flex mx-4 -mb-2 mt-1 justify-center items-center">
               <label className="flex items-center text-sm font-semibold">
                 <a href="/user/terms">
                   <span>Leer términos y condiciones</span>
                 </a>
               </label>
-            </div>
-            <div className="space">
-              {errors.acept && touched.acept ? (
-                <div className="errordivp text-xs">{errors.acept}</div>
-              ) : null}
             </div>
             <div className="max-w-60 flex flex-col">
               <button className="button-signin max-w-full" type="submit">

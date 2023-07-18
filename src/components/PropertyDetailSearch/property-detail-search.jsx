@@ -26,7 +26,7 @@ import {
   WhatsappShareButton,
 } from "react-share";
 import MyNewCarousel from "../Carrusel/carrusel";
-import { render } from "react-dom";
+
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -38,7 +38,7 @@ const PropertyDetailsSearch = () => {
   const [images, setImages] = useState([]);
   const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
-  const navigate = useNavigate();
+  console.log("url del pdf", pdfUrl);
 
   const getProperty = async () => {
     setIsLoading(true);
@@ -50,9 +50,7 @@ const PropertyDetailsSearch = () => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
 
-      setPdfUrl(
-        `https://siccic.com/home/search/pdf/${response.data.data.attributes.uniqueId}`
-      );
+      setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
     });
 
     setProperty(propertyFound);

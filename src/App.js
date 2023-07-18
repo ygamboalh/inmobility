@@ -123,7 +123,7 @@ const App = () => {
                 
         </Route>
        <Route element={<ExtraLayoutShared />}>
-                <Route exact path="/home/search/pdf/:uniqueId" element={<PdfViewShared />} /> 
+                <Route exact path="/home/search/pdf/:id" element={<PdfViewShared />} /> 
           </Route>
           <Route exact path='/' element={<Home />} />
       </Routes>

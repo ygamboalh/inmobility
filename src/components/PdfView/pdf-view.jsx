@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Document, Image, Page, Text, View } from "@react-pdf/renderer";
-import { BiArea, BiBath, BiBed } from "react-icons/bi";
+import { BiBed } from "react-icons/bi";
 
 import MySpinner from "../Spinner/spinner";
 
@@ -11,7 +11,7 @@ const PdfView = ({ property }) => {
   useEffect(() => {
     getProperty();
   }, []);
-
+  console.log(property);
   const getProperty = async () => {
     setIsLoading(true);
     let imagesCount = [];
@@ -24,7 +24,7 @@ const PdfView = ({ property }) => {
       imagesUrl.push(image.attributes.url);
     });
     const url = imagesUrl[0];
-    setImages(url);
+    setImages(imagesUrl);
     setIsLoading(false);
   };
 
@@ -99,7 +99,9 @@ const PdfView = ({ property }) => {
                   src={`https://siccic.com/backend/uploads/no_image_default_0e6727a941.jpg?updated_at=2023-07-10T05:06:31.319Zg`}
                 />
               ) : (
-                <Image src={`https://siccic.com/backend${images}`} />
+                images.map((elemento, index) => (
+                  <Image src={`https://siccic.com/backend${elemento}`} />
+                ))
               )}
             </View>
           </View>
@@ -144,23 +146,32 @@ const PdfView = ({ property }) => {
             className="max-w-[568px]"
           >
             <View className="flex gap-x-6 text-blue-700 mb-6">
-              <View className="flex gap-x-2 items-center">
-                <BiBed className="text-2xl" />
-                <Text>
-                  <Text>Cantidad de habitaciones: </Text>
-                  {property?.habitaciones}
-                </Text>
-              </View>
-              <View
-                className={
-                  property.banos ? "flex gap-x-2 items-center" : "hidden"
-                }
-              >
-                <Text>
-                  <Text>Cantidad de baños: </Text>
-                  {property?.banos}
-                </Text>
-              </View>
+              {property.habitaciones ? (
+                <View
+                  className={
+                    property?.habitaciones
+                      ? "flex gap-x-2 items-center"
+                      : "hidden"
+                  }
+                >
+                  <Text>
+                    <Text>Cantidad de habitaciones: </Text>
+                    {property.habitaciones}
+                  </Text>
+                </View>
+              ) : null}
+              {property.banos ? (
+                <View
+                  className={
+                    property?.banos ? "flex gap-x-2 items-center" : "hidden"
+                  }
+                >
+                  <Text>
+                    <Text>Cantidad de baños: </Text>
+                    {property?.banos}
+                  </Text>
+                </View>
+              ) : null}
               {property.areaPropiedad ? (
                 <View
                   className={

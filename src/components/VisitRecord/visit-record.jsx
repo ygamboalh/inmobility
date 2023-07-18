@@ -6,9 +6,7 @@ import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
-import useScreenSize from "../../hooks/useScreenSize";
 import { API } from "../../constant";
-import { getToken } from "../../utils/helpers";
 import MySpinner from "../Spinner/spinner";
 import enviarCorreo from "../../utils/email/send-email";
 import enviarCorreoPersonalizadoOrigen from "../../utils/email/send-personalized-email-origin";
@@ -54,13 +52,9 @@ const VisitRecord = () => {
     managment: "",
   });
 
-  const { isDesktopView } = useScreenSize();
   const navigate = useNavigate();
 
-  const token = getToken();
   const [isLoading, setIsLoading] = useState(false);
-
-  const [error, setError] = useState("");
 
   const onFinish = async (values) => {
     setIsLoading(true);
@@ -79,7 +73,6 @@ const VisitRecord = () => {
         body: JSON.stringify({ data: { ...value } }),
       });
 
-      const data = await response.json();
       message.success(
         `¡Bienvenido(a) al Sistema Costarricense de Consultas Inmobiliarias Centralizadas.!`
       );
@@ -116,40 +109,60 @@ const VisitRecord = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="flex flex-col text-gray-500 text-left">
+            <div class="relative mb-1">
               <Field
-                placeholder="Nombre completo"
                 type="text"
+                class="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="fullname"
                 name="fullname"
-                className="common-input"
+                placeholder="Nombre completo"
               />
+              <label
+                for="fullname"
+                class="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Nombre completo
+              </label>
             </div>
             <div className="space">
               {errors.fullname && touched.fullname ? (
                 <div className="errordivp text-xs">{errors.fullname}</div>
               ) : null}
             </div>
-            <div className="flex flex-col text-gray-500 text-left">
+            <div class="relative mb-1">
               <Field
-                placeholder="Correo electrónico"
                 type="text"
+                class="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="email"
                 name="email"
-                className="common-input"
+                placeholder="Correo electrónico"
               />
+              <label
+                for="email"
+                class="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Correo electrónico
+              </label>
             </div>
             <div className="space">
               {errors.email && touched.email ? (
                 <div className="errordivp text-xs">{errors.email}</div>
               ) : null}
             </div>
-
-            <div className="flex flex-col text-gray-500 text-left">
+            <div class="relative mb-1">
               <Field
-                placeholder="Número de teléfono"
-                type="text"
+                type="number"
+                class="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="phone"
                 name="phone"
-                className="common-input"
+                placeholder="Número de teléfono"
               />
+              <label
+                for="phone"
+                class="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+              >
+                Número de teléfono
+              </label>
             </div>
             <div className="space">
               {errors.phone && touched.phone ? (
@@ -164,7 +177,7 @@ const VisitRecord = () => {
 
             <div className="flex flex-col">
               <Field
-                className="w-60 common-input"
+                className="w-60 h-[58px] common-input"
                 as="select"
                 name="managment"
                 id="type"

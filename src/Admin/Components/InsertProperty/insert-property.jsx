@@ -1460,19 +1460,6 @@ const InsertProperty = () => {
                   </option>
                 ))}
               </Field>
-              {/* <Field
-                type="text"
-                placeholder="Anunciante"
-                defaultValue={property?.anunciante}
-                name="anunciante"
-                hidden={selectedOption === ""}
-                className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-              />
-              <div className="space mb-2.5">
-                {errors.Anunciante && touched.Anunciante ? (
-                  <div className="errordiv text-xs">{errors.Anunciante}</div>
-                ) : null}
-              </div> */}
             </div>
             <div className="flex m-4 content-center items-center justify-center ">
               <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">

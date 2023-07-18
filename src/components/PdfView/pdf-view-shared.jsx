@@ -10,39 +10,43 @@ import {
   View,
 } from "@react-pdf/renderer";
 
-import { BiArea, BiBath, BiBed } from "react-icons/bi";
+import { BiBed } from "react-icons/bi";
 
 import MySpinner from "../Spinner/spinner";
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 
 const PdfViewShared = () => {
-  const { uniqueId } = useParams();
+  const { id } = useParams();
 
   const [property, setProperty] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
 
   const getProperty = async () => {
+    console.log(id);
     setIsLoading(true);
     let propertyFound = null;
     let imagesCount = [];
     const imagesUrl = [];
-
     const propertyResponse = await AxiosInstance.get(
-      `${API}properties/${uniqueId}?populate=*`
-    ).then((response) => {
-      propertyFound = response.data.data.attributes;
-
-      imagesCount = response.data.data.attributes.photos;
-      setProperty(propertyFound);
-    });
+      `${API}properties/${id}?populate=*`
+    )
+      .then((response) => {
+        propertyFound = response.data.data.attributes;
+        console.log("Propiedad encontrada", propertyFound);
+        imagesCount = response.data.data.attributes.photos;
+        setProperty(propertyFound);
+      })
+      .catch((error) => {
+        console.log("error de axiosInstance", error);
+      });
 
     imagesCount?.data?.forEach((image) => {
       imagesUrl.push(image.attributes.url);
     });
     const url = imagesUrl[0];
-    setImages(url);
+    setImages(imagesUrl);
 
     setIsLoading(false);
   };
@@ -70,7 +74,10 @@ const PdfViewShared = () => {
         }}
       >
         <Document style={{ padding: "10px" }}>
-          <Page style={{ flexDirection: "column", padding: "10px" }} size="A4">
+          <Page
+            style={{ flexDirection: "column", padding: "10px", width: "100%" }}
+            size="A4"
+          >
             <View>
               <View className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                 <View
@@ -132,7 +139,9 @@ const PdfViewShared = () => {
                       src={`https://siccic.com/backend/uploads/no_image_default_0e6727a941.jpg?updated_at=2023-07-10T05:06:31.319Zg`}
                     />
                   ) : (
-                    <Image src={`https://siccic.com/backend${images}`} />
+                    images.map((elemento, index) => (
+                      <Image src={`https://siccic.com/backend${elemento}`} />
+                    ))
                   )}
                 </View>
               </View>
@@ -173,23 +182,32 @@ const PdfViewShared = () => {
             >
               <View style={{ backgroundColor: "#323996", color: "white" }}>
                 <View className="flex gap-x-6 text-blue-700 mb-6">
-                  <View className="flex gap-x-2 items-center">
-                    <BiBed className="text-2xl" />
-                    <Text>
-                      <Text>Cantidad de habitaciones: </Text>
-                      {property?.habitaciones}
-                    </Text>
-                  </View>
-                  <View
-                    className={
-                      property.banos ? "flex gap-x-2 items-center" : "hidden"
-                    }
-                  >
-                    <Text>
-                      <Text>Cantidad de baños: </Text>
-                      {property?.banos}
-                    </Text>
-                  </View>
+                  {property.habitaciones ? (
+                    <View
+                      className={
+                        property?.habitaciones
+                          ? "flex gap-x-2 items-center"
+                          : "hidden"
+                      }
+                    >
+                      <Text>
+                        <Text>Cantidad de habitaciones: </Text>
+                        {property.habitaciones}
+                      </Text>
+                    </View>
+                  ) : null}
+                  {property.banos ? (
+                    <View
+                      className={
+                        property?.banos ? "flex gap-x-2 items-center" : "hidden"
+                      }
+                    >
+                      <Text>
+                        <Text>Cantidad de baños: </Text>
+                        {property?.banos}
+                      </Text>
+                    </View>
+                  ) : null}
                   {property.areaPropiedad ? (
                     <View
                       className={
