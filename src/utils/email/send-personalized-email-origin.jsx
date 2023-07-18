@@ -21,8 +21,7 @@ function enviarCorreoPersonalizadoOrigen(destinatario, body, origin) {
       },
       {
         headers: {
-          "api-key":
-            "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",
+          "api-key": "",
         },
       }
     )
