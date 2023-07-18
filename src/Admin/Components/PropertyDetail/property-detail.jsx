@@ -54,9 +54,7 @@ const PropertyDetailsSearch = () => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
 
-      setPdfUrl(
-        `https://siccic.com/home/search/pdf/${response.data.data.attributes.uniqueId}`
-      );
+      setPdfUrl(`https://siccic.com/home/search/pdf/${id}`);
     });
 
     setProperty(propertyFound);
