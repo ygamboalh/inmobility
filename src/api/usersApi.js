@@ -10,6 +10,11 @@ export const resetPassword = async (userData) => {
   return data
 }
 
+export const channgePassword = async (userData) => {
+  const { data } = await AxiosInstance.post('/auth/change-password', userData);   
+  return data
+}
+
 
 export const userIntser = async (userData) => {
     const { data } = await AxiosInstance.post('/auth/local/register', userData);

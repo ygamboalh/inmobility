@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { message } from "antd";
 import { useFormik } from "formik";
@@ -9,14 +9,15 @@ import { BiShow, BiHide, BiLock, BiUserCircle } from "react-icons/bi";
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
 import { useMutation } from "react-query";
-import { resetPassword } from "../../api/usersApi";
+import { channgePassword, resetPassword } from "../../api/usersApi";
+import axios from "axios";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const RecoverySchema = Yup.object().shape({
-  email: Yup.string()
-    .matches(emailRegex, "¡Correo inválido!")
-    .required("¡El correo es requerido!"),
-  code: Yup.string().required("¡El código es requerido!"),
+  code: Yup.string()
+    .required("¡El código es requerido!")
+    .min(6, "¡El código no es válido!")
+    .max(6, "¡El código no es válido!"),
   password: Yup.string()
     .min(6, "¡Debe ser más larga!")
     .max(50, "¡Demasiado larga!")
@@ -27,31 +28,25 @@ const RecoverySchema = Yup.object().shape({
 });
 
 const ResetPassword = () => {
+  const location = useLocation();
+  const codigo = location.state.codigo;
+  const user = location.state.user;
+  console.log("codigo", codigo);
+  console.log("user", user);
+
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [error, setError] = useState("");
-
-  const {
-    mutate: resetMutation,
-    isLoadingM,
-    isError,
-    errorM,
-  } = useMutation(resetPassword);
-  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   const formik = useFormik({
     initialValues: {
-      code: "",
+      code: undefined,
       password: "",
       passwordConfirmation: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .required("¡El correo es requerido!")
-        .matches(emailRegex, "¡Correo inválido!"),
-      code: Yup.string().required("¡El código es requerido!"),
+      code: Yup.number().required("¡El código es requerido!"),
       password: Yup.string()
         .required("¡La contraseña es requerida!")
         .min(6, "¡Demasiado corta!")
@@ -62,50 +57,47 @@ const ResetPassword = () => {
       ),
     }),
     onSubmit: async (values) => {
-      resetMutation(values, {
-        onSuccess: (data) => {
-          window.location.reload(true);
-          message.success(
-            `¡Bienvenido(a) al Sistema Costarricense de Consultas Inmobiliarias Centralizadas.!`
-          );
-        },
-        onError: (error) => {
-          message.error(`¡Ocurrió un error. Vuelva a intentarlo!`);
-        },
-      });
-    },
-  });
-
-  const onFinish = async (values) => {
-    setIsLoading(true);
-    try {
       const value = {
         code: values.code,
         password: values.password,
         passwordConfirmation: values.passwordConfirmation,
+        username: user.username,
+        email: user.email,
+        company: user.company,
+        address: user.address,
+        mobile: user.mobile,
+        personalId: user.personalId,
+        phone: user.phone,
+        active: user.active,
+        type: user.type,
       };
-      const response = await fetch(`${API}/auth/reset-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(value),
-      });
 
-      const data = await response.json();
-      if (data?.error) {
-        throw data?.error;
+      const code = values.code.toString();
+      console.log("values", value);
+      if (codigo === code) {
+        const response = axios(`${API}users/${user.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(value),
+        })
+          .then((response) => {
+            console.log("respuesta", response);
+            message.success(`¡La contraseña fue cambiada exitosamente!`);
+            navigate("/auth/signin");
+          })
+          .catch((error) => {
+            console.log("el error", error);
+            message.error(`¡Ocurrió un error. Intente de nuevo!`);
+          });
       } else {
-        message.success(`¡Su contraseña se cambió exitosamente!`);
-        navigate("/auth/signin", { replace: true });
+        message.error(`¡El código introducido no es válido!`);
+        return;
       }
-    } catch (error) {
-      console.error(error);
-      message.error("¡Ocurrió un error. Intente de nuevo!");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+  });
+
   if (isLoading) {
     return <MySpinner />;
   }
@@ -113,29 +105,9 @@ const ResetPassword = () => {
     <div className="flex my-10 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
       <div className="lg:my-2.5 flex flex-col">
         <label className="loginh">Recuperación de contraseña</label>
-        <label className="loginh5">
-          Se enviará un enlace a tu correo para cambiar la contraseña
-        </label>
+        <label className="loginh5">Introduzca los datos requeridos</label>
       </div>
       <form onSubmit={formik.handleSubmit} autoComplete="off">
-        <div className="relative w-80">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <BiUserCircle size={25} />
-          </div>
-          <input
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            placeholder="Correo electrónico"
-            type="email"
-            name="email"
-            className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-        <div className="space -mt-4 mb-3">
-          {formik.errors.email && formik.touched.email ? (
-            <div className="errordivp text-xs">{formik.errors.email}</div>
-          ) : null}
-        </div>
         <div className="relative w-80">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 mb-0 pointer-events-none">
             <BiLock size={25} />
@@ -143,7 +115,7 @@ const ResetPassword = () => {
           <input
             value={formik.values.password}
             onChange={formik.handleChange}
-            placeholder="Contraseña"
+            placeholder="Nueva contraseña"
             type={showPassword ? "text" : "password"}
             name="password"
             className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -173,7 +145,7 @@ const ResetPassword = () => {
           <input
             value={formik.values.passwordConfirmation}
             onChange={formik.handleChange}
-            placeholder="Confirme la contraseña"
+            placeholder="Confirme la nueva contraseña"
             type={showPassword ? "text" : "password"}
             name="passwordConfirmation"
             className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -204,6 +176,7 @@ const ResetPassword = () => {
           onChange={formik.handleChange}
           placeholder="Código recibido"
           type="number"
+          maxLength="6"
           name="code"
           className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -219,14 +192,8 @@ const ResetPassword = () => {
             className="button-signin max-w-full login_submit_btn"
             type="submit"
           >
-            ENVIAR ENLACE
+            CAMBIAR LA CONTRASEÑA
           </button>
-          <Link to="/auth/register-request" className="text-sm my-4">
-            ¿No tienes una cuenta?
-          </Link>
-          <Link to="/auth/signin" link-to className="button-rq">
-            Iniciar sesión
-          </Link>
         </div>
       </form>
     </div>

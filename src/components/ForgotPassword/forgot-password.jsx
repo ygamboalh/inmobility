@@ -7,6 +7,11 @@ import * as Yup from "yup";
 
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
+import { BiUserCircle } from "react-icons/bi";
+import enviarCorreoPersonalizadoOrigen from "../../utils/email/send-personalized-email-origin";
+import enviarCorreoComunOrigen from "../../utils/email/send-common-email-origin";
+import { generateRandomCode } from "../../utils/helpers";
+import axios from "axios";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const ForgotSchema = Yup.object().shape({
@@ -26,20 +31,30 @@ const ForgotPassword = () => {
       const value = {
         email: values.email,
       };
-      const response = await fetch(`${API}/auth/forgot-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(value),
-      });
+      //Enviar el codigo por correo
+      const codigo = generateRandomCode();
+      const asunto = `Código de verificación`;
+      const body = `Este es el código de verificación para el cambio de contraseña: ${codigo}`;
 
-      const data = await response.json();
-      if (data?.error) {
-        throw data?.error;
-      } else {
-        navigate("/auth/forgot-password", { replace: true });
-      }
+      const response = axios
+        .get(`${API}users?filters[email][$eq]=${value.email}`)
+        .then((response) => {
+          console.log("respuesta", response);
+          if (response.data.length > 0) {
+            enviarCorreoComunOrigen(value.email, body, asunto);
+
+            navigate("/auth/reset-password", {
+              state: { codigo: codigo, user: response.data[0] },
+            });
+          } else {
+            message.error(
+              `¡Usted no tiene un usuario activo en nuestro sistema!`
+            );
+          }
+        })
+        .catch((error) => {
+          console.log("el error", error);
+        });
     } catch (error) {
       message.error("¡Ocurrió un error. Intente de nuevo!");
     } finally {
@@ -55,7 +70,7 @@ const ForgotPassword = () => {
       <div className="my-20 lg:my-3 sm:my-6 flex flex-col">
         <label className="loginh">Recuperación de contraseña</label>
         <label className="loginh5">
-          Se enviará un enlace a tu correo para cambiar la contraseña
+          Se enviará un código a tu correo para cambiar la contraseña
         </label>
       </div>
       <Formik
@@ -67,38 +82,29 @@ const ForgotPassword = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="div">
-              <span className="image-container">
-                <img className="image-email" />
-              </span>
-              <div className="flex flex-col text-gray-500 text-left">
-                <label className="email-title-email">Correo</label>
-                <Field
-                  placeholder="Correo electrónico"
-                  type="email"
-                  name="email"
-                  className="input signin-email"
-                />
+            <div className="relative w-80">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <BiUserCircle size={25} />
               </div>
+              <Field
+                placeholder="Correo electrónico"
+                type="email"
+                name="email"
+                className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
             </div>
             <div className="space">
               {errors.email && touched.email ? (
-                <div className="errordiv text-xs">{errors.email}</div>
+                <div className="errordivp text-xs">{errors.email}</div>
               ) : null}
             </div>
             <div className="max-w-60 flex flex-col">
               <button
-                className="button-signin max-w-full login_submit_btn"
+                className="button-signin max-w-full login_submit_btn mb-4"
                 type="submit"
               >
-                ENVIAR ENLACE
+                ENVIAR CÓDIGO POR CORREO
               </button>
-              <Link to="/register-request" className="text-sm my-4">
-                ¿No tienes una cuenta?
-              </Link>
-              <Link to="/signin" link-to className="button-rq">
-                Iniciar sesión
-              </Link>
             </div>
           </Form>
         )}

@@ -207,7 +207,7 @@ const RegisterRequest = () => {
             </div>
             <div className="relative mb-1">
               <Field
-                type="number"
+                type="text"
                 className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
                 id="personalId"
                 name="personalId"

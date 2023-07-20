@@ -124,7 +124,7 @@ const SignIn = () => {
           ) : null}
         </div>
         <div className="flex mx-4 my-2 justify-between items-center">
-          <Link to="/auth/reset-password" className="text-xs text-red-700">
+          <Link to="/auth/forgot-password" className="text-xs text-red-700">
             ¿Olvidó su contraseña?
           </Link>
         </div>
