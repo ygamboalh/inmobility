@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 
 import {
   BiArea,
@@ -9,18 +8,17 @@ import {
   BiDislike,
   BiLike,
 } from "react-icons/bi";
+import { message } from "antd";
 import { PDFViewer } from "@react-pdf/renderer";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
-
 import no_image from "../../assets/images/no_image_default.jpg";
 import PdfView from "../PdfView/pdf-view";
 import MyNewCarousel from "../Carrusel/carrusel";
-import axios from "axios";
-import { message } from "antd";
+
 import {
   EmailIcon,
   EmailShareButton,
@@ -35,6 +33,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
+import { Helmet } from "react-helmet";
 
 const PortafolioCard = ({ propiedad }) => {
   const reacciones = Array(propiedad.length);
@@ -138,9 +137,35 @@ const PortafolioCard = ({ propiedad }) => {
     alignItems: "left",
     justifyContent: "left",
   };
+  const titulo = "Título de la página";
+  const descripcion = "Descripción de la página";
+  const url = "https://siccic.com/home/portfolio/share-portfolio/5";
+  const imagen =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Flag_of_Cuba.svg/270px-Flag_of_Cuba.svg.png";
+
+  const compartirWhatsApp = () => {
+    const titulo = "Título de la página";
+    const descripcion = "Descripción de la página";
+    const url = "https://siccic.com/home/portfolio/share-portfolio/5";
+    const imagen =
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Flag_of_Cuba.svg/270px-Flag_of_Cuba.svg.png";
+    const mensaje = `¡Hola! Échale un vistazo a esta página: ${url}`;
+    const encodedMensaje = encodeURIComponent(mensaje);
+    const enlaceWhatsApp = `https://wa.me/?text=${encodedMensaje}`;
+    window.open(enlaceWhatsApp, "_blank");
+  };
   console.log("reaccion", reaction);
   return (
     <section>
+      <Helmet>
+        <meta property="og:title" content={titulo} />
+        <meta property="og:description" content={descripcion} />
+        <meta property="og:url" content={url} />
+        <meta property="og:image" content={imagen} />
+        <meta property="og:image:secure_url" content={imagen} />
+        <meta property="og:image:type" content="image/jpeg" />
+      </Helmet>
+      <button onClick={compartirWhatsApp}>Compartir en WhatsApp</button>
       <div className="container mx-auto pb-2  pt-6 bg-blue-200 rounded-xl">
         <div>
           <button
