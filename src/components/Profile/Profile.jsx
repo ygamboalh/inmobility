@@ -14,6 +14,7 @@ import LoadImage from "../UploadImage/my-upload-image";
 import axios from "axios";
 import Thumbnail from "../Thumbnail/thumbnail";
 import MySpinner from "../Spinner/spinner";
+import { BiHide, BiLock, BiShow } from "react-icons/bi";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -100,7 +101,7 @@ const Profile = () => {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const onFinish = async (values) => {
     const token = getToken();
     setIsLoading(true);
@@ -270,7 +271,7 @@ const Profile = () => {
               placeholder="Dirección física"
               type="text"
               name="address"
-              className="common-input"
+              className="common-input -mb-2"
             />
 
             <div className="space">
@@ -278,20 +279,31 @@ const Profile = () => {
                 <div className="errordivp text-xs">{errors.address}</div>
               ) : null}
             </div>
-
-            <Field
-              placeholder="Contraseña"
-              defaultValue={userData?.password}
-              name="password"
-              type="password"
-              className="common-input"
-            />
-
+            <div className="relative w-70">
+              <Field
+                placeholder="Contraseña"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                className="common-input"
+              />
+              <button
+                type="button"
+                className="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <BiShow size={25} color="#84a8e1" />
+                ) : (
+                  <BiHide size={25} color="#84a8e1" />
+                )}
+              </button>
+            </div>
             <div className="space">
               {errors.password && touched.password ? (
                 <div className="errordivp text-xs">{errors.password}</div>
               ) : null}
             </div>
+
             <div className="mb-1 -mt-3 text-left">
               <label className="text-sm ml-2">
                 Tipo de asesor inmobiliario

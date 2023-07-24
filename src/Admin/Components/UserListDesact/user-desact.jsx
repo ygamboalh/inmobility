@@ -23,7 +23,7 @@ const UsersDesact = () => {
     onSuccess: (data) => {
       const foundedUsers = [];
       data.forEach((user) => {
-        if (user.active === "Desactivado") {
+        if (user.active === "Desactivado" || user.active === "Bloqueado") {
           foundedUsers.push(user);
         }
       });
@@ -85,9 +85,23 @@ const UsersDesact = () => {
     },
     {
       name: "Foto",
-      id: "photo",
-      selector: (row) => row.photo,
-      width: "150px",
+      width: "90px",
+      cell: (row) =>
+        row.photo ? (
+          <img
+            src={`https://siccic.com/backend${row.photo?.url}`}
+            alt=""
+            width="30px"
+            height="30px"
+          />
+        ) : (
+          <img
+            src={`https://siccic.com/backend/uploads/small_userinfo_dac703068b.png`}
+            alt=""
+            width="30px"
+            height="30px"
+          />
+        ),
     },
     {
       name: "Nombre",

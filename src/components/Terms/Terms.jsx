@@ -1,7 +1,7 @@
 import { message } from "antd";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 const Terms = () => {
   const navigate = useNavigate();
@@ -35,6 +35,7 @@ const Terms = () => {
       "¡Debe aceptar este término o condición!"
     ),
   });
+
   const onFinish = async (values) => {
     navigate("/auth/register-request", { state: { acepted: true } });
   };

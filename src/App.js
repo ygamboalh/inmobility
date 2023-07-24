@@ -50,6 +50,9 @@ import SearchResults from './components/SearchResults/search-results';
 import PropertyDetailsSearch from './components/PropertyDetailSearch/property-detail-search';
 import PdfViewShared from './components/PdfView/pdf-view-shared';
 import ExtraLayoutShared from './layouts/out-layout-shared';
+import Portafolio from './components/Portafolio/portfolio';
+import { PortafolioDetail } from './components/Portafolio/portfolio-detail';
+import PortafolioShare from './components/Portafolio/portfolio-share';
 
 const App = () => {
   return (
@@ -82,6 +85,10 @@ const App = () => {
                 <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
                 <Route path="/home/search/search-results" element={<SearchResults />} />
                 <Route exact path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
+                <Route path="/home/portfolio" element={<Portafolio />} />
+                <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />
+                <Route path="/home/portfolio/:id" element={<Portafolio />} />
+                <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
                 
                 {/* <Route exact path="/home/search/pdf" element={<PdfView />} /> */}
                 

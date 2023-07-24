@@ -83,6 +83,11 @@ const InsertUser = () => {
 
   const onFinish = async (values) => {
     setIsLoading(true);
+    let activo = undefined;
+
+    values.active === "Bloqueado"
+      ? (activo = "Bloqueado")
+      : (activo = values.active);
 
     try {
       const value = {
@@ -95,24 +100,17 @@ const InsertUser = () => {
         address: values.address,
         mobile: values.mobile,
         personalId: values.personalId,
-        active: values.active,
+        active: activo,
+        blocked: activo === "Bloqueado",
         photo: values.photo,
         role: values.role,
       };
 
       //si trae un id modificar, sino crear un nuevo registro
       if (pasedUser) {
-        /* pasedUser.role = {
-          disconnect: [
-            {
-              id: 1,
-            },
-          ],
-        }; */
         const response = await AxiosInstance.put(`users/${pasedUser.id}`, value)
           .then((response) => {
             message.success("El usuario se actualizó exitosamente");
-
             navigate("/admin/users");
           })
           .catch((err) => {
@@ -164,13 +162,13 @@ const InsertUser = () => {
             <div className="flex flex-col mx-20 mt-40 align-middle lg:flex-row items-center justify-center ">
               <div className="lg:w-1/3 align-top  flex flex-col mb-4 -mt-20">
                 <div className="flex flex-col justify-center">
-                  {role === "Authenticated" ? (
+                  {role === "Authenticated" || role === "SuperAdmin" ? (
                     <div className="flex flex-col">
                       {userImg ? (
                         <div
-                          className="w-16 h-16 rounded-full"
+                          className="w-32 h-32 rounded-full"
                           style={{
-                            backgroundImage: `url('https://siccic.com/backend${userImg?.url}')`,
+                            backgroundImage: `url('https://siccic.com/backend${userImg}')`,
                             backgroundPosition: "center",
                             backgroundSize: "100%",
                             backgroundRepeat: "no-repeat",
@@ -179,9 +177,9 @@ const InsertUser = () => {
                       ) : (
                         <div
                           alt="perfil"
-                          className="w-16 h-16 rounded-full"
+                          className="w-32 h-32 rounded-full"
                           style={{
-                            backgroundImage: `url('../../../assets/images/userinfo.png')`,
+                            backgroundImage: `url(https://siccic.com/backend/uploads/small_userinfo_dac703068b.png)`,
                             backgroundPosition: "cover",
                             backgroundSize: "100%",
                             backgroundRepeat: "no-repeat",
@@ -239,6 +237,7 @@ const InsertUser = () => {
                     <div className="errordivp text-xs">{errors.phone}</div>
                   ) : null}
                 </div>
+
                 <Field
                   type="text"
                   name="mobile"

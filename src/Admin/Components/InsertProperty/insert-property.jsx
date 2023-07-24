@@ -45,7 +45,7 @@ import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-em
 const InsertProperty = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const idregex = /^[a-zA-Z0-9]+$/;
+  const idregex = /^[a-zA-Z0-9-]+$/;
 
   const InsertPropertySchema = Yup.object().shape({
     provincia: Yup.string().required("*"),
@@ -92,7 +92,7 @@ const InsertProperty = () => {
   const { data: userData } = useQuery("profile", authUserData);
   const userId = userData?.id;
   const anunciante = userData?.email;
-  console.log("anunciante", anunciante);
+
   const response = axios(`${API}/users/me?populate=role`, {
     method: "GET",
     headers: { Authorization: `${BEARER} ${getToken()}` },

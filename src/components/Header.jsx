@@ -13,6 +13,7 @@ import { getToken } from "../utils/helpers";
 import Dropdown from "../Admin/Components/Dropdown/Dropdown";
 import VisiterUserInfo from "./UserInfo/visiter-user-info";
 import { API, BEARER } from "../constant";
+import axios from "axios";
 
 const Header = () => {
   const [link, setLink] = useState();
@@ -24,25 +25,27 @@ const Header = () => {
   const SelectLink = async () => {
     const token = getToken();
 
-    const response = await fetch(`${API}users/me?populate=role`, {
+    const response = await axios(`${API}users/me?populate=role`, {
       method: "GET",
       headers: { Authorization: `${BEARER} ${token}` },
-    });
-    const data = await response?.json();
-    if (response?.statusCode !== 200) {
-      setLink("Visiter");
-    }
+    })
+      .then((response) => {
+        const role = response?.data?.role?.name;
+        const activo = response?.data?.active;
 
-    const role = data?.role?.name;
-    if (role === "SuperAdmin") {
-      setLink("SuperAdmin");
-    } else if (role === "Authenticated") {
-      setLink("Authenticated");
-    } else if (role === "Visiter") {
-      setLink("Visiter");
-    } else {
-      return false;
-    }
+        if (role === "SuperAdmin") {
+          setLink("SuperAdmin");
+        } else if (activo === "Activo") {
+          setLink("Activo");
+        } else if (activo === "Pendiente") {
+          setLink("Pendiente");
+        } else {
+          return false;
+        }
+      })
+      .catch((error) => {
+        return;
+      });
   };
 
   const navigate = useNavigate();
@@ -76,8 +79,8 @@ const Header = () => {
         ) : (
           <div>
             <div className="flex flex-row justify-end items-end">
-              {link === "Authenticated" && <UserInfo />}
-              {link === "Visiter" && <VisiterUserInfo />}
+              {link === "Activo" && <UserInfo />}
+              {link === "Pendiente" && <VisiterUserInfo />}
               {link === "SuperAdmin" && <Dropdown />}
             </div>
           </div>

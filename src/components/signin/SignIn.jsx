@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
-
 import { useSignIn } from "react-auth-kit";
+
 import { message } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -12,16 +11,7 @@ import { BiShow, BiHide, BiUserCircle, BiLock } from "react-icons/bi";
 import { authUser } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
 
-const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-const SigninSchema = Yup.object().shape({
-  identifier: Yup.string()
-    .matches(emailRegex, "¡Correo inválido!")
-    .required("¡El correo es requerido!"),
-  password: Yup.string().required("¡La contraseña es requerida!"),
-});
-
 const SignIn = () => {
-  const navigate = useNavigate();
   const signIn = useSignIn();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,8 +24,8 @@ const SignIn = () => {
 
   const formik = useFormik({
     initialValues: {
-      identifier: "yordan@mail.com",
-      password: "123456",
+      identifier: "",
+      password: "",
     },
     validationSchema: Yup.object({
       identifier: Yup.string()

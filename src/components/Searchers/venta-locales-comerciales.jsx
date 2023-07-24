@@ -41,7 +41,9 @@ const AlquileraLocalesComerciales = () => {
             const data = response.data.data;
 
             if (data.length !== 0) {
-              navigate("/home/search/search-results", { state: { data } });
+              navigate("/home/search/search-results", {
+                state: { data, categories: "Venta de Locales Comerciales" },
+              });
             } else {
               message.info("No se encontraron resultados");
               return;

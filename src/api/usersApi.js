@@ -42,7 +42,7 @@ export const uploadImage = async (image) => {
 }
 
 export const getAllUsers = async () => {
-  const { data } = await AxiosInstance.get('/users?populate=role');
+  const { data } = await AxiosInstance.get('/users?populate=*');
   return data
 }
 export const getAllLinks = async () => {

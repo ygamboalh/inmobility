@@ -13,6 +13,10 @@ export const getAllPropertiesRQ = async () => {
   const { data } = await AxiosInstance.get('/properties?populate=*');
   return data
 }
+export const getAllPortafolios = async () => {
+  const { data } = await AxiosInstance.get('/portafolios?populate=*');
+  return data
+}
 
 export const getAllLinks = async () => {
   const { data } = await AxiosInstance.get('/links');

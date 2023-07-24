@@ -37,11 +37,20 @@ const Dropdown = () => {
 
   return (
     <div className="">
-      <button
+      {/* <button
         onClick={toggleMenu}
         className="user-info-button"
         style={buttonStyle}
-      ></button>
+      ></button> */}
+      <div className="relative">
+        <button
+          onClick={toggleMenu}
+          className="user-info-button"
+          style={buttonStyle}
+        >
+          <span class="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-red-700 border-2 border-white dark:border-gray-800 rounded-full"></span>
+        </button>
+      </div>
       {isOpen && (
         <div className="absolute mt-2 py-2 w-[134px] bg-white rounded-lg shadow-lg">
           <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">

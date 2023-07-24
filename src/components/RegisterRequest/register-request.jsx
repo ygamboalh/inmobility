@@ -12,7 +12,7 @@ import MySpinner from "../Spinner/spinner";
 import enviarCorreo from "../../utils/email/send-email";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-const phoneRegex = /^[0-9]+$/;
+const phoneRegex = /^(\d{2,}\s?)+$/;
 const RegisterSchema = Yup.object().shape({
   username: Yup.string().required("¡El nombre es requerido!"),
   email: Yup.string()
@@ -34,12 +34,12 @@ const RegisterSchema = Yup.object().shape({
   phone: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
     .min(8, "¡Teléfono invalido!")
-    .max(15, "¡Teléfono invalido!")
+    .max(18, "¡Teléfono invalido!")
     .required("¡El teléfono de la oficina es requerido!"),
   mobile: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
     .min(8, "¡Teléfono invalido!")
-    .max(15, "¡Teléfono invalido!")
+    .max(18, "¡Teléfono invalido!")
     .required("¡El teléfono celular es requerido!"),
   personalId: Yup.string().required("¡El identificador personal es requerido!"),
 });
@@ -151,12 +151,9 @@ const RegisterRequest = () => {
             },
             onError: (error) => {
               message.error("Ocurrió un error inesperado");
-              //(error.response.data.error.message);
             },
           });
-        }
-        //if he is waiting for approval say you are evaluating the case
-        else {
+        } else {
           navigate("/user/evaluating", { replace: true });
         }
       }
@@ -176,6 +173,13 @@ const RegisterRequest = () => {
         <label className="loginh5 w-72 mb-1">
           Para ser un asesor inmobiliario verificado, debes rellenar este
           formulario y esperar la comprobación de los datos.
+        </label>
+      </div>
+      <div className="flex mx-4 mb-2 -mt-4 justify-center items-center">
+        <label className="flex items-center text-sm font-semibold">
+          <a href="/user/terms">
+            <span>Leer términos y condiciones</span>
+          </a>
         </label>
       </div>
       <Formik
@@ -353,7 +357,7 @@ const RegisterRequest = () => {
             </div>
 
             <Field
-              className="common-input mb-2 h-[58px]"
+              className="common-input mb-1 h-[58px]"
               as="select"
               name="type"
               id="type"
@@ -372,13 +376,7 @@ const RegisterRequest = () => {
                 <div className="errordivp text-xs">{errors.type}</div>
               ) : null}
             </div>
-            <div className="flex mx-4 -mb-2 mt-1 justify-center items-center">
-              <label className="flex items-center text-sm font-semibold">
-                <a href="/user/terms">
-                  <span>Leer términos y condiciones</span>
-                </a>
-              </label>
-            </div>
+
             <div className="max-w-60 flex flex-col">
               <button className="button-signin max-w-full" type="submit">
                 REGISTRARME

@@ -66,7 +66,7 @@ const AlquilerCasaApartamento = () => {
         detallesExternos?.length > 0
       ) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
-        const url = `${API}properties?filters[categories][id][$eq]=2${urlQuery}`;
+        const url = `${API}properties?filters[categories][id][$eq]=2?${urlQuery}`;
 
         const busqueda = axios
           .get(url, {
@@ -106,7 +106,10 @@ const AlquilerCasaApartamento = () => {
 
             if (propertyList.length !== 0) {
               navigate("/home/search/search-results", {
-                state: { propertyList },
+                state: {
+                  propertyList,
+                  categories: "Alquiler de Casas y Apartamentos",
+                },
               });
             } else {
               message.info("No se encontraron resultados");

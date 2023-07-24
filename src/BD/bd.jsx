@@ -566,6 +566,7 @@ export const Estado = [
   { key: "Activo", value: "Activo" },
   { key: "Desactivado", value: "Desactivado" },
   { key: "Pendiente", value: "Pendiente" },
+  { key: "Bloqueado", value: "Bloqueado" },
 ];
 
 export const types = [

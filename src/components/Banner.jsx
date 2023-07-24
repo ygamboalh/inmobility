@@ -21,17 +21,18 @@ const Banner = () => {
       navigate("/user/access-denied", { replace: true });
     }
     const role = data.role.name;
-
+    const active = data.active;
     if (role === "SuperAdmin") {
       navigate("/home/insert-property", { replace: true });
     }
-    if (role === "Authenticated") {
+    if (active === "Activo") {
       navigate("/home/insert-property", { replace: true });
-    } else if (role === "Visiter") {
+    } else if (active === "Pendiente") {
       navigate("/user/evaluating", { replace: true });
     } else {
       navigate("/user/access-denied", { replace: true });
     }
+
     setIsLoading(false);
   };
   if (isLoading) {

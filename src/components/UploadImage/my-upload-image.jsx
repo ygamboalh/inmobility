@@ -25,7 +25,7 @@ const LoadImage = () => {
     });
     return renamedFile;
   };
-  const deleteOldPhoto = async () => {
+  /* const deleteOldPhoto = async () => {
     const id = `u-${userData.id}`;
     const upload = await axios({
       method: "DELETE",
@@ -34,13 +34,13 @@ const LoadImage = () => {
         Authorization: `Bearer ${getToken()}`,
       },
     });
-  };
+  }; */
   const handleSubmit = async (event) => {
     event.preventDefault();
     //buscar la imagen de perfil anterior y borrarla
-    if (userData.photo != null) {
+    /* if (userData.photo != null) {
       deleteOldPhoto();
-    }
+    } */
     const renamedImageFile = renameFile(image);
     const data = new FormData();
     data.append("files", renamedImageFile);

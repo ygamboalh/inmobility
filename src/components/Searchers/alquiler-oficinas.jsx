@@ -41,7 +41,12 @@ const AlquilerOficinas = () => {
           .then((response) => {
             const data = response.data.data;
             if (data.length !== 0) {
-              navigate("/home/search/search-results", { state: { data } });
+              navigate("/home/search/search-results", {
+                state: {
+                  data,
+                  categories: "Alquiler de Oficinas o Consultorios Médicos",
+                },
+              });
             } else {
               message.info("No se encontraron resultados");
               return;

@@ -95,6 +95,7 @@ import {
   BiUserCircle,
   BiUserCheck,
   BiWrench,
+  BiBook,
 } from "react-icons/bi";
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
@@ -148,6 +149,15 @@ const UserInfo = () => {
             <BiHomeAlt size={20} />
             <a className="text-xs flex flex-row pt-1 pl-1" href="/home/banner">
               Opciones
+            </a>
+          </div>
+          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <BiBook size={20} />
+            <a
+              className="text-xs flex flex-row pt-1 pl-1"
+              href="/home/portfolio"
+            >
+              Portafolio
             </a>
           </div>
           <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">

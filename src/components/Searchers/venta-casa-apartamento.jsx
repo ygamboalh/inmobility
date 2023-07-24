@@ -105,7 +105,10 @@ const VentaCasaApartamento = () => {
 
             if (propertyList.length !== 0) {
               navigate("/home/search/search-results", {
-                state: { propertyList },
+                state: {
+                  propertyList,
+                  categories: "Venta de Casas y Apartamentos",
+                },
               });
             } else {
               message.info("No se encontraron resultados");

@@ -12,7 +12,7 @@ import enviarCorreo from "../../utils/email/send-email";
 import enviarCorreoPersonalizadoOrigen from "../../utils/email/send-personalized-email-origin";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-const phoneRegex = /^[0-9]+$/;
+const phoneRegex = /^(\d{2,}\s?)+$/;
 const VisitSchema = Yup.object().shape({
   fullname: Yup.string().required("¡El nombre es requerido!"),
   email: Yup.string()
@@ -21,7 +21,7 @@ const VisitSchema = Yup.object().shape({
   phone: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
     .min(8, "¡Teléfono invalido!")
-    .max(15, "¡Teléfono invalido!")
+    .max(18, "¡Teléfono invalido!")
     .required("¡El número de teléfono es requerido!"),
   managment: Yup.string().required("¡La gestión es requerida!"),
 });
@@ -151,7 +151,7 @@ const VisitRecord = () => {
             </div>
             <div class="relative mb-1">
               <Field
-                type="number"
+                type="text"
                 class="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
                 id="phone"
                 name="phone"

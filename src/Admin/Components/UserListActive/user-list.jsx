@@ -28,6 +28,7 @@ const UsersList = () => {
         }
       });
       setRecords(foundedUsers);
+      console.log(foundedUsers);
       setFilterRecords(foundedUsers);
       setPending(false);
     },
@@ -88,9 +89,23 @@ const UsersList = () => {
     },
     {
       name: "Foto",
-      id: "photo",
-      selector: (row) => row.photo,
-      width: "130px",
+      width: "90px",
+      cell: (row) =>
+        row.photo ? (
+          <img
+            src={`https://siccic.com/backend${row.photo?.url}`}
+            alt=""
+            width="30px"
+            height="30px"
+          />
+        ) : (
+          <img
+            src={`https://siccic.com/backend/uploads/small_userinfo_dac703068b.png`}
+            alt=""
+            width="30px"
+            height="30px"
+          />
+        ),
     },
     {
       name: "Nombre",

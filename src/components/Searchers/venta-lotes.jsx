@@ -49,8 +49,16 @@ const AlquilerLotes = () => {
           })
           .then((response) => {
             const data = response.data.data;
+            console.log(url);
+
             if (data.length !== 0) {
-              navigate("/home/search/search-results", { state: { data } });
+              console.log(data);
+              navigate("/home/search/search-results", {
+                state: {
+                  data,
+                  categories: "Venta de Lotes, Fincas,Terrenos y Predios",
+                },
+              });
             } else {
               message.info("No se encontraron resultados");
               return;

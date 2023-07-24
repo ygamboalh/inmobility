@@ -50,7 +50,9 @@ const AlquilerEdificios = () => {
           .then((response) => {
             const data = response.data.data;
             if (data.length !== 0) {
-              navigate("/home/search/search-results", { state: { data } });
+              navigate("/home/search/search-results", {
+                state: { data, categories: "Venta de Edificios" },
+              });
             } else {
               message.info("No se encontraron resultados");
               return;
