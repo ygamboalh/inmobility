@@ -53,25 +53,43 @@ import ExtraLayoutShared from './layouts/out-layout-shared';
 import Portafolio from './components/Portafolio/portfolio';
 import { PortafolioDetail } from './components/Portafolio/portfolio-detail';
 import PortafolioShare from './components/Portafolio/portfolio-share';
+import CheckRole from './layouts/components/CheckRole';
+import { useQuery } from 'react-query';
+import { authUserData } from './api/usersApi';
 
 const App = () => {
+  
+  //const active = userData.active
+  
   return (
     <div className='mx-auto h-fit bg-white'>
         <Routes>
           <Route element={<Layout />}>
-            <Route element={<ProtectedRoutes/>}>
-                <Route path='/ventas' element={<Ventas />} />
-                <Route path='/ventas/*' element={<Search />} />
-                <Route path='/alquiler' element={<Alquileres />} />
-                <Route path='/alquiler/*' element={<Search />} />
+          <Route element={<ProtectedRoutes  />}>
+               {/*  <Route path='/ventas/*' element={<Search />} /> */}
+               {/*  <Route path='/alquiler/*' element={<Search />} /> */}
                 <Route path='/property/:id' element={<PropertyDetails />} />
                 <Route path="/user/verified-adviser" element={<VerifiedAdviser />}/>
                 <Route path="/user/profile" element={<Profile />} />
-                <Route path="/auth/change-password" element={<ChangePassword />} />
+            <Route path="/auth/change-password" element={<ChangePassword />} />
+            <Route element={<CheckRole roles={['Super Administrador', 'Asesor verificado','Supervisor']} />}>
                 <Route path="/home/insert-property" element={<InsertProperty />} />
+            </Route>
                 <Route path="/home/banner" element={<Banner />} />
                 <Route exact path="/home/upload/:id" element={<Upload />} />
-                <Route path="/home/search/selling-house-apartment" element={<VentaCasaApartamento />} />
+               
+                <Route path="/home/search/search-results" element={<SearchResults />} />
+                <Route path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
+                <Route path="/home/portfolio" element={<Portafolio />} />
+                <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />
+                <Route path="/home/portfolio/:id" element={<Portafolio />} />
+                <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
+                
+                {/* <Route exact path="/home/search/pdf" element={<PdfView />} /> */}
+                
+            </Route>
+                <Route path='/ventas' element={<Ventas />} />
+          <Route path="/home/search/selling-house-apartment" element={<VentaCasaApartamento />} />
                 <Route path="/home/search/rent-house-apartment" element={<AlquilerCasaApartamento />} />
                 <Route path="/home/search/selling-lots" element={<VentaLotes />} />
                 <Route path="/home/search/rent-lots" element={<AlquilerLotes />} />
@@ -83,16 +101,7 @@ const App = () => {
                 <Route path="/home/search/rent-store" element={<AlquilerBodegas />} />
                 <Route path="/home/search/selling-office" element={<VentaOficinas />} />
                 <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
-                <Route path="/home/search/search-results" element={<SearchResults />} />
-                <Route exact path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
-                <Route path="/home/portfolio" element={<Portafolio />} />
-                <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />
-                <Route path="/home/portfolio/:id" element={<Portafolio />} />
-                <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
-                
-                {/* <Route exact path="/home/search/pdf" element={<PdfView />} /> */}
-                
-            </Route>
+                <Route path='/alquiler' element={<Alquileres />} />
           <Route element={<PublicRoutes />}>
                 <Route path="/home/banner/visiter" element={<Banner />} />
                 <Route path="/user/sent-request" element={<SentRequest />} />
@@ -110,8 +119,9 @@ const App = () => {
             </Route>
           </Route>
 
-          <Route element={<AdminLayout />}>
-            <Route element={<ProtectedRoutes/>}>
+          <Route element={<AdminLayout  />}>
+          <Route element={<ProtectedRoutes />}>
+            <Route element={<CheckRole roles={['Super Administrador','Supervisor','Asesor verificado']} />}>
               <Route exact path="/admin/properties/property-detail/:id" element={<PropertyDetailsAdmin />} />
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
               <Route exact path="/admin/properties/insert-property/:id" element={<InsertProperty />} />
@@ -123,6 +133,7 @@ const App = () => {
               <Route exact path="/admin/links/insert-link/:id" element={<InsertLink />} />
               <Route exact path="/admin/users/insert-user/:id" element={<InsertUser />} />
               <Route exact path="/admin/upload/:id" element={<Upload />} />
+            </Route>
             </Route>
           </Route>
           <Route element={<ExtraLayout />}>

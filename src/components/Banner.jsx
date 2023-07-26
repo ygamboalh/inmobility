@@ -25,9 +25,13 @@ const Banner = () => {
     if (role === "SuperAdmin") {
       navigate("/home/insert-property", { replace: true });
     }
-    if (active === "Activo") {
+    if (
+      active === "Activo" ||
+      active === "Supervisor" ||
+      active === "Asesor verificado"
+    ) {
       navigate("/home/insert-property", { replace: true });
-    } else if (active === "Pendiente") {
+    } else if (active === "Pendiente" || active === "Solicitante") {
       navigate("/user/evaluating", { replace: true });
     } else {
       navigate("/user/access-denied", { replace: true });

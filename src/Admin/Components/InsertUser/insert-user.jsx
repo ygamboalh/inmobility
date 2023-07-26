@@ -20,8 +20,7 @@ const RegisterSchema = Yup.object().shape({
     .required("¡El correo es requerido!"),
   password: Yup.string()
     .min(6, "¡Debe ser más larga!")
-    .max(50, "¡Demasiado larga!")
-    .required("¡La contraseña es requerida!"),
+    .max(50, "¡Demasiado larga!"),
   company: Yup.string()
     .min(4, "¡Debe ser más larga!")
     .max(50, "¡Demasiado larga!")
@@ -85,9 +84,9 @@ const InsertUser = () => {
     setIsLoading(true);
     let activo = undefined;
 
-    values.active === "Bloqueado"
+    /* values.active === "Bloqueado"
       ? (activo = "Bloqueado")
-      : (activo = values.active);
+      : (activo = values.active); */
 
     try {
       const value = {
@@ -101,7 +100,7 @@ const InsertUser = () => {
         mobile: values.mobile,
         personalId: values.personalId,
         active: activo,
-        blocked: activo === "Bloqueado",
+        //blocked: activo === "Bloqueado",
         photo: values.photo,
         role: values.role,
       };

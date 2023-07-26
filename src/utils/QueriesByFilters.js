@@ -2,7 +2,8 @@
 //** Recibe los filtros y devuelve sus consulas */
 
 export const QueriesByFilters = (filterValue) => {
-const {
+  const {
+  uniqueId,
     provincia,
     canton,
     distrito,
@@ -41,6 +42,7 @@ const {
   parqueo
   } = filterValue;
   const queries = [
+    { name: `&filters[uniqueId][$eq]=${uniqueId}`, value: uniqueId },
     { name: `&filters[provincia][$eq]=${provincia}`, value: provincia },
     { name: `&filters[canton][$contains]=${canton}`, value: canton },
     { name: `&filters[distrito][$contains]=${distrito}`, value: distrito },

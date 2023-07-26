@@ -1,8 +1,8 @@
 {
-    "editor.fontSize": 15,
-    "editor.fontFamily": "Bahnschrift Light",
-    "editor.cursorStyle": "underline-thin",
-    "editor.autoClosingQuotes": "always",
-    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-    "editor.tabFocusMode": false
+  "editor.fontSize": 15,
+  "editor.fontFamily": "Fira Code",
+  "editor.cursorStyle": "line",
+  "editor.autoClosingQuotes": "always",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.tabFocusMode": false
 }

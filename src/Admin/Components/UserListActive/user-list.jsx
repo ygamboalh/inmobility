@@ -23,7 +23,7 @@ const UsersList = () => {
     onSuccess: (data) => {
       const foundedUsers = [];
       data.forEach((user) => {
-        if (user.active === "Activo") {
+        if (user.active === "Activo" || user.active === "Asesor verificado") {
           foundedUsers.push(user);
         }
       });
@@ -112,7 +112,7 @@ const UsersList = () => {
       id: "username",
       selector: (row) => row.username,
       sortable: true,
-      width: "225px",
+      width: "200px",
     },
     {
       name: "Email",
@@ -190,7 +190,7 @@ const UsersList = () => {
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight
-        title="Usuarios activos"
+        title="Asesores verificados"
         progressPending={pending}
         highlightOnHover
         progressComponent={<MySpinner />}
@@ -202,7 +202,7 @@ const UsersList = () => {
               type="text"
               onChange={handleFilter}
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
-              placeholder="Buscar"
+              placeholder="Filtrar por correo electrónico"
             />
           </div>
         }

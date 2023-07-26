@@ -19,6 +19,8 @@ export const Provincia = [
   { value: "Heredia", label: "Heredia" },
   { value: "Limón", label: "Limón" },
   { value: "San José", label: "San Jose" },
+  { value: "Guanacaste", label: "Guanacaste" },
+  { value: "Puntarenas", label: "Puntarenas" },
 ];
 export const Oficina = [
   {
@@ -563,12 +565,16 @@ export const TipoAsesor = [
 ];
 
 export const Estado = [
-  { key: "Activo", value: "Activo" },
-  { key: "Desactivado", value: "Desactivado" },
-  { key: "Pendiente", value: "Pendiente" },
-  { key: "Bloqueado", value: "Bloqueado" },
+  { key: "Solicitante", value: "Solicitante" },
+  { key: "Asesor verificado", value: "Asesor verificado" },
+  { key: "Supervisor", value: "Supervisor" },
+  { key: "Super Administrador", value: "Super Administrador" },
 ];
-
+export const PropertyEstado = [
+  { key: "Activa", value: "Activa" },
+  { key: "Pendiente", value: "Pendiente" },
+  { key: "Desactivada", value: "Desactivada" },
+];
 export const types = [
   {
     key: "Asesor Inmobiliario Independiente",

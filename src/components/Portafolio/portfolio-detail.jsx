@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { API } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
+import { BiConfused, BiDislike, BiLike } from "react-icons/bi";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const PortafolioSchema = Yup.object().shape({
@@ -103,19 +104,25 @@ export const PortafolioDetail = () => {
   if (isLoading || !records) {
     return <MySpinner />;
   }
+  function selectReaction(reaction) {
+    console.log(reaction);
+    switch (reaction) {
+      case "Me Gusta, deseo verlo":
+        return <BiLike fill="blue" size={30} />;
+      case "No es lo que busco":
+        return <BiDislike fill="red" size={30} />;
+      case "Indeciso(a)":
+        return <BiConfused fill="green" size={30} />;
+      default:
+        return <span>-</span>;
+    }
+  }
   const column = [
     {
-      name: "ID",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "60px",
-      id: "id",
-    },
-    {
       name: "Categoria",
-      selector: (row) => row.attributes.categoria,
+      selector: (row) => portafolio?.attributes.categoria,
       sortable: true,
-      width: "200px",
+      width: "180px",
       id: "categoria",
     },
     {
@@ -144,14 +151,14 @@ export const PortafolioDetail = () => {
       id: "tipoPropiedad",
       selector: (row) => row.attributes.tipoPropiedad,
       sortable: true,
-      width: "230px",
+      width: "200px",
     },
     {
-      name: "Habitaciones",
-      id: "habitaciones",
-      selector: (row) => row.attributes.habitaciones,
+      name: "Reacción",
+      id: "reaccion",
+      selector: (row) => selectReaction(row.attributes.reaccion),
       sortable: true,
-      width: "100px",
+      width: "120px",
     },
     {
       name: "Precio",

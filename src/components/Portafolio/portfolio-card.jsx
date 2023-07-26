@@ -7,6 +7,7 @@ import {
   BiConfused,
   BiDislike,
   BiLike,
+  BiWindowClose,
 } from "react-icons/bi";
 import { message } from "antd";
 import { PDFViewer } from "@react-pdf/renderer";
@@ -34,6 +35,9 @@ import {
   WhatsappShareButton,
 } from "react-share";
 import { Helmet } from "react-helmet";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import axios from "axios";
 
 const PortafolioCard = ({ propiedad }) => {
   const reacciones = Array(propiedad.length);
@@ -44,38 +48,47 @@ const PortafolioCard = ({ propiedad }) => {
   const [reaction, setReaction] = useState([]);
 
   //console.log("propiedad", propiedad.portafolio);
-  const id = propiedad.property;
+  const propertyId = propiedad.property;
   useEffect(() => {
     getProperty();
   }, []);
   const handleLikeClick = () => {
     reaction[0] === "Me Gusta, deseo verlo"
-      ? setReaction([null, id])
-      : setReaction(["Me Gusta, deseo verlo", id]);
+      ? setReaction([null, propertyId])
+      : setReaction(["Me Gusta, deseo verlo", propertyId]);
     likeColor === "#F81C3F" ? setLikeColor("#3F83F8") : setLikeColor("#F81C3F");
     setDislikeColor("#3F83F8");
     setConfusedColor("#3F83F8");
+    reaction[0] === "Me Gusta, deseo verlo"
+      ? updatePortfolio([null, propertyId])
+      : updatePortfolio(["Me Gusta, deseo verlo", propertyId]);
   };
 
   const handleDislikeClick = () => {
     reaction[0] === "No es lo que busco"
-      ? setReaction([null, id])
-      : setReaction(["No es lo que busco", id]);
+      ? setReaction([null, propertyId])
+      : setReaction(["No es lo que busco", propertyId]);
     dislikeColor === "#F81C3F"
       ? setDislikeColor("#3F83F8")
       : setDislikeColor("#F81C3F");
     setLikeColor("#3F83F8");
     setConfusedColor("#3F83F8");
+    reaction[0] === "No es lo que busco"
+      ? updatePortfolio([null, propertyId])
+      : updatePortfolio(["No es lo que busco", propertyId]);
   };
   const handleConfusedClick = () => {
     reaction[0] === "Indeciso(a)"
-      ? setReaction([null, id])
-      : setReaction(["Indeciso(a)", id]);
+      ? setReaction([null, propertyId])
+      : setReaction(["Indeciso(a)", propertyId]);
     confusedColor === "#F81C3F"
       ? setConfusedColor("#3F83F8")
       : setConfusedColor("#F81C3F");
     setLikeColor("#3F83F8");
     setDislikeColor("#3F83F8");
+    reaction[0] === "Indeciso(a)"
+      ? updatePortfolio([null, propertyId])
+      : updatePortfolio(["Indeciso(a)", propertyId]);
   };
 
   const [property, setProperty] = useState();
@@ -88,7 +101,7 @@ const PortafolioCard = ({ propiedad }) => {
     let propertyFound = null;
     let imagesCount = [];
     const propertyResponse = await AxiosInstance.get(
-      `${API}properties/${id}?populate=*`
+      `${API}properties/${propertyId}?populate=*`
     ).then((response) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
@@ -105,14 +118,15 @@ const PortafolioCard = ({ propiedad }) => {
     });
     setImages(imagesUrl);
   };
-  const updatePortfolio = () => {
-    //setIsLoading(true);
-    console.log("reaccion", reaction);
+
+  const updatePortfolio = (reaction) => {
+    setIsLoading(true);
+    console.log(reaction[0]);
     const values = {
-      reaction: reaction,
+      reaccion: reaction[0],
     };
-    const response = AxiosInstance.put(`${API}properties/${id}`, {
-      data: { values },
+    const response = AxiosInstance.put(`${API}properties/${propertyId}`, {
+      data: { reaccion: reaction[0] },
     })
       .then((response) => {
         console.log("respuesta de actualizar", response);
@@ -125,6 +139,45 @@ const PortafolioCard = ({ propiedad }) => {
       .finally(() => {
         setIsLoading(false);
       });
+  };
+  const removeProperty = () => {
+    setIsLoading(true);
+    const portfolioId = propiedad.portafolio.id;
+    const properties = propiedad.portafolio.attributes.properties.data;
+    let propiedades = [];
+    properties.map((property) => {
+      if (property.id !== propertyId) {
+        propiedades.push(property.id);
+      }
+    });
+    console.log("propiedades desepues de borar", propiedades);
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "¿Desea eliminar el inmueble del portafolio?",
+      showDenyButton: true,
+      confirmButtonText: "Sí, eliminar",
+      confirmButtonColor: "#1863e4",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsLoading(true);
+        const response = AxiosInstance.put(`${API}portafolios/${portfolioId}`, {
+          data: { properties: propiedades },
+        })
+          .then((response) => {
+            message.success("El inmueble fue eliminado del portafolio");
+            console.log(response);
+            window.location.reload();
+          })
+          .catch((err) => {
+            message.error("El inmueble no fue eliminado. Intente nuevamente");
+            console.log(err);
+          })
+          .finally(setIsLoading(false));
+      }
+    });
+
+    setIsLoading(false);
   };
   if (isLoading || !property) {
     return <MySpinner />;
@@ -144,17 +197,12 @@ const PortafolioCard = ({ propiedad }) => {
     "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Flag_of_Cuba.svg/270px-Flag_of_Cuba.svg.png";
 
   const compartirWhatsApp = () => {
-    const titulo = "Título de la página";
-    const descripcion = "Descripción de la página";
-    const url = "https://siccic.com/home/portfolio/share-portfolio/5";
-    const imagen =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Flag_of_Cuba.svg/270px-Flag_of_Cuba.svg.png";
     const mensaje = `¡Hola! Échale un vistazo a esta página: ${url}`;
     const encodedMensaje = encodeURIComponent(mensaje);
     const enlaceWhatsApp = `https://wa.me/?text=${encodedMensaje}`;
     window.open(enlaceWhatsApp, "_blank");
   };
-  console.log("reaccion", reaction);
+
   return (
     <section>
       <Helmet>
@@ -165,18 +213,31 @@ const PortafolioCard = ({ propiedad }) => {
         <meta property="og:image:secure_url" content={imagen} />
         <meta property="og:image:type" content="image/jpeg" />
       </Helmet>
-      <button onClick={compartirWhatsApp}>Compartir en WhatsApp</button>
+
       <div className="container mx-auto pb-2  pt-6 bg-blue-200 rounded-xl">
-        <div>
-          <button
-            onClick={() => {
-              setVisible(!visible);
-            }}
-            className="bg-blue-700 text-white text-sm rounded-md px-3 py-2"
-            type="button"
-          >
-            Ver en formato pdf
-          </button>
+        <div className="flex justify-between">
+          <div>
+            <button
+              onClick={() => {
+                setVisible(!visible);
+              }}
+              className="bg-blue-700 text-white text-sm rounded-md px-3 py-2"
+              type="button"
+            >
+              Ver en formato pdf
+            </button>
+          </div>
+          <div>
+            <form>
+              <button
+                onClick={removeProperty}
+                type="button"
+                className="bg-blue-400 p-2 rounded-full"
+              >
+                <BiWindowClose size={40} fill="red" />
+              </button>
+            </form>
+          </div>
         </div>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div>

@@ -33,12 +33,12 @@ const Header = () => {
         const role = response?.data?.role?.name;
         const activo = response?.data?.active;
 
-        if (role === "SuperAdmin") {
+        if (role === "SuperAdmin" || activo === "Super administrador") {
           setLink("SuperAdmin");
-        } else if (activo === "Activo") {
-          setLink("Activo");
-        } else if (activo === "Pendiente") {
-          setLink("Pendiente");
+        } else if (activo === "Asesor verificado") {
+          setLink("Asesor verificado");
+        } else if (activo === "Solicitante") {
+          setLink("Solicitante");
         } else {
           return false;
         }
@@ -51,6 +51,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useResolvedPath();
   const { data: userData, loading } = useQuery("profile", authUserData);
+
   const goBack = () => {
     navigate(-1);
   };
@@ -79,8 +80,8 @@ const Header = () => {
         ) : (
           <div>
             <div className="flex flex-row justify-end items-end">
-              {link === "Activo" && <UserInfo />}
-              {link === "Pendiente" && <VisiterUserInfo />}
+              {link === "Asesor verificado" && <UserInfo />}
+              {link === "Solicitante" && <VisiterUserInfo />}
               {link === "SuperAdmin" && <Dropdown />}
             </div>
           </div>

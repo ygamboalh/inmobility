@@ -5,6 +5,7 @@ import { useIsAuthenticated } from "react-auth-kit";
 const ProtectedRoutes = () => {
   const isAuthenticated = useIsAuthenticated();
   const location = useLocation();
+
   return isAuthenticated() ? (
     <Outlet />
   ) : (

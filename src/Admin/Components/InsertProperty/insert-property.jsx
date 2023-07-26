@@ -33,6 +33,7 @@ import {
   Locales,
   UsoSuelo,
   Provincia,
+  PropertyEstado,
 } from "../../../BD/bd";
 import Select from "react-select";
 import MySpinner from "../../../components/Spinner/spinner";
@@ -50,6 +51,7 @@ const InsertProperty = () => {
   const InsertPropertySchema = Yup.object().shape({
     provincia: Yup.string().required("*"),
     canton: Yup.string().required("*").min(6, "*").max(150, "*"),
+    descripcion: Yup.string().min(10, "*").max(1000, "*"),
     distrito: Yup.string().required("*").min(6, "*").max(150, "*"),
     precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
     areaTerreno: Yup.number().required("*").min(0, "*").max(500000, "*"),
@@ -76,7 +78,7 @@ const InsertProperty = () => {
 
   const [selectedOption, setSelectedOption] = useState("");
 
-  const [category, setCategory] = useState({});
+  const [category, setCategory] = useState();
   const [categoriesDB, setCategoriesDB] = useState({});
   const [amenidades, setAmenidades] = useState({});
   const [patio, setPatio] = useState({});
@@ -86,8 +88,6 @@ const InsertProperty = () => {
 
   const [createdPropertyId, setCreatedPropertyId] = useState(null);
   const [userRole, setUserRole] = useState();
-  const [selectCategory, setSelectCategory] = useState();
-
   const [selectedPropertyType, setSelectedPropertyType] = useState("");
   const { data: userData } = useQuery("profile", authUserData);
   const userId = userData?.id;
@@ -156,9 +156,14 @@ const InsertProperty = () => {
     const response = AxiosInstance.get(`properties/${id}?populate=*`)
       .then((property) => {
         setProperty(property?.data?.data?.attributes);
+        const category =
+          property?.data?.data?.attributes.categories.data[0].attributes.nombre;
+        console.log("la propiedad", category);
+        setCategory(category);
+        setSelectedOption(category);
       })
       .catch((error) => {
-        return;
+        console.log(error);
       });
   }, []);
 
@@ -211,6 +216,7 @@ const InsertProperty = () => {
     active: property?.active,
     areaTerreno: property?.areaTerreno,
     uniqueId: property?.uniqueId,
+    descripcion: property?.descripcion,
   });
 
   useEffect(() => {
@@ -230,7 +236,6 @@ const InsertProperty = () => {
         });
 
         setCategoriesDB(categories);
-        console.log(categories);
       })
       .catch((error) => {
         console.error(error);
@@ -295,6 +300,7 @@ const InsertProperty = () => {
         active: values.active,
         creadoPor: userId,
         uniqueId: values.uniqueId,
+        descripcion: values.descripcion,
       };
 
       if (!id) {
@@ -380,7 +386,7 @@ const InsertProperty = () => {
                 as="select"
                 name="categories"
                 value={selectedOption}
-                defaultValue="{property?.categories}"
+                defaultValue={category}
                 onChange={handleOptionSelectChange}
                 className="categories  m-2 w-full  md:w-fit lg:mx-80"
               >
@@ -1299,7 +1305,7 @@ const InsertProperty = () => {
                 <option value="" label="">
                   {"Estado"}
                 </option>
-                {Estado.map((item) => (
+                {PropertyEstado.map((item) => (
                   <option value={item.value} label={item.label}>
                     {item.value}
                   </option>
@@ -1553,6 +1559,21 @@ const InsertProperty = () => {
                 </div>
               </div>
             </div>
+            <div className="flex justify-center w-full mb-2">
+              <Field
+                as="textarea"
+                hidden={selectedOption === ""}
+                name="descripcion"
+                defaultValue={property?.descripcion}
+                placeholder="Descripción de la propiedad"
+                className="input-admin-property  m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
+              />
+              <div className="space mb-2.5">
+                {errors.descripcion && touched.descripcion ? (
+                  <div className="errordiv text-xs">{errors.descripcion}</div>
+                ) : null}
+              </div>
+            </div>
             <Select
               className="categories lg:mx-80"
               name="amenidades"
@@ -1677,6 +1698,7 @@ const InsertProperty = () => {
                 </div>
               ) : null}
             </div>
+
             <hr></hr>
             <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
               <div className="">

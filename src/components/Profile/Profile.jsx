@@ -25,8 +25,7 @@ const ProfileSchema = Yup.object().shape({
     .required("¡El correo es requerido!"),
   password: Yup.string()
     .min(6, "¡Debe ser más larga!")
-    .max(50, "¡Demasiado larga!")
-    .required("¡La contraseña es requerida!"),
+    .max(50, "¡Demasiado larga!"),
   company: Yup.string()
     .min(4, "¡Debe ser más larga!")
     .max(50, "¡Demasiado larga!")

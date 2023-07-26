@@ -142,7 +142,7 @@ const UserInfo = () => {
               className="text-xs flex flex-row pt-1 pl-1"
               href="/user/verified-adviser"
             >
-              Supervisor
+              Verificado
             </a>
           </div>
           <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">

@@ -110,7 +110,7 @@ const PropertiesList = () => {
       id: "provincia",
       selector: (row) => row.attributes.provincia,
       sortable: true,
-      width: "150px",
+      width: "130px",
     },
     {
       name: "Distrito",
@@ -229,7 +229,7 @@ const PropertiesList = () => {
               type="text"
               onChange={handleFilter}
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
-              placeholder="Buscar"
+              placeholder="Filtrar por tipo de propiedad"
             />
           </div>
         }

@@ -123,6 +123,7 @@ const VentaCasaApartamento = () => {
     },
     validationSchema: Yup.object().shape({
       provincia: Yup.string().min(3, "*").max(150, "*"),
+      uniqueId: Yup.string().min(3, "*").max(150, "*"),
       canton: Yup.string().min(3, "*").max(150, "*"),
       distrito: Yup.string().min(3, "*").max(150, "*"),
       precio: Yup.number().min(0, "*").max(2000000, "*"),
@@ -183,6 +184,19 @@ const VentaCasaApartamento = () => {
 
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className="flex flex-wrap justify-center m-3">
+          <input
+            type="text"
+            value={values.uniqueId}
+            onChange={handleChange}
+            name="uniqueId"
+            placeholder="Identificador único"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.uniqueId && touched.uniqueId ? (
+              <div className="errordiv text-xs">{errors.uniqueId}</div>
+            ) : null}
+          </div>
           <select
             name="provincia"
             type="select"

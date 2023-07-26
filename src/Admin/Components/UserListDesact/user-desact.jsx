@@ -23,7 +23,7 @@ const UsersDesact = () => {
     onSuccess: (data) => {
       const foundedUsers = [];
       data.forEach((user) => {
-        if (user.active === "Desactivado" || user.active === "Bloqueado") {
+        if (user.active === "Desactivado" || user.active === "Supervisor") {
           foundedUsers.push(user);
         }
       });
@@ -108,7 +108,7 @@ const UsersDesact = () => {
       id: "username",
       selector: (row) => row.username,
       sortable: true,
-      width: "225px",
+      width: "200px",
     },
     {
       name: "Email",
@@ -186,7 +186,7 @@ const UsersDesact = () => {
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight
-        title="Usuarios inactivos"
+        title="Supervisores"
         progressPending={pending}
         highlightOnHover
         progressComponent={<MySpinner />}
@@ -198,7 +198,7 @@ const UsersDesact = () => {
               type="text"
               onChange={handleFilter}
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
-              placeholder="Buscar"
+              placeholder="Filtrar por correo electrónico"
             />
           </div>
         }

@@ -23,7 +23,7 @@ const UsersPending = () => {
     onSuccess: (data) => {
       const foundedUsers = [];
       data.forEach((user) => {
-        if (user.active === "Pendiente") {
+        if (user.active === "Pendiente" || user.active === "Solicitante") {
           foundedUsers.push(user);
         }
       });
@@ -108,7 +108,7 @@ const UsersPending = () => {
       id: "username",
       selector: (row) => row.username,
       sortable: true,
-      width: "225px",
+      width: "200px",
     },
     {
       name: "Email",
@@ -186,7 +186,7 @@ const UsersPending = () => {
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight
-        title="Usuarios pendientes"
+        title="Solicitantes"
         progressPending={pending}
         highlightOnHover
         progressComponent={<MySpinner />}
@@ -198,7 +198,7 @@ const UsersPending = () => {
               type="text"
               onChange={handleFilter}
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
-              placeholder="Buscar"
+              placeholder="Filtrar por correo electrónico"
             />
           </div>
         }

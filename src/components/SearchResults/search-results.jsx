@@ -21,14 +21,15 @@ const SearchResults = () => {
   const [clientName, setClienteName] = useState();
   const [clientEmail, setClienteEmail] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [listedProperties, setListedProperties] = useState([]);
+  const [id, setId] = useState([]);
 
   let portafolioProperties = [];
   const navigate = useNavigate();
   const location = useLocation();
   const idPortafolio = location.state.id;
-  console.log("id del portafolio", idPortafolio);
+
   const { data: userData } = useQuery("profile", authUserData);
+
   const paginationComponentOptions = {
     rowsPerPageText: "Inmuebles por página",
     rangeSeparatorText: "de",
@@ -97,6 +98,7 @@ const SearchResults = () => {
       correoAsesor: email,
       categoria: categories,
     };
+    console.log(portafolioProperties);
     if (portafolioProperties.length > 0) {
       const totalPortfolios = data.data.length;
       console.log(totalPortfolios);
@@ -127,6 +129,17 @@ const SearchResults = () => {
       message.error("¡No ha seleccionado ninguna propiedad!");
     }
   };
+
+  const showData = () => {
+    let datosContainer = document.getElementById("data");
+    datosContainer.innerHTML = "";
+    const datosSpan = document.createElement("span");
+    datosSpan.textContent = `Propiedades seleccionadas: ${portafolioProperties}`;
+
+    datosContainer = document.getElementById("data");
+    datosContainer.appendChild(datosSpan);
+  };
+
   const createPortafolio = async () => {
     const { value: formValues } = await Swal.fire({
       title: "Proporcione los datos",
@@ -158,28 +171,26 @@ const SearchResults = () => {
     return cadena.replace(expresionRegular, "");
   }
 
-  const AddProperty = (id) => {
+  function AddProperty(id) {
     if (!portafolioProperties?.includes(id)) {
       portafolioProperties.push(id);
+    } else {
+      portafolioProperties = portafolioProperties.filter(
+        (element) => element !== id
+      );
     }
-    console.log(portafolioProperties);
-    return portafolioProperties;
-  };
 
-  const RemoveProperty = (id) => {
-    const newArray = portafolioProperties.filter(
-      (elemento) => elemento.id !== id
-    );
-    console.log("quitado", newArray);
-    return newArray;
-  };
-  console.log("suelto", portafolioProperties);
+    showData();
+
+    return portafolioProperties;
+  }
+
   const column = [
     {
       name: "ID",
       selector: (row) => row.id,
       sortable: true,
-      width: "60px",
+      width: "65px",
       id: "id",
     },
     {
@@ -215,7 +226,7 @@ const SearchResults = () => {
       id: "canton",
       selector: (row) => row.attributes.canton,
       sortable: true,
-      width: "150px",
+      width: "140px",
     },
     {
       name: "Tipo de Propiedad",
@@ -225,11 +236,11 @@ const SearchResults = () => {
       width: "230px",
     },
     {
-      name: "Área terreno",
+      name: "Área de terreno",
       id: "areaTerreno",
       selector: (row) => row.attributes.areaTerreno,
       sortable: true,
-      width: "120px",
+      width: "130px",
     },
     {
       name: "Precio",
@@ -239,32 +250,30 @@ const SearchResults = () => {
       width: "90px",
     },
     {
-      cell: (row) =>
-        !portafolioProperties.includes(row.id) ? (
+      cell: (row) => (
+        <div>
           <button
-            className="bg-green-400 rounded-md h-6 w-20 text-white"
-            onClick={
-              () => AddProperty(row.id)
-              /* setListedProperties(AddProperty(row.id));
-              console.log(listedProperties); */
+            onClick={() => {
+              AddProperty(row.id);
+              //console.log("desde dentro", abc);
+            }}
+            className={
+              !portafolioProperties?.includes(row.id)
+                ? "bg-green-400 rounded-md h-6 w-20 text-white"
+                : "bg-red-400 rounded-md h-6 w-20 text-white"
             }
           >
             Agregar
           </button>
-        ) : (
-          <button
-            className="bg-red-700 rounded-md h-6 w-20 text-white"
-            onClick={() => RemoveProperty(row.id, portafolioProperties)}
-          >
-            Eliminar
-          </button>
-        ),
+        </div>
+      ),
+
       accessor: "id",
       id: "add",
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      width: "125px",
+      width: "85px",
     },
     {
       cell: (row) => (
@@ -317,29 +326,34 @@ const SearchResults = () => {
                 placeholder="Filtrar por tipo de propiedad"
               />
             </div>
-            <div className="flex justify-start ">
-              {clientEmail && clientName ? (
-                <div>
-                  <button
-                    className="rounded-md text-white bg-blue-500 w-44 h-10  mx-12"
-                    onClick={savePortafolio}
-                  >
-                    Guardar Portafolio
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <button
-                    className="rounded-md text-white bg-green-400  h-10 w-44 mx-12"
-                    onClick={createPortafolio}
-                  >
-                    Crear Portafolio
-                  </button>
-                </div>
-              )}
-            </div>
-            <div className="flex justify-start">
-              <span>{portafolioProperties[0]}</span>
+            {userData?.active === "Activo" ? (
+              <div className="flex justify-start ">
+                {clientEmail && clientName ? (
+                  <div>
+                    <button
+                      className="rounded-md text-white bg-blue-500 w-44 h-10  mx-12"
+                      onClick={savePortafolio}
+                    >
+                      Guardar Portafolio
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button
+                      className="rounded-md text-white bg-green-400  h-10 w-44 mx-12"
+                      onClick={createPortafolio}
+                    >
+                      Crear Portafolio
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : null}
+            <div
+              id="data"
+              className="flex flex-col items-start justify-center mt-1"
+            >
+              {/* {portafolioProperties.length} Inmuebles seleccionados {showData()} */}
             </div>
           </div>
         }
