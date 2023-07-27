@@ -63,27 +63,6 @@ const Profile = () => {
     });
     return renamedFile;
   };
-  const handleChange = (event) => {
-    setImage(event.target.files[0]);
-  };
-  const handleSubmit = async () => {
-    const renamedImageFile = renameFile(image);
-    const data = new FormData();
-    data.append("files", renamedImageFile);
-    data.append("ref", ref);
-    data.append("refid", refid);
-    data.append("field", field);
-
-    const upload = await axios({
-      method: "POST",
-      url: `${API}upload`,
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-      data,
-    });
-  };
-  //----------------------------------------------------------------
 
   const [initialData, setinitialData] = useState({
     username: userData?.username,
@@ -123,8 +102,6 @@ const Profile = () => {
         headers: { Authorization: `${BEARER} ${token}` },
       });
       const data = await response?.json();
-
-      //handleSubmit();
 
       if (response.ok || data.role.name === "SuperAdmin") {
         const response = await fetch(`${API}/users/${data.id}`, {

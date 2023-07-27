@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 import { API } from "../../../constant";
-import { getToken } from "../../../utils/helpers";
+import { createNotification, getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
 import { getAllPropertiesRQ } from "../../../api/propertiesApi";
 
@@ -61,6 +61,11 @@ const PropertiesPending = () => {
           queryClient
             .invalidateQueries(["properties"])
             .then((resultado) => console.log(resultado))
+        );
+        createNotification(
+          "Eliminación",
+          `Se ha eliminado la propiedad ${id}`,
+          id
         );
         if (result) {
           Swal.fire("Inmueble eliminado!", "", "success");

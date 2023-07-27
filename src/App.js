@@ -56,6 +56,7 @@ import PortafolioShare from './components/Portafolio/portfolio-share';
 import CheckRole from './layouts/components/CheckRole';
 import { useQuery } from 'react-query';
 import { authUserData } from './api/usersApi';
+import Notifications from './components/Notifications/notifications';
 
 const App = () => {
   
@@ -74,6 +75,9 @@ const App = () => {
             <Route path="/auth/change-password" element={<ChangePassword />} />
             <Route element={<CheckRole roles={['Super Administrador', 'Asesor verificado','Supervisor']} />}>
                 <Route path="/home/insert-property" element={<InsertProperty />} />
+            </Route>
+            <Route element={<CheckRole roles={['Super Administrador', 'Asesor verificado','Supervisor']} />}>
+                <Route path="/home/notifications" element={<Notifications />} />
             </Route>
                 <Route path="/home/banner" element={<Banner />} />
                 <Route exact path="/home/upload/:id" element={<Upload />} />

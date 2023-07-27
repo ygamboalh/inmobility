@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { BiArea, BiBath, BiBed } from "react-icons/bi";
+import { BiArea, BiBath, BiBed, BiCar } from "react-icons/bi";
 import { PDFViewer } from "@react-pdf/renderer";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -137,34 +137,50 @@ const PropertyDetailsSearch = () => {
               />
             </div>
             <div className="flex gap-x-6 text-blue-700 mb-6">
-              <div
-                className={
-                  property.habitaciones ? "flex gap-x-2 items-center" : "hidden"
-                }
-              >
-                <BiBed className="text-2xl" />
-                <div>{property.habitaciones}</div>
-              </div>
-              <div
-                className={
-                  property.banos ? "flex gap-x-2 items-center" : "hidden"
-                }
-              >
-                <BiBath className="text-2xl " />
-                <div>{property.banos}</div>
-              </div>
-              <div
-                className={
-                  property.areaTerreno ? "flex gap-x-2 items-center" : "hidden"
-                }
-              >
-                <BiArea className="text-2xl " />
-                <div>
-                  {property.areaTerreno}{" "}
-                  <label>
-                    m<sup>2</sup>
-                  </label>
+              <div className="flex">
+                <div
+                  className={
+                    property.habitaciones
+                      ? "flex gap-x-2 items-center"
+                      : "hidden"
+                  }
+                >
+                  <BiBed className="text-2xl" />
+                  <div>{property.habitaciones}</div>
                 </div>
+                <div
+                  className={
+                    property.banos ? "flex ml-2 gap-x-2 items-center" : "hidden"
+                  }
+                >
+                  <BiBath className="text-2xl " />
+                  <div>{property.banos}</div>
+                </div>
+              </div>
+              <div className="flex -ml-2">
+                <div
+                  className={
+                    property.areaTerreno
+                      ? "flex gap-x-2 items-center"
+                      : "hidden"
+                  }
+                >
+                  <BiArea className="text-2xl " />
+                  <div className="flex">
+                    {property.areaTerreno}{" "}
+                    <label>
+                      m<sup>2</sup>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={
+                  property.cochera ? "flex gap-x-2 items-center" : "hidden"
+                }
+              >
+                <BiCar className="text-2xl " />
+                <div>{property.cochera}</div>
               </div>
             </div>
             <div>
@@ -193,6 +209,20 @@ const PropertyDetailsSearch = () => {
               <TelegramShareButton url={pdfUrl}>
                 <TelegramIcon size={30} round={true}></TelegramIcon>
               </TelegramShareButton>
+            </div>
+            <div
+              className={
+                property.descripcion
+                  ? "flex flex-col justify-start content-start mt-2 gap-x-2"
+                  : "hidden"
+              }
+            >
+              <div className="flex justify-start">
+                <span className="font-semibold">
+                  Descripción de la propiedad
+                </span>{" "}
+              </div>
+              <div>{property?.descripcion}</div>
             </div>
           </div>
           <div className="max-w-[500px] w-full">

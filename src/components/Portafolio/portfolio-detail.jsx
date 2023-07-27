@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import withReactContent from "sweetalert2-react-content";
-import { Field, Formik, Form } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import MySpinner from "../Spinner/spinner";
@@ -14,14 +14,15 @@ import { API } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 import { BiConfused, BiDislike, BiLike } from "react-icons/bi";
+import { message } from "antd";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const PortafolioSchema = Yup.object().shape({
-  name: Yup.string()
+  clienteComprador: Yup.string()
     .required("¡El nombre es requerido!")
     .min(6, "¡Muy corto!")
     .max(50, "¡Muy largo!"),
-  email: Yup.string()
+  correoCliente: Yup.string()
     .matches(emailRegex, "¡Correo inválido!")
     .required("¡El correo es requerido!"),
 });
@@ -40,6 +41,7 @@ export const PortafolioDetail = () => {
     setRecords(properties);
     setPending(false);
     setPortafolio(data?.row);
+    console.log("datos recibidos", data);
   }, []);
   function deleteRowF(id, records) {
     //const propertiesIds = [];
@@ -62,7 +64,65 @@ export const PortafolioDetail = () => {
       }
     });
   };
-  const saveChanges = async (value) => {
+
+  //----------------------------------------------------------------
+  const { handleChange, handleSubmit, values, errors, touched } = useFormik({
+    initialValues: {
+      clienteComprador: portafolio?.attributes.clienteComprador,
+      correoCliente: portafolio?.attributes.correoCliente,
+    },
+    validationSchema: Yup.object({
+      clienteComprador: Yup.string()
+        .required("¡El nombre es requerido!")
+        .min(6, "¡Muy corto!")
+        .max(50, "¡Muy largo!"),
+      correoCliente: Yup.string()
+        .matches(emailRegex, "¡Correo inválido!")
+        .required("¡El correo es requerido!"),
+    }),
+    onSubmit: async (values) => {
+      console.log("valores que llegan", values);
+      setIsLoading(true);
+      const id = userData?.id;
+      const mobile = userData?.mobile;
+      const email = userData?.email;
+
+      const newProperties = [];
+      records?.map((record) => {
+        newProperties.push(record.id);
+      });
+
+      const value = {
+        creadoPor: id,
+        clienteComprador: values.clienteComprador,
+        correoCliente: values.correoCliente,
+        properties: newProperties,
+        telefonoAsesor: portafolio.attributes.telefonoAsesor,
+        correoAsesor: portafolio.attributes.correoAsesor,
+        categoria: portafolio.attributes.categoria,
+      };
+      console.log("estos son los values", value);
+      const response = axios(`${API}portafolios/${portafolio.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+        data: { data: value },
+      })
+        .then((result) => {
+          //const property = result.data.data.attributes;
+          message.success("Portafolio actualizado correctamente");
+          navigate("/home/portfolio");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    },
+  });
+  //----------------------------------------------------------------
+  /* const saveChanges = (values) => {
+    console.log("valores que llegan", values);
     setIsLoading(true);
     const id = userData?.id;
     const mobile = userData?.mobile;
@@ -73,33 +133,33 @@ export const PortafolioDetail = () => {
       newProperties.push(record.id);
     });
 
-    const values = {
+    const value = {
       creadoPor: id,
-      clienteComprador: value.name,
-      correoCliente: value.email,
+      clienteComprador: values.clienteComprador,
+      correoCliente: values.correoCliente,
       properties: newProperties,
       telefonoAsesor: portafolio.attributes.telefonoAsesor,
       correoAsesor: portafolio.attributes.correoAsesor,
       categoria: portafolio.attributes.categoria,
     };
-    console.log("estos son los values", values);
+    console.log("estos son los values", value);
     const response = axios(`${API}portafolios/${portafolio.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
-      data: { data: values },
+      data: { data: value },
     })
       .then((result) => {
         const property = result.data.data.attributes;
-
+        message.success("Portafolio actualizado correctamente");
         navigate("/home/portfolio");
       })
       .finally(() => {
         setIsLoading(false);
       });
-  };
+  }; */
   console.log(portafolio?.attributes);
   if (isLoading || !records) {
     return <MySpinner />;
@@ -227,68 +287,58 @@ export const PortafolioDetail = () => {
               <label className="text-xl mb-2 font-semibold">
                 Propiedades del portafolio
               </label>
+              <form onSubmit={handleSubmit} autoComplete="off">
+                <input
+                  type="text"
+                  name="clienteComprador"
+                  onChange={handleChange}
+                  required
+                  defaultValue={portafolio?.attributes?.clienteComprador}
+                  className="w-full rounded-md mb-2"
+                  placeholder="Nombre del cliente comprador"
+                />
+                <div className="space flex justify-center mb-2 -mt-2">
+                  {errors.name && touched.name ? (
+                    <div className="errordivp text-xs">{errors.name}</div>
+                  ) : null}
+                </div>
+                <input
+                  type="email"
+                  name="correoCliente"
+                  required
+                  onChange={handleChange}
+                  defaultValue={portafolio?.attributes.correoCliente}
+                  className="w-full rounded-md"
+                  placeholder="Correo del cliente comprador"
+                />
+                <div className="space flex justify-center">
+                  {errors.email && touched.email ? (
+                    <div className="errordivp text-xs">{errors.email}</div>
+                  ) : null}
+                </div>
+                <div className="ml-0 flex justify-center">
+                  <button
+                    type="submit"
+                    className="rounded-md text-white mt-2  bg-green-400  h-10 w-40 mx-20"
+                  >
+                    Guardar cambios
+                  </button>
+                </div>
 
-              <Formik
-                initialValues={{
-                  clienteComprador: portafolio?.attributes.clienteComprador,
-                  correoCliente: portafolio?.attributes.correoCliente,
-                }}
-                validationSchema={PortafolioSchema}
-                onSubmit={saveChanges}
-              >
-                {({ errors, touched }) => (
-                  <Form autoComplete="off">
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      defaultValue={portafolio?.attributes?.clienteComprador}
-                      className="w-full rounded-md mb-2"
-                      placeholder="Nombre del cliente comprador"
-                    />
-                    {/* <div className="space flex justify-center mb-2 -mt-2">
-                      {errors.name && touched.name ? (
-                        <div className="errordivp text-xs">{errors.name}</div>
-                      ) : null}
-                    </div> */}
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      defaultValue={portafolio?.attributes.correoCliente}
-                      className="w-full rounded-md"
-                      placeholder="Correo del cliente comprador"
-                    />
-                    {/* <div className="space flex justify-center">
-                      {errors.email && touched.email ? (
-                        <div className="errordivp text-xs">{errors.email}</div>
-                      ) : null}
-                    </div> */}
-                    <div className="ml-0 flex justify-center">
-                      <button
-                        type="submit"
-                        className="rounded-md text-white mt-2  bg-green-400  h-10 w-40 mx-20"
-                      >
-                        Guardar cambios
-                      </button>
-                    </div>
-
-                    <div className="flex justify-center mt-4">
-                      <button
-                        onClick={() =>
-                          navigate("/home/banner", {
-                            state: { portafolio: portafolio.id },
-                          })
-                        }
-                        type="button"
-                        className="font-semibold"
-                      >
-                        Agregar otras propiedades
-                      </button>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
+                {/* <div className="flex justify-center mt-4">
+                  <button
+                    onClick={() =>
+                      navigate("/home/banner", {
+                        state: { portafolio: portafolio.id },
+                      })
+                    }
+                    type="button"
+                    className="font-semibold"
+                  >
+                    Agregar otras propiedades
+                  </button>
+                </div> */}
+              </form>
             </div>
           </div>
         }

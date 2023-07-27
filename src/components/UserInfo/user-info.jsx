@@ -85,7 +85,7 @@ const UserInfo = () => {
 
 export default UserInfo;
  */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useSignOut } from "react-auth-kit";
 import {
@@ -96,10 +96,12 @@ import {
   BiUserCheck,
   BiWrench,
   BiBook,
+  BiBell,
 } from "react-icons/bi";
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
 import AxiosInstance from "../../api/AxiosInstance";
+import { API } from "../../constant";
 
 const UserInfo = () => {
   const signOut = useSignOut();
@@ -107,6 +109,7 @@ const UserInfo = () => {
   const [imageUrl, setImageUrl] = useState(
     "https://siccic.com/backend/uploads/small_userinfo_dac703068b.png"
   );
+  const [notificaciones, setNotificaciones] = useState();
   const { data: userData } = useQuery("profile", authUserData);
   const id = userData?.id;
   const user = AxiosInstance.get(`users/${id}?populate=photo`).then((data) => {
@@ -115,6 +118,16 @@ const UserInfo = () => {
 
     setImageUrl(url);
   });
+  useEffect(() => {
+    const response = AxiosInstance.get(`${API}notifications`)
+      .then((response) => {
+        console.log("encontre estas notificaciones", response.data.data);
+        setNotificaciones(response.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const buttonStyle = {
     backgroundImage: `url("${imageUrl}")`,
@@ -129,11 +142,28 @@ const UserInfo = () => {
 
   return (
     <div className="">
-      <button
+      {/* <button
         onClick={toggleMenu}
         className="user-info-button"
         style={buttonStyle}
-      ></button>
+      ></button> */}
+      <div
+        className={
+          !notificaciones
+            ? "relative rounded-full w-[45px] h-[45px] justify-center items-center"
+            : "relative w-[44px] h-[44px] border-2 mb-1 rounded-full border-red-600 justify-center items-center"
+        }
+      >
+        <button
+          onClick={toggleMenu}
+          className="user-info-button"
+          style={buttonStyle}
+        >
+          {/* {!notificaciones ? (
+            <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-red-700 border-2 border-white dark:border-gray-800 rounded-full"></span>
+          ) : null} */}
+        </button>
+      </div>
       {isOpen && (
         <div className="absolute z-10 mt-2 py-2 w-[105px] bg-white rounded-lg shadow-lg">
           <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
@@ -160,6 +190,17 @@ const UserInfo = () => {
               Portafolio
             </a>
           </div>
+          {notificaciones ? (
+            <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              <BiBell size={20} />
+              <a
+                className="text-xs flex flex-row pt-1 pl-1"
+                href="/home/notifications"
+              >
+                Notific...
+              </a>
+            </div>
+          ) : null}
           <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiUserCircle size={20} />
             <a className="text-xs flex flex-row pt-1 pl-1" href="/user/profile">

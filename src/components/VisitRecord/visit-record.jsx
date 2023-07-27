@@ -109,17 +109,17 @@ const VisitRecord = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div class="relative mb-1">
+            <div className="relative mb-1">
               <Field
                 type="text"
-                class="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
                 id="fullname"
                 name="fullname"
                 placeholder="Nombre completo"
               />
               <label
                 for="fullname"
-                class="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
               >
                 Nombre completo
               </label>
@@ -129,17 +129,17 @@ const VisitRecord = () => {
                 <div className="errordivp text-xs">{errors.fullname}</div>
               ) : null}
             </div>
-            <div class="relative mb-1">
+            <div className="relative mb-1">
               <Field
                 type="text"
-                class="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
                 id="email"
                 name="email"
                 placeholder="Correo electrónico"
               />
               <label
                 for="email"
-                class="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
               >
                 Correo electrónico
               </label>
@@ -149,17 +149,17 @@ const VisitRecord = () => {
                 <div className="errordivp text-xs">{errors.email}</div>
               ) : null}
             </div>
-            <div class="relative mb-1">
+            <div className="relative mb-1">
               <Field
                 type="text"
-                class="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
                 id="phone"
                 name="phone"
                 placeholder="Número de teléfono"
               />
               <label
                 for="phone"
-                class="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
               >
                 Número de teléfono
               </label>

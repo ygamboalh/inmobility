@@ -571,9 +571,9 @@ export const Estado = [
   { key: "Super Administrador", value: "Super Administrador" },
 ];
 export const PropertyEstado = [
-  { key: "Activa", value: "Activa" },
+  { key: "Activo", value: "Activo" },
   { key: "Pendiente", value: "Pendiente" },
-  { key: "Desactivada", value: "Desactivada" },
+  { key: "Desactivado", value: "Desactivado" },
 ];
 export const types = [
   {

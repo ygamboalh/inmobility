@@ -42,6 +42,7 @@ const Banner = () => {
   if (isLoading) {
     return <MySpinner />;
   }
+
   return (
     <section className="h-full max-h-[640px] my-8">
       <div className="grid grid-cols-3 p-5 gap-10 lg:py-16  max-[1000px]:grid-cols-1 max-md:grid-cols-1 text-center text-white font-medium">

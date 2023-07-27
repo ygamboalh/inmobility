@@ -21,12 +21,10 @@ const SearchResults = () => {
   const [clientName, setClienteName] = useState();
   const [clientEmail, setClienteEmail] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [id, setId] = useState([]);
 
   let portafolioProperties = [];
   const navigate = useNavigate();
   const location = useLocation();
-  const idPortafolio = location.state.id;
 
   const { data: userData } = useQuery("profile", authUserData);
 
@@ -51,30 +49,6 @@ const SearchResults = () => {
       },
     }
   );
-  /* const countingPortfolios = () => {
-    setIsLoading(false);
-    const response = axios(
-      `${API}portafolios?filters[creadoPor][$eq]=${userData?.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }
-    )
-      .then((response) => {
-        const count = response?.data?.data.length;
-        console.log("cantidad de portafolios", count);
-        return count;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }; */
 
   useEffect(() => {
     const data = location.state.propertyList;
@@ -252,19 +226,24 @@ const SearchResults = () => {
     {
       cell: (row) => (
         <div>
-          <button
-            onClick={() => {
-              AddProperty(row.id);
-              //console.log("desde dentro", abc);
-            }}
-            className={
-              !portafolioProperties?.includes(row.id)
-                ? "bg-green-400 rounded-md h-6 w-20 text-white"
-                : "bg-red-400 rounded-md h-6 w-20 text-white"
-            }
-          >
-            Agregar
-          </button>
+          {userData?.active === "Asesor verificado" ||
+          userData?.active === "Super Administrador" ||
+          userData?.active === "Supervisor" ? (
+            <button
+              button
+              onClick={() => {
+                AddProperty(row.id);
+                //console.log("desde dentro", abc);
+              }}
+              className={
+                !portafolioProperties?.includes(row.id)
+                  ? "bg-green-400 rounded-md h-6 font-semibold w-12 hover:bg-green-600 text-black"
+                  : "bg-red-400 rounded-md h-6 w-20 text-white"
+              }
+            >
+              + -
+            </button>
+          ) : null}
         </div>
       ),
 
@@ -273,7 +252,7 @@ const SearchResults = () => {
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      width: "85px",
+      width: "70px",
     },
     {
       cell: (row) => (
@@ -326,7 +305,9 @@ const SearchResults = () => {
                 placeholder="Filtrar por tipo de propiedad"
               />
             </div>
-            {userData?.active === "Activo" ? (
+            {userData?.active === "Asesor verificado" ||
+            userData?.active === "Super Administrador" ||
+            userData?.active === "Supervisor" ? (
               <div className="flex justify-start ">
                 {clientEmail && clientName ? (
                   <div>
@@ -352,9 +333,7 @@ const SearchResults = () => {
             <div
               id="data"
               className="flex flex-col items-start justify-center mt-1"
-            >
-              {/* {portafolioProperties.length} Inmuebles seleccionados {showData()} */}
-            </div>
+            ></div>
           </div>
         }
       ></DataTable>

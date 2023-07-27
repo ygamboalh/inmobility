@@ -113,6 +113,13 @@ const Portafolio = () => {
       id: "provincia",
       selector: (row) => row.attributes.correoCliente,
       sortable: true,
+      width: "210px",
+    },
+    {
+      name: "Categoría",
+      id: "categoria",
+      selector: (row) => row.attributes.categoria,
+      sortable: true,
       width: "250px",
     },
     {
@@ -206,7 +213,7 @@ const Portafolio = () => {
               type="text"
               onChange={handleFilter}
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
-              placeholder="Filtrar por nombre"
+              placeholder="Filtrar por nombre del cliente"
             />
           </div>
         }

@@ -1,3 +1,4 @@
+import AxiosInstance from "../api/AxiosInstance";
 import { 
   AUTH_TOKEN,
   AUTH_USER,
@@ -61,3 +62,8 @@ export const  generateRandomCode = () => {
 
     return randomCode;
   };
+export const createNotification = (type, information,reference) => {
+  const response = AxiosInstance.post(`/notifications`, {
+    data: { type: type, information: information, expire:Date.now(), reference: reference},
+}).then((response) => console.log(response)).catch((error) => console.log(error))
+}

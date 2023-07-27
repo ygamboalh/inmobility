@@ -7,7 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { getToken } from "../../../utils/helpers";
+import { createNotification, getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
 import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
 import { authUserData } from "../../../api/usersApi";
@@ -63,6 +63,11 @@ const PropertiesList = () => {
           },
         }).then((result) => {
           const property = result.data.data.attributes;
+          createNotification(
+            "Eliminación",
+            `Se ha eliminado la propiedad ${id}`,
+            id
+          );
           const body = `El siguiente inmueble ha sido eliminado por el usuario: ${userData.email}`;
           enviarCorreoPersonalizado("infosistemacic@gmail.com", property, body);
           queryClient

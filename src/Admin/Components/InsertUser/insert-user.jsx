@@ -134,7 +134,7 @@ const InsertUser = () => {
       setIsLoading(false);
     }
   };
-  if (isLoading) {
+  if (isLoading || (id && !pasedUser)) {
     return <MySpinner />;
   }
   return (
@@ -160,9 +160,9 @@ const InsertUser = () => {
           <Form onFinish={onFinish} autoComplete="off">
             <div className="flex flex-col mx-20 mt-40 align-middle lg:flex-row items-center justify-center ">
               <div className="lg:w-1/3 align-top  flex flex-col mb-4 -mt-20">
-                <div className="flex flex-col justify-center">
+                <div className="flex flex-col justify-center items-center">
                   {role === "Authenticated" || role === "SuperAdmin" ? (
-                    <div className="flex flex-col">
+                    <div className="flex flex-col justify-center items-center">
                       {userImg ? (
                         <div
                           className="w-32 h-32 rounded-full"

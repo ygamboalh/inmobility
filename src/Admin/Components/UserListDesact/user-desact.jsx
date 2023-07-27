@@ -9,7 +9,7 @@ import withReactContent from "sweetalert2-react-content";
 import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
-import { getAllUsers } from "../../../api/usersApi";
+import { authUserData, getAllUsers } from "../../../api/usersApi";
 
 const UsersDesact = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,15 +19,29 @@ const UsersDesact = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const { data: userData } = useQuery("profile", authUserData);
+  const id = userData.id;
+
   const { data, isLoading: loadingUsers } = useQuery("users", getAllUsers, {
     onSuccess: (data) => {
       const foundedUsers = [];
-      data.forEach((user) => {
-        if (user.active === "Desactivado" || user.active === "Supervisor") {
-          foundedUsers.push(user);
-        }
-      });
+      if (userData?.active === "Super Administrador") {
+        data.forEach((user) => {
+          if (user.active === "Supervisor") {
+            foundedUsers.push(user);
+          }
+        });
+      } else {
+        data.forEach((user) => {
+          if (user.active === "Supervisor") {
+            if (user.id === id) {
+              foundedUsers.push(user);
+            }
+          }
+        });
+      }
       setRecords(foundedUsers);
+      console.log(foundedUsers);
       setFilterRecords(foundedUsers);
       setPending(false);
     },
