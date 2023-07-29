@@ -378,6 +378,8 @@ const VentaCasaApartamento = () => {
               className="categories mb-2 lg:mx-80"
               name="amenidades"
               options={Amenidades}
+              noOptionsMessage={() => null}
+              closeMenuOnSelect={false}
               placeholder={"Amenidades"}
               isMulti
               onChange={handleChangeAmenidades}
@@ -388,6 +390,8 @@ const VentaCasaApartamento = () => {
               className="categories mb-2 lg:mx-80"
               name="jardinPatio"
               options={PatioJardin}
+              noOptionsMessage={() => null}
+              closeMenuOnSelect={false}
               placeholder={"Patio"}
               isMulti
               onChange={handleChangePatioJardin}
@@ -398,6 +402,8 @@ const VentaCasaApartamento = () => {
               className="categories mb-2 lg:mx-80"
               name="detallesInternos"
               options={DetallesInternos}
+              noOptionsMessage={() => null}
+              closeMenuOnSelect={false}
               placeholder={"Detalles internos"}
               isMulti
               onChange={handleChangeDetallesInternos}
@@ -408,6 +414,8 @@ const VentaCasaApartamento = () => {
               className="categories mb-2 lg:mx-80"
               name="detallesExternos"
               options={DetallesExternos}
+              noOptionsMessage={() => null}
+              closeMenuOnSelect={false}
               placeholder={"Detalles externos"}
               isMulti
               onChange={handleChangeDetallesExternos}

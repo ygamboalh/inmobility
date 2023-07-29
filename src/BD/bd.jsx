@@ -117,7 +117,7 @@ export const Cochera = [
   { value: "Parqueos destechados", label: "3 Parqueos destechados" },
   { value: "4 Parqueos destechados", label: "4 Parqueos destechados" },
   { value: "5 Parqueos destechados", label: "5 Parqueos destechados" },
-  { value: "1 Espacio en Cocher", label: "1 Espacio en Cochera" },
+  { value: "1 Espacio en Cochera", label: "1 Espacio en Cochera" },
   { value: "2 Espacios en Cochera", label: "2 Espacios en Cochera" },
   { value: "3 Espacios en Cochera", label: "3 Espacios en Cochera" },
   { value: "4 Espacios en Cochera", label: "4 Espacios en Cochera" },

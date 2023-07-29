@@ -36,60 +36,28 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
-import { Helmet } from "react-helmet";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import axios from "axios";
+import { authUserData } from "../../api/usersApi";
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 
-const PortafolioCard = ({ propiedad }) => {
+const SearchCard = ({ propiedad, onDataReceived }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [likeColor, setLikeColor] = useState("#3F83F8");
-  const [dislikeColor, setDislikeColor] = useState("#3F83F8");
-  const [confusedColor, setConfusedColor] = useState("#3F83F8");
-  const [reaction, setReaction] = useState([]);
+  const [dataToSend, setDataToSend] = useState();
+  const { data: userData } = useQuery("profile", authUserData);
+  const navigate = useNavigate();
+  const propertyId = propiedad[0].id;
+  const propertyType = propiedad[0].attributes?.tipoPropiedad;
+  const created = propiedad[1];
+  const clientName = propiedad[2];
+  const clientEmail = propiedad[3];
+  const categories = propiedad[4];
 
-  console.log(propiedad);
-  const propertyId = propiedad.property;
   useEffect(() => {
     getProperty();
   }, []);
-  const handleLikeClick = () => {
-    reaction[0] === "Me Gusta, deseo verlo"
-      ? setReaction([null, propertyId])
-      : setReaction(["Me Gusta, deseo verlo", propertyId]);
-    likeColor === "#F81C3F" ? setLikeColor("#3F83F8") : setLikeColor("#F81C3F");
-    setDislikeColor("#3F83F8");
-    setConfusedColor("#3F83F8");
-    reaction[0] === "Me Gusta, deseo verlo"
-      ? updatePortfolio([null, propertyId])
-      : updatePortfolio(["Me Gusta, deseo verlo", propertyId]);
-  };
-
-  const handleDislikeClick = () => {
-    reaction[0] === "No es lo que busco"
-      ? setReaction([null, propertyId])
-      : setReaction(["No es lo que busco", propertyId]);
-    dislikeColor === "#F81C3F"
-      ? setDislikeColor("#3F83F8")
-      : setDislikeColor("#F81C3F");
-    setLikeColor("#3F83F8");
-    setConfusedColor("#3F83F8");
-    reaction[0] === "No es lo que busco"
-      ? updatePortfolio([null, propertyId])
-      : updatePortfolio(["No es lo que busco", propertyId]);
-  };
-  const handleConfusedClick = () => {
-    reaction[0] === "Indeciso(a)"
-      ? setReaction([null, propertyId])
-      : setReaction(["Indeciso(a)", propertyId]);
-    confusedColor === "#F81C3F"
-      ? setConfusedColor("#3F83F8")
-      : setConfusedColor("#F81C3F");
-    setLikeColor("#3F83F8");
-    setDislikeColor("#3F83F8");
-    reaction[0] === "Indeciso(a)"
-      ? updatePortfolio([null, propertyId])
-      : updatePortfolio(["Indeciso(a)", propertyId]);
+  const sendDataToParent = () => {
+    setDataToSend([{ propertyId, propertyType }]);
+    onDataReceived({ id: propertyId, type: propertyType });
   };
 
   const [property, setProperty] = useState();
@@ -120,66 +88,6 @@ const PortafolioCard = ({ propiedad }) => {
     setImages(imagesUrl);
   };
 
-  const updatePortfolio = (reaction) => {
-    setIsLoading(true);
-    console.log(reaction[0]);
-    const values = {
-      reaccion: reaction[0],
-    };
-    const response = AxiosInstance.put(`${API}properties/${propertyId}`, {
-      data: { reaccion: reaction[0] },
-    })
-      .then((response) => {
-        console.log("respuesta de actualizar", response);
-        message.success("La respuesta fue enviada correctamente");
-      })
-      .catch((error) => {
-        console.log("este fue el error", error);
-        message.error("No se pudo enviar la respuesta");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-  const removeProperty = () => {
-    setIsLoading(true);
-    const portfolioId = propiedad.portafolio.id;
-    const properties = propiedad.portafolio.attributes.properties.data;
-    let propiedades = [];
-    properties.map((property) => {
-      if (property.id !== propertyId) {
-        propiedades.push(property.id);
-      }
-    });
-    console.log("propiedades desepues de borar", propiedades);
-    const MySwal = withReactContent(Swal);
-    MySwal.fire({
-      title: "¿Desea eliminar el inmueble del portafolio?",
-      showDenyButton: true,
-      confirmButtonText: "Sí, eliminar",
-      confirmButtonColor: "#1863e4",
-      denyButtonText: `No`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setIsLoading(true);
-        const response = AxiosInstance.put(`${API}portafolios/${portfolioId}`, {
-          data: { properties: propiedades },
-        })
-          .then((response) => {
-            message.success("El inmueble fue eliminado del portafolio");
-            console.log(response);
-            window.location.reload();
-          })
-          .catch((err) => {
-            message.error("El inmueble no fue eliminado. Intente nuevamente");
-            console.log(err);
-          })
-          .finally(setIsLoading(false));
-      }
-    });
-
-    setIsLoading(false);
-  };
   if (isLoading || !property) {
     return <MySpinner />;
   }
@@ -191,7 +99,46 @@ const PortafolioCard = ({ propiedad }) => {
     alignItems: "left",
     justifyContent: "left",
   };
-
+  /* const savePortafolio = () => {
+    setIsLoading(true);
+    const id = userData?.id;
+    const mobile = userData?.mobile;
+    const email = userData?.email;
+    const values = {
+      creadoPor: id,
+      clienteComprador: clientName,
+      correoCliente: clientEmail,
+      //properties: portafolioProperties,
+      telefonoAsesor: mobile,
+      correoAsesor: email,
+      categoria: categories,
+    };
+    //console.log(portafolioProperties);
+    if (portafolioProperties.length > 0) {
+      const totalPortfolios = data.data.length;
+      console.log(totalPortfolios);
+      if (totalPortfolios < 100) {
+        const response = AxiosInstance.post(`${API}portafolios`, {
+          data: { data: values },
+        })
+          .then((response) => {
+            console.log("respuesta de guardar el portafolio", response);
+            message.success("¡El portafolio fue creado correctamente!");
+            navigate("/home/portfolio");
+          })
+          .catch((error) => {
+            console.log("ocurrio este error", error);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } else {
+        message.error("¡No puedes crear más de 100 portfolios!");
+      }
+    } else {
+      message.error("¡No ha seleccionado ninguna propiedad!");
+    }
+  }; */
   return (
     <section>
       <div className="container mx-auto pb-2 pt-6 bg-blue-200 rounded-xl">
@@ -208,15 +155,26 @@ const PortafolioCard = ({ propiedad }) => {
             </button>
           </div>
           <div>
-            <form>
-              <button
-                onClick={removeProperty}
-                type="button"
-                className="bg-blue-400 p-2 rounded-full"
-              >
-                <BiWindowClose size={40} fill="red" />
-              </button>
-            </form>
+            <div>
+              {userData?.active === "Asesor verificado" ||
+              userData?.active === "Super Administrador" ||
+              userData?.active === "Supervisor" ? (
+                <div>
+                  {created ? (
+                    <button
+                      onClick={sendDataToParent}
+                      //className="bg-green-400 rounded-md h-6 font-semibold w-12 hover:bg-green-600 text-black"
+                    >
+                      <input
+                        type="checkbox"
+                        className="h-12 w-12 rounded-full"
+                        //onClickCapture={sendDataToParent}
+                      />
+                    </button>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
@@ -306,41 +264,11 @@ const PortafolioCard = ({ propiedad }) => {
                 }
               >
                 <BiCar className="text-2xl " />
-                <div>{property.cochera}</div>
+                <div>
+                  <span className="text-sm">{property.cochera}</span>
+                </div>
               </div>
             </div>
-            <div className="flex flex-row max-[400px]:flex-col">
-              <div className="justify-center mb-4 mx-1">
-                <button
-                  onClick={() => {
-                    handleLikeClick();
-                  }}
-                  style={{ backgroundColor: likeColor }}
-                  className="rounded-full p-2"
-                >
-                  <BiLike fill="white" size={30} />
-                </button>
-              </div>
-              <div className="justify-center mb-4 mx-1">
-                <button
-                  onClick={handleConfusedClick}
-                  style={{ backgroundColor: confusedColor }}
-                  className="rounded-full p-2"
-                >
-                  <BiConfused fill="white" size={30} />
-                </button>
-              </div>
-              <div className="justify-center mb-4 mx-1">
-                <button
-                  onClick={handleDislikeClick}
-                  style={{ backgroundColor: dislikeColor }}
-                  className="rounded-full p-2"
-                >
-                  <BiDislike fill="white" size={30} />
-                </button>
-              </div>
-            </div>
-            <div className="mb-2">{reaction[0]}</div>
             <div>
               <EmailShareButton url={pdfUrl}>
                 <EmailIcon round={true} size={30}></EmailIcon>
@@ -621,7 +549,7 @@ const PortafolioCard = ({ propiedad }) => {
               {property.cochera ? (
                 <div>
                   <label className="font-semibold mr-1">Cochera: </label>
-                  <label className="text-sm">{property.cochera}</label>
+                  <label>{property.cochera}</label>
                 </div>
               ) : null}
             </div>
@@ -894,4 +822,4 @@ const PortafolioCard = ({ propiedad }) => {
   );
 };
 
-export default PortafolioCard;
+export default SearchCard;

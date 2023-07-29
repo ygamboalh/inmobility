@@ -102,6 +102,7 @@ import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
+import { deleteNotification } from "../../utils/helpers";
 
 const UserInfo = () => {
   const signOut = useSignOut();
@@ -119,6 +120,7 @@ const UserInfo = () => {
     setImageUrl(url);
   });
   useEffect(() => {
+    deleteNotification();
     const response = AxiosInstance.get(`${API}notifications`)
       .then((response) => {
         console.log("encontre estas notificaciones", response.data.data);
@@ -149,7 +151,7 @@ const UserInfo = () => {
       ></button> */}
       <div
         className={
-          !notificaciones
+          notificaciones?.length < 1
             ? "relative rounded-full w-[45px] h-[45px] justify-center items-center"
             : "relative w-[44px] h-[44px] border-2 mb-1 rounded-full border-red-600 justify-center items-center"
         }
@@ -158,11 +160,7 @@ const UserInfo = () => {
           onClick={toggleMenu}
           className="user-info-button"
           style={buttonStyle}
-        >
-          {/* {!notificaciones ? (
-            <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-red-700 border-2 border-white dark:border-gray-800 rounded-full"></span>
-          ) : null} */}
-        </button>
+        ></button>
       </div>
       {isOpen && (
         <div className="absolute z-10 mt-2 py-2 w-[105px] bg-white rounded-lg shadow-lg">
@@ -190,7 +188,7 @@ const UserInfo = () => {
               Portafolio
             </a>
           </div>
-          {notificaciones ? (
+          {notificaciones?.length > 0 ? (
             <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
               <BiBell size={20} />
               <a

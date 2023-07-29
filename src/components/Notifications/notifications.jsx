@@ -3,66 +3,86 @@ import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
 import { BiBell } from "react-icons/bi";
-import { BgColorsOutlined } from "@ant-design/icons";
 
-import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState();
+  const [loading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    const response = AxiosInstance.get(`${API}notifications`).then(
-      (response) => {
+    const res = AxiosInstance.get(`${API}notifications`)
+      .then((response) => {
         const data = response.data.data;
-        setNotifications(data);
-        console.log(data);
-      }
-    );
+        const notifications = data.reverse();
+        setNotifications(notifications);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     deleteNotification();
   }, []);
-  const currentTime = new Date();
-  const currentDateString = currentTime.toISOString().split("T")[0];
-  const currentTimeString = currentTime
-    .toISOString()
-    .split("T")[1]
-    .split(".")[0];
-  //const fecha = notifications[0].attributes.createdAt;
-  console.log("fecha y hora actual", currentDateString, currentTimeString);
-  //console.log("fecha y hora de la notificacion", fecha);
+
+  function deleteZero(string) {
+    if (string.startsWith("0") && string.length > 1) {
+      return string.slice(1);
+    } else {
+      return string;
+    }
+  }
   const deleteNotification = () => {
-    notifications?.map((notification) => {
-      if (notification.attributes.createdAt >= notification.attributes.expire) {
-        const response = AxiosInstance.delete(`${API}notifications`)
+    const currentDate = new Date();
+    const currentDateString = currentDate.toISOString().split("T")[0];
+    const currentTimeString = currentDate
+      .toISOString()
+      .split("T")[1]
+      .split(".")[0];
+
+    notifications?.map((notif) => {
+      const fecha = notif.attributes.createdAt.slice(0, 10);
+      const hora = notif.attributes.createdAt.slice(11, 16);
+      const horaCreado = deleteZero(hora.slice(0, 2));
+      const horaActual = deleteZero(currentTimeString.slice(0, 2));
+      console.log(horaActual, horaCreado);
+      const result = horaActual - horaCreado;
+      console.log("resultado", result);
+      console.log(fecha, currentDateString);
+      setIsLoading(true);
+      if (result >= 3) {
+        const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
           .then((response) => {
-            console.log(response);
+            return;
           })
-          .catch((error) => {});
+          .catch((error) => {
+            return;
+          });
+      } else if (fecha !== currentDateString) {
+        const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
+          .then((response) => {
+            return;
+          })
+          .catch((error) => {
+            return;
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
       }
     });
   };
   if (!notifications) {
     return <MySpinner />;
   }
-
-  /* const showNotifications = () => {
-    const [api, contextHolder] = notification.useNotification();
-    const openNotification = (placement) => {
-      api.info({
-        message: `Notification ${placement}`,
-        description:
-          "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
-        placement,
-      });
-    };
-  }; */
-
   console.log(notifications);
   return (
     <div>
       <div className="flex justify-center my-4 font-semibold">
-        <span>Notificaciones</span>
+        {notifications.length < 1 ? (
+          <span>No hay notificaciones para mostrar</span>
+        ) : (
+          <span>Notificaciones</span>
+        )}
       </div>
       {notifications?.map((notification) => {
         return (

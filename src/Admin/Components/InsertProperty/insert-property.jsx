@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import * as Yup from "yup";
 
+import * as Yup from "yup";
+import Select from "react-select";
 import { message } from "antd";
-import { Formik, Form, Field, useFormik } from "formik";
+import { useFormik } from "formik";
 
 import { API, BEARER } from "../../../constant";
 import AxiosInstance from "../../../api/AxiosInstance";
@@ -35,7 +36,7 @@ import {
   Provincia,
   PropertyEstado,
 } from "../../../BD/bd";
-import Select from "react-select";
+
 import MySpinner from "../../../components/Spinner/spinner";
 import axios from "axios";
 import { createNotification, getToken } from "../../../utils/helpers";
@@ -57,6 +58,7 @@ const InsertProperty = () => {
   const [detallesInternos, setDetallesInternos] = useState({});
   const [detallesExternos, setDetallesExternos] = useState({});
   const [property, setProperty] = useState();
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const [createdPropertyId, setCreatedPropertyId] = useState(null);
   const [userRole, setUserRole] = useState();
@@ -116,6 +118,17 @@ const InsertProperty = () => {
   };
   const handleChangePatioJardin = (selectedOption) => {
     setPatio(selectedOption);
+    //----
+    if (patio.length === 3) {
+      setMenuIsOpen(false);
+      //----------------
+    }
+  };
+  const handleMenuClose = () => {
+    setMenuIsOpen(false);
+  };
+  const handleMenuOpen = () => {
+    setMenuIsOpen(true);
   };
   const handleChangeDetallesInternos = (selectedOption) => {
     setDetallesInternos(selectedOption);
@@ -286,7 +299,7 @@ const InsertProperty = () => {
               setCreatedPropertyId(propertyId);
               createNotification(
                 "Creación",
-                `Se ha creado la propiedad ${propertyId}`,
+                `Se ha creado la propiedad ${respons.data.data.attributes.uniqueId}`,
                 propertyId
               );
               if (userRole === "SuperAdmin") {
@@ -307,7 +320,7 @@ const InsertProperty = () => {
               message.success("¡La propiedad fue actualizada correctamente!");
               createNotification(
                 "Actualización",
-                `Se ha actualizado la propiedad ${id}`,
+                `Se ha actualizado la propiedad ${response.data.data.attributes.uniqueId}`,
                 id
               );
               const property = response.data.data.attributes;
@@ -317,7 +330,10 @@ const InsertProperty = () => {
                 property,
                 body
               );
-              if (userRole === "SuperAdmin") {
+              if (
+                userRole === "SuperAdmin" ||
+                userData.active === "Super Administrador"
+              ) {
                 navigate(`/admin/upload/${id}`, { replace: true });
               } else {
                 navigate(`/home/upload/${id}`, { replace: true });
@@ -1540,6 +1556,8 @@ const InsertProperty = () => {
         <Select
           className="categories lg:mx-80"
           name="amenidades"
+          noOptionsMessage={() => null}
+          closeMenuOnSelect={false}
           defaultValue={property?.amenidades}
           options={Amenidades}
           placeholder={"Amenidades"}
@@ -1566,6 +1584,8 @@ const InsertProperty = () => {
           ) : null}
         </div>
         <Select
+          noOptionsMessage={() => null}
+          closeMenuOnSelect={false}
           className="categories lg:mx-80"
           name="jardinPatio"
           isDisabled={
@@ -1596,6 +1616,8 @@ const InsertProperty = () => {
         <Select
           className="categories lg:mx-80"
           name="detallesInternos"
+          noOptionsMessage={() => null}
+          closeMenuOnSelect={false}
           isDisabled={
             selectedOption ===
               "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1624,6 +1646,8 @@ const InsertProperty = () => {
         <Select
           className="categories lg:mx-80"
           name="detallesExternos"
+          noOptionsMessage={() => null}
+          closeMenuOnSelect={false}
           defaultValue={property?.detallesExternos}
           options={DetallesExternos}
           placeholder={"Detalles externos"}

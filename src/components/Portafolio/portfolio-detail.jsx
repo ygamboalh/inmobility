@@ -44,7 +44,6 @@ export const PortafolioDetail = () => {
     console.log("datos recibidos", data);
   }, []);
   function deleteRowF(id, records) {
-    //const propertiesIds = [];
     const newData = records.filter((item) => item.id !== id);
     setRecords(newData);
     return newData;
@@ -120,46 +119,7 @@ export const PortafolioDetail = () => {
         });
     },
   });
-  //----------------------------------------------------------------
-  /* const saveChanges = (values) => {
-    console.log("valores que llegan", values);
-    setIsLoading(true);
-    const id = userData?.id;
-    const mobile = userData?.mobile;
-    const email = userData?.email;
 
-    const newProperties = [];
-    records?.map((record) => {
-      newProperties.push(record.id);
-    });
-
-    const value = {
-      creadoPor: id,
-      clienteComprador: values.clienteComprador,
-      correoCliente: values.correoCliente,
-      properties: newProperties,
-      telefonoAsesor: portafolio.attributes.telefonoAsesor,
-      correoAsesor: portafolio.attributes.correoAsesor,
-      categoria: portafolio.attributes.categoria,
-    };
-    console.log("estos son los values", value);
-    const response = axios(`${API}portafolios/${portafolio.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-      data: { data: value },
-    })
-      .then((result) => {
-        const property = result.data.data.attributes;
-        message.success("Portafolio actualizado correctamente");
-        navigate("/home/portfolio");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }; */
   console.log(portafolio?.attributes);
   if (isLoading || !records) {
     return <MySpinner />;

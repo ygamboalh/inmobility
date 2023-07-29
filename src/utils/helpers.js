@@ -1,10 +1,12 @@
+
 import AxiosInstance from "../api/AxiosInstance";
 import { 
   AUTH_TOKEN,
   AUTH_USER,
   ACCESS_TOKEN_STATE,
   ACCESS_TOKEN_TYPE, 
-  ACCESS_TOKEN_STORAGE
+  ACCESS_TOKEN_STORAGE,
+  API
 } from "../constant";
 
 export const storeUser = (data) => {
@@ -67,3 +69,57 @@ export const createNotification = (type, information,reference) => {
     data: { type: type, information: information, expire:Date.now(), reference: reference},
 }).then((response) => console.log(response)).catch((error) => console.log(error))
 }
+
+function deleteZero(string) {
+    if (string.startsWith("0") && string.length > 1) {
+      return string.slice(1);
+    } else {
+      return string;
+    }
+  }
+export const deleteNotification = () => {
+  let notifications = [];
+  const res = AxiosInstance.get(`${API}notifications`)
+      .then((response) => {
+        const data = response.data.data;
+        notifications = data.reverse();
+        
+      })
+      .catch((err) => {
+        return;
+      });
+    const currentDate = new Date();
+    const currentDateString = currentDate.toISOString().split("T")[0];
+    const currentTimeString = currentDate
+      .toISOString()
+      .split("T")[1]
+      .split(".")[0];
+    //const currentTime = currentTimeString.slice(0, 2);
+    notifications?.map((notif) => {
+      const fecha = notif.attributes.createdAt.slice(0, 10);
+      const hora = notif.attributes.createdAt.slice(11, 16);
+      const horaCreado = deleteZero(hora.slice(0, 2));
+      const horaActual = deleteZero(currentTimeString.slice(0, 2));
+      console.log(horaActual, horaCreado);
+      const result = horaActual - horaCreado;
+      console.log("resultado", result);
+      console.log(fecha, currentDateString);
+      if (fecha === currentDate && result >= 3) {
+        const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
+          .then((response) => {
+            return;
+          })
+          .catch((error) => {
+            return;
+          });
+      } else if (fecha !== currentDateString) {
+        const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
+          .then((response) => {
+            return;
+          })
+          .catch((error) => {
+            return;
+          });
+      }
+    });
+  };

@@ -57,6 +57,7 @@ import CheckRole from './layouts/components/CheckRole';
 import { useQuery } from 'react-query';
 import { authUserData } from './api/usersApi';
 import Notifications from './components/Notifications/notifications';
+import SearchResultsCard from './components/SearchResults/search-results-card';
 
 const App = () => {
   
@@ -82,7 +83,8 @@ const App = () => {
                 <Route path="/home/banner" element={<Banner />} />
                 <Route exact path="/home/upload/:id" element={<Upload />} />
                
-                <Route path="/home/search/search-results" element={<SearchResults />} />
+                {/* <Route path="/home/search/search-results" element={<SearchResults />} /> */}
+                <Route path="/home/search/search-results" element={<SearchResultsCard />} />
                 <Route path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
                 <Route path="/home/portfolio" element={<Portafolio />} />
                 <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />

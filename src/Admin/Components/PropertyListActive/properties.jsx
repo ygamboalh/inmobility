@@ -65,7 +65,7 @@ const PropertiesList = () => {
           const property = result.data.data.attributes;
           createNotification(
             "Eliminación",
-            `Se ha eliminado la propiedad ${id}`,
+            `Se ha eliminado la propiedad ${result.data.data.attributes.uniqueId}`,
             id
           );
           const body = `El siguiente inmueble ha sido eliminado por el usuario: ${userData.email}`;

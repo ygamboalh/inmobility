@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { BiArea, BiBath, BiBed, BiCar } from "react-icons/bi";
+import { BiArea, BiBath, BiBed, BiCar, BiSolidFilePdf } from "react-icons/bi";
 import { PDFViewer } from "@react-pdf/renderer";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -87,10 +87,10 @@ const PropertyDetailsSearch = () => {
               setVisible(!visible);
             }}
             /* onClick={buildPdf} */
-            className="bg-blue-700 text-white text-sm rounded-md px-3 py-2"
+            className="bg-blue-700 text-white text-sm rounded-md px-1 py-2"
             type="button"
           >
-            Ver en formato pdf
+            <BiSolidFilePdf size={35} />
           </button>
         </div>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">

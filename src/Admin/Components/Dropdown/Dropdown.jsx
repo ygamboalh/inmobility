@@ -12,6 +12,8 @@ import { authUserData } from "../../../api/usersApi";
 import { useQuery } from "react-query";
 import AxiosInstance from "../../../api/AxiosInstance";
 import { API } from "../../../constant";
+import { message } from "antd";
+import { deleteNotification } from "../../../utils/helpers";
 
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,10 +30,15 @@ const Dropdown = () => {
     setImageUrl(url);
   });
   useEffect(() => {
+    deleteNotification();
     const response = AxiosInstance.get(`${API}notifications`)
       .then((response) => {
-        console.log("encontre estas notificaciones", response.data.data);
+        //const length = response.data.data.length;
+        console.log("encontre estas notificaciones", response.data.data.length);
         setNotificaciones(response.data.data);
+        /* message.info(
+          `${response.data.data[length - 1].attributes.information}`
+        ); */
       })
       .catch((err) => {
         console.log(err);
@@ -53,7 +60,7 @@ const Dropdown = () => {
     <div className="">
       <div
         className={
-          !notificaciones
+          notificaciones?.length < 1
             ? "relative rounded-full w-[44px] h-[44px] justify-center items-center"
             : "relative w-[44px] h-[44px] border-2 rounded-full border-red-600 justify-center items-center"
         }
@@ -81,7 +88,7 @@ const Dropdown = () => {
               Opciones
             </a>
           </div>
-          {notificaciones ? (
+          {notificaciones?.length > 0 ? (
             <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
               <BiBell size={20} />
               <a

@@ -72,16 +72,6 @@ const PortafolioShare = () => {
             );
           })
         : "no hay datos para mostrar"}
-      {/* <div className="flex justify-center">
-        <form>
-          <button
-            className="bg-blue-700 px-2 my-2 py-1 mx-2 h-12 w-48 text-white rounded-md"
-            type="submit"
-          >
-            Enviar respuesta
-          </button>
-        </form>
-      </div> */}
     </div>
   );
 };
