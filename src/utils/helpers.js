@@ -1,4 +1,5 @@
 
+import axios from "axios";
 import AxiosInstance from "../api/AxiosInstance";
 import { 
   AUTH_TOKEN,
@@ -122,4 +123,45 @@ export const deleteNotification = () => {
           });
       }
     });
+};
+  
+export const deletePortfolios = async (portfolios) => {
+    if (portfolios.length > 0) {
+      for (let index = 0; index < portfolios.length; index++) {
+        const response = await axios
+          .delete(`${API}portafolios/${portfolios[index]}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${getToken()}`,
+            },
+          })
+          .then((resp) => {
+            console.log("respuesta de borrar los portafolios", resp);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  };
+
+  export const findAndDeletePortfolios = async (userId) => {
+    let portfolios = [];
+    const response = await axios
+      .get(`${API}portafolios?filters[creadoPor][$eq]=${userId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
+      .then((resp) => {
+        resp.data.data.map((data) => {
+          portfolios.push(data.id);
+        });
+        console.log("encontrado los portfolios", portfolios);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    deletePortfolios(portfolios);
   };

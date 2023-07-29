@@ -7,14 +7,17 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 import { API } from "../../../constant";
-import { getToken } from "../../../utils/helpers";
+import { findAndDeletePortfolios, getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
 import { getAllUsers } from "../../../api/usersApi";
+import axios from "axios";
+import { useEffect } from "react";
 
 const UsersList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
+  const [portfolios, setPortfolios] = useState([]);
   const [filterRecords, setFilterRecords] = useState([]);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -34,14 +37,15 @@ const UsersList = () => {
     },
   });
 
-  if (loadingUsers) {
+  if (loadingUsers || isLoading) {
     return <MySpinner />;
   }
+
   const DeleteUser = async (id) => {
     const MySwal = withReactContent(Swal);
     setIsLoading(true);
     MySwal.fire({
-      title: "¿Desea eliminar el usuario?",
+      title: "¿Desea eliminar el usuario y sus portafolios?",
       showDenyButton: true,
       confirmButtonText: "Sí, eliminar",
       confirmButtonColor: "#1863e4",
@@ -54,18 +58,22 @@ const UsersList = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
-        }).then((result) =>
+        }).then((result) => {
           queryClient
             .invalidateQueries(["users"])
-            .then((resultado) => console.log(resultado))
-        );
+            .then((resultado) =>
+              console.log(
+                "se borro el usuario, esperando borrar portafolios",
+                resultado
+              )
+            );
+          findAndDeletePortfolios(id);
+        });
         if (result) {
           Swal.fire("Usuario eliminado!", "", "success");
         } else {
           Swal.fire("El usuario no fue eliminado", "", "error");
         }
-      } else if (result.isDenied) {
-        Swal.fire("El usuario no fue eliminado", "", "info");
       }
     });
 
