@@ -118,17 +118,10 @@ const InsertProperty = () => {
   };
   const handleChangePatioJardin = (selectedOption) => {
     setPatio(selectedOption);
-    //----
+
     if (patio.length === 3) {
       setMenuIsOpen(false);
-      //----------------
     }
-  };
-  const handleMenuClose = () => {
-    setMenuIsOpen(false);
-  };
-  const handleMenuOpen = () => {
-    setMenuIsOpen(true);
   };
   const handleChangeDetallesInternos = (selectedOption) => {
     setDetallesInternos(selectedOption);

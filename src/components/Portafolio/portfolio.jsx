@@ -4,7 +4,6 @@ import { useQuery, useQueryClient } from "react-query";
 
 import axios from "axios";
 import Swal from "sweetalert2";
-import DataTable from "react-data-table-component";
 import withReactContent from "sweetalert2-react-content";
 
 import { authUserData } from "../../api/usersApi";
@@ -12,6 +11,7 @@ import { API } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import { getAllPortafolios } from "../../api/propertiesApi";
 import MySpinner from "../Spinner/spinner";
+import { BiHomeAlt, BiMailSend, BiUserCircle } from "react-icons/bi";
 
 const Portafolio = () => {
   const queryClient = useQueryClient();
@@ -76,12 +76,6 @@ const Portafolio = () => {
       }
     });
   };
-  const paginationComponentOptions = {
-    rowsPerPageText: "Portafolios por página",
-    rangeSeparatorText: "de",
-    selectAllRowsItem: true,
-    selectAllRowsItemText: "Todos",
-  };
   const handleFilter = (event) => {
     const searchData = filterRecords.filter((row) =>
       row.attributes.clienteComprador
@@ -93,131 +87,122 @@ const Portafolio = () => {
   if (!records) {
     return <MySpinner />;
   }
-  const column = [
-    {
-      name: "ID",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "60px",
-      id: "id",
-    },
-    {
-      name: "Cliente",
-      id: "cliente",
-      selector: (row, index) => row.attributes.clienteComprador,
-      sortable: true,
-      width: "250px",
-    },
-    {
-      name: "Correo",
-      id: "provincia",
-      selector: (row) => row.attributes.correoCliente,
-      sortable: true,
-      width: "210px",
-    },
-    {
-      name: "Categoría",
-      id: "categoria",
-      selector: (row) => row.attributes.categoria,
-      sortable: true,
-      width: "250px",
-    },
-    {
-      name: "Propiedades",
-      id: "distrito",
-      selector: (row) => row.attributes.properties.data.length,
-      sortable: true,
-      width: "130px",
-    },
-    {
-      name: "Fecha de creado",
-      id: "creado",
-      selector: (row) => row.attributes.updatedAt.slice(0, 10),
-      sortable: true,
-      width: "200px",
-    },
-    {
-      cell: (row) => (
-        <button
-          className="detailButton"
-          onClick={() =>
-            navigate(`/home/portfolio/portfolio-detail`, {
-              state: { row },
-            })
-          }
-        >
-          Detalles
-        </button>
-      ),
-      accessor: "id",
-      id: "detail",
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-      width: "75px",
-    },
-    {
-      cell: (row) => (
-        <button
-          className="editButton"
-          onClick={() =>
-            navigate(`/home/portfolio/share-portfolio/${row.id}`, {
-              state: { row },
-            })
-          }
-        >
-          Compartir
-        </button>
-      ),
-      accessor: "id",
-      id: "share",
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-      width: "90px",
-    },
-    {
-      cell: (row) => (
-        <button
-          className="deleteButton"
-          onClick={() => DeletePortfolio(row.id)}
-        >
-          Eliminar
-        </button>
-      ),
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-      id: "delete",
-      width: "80px",
-    },
-  ];
   return (
     <div className="w-full">
-      <DataTable
-        columns={column}
-        data={records}
-        pagination
-        fixedHeader
-        fixedHeaderScrollHeight="550px"
-        selectableRowsHighlight
-        title="Mis portafolios"
-        progressPending={pending}
-        highlightOnHover
-        progressComponent={<MySpinner />}
-        paginationComponentOptions={paginationComponentOptions}
-        subHeader
-        subHeaderComponent={
-          <div className="relative w-full my-1 px-2">
+      <div className="w-full justify-center items-center flex flex-col">
+        <div className="flex flex-col items-center justify-center">
+          {!records ? (
+            <span>No hay elementos para mostrar</span>
+          ) : (
+            <div className="flex flex-col w-fit justify-center mt-3 items-center">
+              <label className="text-xl font-semibold">Mis portafolios</label>
+            </div>
+          )}
+          <div className="w-[350px] my-3 flex justify-center px-36">
             <input
               type="text"
               onChange={handleFilter}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
-              placeholder="Filtrar por nombre del cliente"
+              className="px-2 py-2 flex max-w-[930px] w-full min-w-[350px] border border-gray-300 rounded-md"
+              placeholder="Filtrar por cliente"
             />
           </div>
-        }
-      ></DataTable>
+          <div className="flex justify-center flex-wrap mx-3">
+            {records.map((record) => {
+              return (
+                <div className="w-full max-w-md my-2 p-4 mx-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
+                  <div className="flex items-center justify-between mb-4">
+                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
+                      Detalles del portafolio
+                    </h5>
+                    <span className="font-semibold text-blue-700 text-xs">
+                      {record.attributes.updatedAt.slice(0, 10)}
+                    </span>
+                  </div>
+                  <hr />
+                  <div className="flow-root">
+                    <ul className="divide-y divide-gray-200">
+                      <li className="py-3 sm:py-4">
+                        <div className="flex items-center space-x-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center align-middle -mt-2 mb-2 flex-row">
+                              <BiHomeAlt size={25} />
+                              <p className="text-sm font-medium mt-2 text-gray-900 truncate">
+                                {record.attributes.categoria}
+                              </p>
+                            </div>
+                            <hr />
+                            <div className="flex my-2 flex-row">
+                              <span className="ml-[3px]">
+                                <BiUserCircle size={20} />
+                              </span>
+                              <p className="text-sm text-gray-500 truncate">
+                                {record.attributes.clienteComprador}
+                              </p>
+                            </div>
+                            <hr />
+                            <div className="flex my-2 flex-row">
+                              <span className="ml-[3px]">
+                                <BiMailSend size={20} />
+                              </span>
+                              <p className="text-sm text-gray-500 truncate">
+                                {record.attributes.correoCliente}
+                              </p>
+                            </div>
+
+                            <hr />
+                            <div className="mt-2 flex flex-row align-middle items-center">
+                              <div className="bg-blue-300 flex justify-center align-middle items-center rounded-full w-[30px] h-[30px]">
+                                {record.attributes.properties.data.length}{" "}
+                              </div>
+                              <span className="ml-2 text-sm">Propiedades</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-center space-x-4">
+                          <div className="mt-2 flex justify-center flex-row">
+                            <button
+                              type="button"
+                              className="detailButton mr-1 text-sm"
+                              onClick={() =>
+                                navigate(`/home/portfolio/portfolio-detail`, {
+                                  state: { row: record },
+                                })
+                              }
+                            >
+                              Detalles
+                            </button>
+                            <button
+                              type="button"
+                              className="editButton mr-1 text-sm"
+                              onClick={() =>
+                                navigate(
+                                  `/home/portfolio/share-portfolio/${record.id}`,
+                                  {
+                                    state: { row: record },
+                                  }
+                                )
+                              }
+                            >
+                              Compartir
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => DeletePortfolio(record.id)}
+                              className="deleteButton text-sm"
+                            >
+                              Eliminar
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

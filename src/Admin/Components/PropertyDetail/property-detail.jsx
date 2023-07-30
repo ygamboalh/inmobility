@@ -118,7 +118,7 @@ const PropertyDetailsSearch = () => {
         </div>
 
         <div className="flex flex-col items-start gap-8 lg:flex-row">
-          <div className="max-w-[568px]">
+          <div className="max-w-[568px] w-full">
             <div className="mb-3">
               {images.length !== 0 ? (
                 <MyNewCarousel images={images} />
