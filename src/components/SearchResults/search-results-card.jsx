@@ -49,48 +49,27 @@ const SearchResultsCard = () => {
   }
 
   const handleDataFromChild = (data) => {
-    console.log("dato inicial", dataFromChild);
-    let listaVieja = [];
+    let oldList = [];
     let founded = null;
-    listaVieja = dataFromChild;
+    oldList = dataFromChild;
     let listaAux = [];
-
-    if (listaVieja?.length > 0) {
-      console.log("esta recorriendo la lista");
-      listaVieja.forEach((child) => {
-        console.log("este es el elemento actual", child);
-        console.log("este es el elemento nuevo", data);
+    if (oldList?.length > 0) {
+      oldList.forEach((child) => {
         if (isEqualObjects(child, data)) {
-          listaAux = listaVieja.filter((child2) => child2.id !== data.id);
-          console.log("lista sin el elemento doble", listaAux);
+          listaAux = oldList.filter((child2) => child2.id !== data.id);
           setDataFromChild(listaAux);
         } else {
-          founded = listaVieja.find((objet) => objet.id === data.id);
-          console.log("resultado de founded", founded);
+          founded = oldList.find((objet) => objet.id === data.id);
           if (!founded) {
-            listaVieja.push(data);
-            setDataFromChild(listaVieja);
+            oldList.push(data);
+            setDataFromChild(oldList);
           }
         }
       });
     } else {
-      listaVieja.push(data);
-      setDataFromChild(listaVieja);
+      oldList.push(data);
+      setDataFromChild(oldList);
     }
-    //----------------------------------------------------------------
-
-    //console.log("la vieja", dataFromChild);
-    //console.log("la nueva", data);
-
-    //console.log("la vieja", dataFromChild);
-    //console.log("la nueva", data);
-    /* setDataFromChild(listaVieja);
-           let listaVieja = [];
-           listaVieja = dataFromChild;
-             listaVieja.push(data);
-           //console.log("la vieja", dataFromChild);
-           //console.log("la nueva", data);
-           setDataFromChild(listaVieja); */
   };
 
   console.log("lista definitiva", dataFromChild);

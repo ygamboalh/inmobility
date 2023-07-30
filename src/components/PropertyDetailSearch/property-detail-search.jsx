@@ -54,7 +54,7 @@ const PropertyDetailsSearch = () => {
     });
 
     setProperty(propertyFound);
-
+    console.log(propertyFound);
     setIsLoading(false);
     const imagesUrl = [];
     imagesCount?.data?.forEach((image) => {
@@ -109,7 +109,7 @@ const PropertyDetailsSearch = () => {
             </div>
           </div>
           <div className="text-3xl font-semibold text-blue-600">
-            $ {property.precio}
+            {property.moneda} {property.precio}
           </div>
         </div>
 

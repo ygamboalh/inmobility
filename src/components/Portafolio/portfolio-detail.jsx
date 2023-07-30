@@ -226,7 +226,8 @@ export const PortafolioDetail = () => {
                     Detalles del inmueble
                   </span>
                   <span className="font-semibold text-blue-700 text-xs">
-                    ${record.attributes.precio}{" "}
+                    {record.attributes.moneda}
+                    {record.attributes.precio}
                   </span>
                 </div>
                 <hr />

@@ -5,6 +5,8 @@ import { useMutation } from "react-query";
 import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 import { API } from "../../constant";
 import { userIntser } from "../../api/usersApi";
@@ -39,7 +41,7 @@ const RegisterSchema = Yup.object().shape({
   mobile: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
     .min(8, "¡Teléfono invalido!")
-    .max(18, "¡Teléfono invalido!")
+    .max(20, "¡Teléfono invalido!")
     .required("¡El teléfono celular es requerido!"),
   personalId: Yup.string().required("¡El identificador personal es requerido!"),
 });
@@ -112,6 +114,10 @@ const RegisterRequest = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [acepted, setAcepted] = useState(false);
+  const [phoneNumber, setPhoneNumber] = React.useState();
+  const handlePhoneNumberChange = (value) => {
+    setPhoneNumber(value);
+  };
   const onFinish = async (values) => {
     setIsLoading(true);
     try {
@@ -122,7 +128,7 @@ const RegisterRequest = () => {
         phone: values.phone,
         company: values.company,
         address: values.address,
-        mobile: values.mobile,
+        mobile: phoneNumber,
         personalId: values.personalId,
         type: values.type,
         aceptedd: acepted,
@@ -163,6 +169,7 @@ const RegisterRequest = () => {
       setIsLoading(false);
     }
   };
+  console.log("telefono", phoneNumber);
   if (isLoading) {
     return <MySpinner />;
   }
@@ -270,26 +277,39 @@ const RegisterRequest = () => {
                 <div className="errordivp text-xs">{errors.phone}</div>
               ) : null}
             </div>
-            <div className="relative mb-1">
-              <Field
-                type="tel"
-                className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
-                id="mobile"
-                name="mobile"
+            <div className="relative w-full -mt-5 -ml-5 -mb-1">
+              <PhoneInput
                 placeholder="Teléfono celular"
+                country={"cr"}
+                required
+                inputStyle={{
+                  height: "55px",
+                  width: "100%",
+                  borderRadius: "10px",
+                  borderColor: "gray",
+                  borderWidth: "1px",
+                }}
+                containerStyle={{ margin: "20px" }}
+                buttonStyle={{
+                  padding: "5px",
+                  border: "1px",
+                  borderTopLeftRadius: "10px",
+                  borderBottomLeftRadius: "10px",
+                  borderTopLeftColor: "black",
+                  borderBottomLeftColor: "black",
+                  alignItems: "left",
+                  margin: "1px",
+                }}
+                searchClass="input-search-class"
+                value={phoneNumber}
+                onChange={handlePhoneNumberChange}
+                inputProps={{
+                  name: "mobile",
+                  required: true,
+                }}
               />
-              <label
-                for="mobile"
-                className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
-              >
-                Teléfono celular
-              </label>
             </div>
-            <div className="space">
-              {errors.mobile && touched.mobile ? (
-                <div className="errordivp text-xs">{errors.mobile}</div>
-              ) : null}
-            </div>
+
             <div className="relative mb-1">
               <Field
                 type="text"

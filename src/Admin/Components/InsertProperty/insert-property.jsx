@@ -184,6 +184,7 @@ const InsertProperty = () => {
       areaTerreno: property?.areaTerreno,
       uniqueId: property?.uniqueId,
       descripcion: property?.descripcion,
+      moneda: property?.moneda,
     },
     validationSchema: Yup.object({
       provincia: Yup.string().required("*"),
@@ -271,6 +272,7 @@ const InsertProperty = () => {
           creadoPor: userId,
           uniqueId: values.uniqueId,
           descripcion: values.descripcion,
+          moneda: values.moneda,
         };
 
         if (!id) {
@@ -491,7 +493,7 @@ const InsertProperty = () => {
             ) : null}
           </div>
 
-          <input
+          {/* <input
             type="number"
             onChange={handleChange}
             name="precio"
@@ -499,7 +501,33 @@ const InsertProperty = () => {
             defaultValue={property?.precio}
             placeholder="Precio"
             className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
+          /> */}
+          {selectedOption === "" ? null : (
+            <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 py-2">
+              <select
+                id="dropdown-button"
+                name="moneda"
+                onChange={handleChange}
+                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-900 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="USD">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  onChange={handleChange}
+                  name="precio"
+                  defaultValue={property?.precio}
+                  placeholder="Precio"
+                  id="search-dropdown"
+                  class="block p-2.5 w-full bg-transparent z-20 text-sm text-gray-900 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500 "
+                  required
+                />
+              </div>
+            </div>
+          )}
+
           <div className="space mb-2.5">
             {errors.precio && touched.precio ? (
               <div className="errordiv text-xs">{errors.precio}</div>
