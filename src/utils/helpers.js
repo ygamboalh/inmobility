@@ -78,25 +78,26 @@ function deleteZero(string) {
       return string;
     }
   }
-export const deleteNotification = () => {
+export const deleteNotification = async () => {
   let notifications = [];
-  const res = AxiosInstance.get(`${API}notifications`)
+  const res = await AxiosInstance.get(`${API}notifications`)
       .then((response) => {
         const data = response.data.data;
         notifications = data.reverse();
-        
       })
       .catch((err) => {
         return;
       });
-    const currentDate = new Date();
-    const currentDateString = currentDate.toISOString().split("T")[0];
-    const currentTimeString = currentDate
+      const currentDate = new Date();
+      const currentDateString = currentDate.toISOString().split("T")[0];
+      const currentTimeString = currentDate
       .toISOString()
       .split("T")[1]
       .split(".")[0];
-    //const currentTime = currentTimeString.slice(0, 2);
-    notifications?.map((notif) => {
+      //const currentTime = currentTimeString.slice(0, 2);
+      console.log('encontre desde helpers', notifications);
+  notifications?.map((notif) => {
+      console.log('recorriendo desde helpers');
       const fecha = notif.attributes.createdAt.slice(0, 10);
       const hora = notif.attributes.createdAt.slice(11, 16);
       const horaCreado = deleteZero(hora.slice(0, 2));

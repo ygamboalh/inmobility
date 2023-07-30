@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { BiArea, BiBath, BiBed, BiCar, BiSolidFilePdf } from "react-icons/bi";
 import { PDFViewer } from "@react-pdf/renderer";
@@ -29,6 +29,9 @@ import PdfView from "../../../components/PdfView/pdf-view";
 import MyNewCarousel from "../../../components/Carrusel/carrusel";
 import { useQuery } from "react-query";
 import { authUserData } from "../../../api/usersApi";
+import Share from "../../../components/Share/share";
+import { Helmet } from "react-helmet";
+import MetaData from "../../../components/Metadata/metadata";
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -80,6 +83,10 @@ const PropertyDetailsSearch = () => {
   };
   return (
     <section>
+      <MetaData
+        title={"Detalles de la propiedad"}
+        content={property.tipoPropiedad}
+      />
       <div className="container mx-auto min-h-[800px] pt-28">
         <div>
           <button
@@ -183,33 +190,7 @@ const PropertyDetailsSearch = () => {
                 <div>{property.cochera}</div>
               </div>
             </div>
-            <div>
-              <EmailShareButton url={pdfUrl}>
-                <EmailIcon round={true} size={30}></EmailIcon>
-              </EmailShareButton>
-              <FacebookShareButton url={pdfUrl}>
-                <FacebookIcon
-                  size={30}
-                  logoFillColor="blue"
-                  round={true}
-                ></FacebookIcon>
-              </FacebookShareButton>
-              <WhatsappShareButton url={pdfUrl}>
-                <WhatsappIcon size={30} round={true}></WhatsappIcon>
-              </WhatsappShareButton>
-              <FacebookMessengerShareButton url={pdfUrl}>
-                <FacebookMessengerIcon
-                  size={30}
-                  round={true}
-                ></FacebookMessengerIcon>
-              </FacebookMessengerShareButton>
-              <TwitterShareButton url={pdfUrl}>
-                <TwitterIcon size={30} round={true}></TwitterIcon>
-              </TwitterShareButton>
-              <TelegramShareButton url={pdfUrl}>
-                <TelegramIcon size={30} round={true}></TelegramIcon>
-              </TelegramShareButton>
-            </div>
+            <Share pdfUrl={pdfUrl} />
             <div
               className={
                 property.descripcion
@@ -509,7 +490,10 @@ const PropertyDetailsSearch = () => {
                   <label className="font-semibold mr-1">
                     Cuota de mantenimiento:
                   </label>
-                  <label>${property.cuotaMantenimiento}</label>
+                  <label>
+                    {property.moneda}
+                    {property.cuotaMantenimiento}
+                  </label>
                 </div>
               ) : null}
             </div>

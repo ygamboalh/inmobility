@@ -510,7 +510,7 @@ const InsertProperty = () => {
                 onChange={handleChange}
                 class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-900 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
-                <option value="USD">USD</option>
+                <option value="$">USD</option>
                 <option value="₡">CRC</option>
               </select>
               <div class="relative w-full">

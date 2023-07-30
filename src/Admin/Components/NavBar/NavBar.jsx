@@ -66,12 +66,12 @@ const Navbar = () => {
               Usuarios
             </NavLink>
             <NavLink
-              to="/admin/links"
+              to="/user/verified-adviser"
               className={({ isActive }) =>
                 isActive ? activeClass : inactiveClass
               }
             >
-              Enlaces de interés
+              Portal verificados
             </NavLink>
           </ul>
         </div>

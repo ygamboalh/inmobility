@@ -119,8 +119,8 @@ const UserInfo = () => {
 
     setImageUrl(url);
   });
+  deleteNotification();
   useEffect(() => {
-    deleteNotification();
     const response = AxiosInstance.get(`${API}notifications`)
       .then((response) => {
         console.log("encontre estas notificaciones", response.data.data);

@@ -68,8 +68,6 @@ const App = () => {
         <Routes>
           <Route element={<Layout />}>
           <Route element={<ProtectedRoutes  />}>
-               {/*  <Route path='/ventas/*' element={<Search />} /> */}
-               {/*  <Route path='/alquiler/*' element={<Search />} /> */}
                 <Route path='/property/:id' element={<PropertyDetails />} />
                 <Route path="/user/verified-adviser" element={<VerifiedAdviser />}/>
                 <Route path="/user/profile" element={<Profile />} />
@@ -82,7 +80,7 @@ const App = () => {
             </Route>
                 <Route path="/home/banner" element={<Banner />} />
                 <Route exact path="/home/upload/:id" element={<Upload />} />
-               
+               <Route path='/home/links' element={<Links />} />
                 {/* <Route path="/home/search/search-results" element={<SearchResults />} /> */}
                 <Route path="/home/search/search-results" element={<SearchResultsCard />} />
                 <Route path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
@@ -132,7 +130,7 @@ const App = () => {
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
               <Route exact path="/admin/properties/insert-property/:id" element={<InsertProperty />} />
               <Route exact path='/admin/properties' element={<Properties />} />
-              <Route exact path='/admin/links' element={<Links />} />
+              
               <Route exact path="/admin/users" element={<Users />} />
               <Route exact path="/admin/users/insert-user" element={<InsertUser />} />
               <Route exact path="/admin/links/insert-link" element={<InsertLink />} />

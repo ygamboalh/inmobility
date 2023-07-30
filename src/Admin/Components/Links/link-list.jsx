@@ -165,7 +165,7 @@ const LinkList = () => {
               type="text"
               onChange={handleFilter}
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
-              placeholder="Buscar"
+              placeholder="Filtrar por dirección"
             />
           </div>
         }

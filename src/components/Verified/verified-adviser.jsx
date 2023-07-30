@@ -11,7 +11,7 @@ const VerifiedAdviser = () => {
 
   return (
     <section>
-      <div className="flex content-center align-middle justify-center">
+      <div className="mt-3 flex content-center align-middle justify-center">
         {role === "Authenticated" ? <Thumbnail /> : <span></span>}
       </div>
       <div className="text-center">
@@ -57,16 +57,18 @@ const VerifiedAdviser = () => {
               <label className="md:text-[11px]">CONCURSOS INTERNOS</label>
             </div>
             <div className="col-span-1 orange-button justify-center flex align-middle items-center lg:w-[150px] md:w-[100px]">
-              <label className="md:text-[8px] sm:text-[8px] lg:text-[11px]">
+              <label className="md:text-[8px] sm:text-[8px] lg:text-[11px] mx-1 truncate">
                 CURSOS COMPLEMENTARIOS
               </label>
             </div>
           </div>
         </AdviserCard>
         <AdviserCard>
-          <div className="flex flex-col justify-center ">
-            ENLACES DE INTERES DEL GREMIO
-          </div>
+          <a href="/home/links" className="flex w-full justify-center">
+            <div className="flex flex-col justify-center ">
+              ENLACES DE INTERES DEL GREMIO
+            </div>
+          </a>
         </AdviserCard>
         <AdviserCard>
           <div className="reminder align-middle items-center content-center flex flex-col">
