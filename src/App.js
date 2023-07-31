@@ -81,16 +81,12 @@ const App = () => {
                 <Route path="/home/banner" element={<Banner />} />
                 <Route exact path="/home/upload/:id" element={<Upload />} />
                <Route path='/home/links' element={<Links />} />
-                {/* <Route path="/home/search/search-results" element={<SearchResults />} /> */}
                 <Route path="/home/search/search-results" element={<SearchResultsCard />} />
                 <Route path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
                 <Route path="/home/portfolio" element={<Portafolio />} />
                 <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />
                 <Route path="/home/portfolio/:id" element={<Portafolio />} />
-                <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
-                
-                {/* <Route exact path="/home/search/pdf" element={<PdfView />} /> */}
-                
+                <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />                
             </Route>
                 <Route path='/ventas' element={<Ventas />} />
           <Route path="/home/search/selling-house-apartment" element={<VentaCasaApartamento />} />
@@ -118,7 +114,6 @@ const App = () => {
                 <Route path="/home/visit-record" element={<VisitRecord />} />
                 <Route path="/user/terms" element={<Terms />} />
                 <Route path="/user/logout" element={<Logout />} />
-                
                 <Route path='*' element={<NotFound />} />
             </Route>
           </Route>
@@ -130,7 +125,6 @@ const App = () => {
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
               <Route exact path="/admin/properties/insert-property/:id" element={<InsertProperty />} />
               <Route exact path='/admin/properties' element={<Properties />} />
-              
               <Route exact path="/admin/users" element={<Users />} />
               <Route exact path="/admin/users/insert-user" element={<InsertUser />} />
               <Route exact path="/admin/links/insert-link" element={<InsertLink />} />
@@ -142,7 +136,6 @@ const App = () => {
           </Route>
           <Route element={<ExtraLayout />}>
                <Route exact path="/home/investor" element={<Investor />} /> 
-                
         </Route>
        <Route element={<ExtraLayoutShared />}>
                 <Route exact path="/home/search/pdf/:id" element={<PdfViewShared />} /> 

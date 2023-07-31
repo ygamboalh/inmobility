@@ -20,7 +20,8 @@ function enviarCorreoComunOrigen(destinatario, body, asunto) {
       },
       {
         headers: {
-          "api-key": "",
+          "api-key":
+            "xsmtpsib-f95dfce070bb4651191512c4e66266afacaefda02c471d0d2cc95ef01f0d8a07-SIfhkQrmWaVgy3CU",
         },
       }
     )

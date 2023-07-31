@@ -39,6 +39,8 @@ import {
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import MetaData from "../Metadata/metadata";
+import Share from "../Share/share";
 
 const SearchCard = ({ propiedad, onDataReceived }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -99,48 +101,17 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     alignItems: "left",
     justifyContent: "left",
   };
-  /* const savePortafolio = () => {
-    setIsLoading(true);
-    const id = userData?.id;
-    const mobile = userData?.mobile;
-    const email = userData?.email;
-    const values = {
-      creadoPor: id,
-      clienteComprador: clientName,
-      correoCliente: clientEmail,
-      //properties: portafolioProperties,
-      telefonoAsesor: mobile,
-      correoAsesor: email,
-      categoria: categories,
-    };
-    //console.log(portafolioProperties);
-    if (portafolioProperties.length > 0) {
-      const totalPortfolios = data.data.length;
-      console.log(totalPortfolios);
-      if (totalPortfolios < 100) {
-        const response = AxiosInstance.post(`${API}portafolios`, {
-          data: { data: values },
-        })
-          .then((response) => {
-            console.log("respuesta de guardar el portafolio", response);
-            message.success("¡El portafolio fue creado correctamente!");
-            navigate("/home/portfolio");
-          })
-          .catch((error) => {
-            console.log("ocurrio este error", error);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
-      } else {
-        message.error("¡No puedes crear más de 100 portfolios!");
-      }
-    } else {
-      message.error("¡No ha seleccionado ninguna propiedad!");
-    }
-  }; */
   return (
     <section>
+      <MetaData
+        title={"Detalles de la propiedad"}
+        content={property.tipoPropiedad}
+        imageAlt={"Imagen de la propiedad"}
+        imageURL={`https://siccic.com/backend${images[0]}`}
+        provincia={property.provincia}
+        categoria={property.categoria}
+        precio={property.precio}
+      />
       <div className="container mx-auto pb-2 pt-6 bg-blue-200 rounded-xl">
         <div className="flex justify-between">
           <div>
@@ -269,33 +240,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                 </div>
               </div>
             </div>
-            <div>
-              <EmailShareButton url={pdfUrl}>
-                <EmailIcon round={true} size={30}></EmailIcon>
-              </EmailShareButton>
-              <FacebookShareButton url={pdfUrl}>
-                <FacebookIcon
-                  size={30}
-                  logoFillColor="blue"
-                  round={true}
-                ></FacebookIcon>
-              </FacebookShareButton>
-              <WhatsappShareButton url={pdfUrl}>
-                <WhatsappIcon size={30} round={true}></WhatsappIcon>
-              </WhatsappShareButton>
-              <FacebookMessengerShareButton url={pdfUrl}>
-                <FacebookMessengerIcon
-                  size={30}
-                  round={true}
-                ></FacebookMessengerIcon>
-              </FacebookMessengerShareButton>
-              <TwitterShareButton url={pdfUrl}>
-                <TwitterIcon size={30} round={true}></TwitterIcon>
-              </TwitterShareButton>
-              <TelegramShareButton url={pdfUrl}>
-                <TelegramIcon size={30} round={true}></TelegramIcon>
-              </TelegramShareButton>
-            </div>
+            <Share pdfUrl={pdfUrl} />
             <div
               className={
                 property.descripcion

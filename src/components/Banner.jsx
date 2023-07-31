@@ -15,29 +15,32 @@ const Banner = () => {
     const response = await fetch(`${API}/users/me?populate=role`, {
       method: "GET",
       headers: { Authorization: `${BEARER} ${token}` },
-    });
-    const data = await response.json();
+    })
+      .then((response) => {
+        const role = response.role.name;
+        const active = response.active;
+        console.log("en que estado estas", active);
+        /* if (role === "SuperAdmin") {
+          navigate("/home/insert-property", { replace: true });
+        } */
+        if (
+          active === "Activo" ||
+          active === "Supervisor" ||
+          active === "Asesor verificado"
+        ) {
+          navigate("/home/insert-property", { replace: true });
+        } else if (active === "Pendiente" || active === "Solicitante") {
+          navigate("/user/evaluating", { replace: true });
+        } else {
+          navigate("/user/access-denied", { replace: true });
+        }
+      })
+      .catch((error) => console.error)
+      .finally(() => setIsLoading(false));
+    /* const data = await response.json();
     if (response.statusCode !== 200) {
       navigate("/user/access-denied", { replace: true });
-    }
-    const role = data.role.name;
-    const active = data.active;
-    if (role === "SuperAdmin") {
-      navigate("/home/insert-property", { replace: true });
-    }
-    if (
-      active === "Activo" ||
-      active === "Supervisor" ||
-      active === "Asesor verificado"
-    ) {
-      navigate("/home/insert-property", { replace: true });
-    } else if (active === "Pendiente" || active === "Solicitante") {
-      navigate("/user/evaluating", { replace: true });
-    } else {
-      navigate("/user/access-denied", { replace: true });
-    }
-
-    setIsLoading(false);
+    } */
   };
   if (isLoading) {
     return <MySpinner />;

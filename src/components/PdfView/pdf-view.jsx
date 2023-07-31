@@ -4,6 +4,7 @@ import { Document, Image, Page, Text, View } from "@react-pdf/renderer";
 import { BiBed } from "react-icons/bi";
 
 import MySpinner from "../Spinner/spinner";
+import MetaData from "../Metadata/metadata";
 
 const PdfView = ({ property }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +42,15 @@ const PdfView = ({ property }) => {
   }
   return (
     <Document style={{ padding: "10px" }}>
+      <MetaData
+        title={"La propiedad en pdf"}
+        content={property.tipoPropiedad}
+        imageAlt={"Imagen de la propiedad"}
+        imageURL={`https://siccic.com/backend${images[0]}`}
+        provincia={property.provincia}
+        categoria={property.categoria}
+        precio={property.precio}
+      />
       <Page style={{ flexDirection: "column", padding: "10px" }} size="A4">
         <View>
           <View className="flex flex-col lg:flex-row lg:items-center lg:justify-between">

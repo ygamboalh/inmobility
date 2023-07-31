@@ -5,18 +5,16 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from "react-query";
 import './index.css';
 import App from './App';
+import { hydrate } from 'react-dom';
+import { render } from 'react-dom';
 // import AuthProvider from "./components/AuthProvider/AuthProvider";
 
 // import { AxiosInterceptor } from './interceptors/axios.interceptor';
 
 // Import custom interceptor
 // AxiosInterceptor()
-
-const queryClient = new QueryClient();
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <QueryClientProvider client={queryClient}>
+  const queryClient = new QueryClient();
+const APP = (<QueryClientProvider client={queryClient}>
       <AuthProvider
       authType={"localstorage"}
       authName={"access_token"}
@@ -28,3 +26,12 @@ root.render(
     </AuthProvider>
   </QueryClientProvider>
 );
+const rootElement = document.getElementById("root");
+
+if (rootElement.hasChildNodes()) {
+  hydrate(APP, rootElement);
+} else {
+  render(APP, rootElement);
+}
+
+

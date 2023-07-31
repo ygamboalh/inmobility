@@ -86,6 +86,11 @@ const PropertyDetailsSearch = () => {
       <MetaData
         title={"Detalles de la propiedad"}
         content={property.tipoPropiedad}
+        imageAlt={"Imagen de la propiedad"}
+        imageURL={`https://siccic.com/backend${images[0]}`}
+        provincia={property.provincia}
+        categoria={property.categoria}
+        precio={property.precio}
       />
       <div className="container mx-auto min-h-[800px] pt-28">
         <div>
@@ -93,7 +98,6 @@ const PropertyDetailsSearch = () => {
             onClick={() => {
               setVisible(!visible);
             }}
-            /* onClick={buildPdf} */
             className="bg-blue-700 text-white text-sm rounded-md px-1 py-2"
             type="button"
           >

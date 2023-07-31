@@ -15,6 +15,7 @@ import { BiBed } from "react-icons/bi";
 import MySpinner from "../Spinner/spinner";
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
+import MetaData from "../Metadata/metadata";
 
 const PdfViewShared = () => {
   const { id } = useParams();
@@ -67,6 +68,15 @@ const PdfViewShared = () => {
   }
   return (
     <section className="flex justify-center min-h-full">
+      <MetaData
+        title={"La propiedad en pdf"}
+        content={property.tipoPropiedad}
+        imageAlt={"Imagen de la propiedad"}
+        imageURL={`https://siccic.com/backend${images[0]}`}
+        provincia={property.provincia}
+        categoria={property.categoria}
+        precio={property.precio}
+      />
       <PDFViewer
         style={{
           width: "80%",

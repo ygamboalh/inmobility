@@ -26,6 +26,7 @@ import {
   WhatsappShareButton,
 } from "react-share";
 import MyNewCarousel from "../Carrusel/carrusel";
+import MetaData from "../Metadata/metadata";
 
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -76,6 +77,15 @@ const PropertyDetailsSearch = () => {
   };
   return (
     <section>
+      <MetaData
+        title={"Detalles de la propiedad"}
+        content={property.tipoPropiedad}
+        imageAlt={"Imagen de la propiedad"}
+        imageURL={`https://siccic.com/backend${images[0]}`}
+        provincia={property.provincia}
+        categoria={property.categoria}
+        precio={property.precio}
+      />
       <div className="container mx-auto min-h-[800px] pt-6">
         <div>
           <button

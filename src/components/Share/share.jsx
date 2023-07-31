@@ -13,7 +13,8 @@ import {
   WhatsappShareButton,
 } from "react-share";
 import no_image from "../../assets/images/no_image_default.jpg";
-const Share = (pdfUrl) => {
+const Share = (url) => {
+  const pdfUrl = url.pdfUrl;
   return (
     <div>
       <EmailShareButton url={pdfUrl}>

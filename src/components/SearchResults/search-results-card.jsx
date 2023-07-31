@@ -14,6 +14,7 @@ import { getToken } from "../../utils/helpers";
 import axios from "axios";
 import { Select, message } from "antd";
 import Swal from "sweetalert2";
+import MetaData from "../Metadata/metadata";
 
 const SearchResultsCard = () => {
   const [clientName, setClienteName] = useState();
