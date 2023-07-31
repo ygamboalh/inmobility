@@ -17,8 +17,7 @@ function enviarCorreo(destinatario, template) {
       },
       {
         headers: {
-          "api-key":
-            "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",
+          "api-key": "",
         },
       }
     )
