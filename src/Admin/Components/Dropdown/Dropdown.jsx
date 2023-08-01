@@ -14,6 +14,10 @@ import AxiosInstance from "../../../api/AxiosInstance";
 import { API } from "../../../constant";
 import { message } from "antd";
 import { deleteNotification } from "../../../utils/helpers";
+import enviarCorreoComunOrigen from "../../../utils/email/send-common-email-origin";
+import enviarCorreo from "../../../utils/email/send-email";
+import enviarCorreoPersonalizadoOrigen from "../../../utils/email/send-personalized-email-origin";
+import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
 
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -64,7 +64,7 @@ const Notifications = () => {
             .catch((error) => {
               console.log("pero el error", error);
             });
-        } else if (fecha !== currentDateString) {
+        } else if (fecha !== currentDate) {
           const response = AxiosInstance.delete(
             `${API}notifications/${notif.id}`
           )

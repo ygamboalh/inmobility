@@ -114,7 +114,7 @@ export const deleteNotification = async () => {
           .catch((error) => {
             return;
           });
-      } else if (fecha !== currentDateString) {
+      } else if (fecha !== currentDate) {
         const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
           .then((response) => {
             return;

@@ -30,7 +30,10 @@ export const authUserData = async () => {
   const { data } = await AxiosInstance.get('/users/me?populate=*');
   return data
 }
-
+export const getEmailToken = async () => {
+  const { data } = await AxiosInstance.get('/tokens/?filters[type][$eq]=email');
+  return data
+}
 export const passedUser = async (id) => {
   const { data } = await AxiosInstance.get(`/users/${id}?populate=*`);
   return data;
