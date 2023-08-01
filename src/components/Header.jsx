@@ -39,6 +39,8 @@ const Header = () => {
           setLink("Asesor verificado");
         } else if (activo === "Solicitante") {
           setLink("Solicitante");
+        } else if (activo === "Supervisor") {
+          setLink("Supervisor");
         } else {
           return false;
         }
@@ -83,6 +85,7 @@ const Header = () => {
               {link === "Asesor verificado" && <UserInfo />}
               {link === "Solicitante" && <VisiterUserInfo />}
               {link === "SuperAdmin" && <Dropdown />}
+              {link === "Supervisor" && <Dropdown />}
             </div>
           </div>
         )}

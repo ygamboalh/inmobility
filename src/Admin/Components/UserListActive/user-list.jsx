@@ -100,18 +100,24 @@ const UsersList = () => {
       width: "90px",
       cell: (row) =>
         row.photo ? (
-          <img
-            src={`https://siccic.com/backend${row.photo?.url}`}
-            alt=""
-            width="30px"
-            height="30px"
-          />
+          <div className="rounded-full border-black border">
+            <div
+              style={{
+                height: "30px",
+                width: "30px",
+                borderRadius: "100px",
+                backgroundSize: "cover",
+                backgroundImage: `url(https://siccic.com/backend${row.photo?.url})`,
+              }}
+            />
+          </div>
         ) : (
           <img
             src={`https://siccic.com/backend/uploads/small_userinfo_dac703068b.png`}
             alt=""
             width="30px"
             height="30px"
+            className="rounded-full border-black border"
           />
         ),
     },

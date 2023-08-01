@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getToken } from "../utils/helpers";
 import { API, BEARER } from "../constant";
 import MySpinner from "./Spinner/spinner";
+import axios from "axios";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -11,36 +12,26 @@ const Banner = () => {
   const SelectLink = async () => {
     setIsLoading(true);
     const token = getToken();
-
-    const response = await fetch(`${API}/users/me?populate=role`, {
-      method: "GET",
-      headers: { Authorization: `${BEARER} ${token}` },
-    })
+    const response = await axios
+      .get(`${API}/users/me?populate=role`, {
+        headers: { Authorization: `${BEARER} ${token}` },
+      })
       .then((response) => {
-        const role = response.role.name;
-        const active = response.active;
-        console.log("en que estado estas", active);
-        /* if (role === "SuperAdmin") {
+        const role = response?.data.role.name;
+        const active = response.data?.active;
+        if (role === "SuperAdmin" || active === "Super Administrador") {
           navigate("/home/insert-property", { replace: true });
-        } */
-        if (
-          active === "Activo" ||
-          active === "Supervisor" ||
-          active === "Asesor verificado"
-        ) {
+        }
+        if (active === "Supervisor" || active === "Asesor verificado") {
           navigate("/home/insert-property", { replace: true });
-        } else if (active === "Pendiente" || active === "Solicitante") {
+        } else if (active === "Solicitante") {
           navigate("/user/evaluating", { replace: true });
         } else {
           navigate("/user/access-denied", { replace: true });
         }
       })
-      .catch((error) => console.error)
+      .catch((error) => console.log(error))
       .finally(() => setIsLoading(false));
-    /* const data = await response.json();
-    if (response.statusCode !== 200) {
-      navigate("/user/access-denied", { replace: true });
-    } */
   };
   if (isLoading) {
     return <MySpinner />;
@@ -75,6 +66,19 @@ const Banner = () => {
             </label>
           </div>
         </Link>
+        {/* <Link
+          to="/home/insert-property"
+          className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary"
+        >
+          <div className="px-2">
+            <h1>Prueba</h1>
+          </div>
+          <div>
+            <label className="font-thin">
+              presiona para ver todas los alquileres
+            </label>
+          </div>
+        </Link> */}
         <button
           type="button"
           onClick={SelectLink}

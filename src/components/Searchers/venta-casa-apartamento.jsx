@@ -66,7 +66,7 @@ const VentaCasaApartamento = () => {
       ) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[categories][id][$eq]=1${urlQuery}`;
-
+        console.log("la url", url);
         const busqueda = axios
           .get(url, {
             headers: {
