@@ -71,8 +71,6 @@ const Portafolio = () => {
         } else {
           Swal.fire("El Portafolio no fue eliminado", "");
         }
-      } else if (result.isDenied) {
-        Swal.fire("El Portafolio no fue eliminado", "");
       }
     });
   };
