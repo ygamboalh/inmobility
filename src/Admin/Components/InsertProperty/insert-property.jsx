@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import * as Yup from "yup";
@@ -43,6 +43,8 @@ import { createNotification, getToken } from "../../../utils/helpers";
 import { useQuery } from "react-query";
 import { authUserData } from "../../../api/usersApi";
 import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
+import Swal from "sweetalert2";
+import CreatePropertyModal from "../../../components/Modals/create-property-modal";
 
 const InsertProperty = () => {
   const { id } = useParams();
@@ -59,6 +61,7 @@ const InsertProperty = () => {
   const [detallesExternos, setDetallesExternos] = useState({});
   const [property, setProperty] = useState();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [createdPropertyId, setCreatedPropertyId] = useState(null);
   const [userRole, setUserRole] = useState();
@@ -74,6 +77,7 @@ const InsertProperty = () => {
     setUserRole(response.data.role.name);
   });
 
+  useEffect(() => {}, []);
   const handleHouseProperty = (event) => {
     const option = event.target.value;
     setSelectedPropertyType(option);
@@ -389,17 +393,41 @@ const InsertProperty = () => {
   if (isLoading || (id && !property)) {
     return <MySpinner />;
   }
-
+  const handleDataFromChild = (data) => {
+    setShowModal(data.close);
+    if (data.selected !== undefined) {
+      setSelectedOption(data.selected);
+    }
+  };
   return (
     <div className="flex flex-col justify-center items-center h-fit">
+      <CreatePropertyModal
+        onDataReceived={handleDataFromChild}
+        isVisible={showModal}
+      />
       <div className="inset-y-0 mb-20 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
-      <div className="flex mt-3 justify-center align-middle items-center w-full">
-        <label className="font-semibold text-xl">
+      <div className="flex mt-3 flex-col justify-center align-middle items-center w-full">
+        <label className="font-semibold mb-3 text-xl">
           Crear o editar una propiedad
         </label>
+        <div className={id ? "hidden" : null}>
+          <button
+            className="bg-blue-700 px-3 py-2 text-white text-lg rounded-md"
+            onClick={() => {
+              setShowModal(true);
+            }}
+          >
+            Seleccionar la categoria
+          </button>
+        </div>
+        {selectedOption === "" || selectedOption === undefined ? null : (
+          <div className="my-3 flex justify-center text-center">
+            <span className="font-semibold">{selectedOption}</span>
+          </div>
+        )}
       </div>
       <form onSubmit={handleSubmit} autoComplete="off">
-        <div className="flex justify-center  flex-row content-center items-center">
+        {/* <div className="flex justify-center  flex-row content-center items-center">
           <select
             name="categories"
             value={selectedOption}
@@ -424,7 +452,7 @@ const InsertProperty = () => {
               </div>
             ) : null}
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-wrap justify-center m-3">
           <input
             type="text"
@@ -434,7 +462,7 @@ const InsertProperty = () => {
             hidden={selectedOption === ""}
             name="uniqueId"
             placeholder="Identificador único"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property -ml-2 mr-2 my-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space mb-2.5">
             {errors.uniqueId && touched.uniqueId ? (
@@ -492,18 +520,8 @@ const InsertProperty = () => {
               <div className="errordiv text-xs">{errors.distrito}</div>
             ) : null}
           </div>
-
-          {/* <input
-            type="number"
-            onChange={handleChange}
-            name="precio"
-            hidden={selectedOption === ""}
-            defaultValue={property?.precio}
-            placeholder="Precio"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          /> */}
           {selectedOption === "" ? null : (
-            <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 py-2">
+            <div class="flex input-admin-property pl-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 py-2">
               <select
                 id="dropdown-button"
                 name="moneda"
@@ -521,7 +539,7 @@ const InsertProperty = () => {
                   defaultValue={property?.precio}
                   placeholder="Precio"
                   id="search-dropdown"
-                  class="block p-2.5 w-full bg-transparent z-20 text-sm text-gray-900 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500 "
+                  class="block p-2.5 w-[153px] bg-transparent z-20 text-sm text-gray-900 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500 "
                   required
                 />
               </div>
@@ -1466,12 +1484,26 @@ const InsertProperty = () => {
         </div>
         <div className="flex m-4 content-center items-center justify-center ">
           <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
-            <div className="m-1 flex justify-center items-center content-center self-start">
+            <div
+              className={
+                selectedOption ===
+                  "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+                selectedOption === "Alquiler de Bodegas o Similares" ||
+                selectedOption === "Venta de Bodegas o Similares" ||
+                selectedOption === "Alquiler de Edificios" ||
+                selectedOption === "Venta de Edificios" ||
+                selectedOption ===
+                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                selectedOption === ""
+                  ? "hidden"
+                  : "m-1 flex justify-center items-center content-center self-start"
+              }
+            >
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   value=""
-                  disabled={
+                  /* disabled={
                     selectedOption ===
                       "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
                     selectedOption === "Alquiler de Bodegas o Similares" ||
@@ -1481,7 +1513,7 @@ const InsertProperty = () => {
                     selectedOption ===
                       "Venta de Lotes, Fincas,Terrenos y Predios" ||
                     selectedOption === ""
-                  }
+                  } */
                   defaultValue={property?.ley7600}
                   onChange={handleChange}
                   id="ley7600"
@@ -1494,12 +1526,29 @@ const InsertProperty = () => {
                 </span>
               </label>
             </div>
-            <div className="m-1 justify-center items-center content-center flex self-start">
+            <div
+              className={
+                selectedOption ===
+                  "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+                selectedOption === "Alquiler de Bodegas o Similares" ||
+                selectedOption === "Venta de Bodegas o Similares" ||
+                selectedOption === "Alquiler de Edificios" ||
+                selectedOption === "Venta de Edificios" ||
+                selectedOption === "Alquiler de Locales Comerciales" ||
+                selectedOption === "Venta de Locales Comerciales" ||
+                selectedOption ===
+                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                selectedOption === "Alquiler de Casas y Apartamentos" ||
+                selectedOption === ""
+                  ? "hidden"
+                  : "m-1 justify-center items-center content-center flex self-start"
+              }
+            >
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   value=""
-                  disabled={
+                  /*  disabled={
                     selectedOption ===
                       "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
                     selectedOption === "Alquiler de Bodegas o Similares" ||
@@ -1511,8 +1560,8 @@ const InsertProperty = () => {
                     selectedOption ===
                       "Venta de Lotes, Fincas,Terrenos y Predios" ||
                     selectedOption === "Alquiler de Casas y Apartamentos" ||
-                    selectedOption === ""
-                  }
+                    selectedOption === "" 
+                  }*/
                   defaultValue={property?.serviciosMedicos}
                   onChange={handleChange}
                   id="serviciosMedicos"
@@ -1525,7 +1574,24 @@ const InsertProperty = () => {
                 </span>
               </label>
             </div>
-            <div className="m-1 justify-center items-center content-center flex self-start">
+            <div
+              className={
+                selectedOption === "Venta de Casas y Apartamentos" ||
+                selectedOption ===
+                  "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+                selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+                selectedOption === "Alquiler de Edificios" ||
+                selectedOption === "Venta de Edificios" ||
+                selectedOption === "Alquiler de Locales Comerciales" ||
+                selectedOption === "Venta de Locales Comerciales" ||
+                selectedOption ===
+                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                selectedOption === "Alquiler de Casas y Apartamentos" ||
+                selectedOption === ""
+                  ? "hidden"
+                  : "m-1 justify-center items-center content-center flex self-start"
+              }
+            >
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
@@ -1533,7 +1599,7 @@ const InsertProperty = () => {
                   defaultValue={property?.areaCarga}
                   onChange={handleChange}
                   id="areaCarga"
-                  disabled={
+                  /* disabled={
                     selectedOption === "Venta de Casas y Apartamentos" ||
                     selectedOption ===
                       "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1547,7 +1613,7 @@ const InsertProperty = () => {
                       "Venta de Lotes, Fincas,Terrenos y Predios" ||
                     selectedOption === "Alquiler de Casas y Apartamentos" ||
                     selectedOption === ""
-                  }
+                  } */
                   name="areaCarga"
                   className="sr-only peer"
                 />
@@ -1574,16 +1640,8 @@ const InsertProperty = () => {
             ) : null}
           </div>
         </div>
-        <Select
-          className="categories lg:mx-80"
-          name="amenidades"
-          noOptionsMessage={() => null}
-          closeMenuOnSelect={false}
-          defaultValue={property?.amenidades}
-          options={Amenidades}
-          placeholder={"Amenidades"}
-          isMulti
-          isDisabled={
+        <div
+          className={
             selectedOption ===
               "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
             selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
@@ -1596,20 +1654,44 @@ const InsertProperty = () => {
             selectedOption === "Venta de Locales Comerciales" ||
             selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
             selectedOption === ""
+              ? "hidden"
+              : null
           }
-          onChange={handleChangeAmenidades}
-        />
-        <div className="space mb-2.5">
-          {errors.amenidades && touched.amenidades ? (
-            <div className="errordiv text-xs">{errors.amenidades}</div>
-          ) : null}
+        >
+          <Select
+            className="categories lg:mx-80"
+            name="amenidades"
+            noOptionsMessage={() => null}
+            closeMenuOnSelect={false}
+            defaultValue={property?.amenidades}
+            options={Amenidades}
+            placeholder={"Amenidades"}
+            isMulti
+            /* isDisabled={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === ""
+            } */
+            onChange={handleChangeAmenidades}
+          />
+          <div className="space mb-2.5">
+            {errors.amenidades && touched.amenidades ? (
+              <div className="errordiv text-xs">{errors.amenidades}</div>
+            ) : null}
+          </div>
         </div>
-        <Select
-          noOptionsMessage={() => null}
-          closeMenuOnSelect={false}
-          className="categories lg:mx-80"
-          name="jardinPatio"
-          isDisabled={
+        <div
+          className={
             selectedOption ===
               "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
             selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
@@ -1622,24 +1704,44 @@ const InsertProperty = () => {
             selectedOption === "Venta de Locales Comerciales" ||
             selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
             selectedOption === ""
+              ? "hidden"
+              : null
           }
-          defaultValue={property?.jardinPatio}
-          options={PatioJardin}
-          placeholder={"Patio"}
-          isMulti
-          onChange={handleChangePatioJardin}
-        />
-        <div className="space mb-2.5">
-          {errors.jardinPatio && touched.jardinPatio ? (
-            <div className="errordiv text-xs">{errors.jardinPatio}</div>
-          ) : null}
+        >
+          <Select
+            noOptionsMessage={() => null}
+            closeMenuOnSelect={false}
+            className="categories lg:mx-80"
+            name="jardinPatio"
+            /*  isDisabled={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === ""
+            } */
+            defaultValue={property?.jardinPatio}
+            options={PatioJardin}
+            placeholder={"Patio"}
+            isMulti
+            onChange={handleChangePatioJardin}
+          />
+          <div className="space mb-2.5">
+            {errors.jardinPatio && touched.jardinPatio ? (
+              <div className="errordiv text-xs">{errors.jardinPatio}</div>
+            ) : null}
+          </div>
         </div>
-        <Select
-          className="categories lg:mx-80"
-          name="detallesInternos"
-          noOptionsMessage={() => null}
-          closeMenuOnSelect={false}
-          isDisabled={
+        <div
+          className={
             selectedOption ===
               "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
             selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
@@ -1652,28 +1754,44 @@ const InsertProperty = () => {
             selectedOption === "Venta de Locales Comerciales" ||
             selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
             selectedOption === ""
+              ? "hidden"
+              : null
           }
-          defaultValue={property?.detallesInternos}
-          options={DetallesInternos}
-          placeholder={"Detalles internos"}
-          isMulti
-          onChange={handleChangeDetallesInternos}
-        />
-        <div className="space mb-2.5">
-          {errors.detallesInternos && touched.detallesInternos ? (
-            <div className="errordiv text-xs">{errors.detallesInternos}</div>
-          ) : null}
+        >
+          <Select
+            className="categories lg:mx-80"
+            name="detallesInternos"
+            noOptionsMessage={() => null}
+            closeMenuOnSelect={false}
+            /* isDisabled={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "" 
+            }*/
+            defaultValue={property?.detallesInternos}
+            options={DetallesInternos}
+            placeholder={"Detalles internos"}
+            isMulti
+            onChange={handleChangeDetallesInternos}
+          />
+          <div className="space mb-2.5">
+            {errors.detallesInternos && touched.detallesInternos ? (
+              <div className="errordiv text-xs">{errors.detallesInternos}</div>
+            ) : null}
+          </div>
         </div>
-        <Select
-          className="categories lg:mx-80"
-          name="detallesExternos"
-          noOptionsMessage={() => null}
-          closeMenuOnSelect={false}
-          defaultValue={property?.detallesExternos}
-          options={DetallesExternos}
-          placeholder={"Detalles externos"}
-          isMulti
-          isDisabled={
+        <div
+          className={
             selectedOption ===
               "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
             selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
@@ -1686,24 +1804,59 @@ const InsertProperty = () => {
             selectedOption === "Venta de Locales Comerciales" ||
             selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
             selectedOption === ""
+              ? "hidden"
+              : null
           }
-          onChange={handleChangeDetallesExternos}
-        />
-        <div className="space mb-2.5">
-          {errors.detallesExternos && touched.detallesExternos ? (
-            <div className="errordiv text-xs">{errors.detallesExternos}</div>
-          ) : null}
+        >
+          <Select
+            className="categories lg:mx-80"
+            name="detallesExternos"
+            noOptionsMessage={() => null}
+            closeMenuOnSelect={false}
+            defaultValue={property?.detallesExternos}
+            options={DetallesExternos}
+            placeholder={"Detalles externos"}
+            isMulti
+            /* isDisabled={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === ""
+            } */
+            onChange={handleChangeDetallesExternos}
+          />
+          <div className="space mb-2.5">
+            {errors.detallesExternos && touched.detallesExternos ? (
+              <div className="errordiv text-xs">{errors.detallesExternos}</div>
+            ) : null}
+          </div>
         </div>
-
-        <hr></hr>
-        <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
-          <div className="">
-            <button
-              type="submit"
-              className="mr-2 mb-3 py-2 px-4 rounded bg-blue-700 text-white"
-            >
-              Guardar los datos del inmueble
-            </button>
+        <div
+          className={
+            selectedOption === undefined || selectedOption === ""
+              ? "hidden"
+              : null
+          }
+        >
+          <hr></hr>
+          <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
+            <div className="">
+              <button
+                type="submit"
+                className="mr-2 mb-3 py-2 px-4 rounded bg-blue-700 text-white"
+              >
+                Guardar los datos del inmueble
+              </button>
+            </div>
           </div>
         </div>
       </form>

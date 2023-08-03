@@ -88,7 +88,9 @@ const SearchResultsCard = () => {
       confirmButtonColor: "#1863e4",
       html:
         `<input id="name" required class="swal2-input" autoComplete="off" placeholder="Nombre del cliente">` +
-        '<input id="email" required autoComplete="off" class="swal2-input" placeholder="Correo del cliente">',
+        '<input id="email" required autoComplete="off" class="swal2-input" placeholder="Correo del cliente">' +
+        `<br/>` +
+        `<br/>`,
       focusConfirm: false,
       preConfirm: () => {
         return [

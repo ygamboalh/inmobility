@@ -18,6 +18,7 @@ const MetaData = ({
       <meta name="price" content={precio} />
       <meta property="og:title" content={title} />
       <meta property="og:image" content={`${imageURL}`} />
+      <meta property="og:image:secure_url" content={`${imageURL}`} />
       <meta
         property="og:url"
         content={

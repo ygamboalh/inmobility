@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { BiArea, BiBath, BiBed, BiCar, BiSolidFilePdf } from "react-icons/bi";
 import { PDFViewer } from "@react-pdf/renderer";
@@ -43,6 +43,7 @@ const PropertyDetailsSearch = () => {
   const [images, setImages] = useState([]);
   const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
+  const navigate = useNavigate();
 
   const { data: userData } = useQuery("profile", authUserData);
   const userEmail = userData?.email;
@@ -69,7 +70,9 @@ const PropertyDetailsSearch = () => {
     });
     setImages(imagesUrl);
   };
-
+  const seePdfDocument = () => {
+    window.location.assign(pdfUrl);
+  };
   if (isLoading || !property) {
     return <MySpinner />;
   }
@@ -96,7 +99,7 @@ const PropertyDetailsSearch = () => {
         <div>
           <button
             onClick={() => {
-              setVisible(!visible);
+              seePdfDocument();
             }}
             className="bg-blue-700 text-white text-sm rounded-md px-1 py-2"
             type="button"
@@ -127,7 +130,9 @@ const PropertyDetailsSearch = () => {
             {property.moneda} {property.precio}
           </div>
         </div>
-
+        <div className="text-xl font-semibold text-blue-600">
+          {property.uniqueId}
+        </div>
         <div className="flex flex-col items-start gap-8 lg:flex-row">
           <div className="max-w-[568px] w-full">
             <div className="mb-3">

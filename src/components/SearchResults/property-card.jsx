@@ -93,6 +93,9 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   if (isLoading || !property) {
     return <MySpinner />;
   }
+  const seePdfDocument = () => {
+    window.location.assign(pdfUrl);
+  };
   const divStyle = {
     display: "flex",
     padding: "4px",
@@ -117,7 +120,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           <div>
             <button
               onClick={() => {
-                setVisible(!visible);
+                seePdfDocument();
               }}
               className="bg-blue-700 text-white text-sm rounded-md px-1 py-2"
               type="button"
@@ -168,10 +171,12 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             </div>
           </div>
           <div className="text-3xl font-semibold text-blue-600">
-            $ {property.precio}
+            {property.moneda} {property.precio}
           </div>
         </div>
-
+        <div className="text-xl font-semibold text-blue-600">
+          {property.uniqueId}
+        </div>
         <div className="flex flex-col items-start gap-8 lg:flex-row">
           <div className="max-w-[568px] w-full">
             <div className="mb-3">

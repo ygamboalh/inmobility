@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { BiArea, BiBath, BiBed, BiCar } from "react-icons/bi";
+import { BiArea, BiBath, BiBed, BiCar, BiSolidFilePdf } from "react-icons/bi";
 import { PDFViewer } from "@react-pdf/renderer";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -67,6 +67,9 @@ const PropertyDetailsSearch = () => {
   if (isLoading || !property) {
     return <MySpinner />;
   }
+  const seePdfDocument = () => {
+    window.location.assign(pdfUrl);
+  };
   const divStyle = {
     display: "flex",
     padding: "4px",
@@ -90,13 +93,12 @@ const PropertyDetailsSearch = () => {
         <div>
           <button
             onClick={() => {
-              setVisible(!visible);
+              seePdfDocument();
             }}
-            /* onClick={buildPdf} */
-            className="bg-blue-700 text-white text-sm rounded-md px-3 py-2"
+            className="bg-blue-700 text-white text-sm rounded-md px-1 py-2"
             type="button"
           >
-            Ver en formato pdf
+            <BiSolidFilePdf size={35} />
           </button>
         </div>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
@@ -122,7 +124,9 @@ const PropertyDetailsSearch = () => {
             {property.moneda} {property.precio}
           </div>
         </div>
-
+        <div className="text-xl font-semibold text-blue-600">
+          {property.uniqueId}
+        </div>
         <div className="flex flex-col items-start gap-8 lg:flex-row">
           <div className="max-w-[568px] w-full">
             <div className="mb-3">
