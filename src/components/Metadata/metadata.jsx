@@ -11,15 +11,15 @@ const MetaData = ({
 }) => {
   return (
     <Helmet>
-      {/* <title>{title}</title> */}
-      {/* <meta name="description" content={content} /> */}
+      <title>{title}</title>
+      <meta name="description" content={content} />
       <meta name="province" content={provincia} />
       <meta name="category" content={categoria} />
       <meta name="price" content={precio} />
       <meta property="og:title" content={title} />
       <meta property="og:image" content={`${imageURL}`} />
       <meta property="og:description" content={content} />
-      {/* <meta property="og:image:secure_url" content={`${imageURL}`} /> */}
+      <meta property="og:image:secure_url" content={`${imageURL}`} />
       <meta
         property="og:url"
         content={
