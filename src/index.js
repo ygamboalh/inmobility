@@ -14,7 +14,9 @@ import { render } from 'react-dom';
 // Import custom interceptor
 // AxiosInterceptor()
   const queryClient = new QueryClient();
-const APP = (<QueryClientProvider client={queryClient}>
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+<QueryClientProvider client={queryClient}>
       <AuthProvider
       authType={"localstorage"}
       authName={"access_token"}
@@ -26,12 +28,4 @@ const APP = (<QueryClientProvider client={queryClient}>
     </AuthProvider>
   </QueryClientProvider>
 );
-const rootElement = document.getElementById("root");
-
-if (rootElement.hasChildNodes()) {
-  hydrate(APP, rootElement);
-} else {
-  render(APP, rootElement);
-}
-
 
