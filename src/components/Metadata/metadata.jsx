@@ -28,14 +28,14 @@ const MetaData = ({
           window.location.search
         }
       />
-      <meta
+      {/* <meta
         property="twitter:url"
         content={
           "https://siccic.com" +
           window.location.pathname +
           window.location.search
         }
-      />
+      /> */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:image:alt" content={imageAlt} />
       {/* <meta property="twitter:title" content={title} />
