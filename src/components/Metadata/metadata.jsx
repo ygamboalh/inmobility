@@ -38,9 +38,9 @@ const MetaData = ({
       />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:image:alt" content={imageAlt} />
-      <meta property="twitter:title" content={title} />
+      {/* <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={content} />
-      <meta property="twitter:image" content={`${imageURL}`} />
+      <meta property="twitter:image" content={`${imageURL}`} /> */}
     </Helmet>
   );
 };
