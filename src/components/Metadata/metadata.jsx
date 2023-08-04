@@ -30,9 +30,6 @@ const MetaData = ({
       <meta name="twitter:card" content="summary_large_image" />
       <meta property="og:description" content={content} />
       <meta name="twitter:image:alt" content={imageAlt} />
-
-      <meta property="fb:app_id" content="your_app_id" />
-      <meta name="twitter:site" content="https://sistemacic.com" />
     </Helmet>
   );
 };
