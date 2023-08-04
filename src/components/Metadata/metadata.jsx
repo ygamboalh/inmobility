@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet";
 
 const MetaData = ({
   title,
-  content,
+  description,
   imageURL,
   imageAlt,
   provincia,
@@ -12,14 +12,14 @@ const MetaData = ({
   return (
     <Helmet>
       <title>{title}</title>
-      <meta name="description" content={content} />
+      <meta name="description" content={description} />
       <meta name="province" content={provincia} />
       <meta name="category" content={categoria} />
       <meta name="price" content={precio} />
       <meta property="og:title" content={title} />
       <meta property="og:image" content={`${imageURL}`} />
-      <meta property="og:description" content={content} />
-      <meta property="og:image:secure_url" content={`${imageURL}`} />
+      <meta property="og:description" content={description} />
+      {/* <meta property="og:image:secure_url" content={`${imageURL}`} /> */}
       <meta
         property="og:url"
         content={
@@ -28,19 +28,19 @@ const MetaData = ({
           window.location.search
         }
       />
-      {/* <meta
+      <meta
         property="twitter:url"
         content={
           "https://siccic.com" +
           window.location.pathname +
           window.location.search
         }
-      /> */}
+      />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:image:alt" content={imageAlt} />
-      {/* <meta property="twitter:title" content={title} />
-      <meta property="twitter:description" content={content} />
-      <meta property="twitter:image" content={`${imageURL}`} /> */}
+      <meta property="twitter:title" content={title} />
+      <meta property="twitter:description" content={description} />
+      <meta property="twitter:image" content={`${imageURL}`} />
     </Helmet>
   );
 };
