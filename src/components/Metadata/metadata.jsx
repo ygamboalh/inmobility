@@ -16,9 +16,9 @@ const MetaData = ({
       <meta name="province" content={provincia} />
       <meta name="category" content={categoria} />
       <meta name="price" content={precio} />
-      <meta property="og:title" content={title} />
+      {/* <meta property="og:title" content={title} /> */}
       <meta property="og:image" content={`${imageURL}`} />
-      <meta property="og:image:secure_url" content={`${imageURL}`} />
+      {/* <meta property="og:image:secure_url" content={`${imageURL}`} /> */}
       <meta
         property="og:url"
         content={
@@ -28,7 +28,7 @@ const MetaData = ({
         }
       />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta property="og:description" content={content} />
+      {/* <meta property="og:description" content={content} /> */}
       <meta name="twitter:image:alt" content={imageAlt} />
     </Helmet>
   );
