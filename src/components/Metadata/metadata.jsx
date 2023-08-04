@@ -1,21 +1,10 @@
 import { Helmet } from "react-helmet";
 
-const MetaData = ({
-  title,
-  description,
-  imageURL,
-  imageAlt,
-  provincia,
-  categoria,
-  precio,
-}) => {
+const MetaData = ({ title, description, imageURL, imageAlt, precio }) => {
   return (
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta name="province" content={provincia} />
-      <meta name="category" content={categoria} />
-      <meta name="price" content={precio} />
       <meta property="og:title" content={title} />
       <meta property="og:image" content={`${imageURL}`} />
       <meta property="og:description" content={description} />

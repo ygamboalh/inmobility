@@ -112,10 +112,10 @@ const InsertProperty = () => {
     const option = event.target.value;
     if (option) setSelectedPropertyType(option);
   };
-  const handleOptionSelectChange = (event) => {
+  /* const handleOptionSelectChange = (event) => {
     const selectedOption = event.target.value;
     setSelectedOption(selectedOption);
-  };
+  }; */
 
   const handleChangeAmenidades = (selectedOption) => {
     setAmenidades(selectedOption);
@@ -123,9 +123,9 @@ const InsertProperty = () => {
   const handleChangePatioJardin = (selectedOption) => {
     setPatio(selectedOption);
 
-    if (patio.length === 3) {
+    /*  if (patio.length === 3) {
       setMenuIsOpen(false);
-    }
+    } */
   };
   const handleChangeDetallesInternos = (selectedOption) => {
     setDetallesInternos(selectedOption);
@@ -133,8 +133,6 @@ const InsertProperty = () => {
   const handleChangeDetallesExternos = (selectedOption) => {
     setDetallesExternos(selectedOption);
   };
-
-  console.log("la propiedad", property);
 
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
     initialValues: {
@@ -427,32 +425,6 @@ const InsertProperty = () => {
         )}
       </div>
       <form onSubmit={handleSubmit} autoComplete="off">
-        {/* <div className="flex justify-center  flex-row content-center items-center">
-          <select
-            name="categories"
-            value={selectedOption}
-            disabled={category}
-            defaultValue={category}
-            onChange={handleOptionSelectChange}
-            className="categories  m-2 w-full  md:w-fit lg:mx-80"
-          >
-            <option value="" label="">
-              {"Seleccione la categoría"}
-            </option>
-            {categories.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-          <div className="space mb-2.5">
-            {errors.categories && touched.categories ? (
-              <div className="-ml-1.5 text-red-500 mt-4 text-xs">
-                {errors.categories}
-              </div>
-            ) : null}
-          </div>
-        </div> */}
         <div className="flex flex-wrap justify-center m-3">
           <input
             type="text"
@@ -1503,17 +1475,6 @@ const InsertProperty = () => {
                 <input
                   type="checkbox"
                   value=""
-                  /* disabled={
-                    selectedOption ===
-                      "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-                    selectedOption === "Alquiler de Bodegas o Similares" ||
-                    selectedOption === "Venta de Bodegas o Similares" ||
-                    selectedOption === "Alquiler de Edificios" ||
-                    selectedOption === "Venta de Edificios" ||
-                    selectedOption ===
-                      "Venta de Lotes, Fincas,Terrenos y Predios" ||
-                    selectedOption === ""
-                  } */
                   defaultValue={property?.ley7600}
                   onChange={handleChange}
                   id="ley7600"
@@ -1548,20 +1509,6 @@ const InsertProperty = () => {
                 <input
                   type="checkbox"
                   value=""
-                  /*  disabled={
-                    selectedOption ===
-                      "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-                    selectedOption === "Alquiler de Bodegas o Similares" ||
-                    selectedOption === "Venta de Bodegas o Similares" ||
-                    selectedOption === "Alquiler de Edificios" ||
-                    selectedOption === "Venta de Edificios" ||
-                    selectedOption === "Alquiler de Locales Comerciales" ||
-                    selectedOption === "Venta de Locales Comerciales" ||
-                    selectedOption ===
-                      "Venta de Lotes, Fincas,Terrenos y Predios" ||
-                    selectedOption === "Alquiler de Casas y Apartamentos" ||
-                    selectedOption === "" 
-                  }*/
                   defaultValue={property?.serviciosMedicos}
                   onChange={handleChange}
                   id="serviciosMedicos"
@@ -1599,21 +1546,6 @@ const InsertProperty = () => {
                   defaultValue={property?.areaCarga}
                   onChange={handleChange}
                   id="areaCarga"
-                  /* disabled={
-                    selectedOption === "Venta de Casas y Apartamentos" ||
-                    selectedOption ===
-                      "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-                    selectedOption ===
-                      "Venta de Oficinas o Consultorios Médicos" ||
-                    selectedOption === "Alquiler de Edificios" ||
-                    selectedOption === "Venta de Edificios" ||
-                    selectedOption === "Alquiler de Locales Comerciales" ||
-                    selectedOption === "Venta de Locales Comerciales" ||
-                    selectedOption ===
-                      "Venta de Lotes, Fincas,Terrenos y Predios" ||
-                    selectedOption === "Alquiler de Casas y Apartamentos" ||
-                    selectedOption === ""
-                  } */
                   name="areaCarga"
                   className="sr-only peer"
                 />
@@ -1667,21 +1599,6 @@ const InsertProperty = () => {
             options={Amenidades}
             placeholder={"Amenidades"}
             isMulti
-            /* isDisabled={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption === ""
-            } */
             onChange={handleChangeAmenidades}
           />
           <div className="space mb-2.5">
@@ -1713,21 +1630,6 @@ const InsertProperty = () => {
             closeMenuOnSelect={false}
             className="categories lg:mx-80"
             name="jardinPatio"
-            /*  isDisabled={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption === ""
-            } */
             defaultValue={property?.jardinPatio}
             options={PatioJardin}
             placeholder={"Patio"}
@@ -1763,21 +1665,6 @@ const InsertProperty = () => {
             name="detallesInternos"
             noOptionsMessage={() => null}
             closeMenuOnSelect={false}
-            /* isDisabled={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption === "" 
-            }*/
             defaultValue={property?.detallesInternos}
             options={DetallesInternos}
             placeholder={"Detalles internos"}
@@ -1817,21 +1704,6 @@ const InsertProperty = () => {
             options={DetallesExternos}
             placeholder={"Detalles externos"}
             isMulti
-            /* isDisabled={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption === ""
-            } */
             onChange={handleChangeDetallesExternos}
           />
           <div className="space mb-2.5">
