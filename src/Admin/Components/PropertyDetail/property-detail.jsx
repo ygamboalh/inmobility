@@ -87,7 +87,7 @@ const PropertyDetailsSearch = () => {
   return (
     <section>
       <MetaData
-        title={"Detalles de la propiedad"}
+        title={"Detalles"}
         description={property.tipoPropiedad}
         imageAlt={"Imagen de la propiedad"}
         imageURL={`https://siccic.com/backend${images[0]}`}
