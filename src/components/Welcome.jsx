@@ -9,7 +9,7 @@ const Welcome = () => {
     <div className="flex flex-col h-screen px-12 div-welcome text-center sm:px-10 md:px-6 justify-center items-center">
       <MetaData
         title="Venta y Alquiler de inmuebles y propiedades"
-        description="Iniciar sesión en el Sistema CIC"
+        description="Sistema CIC"
         imageURL={"https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png"}
       />
       <div className="justify-center items-center mb-4 logo"></div>

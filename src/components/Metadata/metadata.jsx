@@ -1,8 +1,8 @@
 import { Helmet } from "react-helmet";
 
-const MetaData = ({ title, description, imageURL, imageAlt, precio }) => {
+const MetaData = ({ title, description, imageURL, imageAlt }) => {
   return (
-    <Helmet>
+    <head>
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta property="og:title" content={title} />
@@ -30,7 +30,7 @@ const MetaData = ({ title, description, imageURL, imageAlt, precio }) => {
       <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={`${imageURL}`} />
-    </Helmet>
+    </head>
   );
 };
 
