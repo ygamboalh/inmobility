@@ -73,9 +73,6 @@ const PdfViewShared = () => {
         content={property.tipoPropiedad}
         imageAlt={"Imagen de la propiedad"}
         imageURL={`https://siccic.com/backend${images[0]}`}
-        provincia={property.provincia}
-        categoria={property.categoria}
-        precio={property.precio}
       />
       <PDFViewer
         style={{

@@ -6,9 +6,12 @@ const MetaData = ({ title, description, imageURL, imageAlt }) => {
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta property="og:title" content={title} />
+      <meta property="og:type" content="website" />
       <meta property="og:image" content={`${imageURL}`} />
       <meta property="og:description" content={description} />
       <meta property="og:image:secure_url" content={`${imageURL}`} />
+      <meta property="og:image:height" content="200" />
+      <meta property="og:image:width" content="200" />
       <meta
         property="og:url"
         content={

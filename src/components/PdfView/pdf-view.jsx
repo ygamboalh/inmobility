@@ -47,9 +47,6 @@ const PdfView = ({ property }) => {
         content={property.tipoPropiedad}
         imageAlt={"Imagen de la propiedad"}
         imageURL={`https://siccic.com/backend${images[0]}`}
-        provincia={property.provincia}
-        categoria={property.categoria}
-        precio={property.precio}
       />
       <Page style={{ flexDirection: "column", padding: "10px" }} size="A4">
         <View>

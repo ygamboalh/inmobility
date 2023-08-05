@@ -88,10 +88,13 @@ const PropertyDetailsSearch = () => {
   return (
     <section>
       <MetaData
-        title={property?.categories.data[0].attributes.nombre}
-        description={`${property?.tipoPropiedad} - ${property?.provincia} - ${property.canton} \n ${property?.moneda}${property.precio}`}
+        title={"Titulo Detalles de la propiedad"}
+        //title={property?.categories.data[0].attributes.nombre}
+        //description={`${property?.tipoPropiedad} - ${property?.provincia} - ${property.canton} \n ${property?.moneda}${property.precio}`}
+        description={"Descripcion Propiedad en venta"}
         imageAlt={"Imagen de la propiedad"}
-        imageURL={`https://siccic.com/backend${images[0]}`}
+        //imageURL={`https://siccic.com/backend${images[0]}`}
+        imageURL={"https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png"}
       />
       <div className="container mx-auto min-h-[800px] pt-28">
         <div>
