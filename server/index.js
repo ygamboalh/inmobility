@@ -18,16 +18,16 @@ app.get('/*', (req, res, next) => {
             console.error('Error leyendo el archivo index', err);
             return res.status(404).end()
         }
-
         // inject meta tags
         htmlData = htmlData.replace(
-            "<title>React App</title>",
-            `<title>${"Titulo del post"}</title>`
+                "<title>Sistema CIC</title>",
+                `<title>${"Titulo del post"}</title>`
         )
         .replace('__META_OG_TITLE__', "Titulo del post")
         .replace('__META_OG_DESCRIPTION__', "descripcion del post og")
         .replace('__META_DESCRIPTION__', "descripcion del post")
         .replace('__META_OG_IMAGE__', "miniatura del post")
+        
         return res.send(htmlData);
     });
 });
@@ -37,4 +37,5 @@ app.listen(PORT, (error) => {
         return console.log('Error durante el inicio de la app', error);
     }
     console.log("listening on " + PORT + "...");
+    
 });
