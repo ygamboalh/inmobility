@@ -34,36 +34,6 @@ import { Helmet } from "react-helmet";
 import MetaData from "../../../components/Metadata/metadata";
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    getProperty();
-  }, []);
-  useEffect(() => {
-    let titlee = document?.querySelector("meta[property='og:title']");
-    titlee?.setAttribute(
-      "content",
-      `${property?.categories.data[0].attributes.nombre}`
-    );
-    let descMeta = document?.querySelector("meta[property='og:description']");
-    descMeta?.setAttribute(
-      "content",
-      `${property.tipoPropiedad} - ${property.provincia} - ${property.canton} - ${property.moneda} - ${property.precio}`
-    );
-    let imageMeta = document?.querySelector("meta[property='og:image']");
-    imageMeta?.setAttribute(
-      "content",
-      `https://siccic.com/backend${images[0]}`
-    );
-  }, []);
-  const { id } = useParams();
-  const [property, setProperty] = useState();
-  const [images, setImages] = useState([]);
-  const [visible, setVisible] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState();
-  const navigate = useNavigate();
-
-  const { data: userData } = useQuery("profile", authUserData);
-  const userEmail = userData?.email;
-
   const getProperty = async () => {
     setIsLoading(true);
     let propertyFound = null;
@@ -86,6 +56,38 @@ const PropertyDetailsSearch = () => {
     });
     setImages(imagesUrl);
   };
+  useEffect(() => {
+    getProperty();
+  }, []);
+
+  const { id } = useParams();
+  const [property, setProperty] = useState();
+  const [images, setImages] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState();
+  const navigate = useNavigate();
+
+  const { data: userData } = useQuery("profile", authUserData);
+  const userEmail = userData?.email;
+  useEffect(() => {
+    console.log(property);
+    let titlee = document?.querySelector("meta[property='og:title']");
+    titlee?.setAttribute(
+      "content",
+      `${property?.categories.data[0].attributes.nombre}`
+    );
+    let descMeta = document?.querySelector("meta[property='og:description']");
+    descMeta?.setAttribute(
+      "content",
+      `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} - ${property?.moneda}${property?.precio}`
+    );
+    let imageMeta = document?.querySelector("meta[property='og:image']");
+    imageMeta?.setAttribute(
+      "content",
+      `https://siccic.com/backend${images[0]}`
+    );
+  }, []);
+
   const seePdfDocument = () => {
     window.location.assign(pdfUrl);
   };
