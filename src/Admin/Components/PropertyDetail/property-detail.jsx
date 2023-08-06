@@ -69,7 +69,16 @@ const PropertyDetailsSearch = () => {
 
   const { data: userData } = useQuery("profile", authUserData);
   const userEmail = userData?.email;
+
   useEffect(() => {
+    document.head.innerHTML += `
+  <meta property='og:title' content='Mi titulo de ejemplo'/>
+  <meta property='og:description' content='Mi descripcion de ejemplo'/>
+  <meta property="og:image" content="https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png"/>
+  <meta name='keywords' content='My keywords!!!'/>
+  `;
+  }, []);
+  /* useEffect(() => {
     console.log(property);
     let titlee = document?.querySelector("meta[property='og:title']");
     titlee?.setAttribute(
@@ -86,7 +95,7 @@ const PropertyDetailsSearch = () => {
       "content",
       `https://siccic.com/backend${images[0]}`
     );
-  }, []);
+  }, []); */
 
   const seePdfDocument = () => {
     window.location.assign(pdfUrl);
