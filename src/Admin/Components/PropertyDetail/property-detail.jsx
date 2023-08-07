@@ -70,31 +70,13 @@ const PropertyDetailsSearch = () => {
   const { data: userData } = useQuery("profile", authUserData);
   const userEmail = userData?.email;
 
-  useEffect(() => {
+  /* useEffect(() => {
     document.head.innerHTML += `
   <meta property='og:title' content='Mi titulo de ejemplo'/>
   <meta property='og:description' content='Mi descripcion de ejemplo'/>
   <meta property="og:image" content="https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png"/>
   <meta name='keywords' content='My keywords!!!'/>
   `;
-  }, []);
-  /* useEffect(() => {
-    console.log(property);
-    let titlee = document?.querySelector("meta[property='og:title']");
-    titlee?.setAttribute(
-      "content",
-      `${property?.categories.data[0].attributes.nombre}`
-    );
-    let descMeta = document?.querySelector("meta[property='og:description']");
-    descMeta?.setAttribute(
-      "content",
-      `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} - ${property?.moneda}${property?.precio}`
-    );
-    let imageMeta = document?.querySelector("meta[property='og:image']");
-    imageMeta?.setAttribute(
-      "content",
-      `https://siccic.com/backend${images[0]}`
-    );
   }, []); */
 
   const seePdfDocument = () => {
@@ -119,7 +101,6 @@ const PropertyDetailsSearch = () => {
         description={`${property?.tipoPropiedad} - ${property?.provincia} - ${property.canton} \n ${property?.moneda}${property.precio}`}
         imageAlt={"Imagen de la propiedad"}
         imageURL={`https://siccic.com/backend${images[0]}`}
-        //imageURL={"https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png"}
       /> */}
       <div className="container mx-auto min-h-[800px] pt-28">
         <div>
