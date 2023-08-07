@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs'); 
 const app = express();
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 const indexPath  = path.resolve(__dirname, '..', 'build', 'index.html');
 
 // static resources should just be served as they are
@@ -13,7 +13,7 @@ app.use(express.static(
 ));
 // here we serve the index.html page
 
-app.get('/*', (req, res, next) => {
+app.get('/', (req, res, next) => {
         
     fs.readFile(indexPath, 'utf8', (err, htmlData) => {
         if (err) {
@@ -29,6 +29,26 @@ app.get('/*', (req, res, next) => {
         .replace('__META_OG_TITLE__', "Titulo del post")
         .replace('__META_OG_DESCRIPTION__', "descripcion del post og")
         .replace('__META_DESCRIPTION__', "descripcion del post")
+        .replace('__META_OG_IMAGE__', "https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png")
+        return res.send(htmlData);
+    });
+});
+app.get('/admin/properties/property-detail/*', (req, res, next) => {
+        
+    fs.readFile(indexPath, 'utf8', (err, htmlData) => {
+        if (err) {
+            console.error('Error leyendo el archivo index', err);
+            return res.status(404).end()
+        }
+        // inject meta tags
+        
+        htmlData = htmlData.replace(
+                "__META_TITLE__",
+                "Titulo de la propiedad normal"
+        )
+        .replace('__META_OG_TITLE__', "Titulo de la propiedad")
+        .replace('__META_OG_DESCRIPTION__', "Descripcion de la propiedad og")
+        .replace('__META_DESCRIPTION__', "Descripcion de la propiedad")
         .replace('__META_OG_IMAGE__', "https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png")
         return res.send(htmlData);
     });
