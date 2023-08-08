@@ -76,7 +76,7 @@ const Dropdown = () => {
         ></button>
       </div>
       {isOpen && (
-        <div className="absolute mt-2 py-2 w-[134px] bg-white rounded-lg shadow-lg">
+        <div className="absolute z-10 mt-2 py-2 w-[134px] bg-white rounded-lg shadow-lg">
           <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiWrench size={20} />
             <a
