@@ -45,6 +45,7 @@ import { authUserData } from "../../../api/usersApi";
 import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
 import Swal from "sweetalert2";
 import CreatePropertyModal from "../../../components/Modals/create-property-modal";
+import CreatePortfolioModal from "../../../components/Modals/create-portfolio-modal";
 
 const InsertProperty = () => {
   const { id } = useParams();
@@ -112,20 +113,11 @@ const InsertProperty = () => {
     const option = event.target.value;
     if (option) setSelectedPropertyType(option);
   };
-  /* const handleOptionSelectChange = (event) => {
-    const selectedOption = event.target.value;
-    setSelectedOption(selectedOption);
-  }; */
-
   const handleChangeAmenidades = (selectedOption) => {
     setAmenidades(selectedOption);
   };
   const handleChangePatioJardin = (selectedOption) => {
     setPatio(selectedOption);
-
-    /*  if (patio.length === 3) {
-      setMenuIsOpen(false);
-    } */
   };
   const handleChangeDetallesInternos = (selectedOption) => {
     setDetallesInternos(selectedOption);
@@ -434,7 +426,7 @@ const InsertProperty = () => {
             hidden={selectedOption === ""}
             name="uniqueId"
             placeholder="Identificador único"
-            className="input-admin-property -ml-2 mr-2 my-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space mb-2.5">
             {errors.uniqueId && touched.uniqueId ? (
@@ -493,7 +485,7 @@ const InsertProperty = () => {
             ) : null}
           </div>
           {selectedOption === "" ? null : (
-            <div class="flex input-admin-property pl-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 py-2">
+            <div class="flex input-admin-property mr-4 pl-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 py-2">
               <select
                 id="dropdown-button"
                 name="moneda"
@@ -511,18 +503,12 @@ const InsertProperty = () => {
                   defaultValue={property?.precio}
                   placeholder="Precio"
                   id="search-dropdown"
-                  class="block p-2.5 w-[153px] bg-transparent z-20 text-sm text-gray-900 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500 "
+                  className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[153px] bg-transparent z-20 text-sm text-gray-900 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500 "
                   required
                 />
               </div>
             </div>
           )}
-
-          <div className="space mb-2.5">
-            {errors.precio && touched.precio ? (
-              <div className="errordiv text-xs">{errors.precio}</div>
-            ) : null}
-          </div>
           <input
             type="number"
             hidden={selectedOption === ""}

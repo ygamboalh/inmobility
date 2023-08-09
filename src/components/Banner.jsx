@@ -5,6 +5,7 @@ import { getToken } from "../utils/helpers";
 import { API, BEARER } from "../constant";
 import MySpinner from "./Spinner/spinner";
 import axios from "axios";
+import MetaData from "./Metadata/metadata";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const Banner = () => {
 
   return (
     <section className="h-full max-h-[640px] my-8">
+      <MetaData title="Opciones" description="Opciones" />
       <div className="grid grid-cols-3 p-5 gap-10 lg:py-16  max-[1000px]:grid-cols-1 max-md:grid-cols-1 text-center text-white font-medium">
         <Link
           to="/ventas"

@@ -26,9 +26,7 @@ import {
   BiMap,
 } from "react-icons/bi";
 import { message } from "antd";
-import AxiosInstance from "../../api/AxiosInstance";
-import MyNewCarousel from "../Carrusel/carrusel";
-import no_image from "../../assets/images/no_image_default.jpg";
+import AddPropertyModal from "../Modals/add-property-modal";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
@@ -41,8 +39,8 @@ export const PortafolioDetail = () => {
   const [pending, setPending] = useState(true);
   const [records, setRecords] = useState([]);
   const [portafolio, setPortafolio] = useState();
-  const [images, setImages] = useState();
   const [filterRecords, setFilterRecords] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const data = location.state;
@@ -143,6 +141,18 @@ export const PortafolioDetail = () => {
         return <span>-</span>;
     }
   }
+  const handleDataFromChildModal = (data) => {
+    setShowModal(data.close);
+
+    /* if (
+      data?.data?.clienteComprador !== undefined &&
+      data?.data?.correoCliente !== undefined
+    ) {
+       setClienteName(data.data.clienteComprador);
+      setClienteEmail(data.data.correoCliente);
+      setCreated(true); 
+    } */
+  };
   const handleFilter = (event) => {
     const searchData = filterRecords.filter((row) =>
       row.attributes.tipoPropiedad
@@ -153,6 +163,11 @@ export const PortafolioDetail = () => {
   };
   return (
     <div className="flex justify-center flex-wrap mx-3">
+      <AddPropertyModal
+        onDataReceived={handleDataFromChildModal}
+        isVisible={showModal}
+        category={portafolio?.attributes?.categoria}
+      />
       <div className="flex flex-col items-center justify-center">
         <div className="flex flex-col w-fit justify-center items-center">
           <label className="text-xl mb-2 mt-2 font-semibold">
@@ -196,11 +211,9 @@ export const PortafolioDetail = () => {
 
             <div className="flex justify-center mt-4">
               <button
-                onClick={() =>
-                  navigate("/home/banner", {
-                    state: { portafolio: portafolio.id },
-                  })
-                }
+                onClick={() => {
+                  setShowModal(true);
+                }}
                 type="button"
                 className="font-semibold"
               >

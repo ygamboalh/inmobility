@@ -97,6 +97,9 @@ const PortafolioCard = ({ propiedad }) => {
   const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
 
+  const seePdfDocument = () => {
+    window.location.assign(pdfUrl);
+  };
   const getProperty = async () => {
     setIsLoading(true);
     let propertyFound = null;
@@ -199,7 +202,7 @@ const PortafolioCard = ({ propiedad }) => {
           <div>
             <button
               onClick={() => {
-                setVisible(!visible);
+                seePdfDocument();
               }}
               className="bg-blue-700 text-white text-sm rounded-md px-1 py-2"
               type="button"

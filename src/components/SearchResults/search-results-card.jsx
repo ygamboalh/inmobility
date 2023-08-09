@@ -15,6 +15,7 @@ import axios from "axios";
 import { Select, message } from "antd";
 import Swal from "sweetalert2";
 import MetaData from "../Metadata/metadata";
+import CreatePortfolioModal from "../Modals/create-portfolio-modal";
 
 const SearchResultsCard = () => {
   const [clientName, setClienteName] = useState();
@@ -22,6 +23,7 @@ const SearchResultsCard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [dataFromChild, setDataFromChild] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [created, setCreated] = useState(false);
   const navigate = useNavigate();
   const { data: userData } = useQuery("profile", authUserData);
@@ -74,47 +76,15 @@ const SearchResultsCard = () => {
   };
 
   console.log("lista definitiva", dataFromChild);
-  //console.log(portafolioProperties);
   useEffect(() => {
-    const data = location.state.propertyList;
     const categories = location.state.categories;
     setCategories(categories);
   }, []);
-  const createPortafolio = async () => {
-    const { value: formValues } = await Swal.fire({
-      title: "Proporcione los datos",
-      width: 420,
-      confirmButtonText: "Guardar",
-      confirmButtonColor: "#1863e4",
-      html:
-        `<input id="name" required class="swal2-input" autoComplete="off" placeholder="Nombre del cliente">` +
-        '<input id="email" required autoComplete="off" class="swal2-input" placeholder="Correo del cliente">' +
-        `<br/>` +
-        `<br/>`,
-      focusConfirm: false,
-      preConfirm: () => {
-        return [
-          document.getElementById("name").value,
-          document.getElementById("email").value,
-        ];
-      },
-    });
-
-    if (formValues) {
-      const name = eliminarCaracter(JSON.stringify(formValues[0]), '"');
-      const email = eliminarCaracter(JSON.stringify(formValues[1]), '"');
-      setClienteName(name);
-      setClienteEmail(email);
-      //Swal.fire(JSON.stringify(formValues));
-    }
-    setCreated(true);
-  };
   const savePortafolio = () => {
     setIsLoading(true);
     dataFromChild.map((item) => {
       portafolioProperties.push(item.id);
     });
-    console.log("estos son las propiedades", portafolioProperties);
     const id = userData?.id;
     const mobile = userData?.mobile;
     const email = userData?.email;
@@ -159,10 +129,17 @@ const SearchResultsCard = () => {
     }
   };
 
-  function eliminarCaracter(cadena, caracter) {
-    const expresionRegular = new RegExp(caracter, "g");
-    return cadena.replace(expresionRegular, "");
-  }
+  const handleDataFromChildModal = (data) => {
+    setShowModal(data.close);
+    if (
+      data?.data?.clienteComprador !== undefined &&
+      data?.data?.correoCliente !== undefined
+    ) {
+      setClienteName(data.data.clienteComprador);
+      setClienteEmail(data.data.correoCliente);
+      setCreated(true);
+    }
+  };
 
   if (!propertyList || propertyList.length === 0 || isLoading) {
     return <MySpinner />;
@@ -184,6 +161,10 @@ const SearchResultsCard = () => {
           </div>
         )}
         <div id="data" className="text-semibold text-sm ml-[110px]"></div>
+        <CreatePortfolioModal
+          onDataReceived={handleDataFromChildModal}
+          isVisible={showModal}
+        />
         <div className="ml-[58px]">
           {userData?.active === "Asesor verificado" ||
           userData?.active === "Super Administrador" ||
@@ -201,8 +182,11 @@ const SearchResultsCard = () => {
               ) : (
                 <div>
                   <button
+                    type="button"
                     className="rounded-md text-white bg-green-400  h-10 w-44 mx-12"
-                    onClick={createPortafolio}
+                    onClick={() => {
+                      setShowModal(true);
+                    }}
                   >
                     Crear Portafolio
                   </button>
