@@ -8,13 +8,14 @@ const PORT = process.env.PORT || 3000;
 const indexPath = path.resolve(__dirname, '..', 'build', 'index.html');
 let property = null;
 let propertyId = null;
+let portafolioId = null;
+let portafolio = null;
 
 // static resources should just be served as they are
 app.use(express.static(
     path.resolve(__dirname, '..', 'build'),
     { maxAge: '30d' },
 ));
-
 
 app.get('/auth/signin', (req, res, next) => {
         fs.readFile(indexPath, 'utf8', (err, htmlData) => {
@@ -26,12 +27,12 @@ app.get('/auth/signin', (req, res, next) => {
         
                 htmlData = htmlData.replace(
                         "__META_TITLE__",
-                        `${"Titulo del post normal"}`
+                        `${"Inicio de sesión"}`
                 )
                         .replace('__META_OG_TITLE__', "Sistema CIC")
                         .replace('__META_OG_DESCRIPTION__', "Inicio de sesión en el Sistema CIC")
                         .replace('__META_DESCRIPTION__', "Inicio de sesión en el Sistema CIC")
-                        .replace('__META_OG_IMAGE__', "https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png")
+                        .replace('__META_OG_IMAGE__', "https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png")
                 return res.send(htmlData);
 
         })
@@ -53,7 +54,7 @@ app.get('/', (req, res, next) => {
         .replace('__META_OG_TITLE__', "Sistema CIC")
         .replace('__META_OG_DESCRIPTION__', "Venta y Alquiler de inmuebles y propiedades")
         .replace('__META_DESCRIPTION__', "Venta y Alquiler de inmuebles y propiedades")
-        .replace('__META_OG_IMAGE__', "https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png")
+        .replace('__META_OG_IMAGE__', "https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png")
         return res.send(htmlData);
     });
 });
@@ -63,7 +64,7 @@ app.get('/admin/properties/property-detail/:id', (req, res, next) => {
            propertyId = parseInt(req.params.id);
         }
         console.log("id de la property",res);
-        const response = axios.get(`https://siccic.com/backend/api/properties/${propertyId}?populate=*`, {}).then((response) => { 
+        const response = axios.get(`https://backend.siccic.com/api/properties/${propertyId}?populate=*`, {}).then((response) => { 
                 property = response.data.data.attributes;
                 //console.log('respuesta', property);
         }).catch((error) => { /* console.log('ocurrio este error', error); */ })
@@ -80,7 +81,7 @@ app.get('/admin/properties/property-detail/:id', (req, res, next) => {
         .replace('__META_OG_TITLE__', property?.categories.data[0].attributes.nombre)
         .replace('__META_OG_DESCRIPTION__', `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} \n ${property?.moneda}${property?.precio}`)
         .replace('__META_DESCRIPTION__', property?.tipoPropiedad)
-        .replace('__META_OG_IMAGE__', `https://siccic.com/backend${property?.photos.data[0].attributes.url}`)
+        .replace('__META_OG_IMAGE__', `https://backend.siccic.com${property?.photos.data[0].attributes.url}`)
             
         return res.send(htmlData);
     });
@@ -337,6 +338,16 @@ app.get('/home/portfolio/:id', (req, res, next) => {
         })
 });
 app.get('/home/portfolio/share-portfolio/:id', (req, res, next) => {
+        console.log(req.params.id);
+        
+        if (typeof (parseInt(req.params.id)) === 'number') {
+           portafolioId = parseInt(req.params.id);
+        }
+        
+        const response = axios.get(`https://backend.siccic.com/api/portafolios/${portafolioId}?populate=*`, {}).then((response) => { 
+                portafolio = response.data.data;
+                console.log('respuesta', portafolio);
+        }).catch((error) => { console.log('ocurrio este error'); })
         fs.readFile(indexPath, 'utf8', (err, htmlData) => {
                 if (err) {
                         console.error('Error leyendo el archivo index', err);
@@ -346,9 +357,10 @@ app.get('/home/portfolio/share-portfolio/:id', (req, res, next) => {
                         "__META_TITLE__",
                         "Portafolio compartido"
                 )
-                        .replace('__META_OG_TITLE__', "Sistema CIC")
-                        .replace('__META_OG_DESCRIPTION__', "Portafolio compartido")
+                        .replace('__META_OG_TITLE__', "Portafolio compartido")
                         .replace('__META_DESCRIPTION__', "Portafolio compartido")
+        .replace('__META_OG_DESCRIPTION__', `${portafolio?.attributes.categoria} - ${portafolio?.attributes.properties.data.length} inmuebles `)
+        .replace('__META_OG_IMAGE__', "https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png")
                 return res.send(htmlData);
         })
 });
@@ -897,6 +909,14 @@ app.get('/home/investor', (req, res, next) => {
         })
 });
 app.get('/home/search/pdf/:id', (req, res, next) => {
+        if (typeof (parseInt(req.params.id)) === 'number') {
+           propertyId = parseInt(req.params.id);
+        }
+        console.log("id de la property",res);
+        const response = axios.get(`https://backend.siccic.com/api/properties/${propertyId}?populate=*`, {}).then((response) => { 
+                property = response.data.data.attributes;
+                //console.log('respuesta', property);
+        }).catch((error) => { /* console.log('ocurrio este error', error); */ })
         fs.readFile(indexPath, 'utf8', (err, htmlData) => {
                 if (err) {
                         console.error('Error leyendo el archivo index', err);
@@ -904,11 +924,12 @@ app.get('/home/search/pdf/:id', (req, res, next) => {
                 }
                 htmlData = htmlData.replace(
                         "__META_TITLE__",
-                        "Propiedad en pfd"
+                        "Sistema CIC"
                 )
-                        .replace('__META_OG_TITLE__', "Sistema CIC")
-                        .replace('__META_OG_DESCRIPTION__', "Propiedad en pfd")
-                        .replace('__META_DESCRIPTION__', "Propiedad en pfd")
+        .replace('__META_OG_TITLE__', property?.categories.data[0].attributes.nombre)
+        .replace('__META_OG_DESCRIPTION__', `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} \n ${property?.moneda}${property?.precio}`)
+        .replace('__META_DESCRIPTION__', property?.tipoPropiedad)
+        .replace('__META_OG_IMAGE__', `https://backend.siccic.com${property?.photos.data[0].attributes.url}`)
                 return res.send(htmlData);
         })
 });

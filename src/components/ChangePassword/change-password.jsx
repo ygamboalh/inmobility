@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import { API } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import MySpinner from "../Spinner/spinner";
+import MetaData from "../Metadata/metadata";
 
 const ChangePasswordSchema = Yup.object().shape({
   currentPassword: Yup.string()
@@ -65,6 +66,7 @@ const ChangePassword = () => {
   }
   return (
     <div className="flex mt-8 mb-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
+      <MetaData title="Cambiar clave" description="Cambiar clave" />
       <div className="my-20 lg:my-3 sm:my-6 flex flex-col">
         <label className="loginh mb-4">Ingresa tu nueva contraseña</label>
         <label className="loginh5">

@@ -44,11 +44,10 @@ const PropertyDetailsSearch = () => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
 
-      setPdfUrl(`https://siccic.com/home/search/pdf/${id}`);
+      setPdfUrl(`https://backend.siccic.com/home/search/pdf/${id}`);
+      //setPdfUrl(`/home/search/pdf/${id}`);
     });
-
     setProperty(propertyFound);
-
     setIsLoading(false);
     const imagesUrl = [];
     imagesCount?.data?.forEach((image) => {
@@ -70,15 +69,6 @@ const PropertyDetailsSearch = () => {
   const { data: userData } = useQuery("profile", authUserData);
   const userEmail = userData?.email;
 
-  /* useEffect(() => {
-    document.head.innerHTML += `
-  <meta property='og:title' content='Mi titulo de ejemplo'/>
-  <meta property='og:description' content='Mi descripcion de ejemplo'/>
-  <meta property="og:image" content="https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png"/>
-  <meta name='keywords' content='My keywords!!!'/>
-  `;
-  }, []); */
-
   const seePdfDocument = () => {
     window.location.assign(pdfUrl);
   };
@@ -96,12 +86,10 @@ const PropertyDetailsSearch = () => {
 
   return (
     <section>
-      {/* <MetaData
-        title={property?.categories.data[0].attributes.nombre}
-        description={`${property?.tipoPropiedad} - ${property?.provincia} - ${property.canton} \n ${property?.moneda}${property.precio}`}
-        imageAlt={"Imagen de la propiedad"}
-        imageURL={`https://siccic.com/backend${images[0]}`}
-      /> */}
+      <MetaData
+        title="Detalles de la propiedad"
+        description="Detalles de la propiedad"
+      />
       <div className="container mx-auto min-h-[800px] pt-28">
         <div>
           <button

@@ -11,6 +11,7 @@ import { getToken } from "../../utils/helpers";
 import MySpinner from "../Spinner/spinner";
 import { Electrica, Locales, Parqueo, Provincia } from "../../BD/bd";
 import { QueriesByFilters } from "../../utils/QueriesByFilters";
+import MetaData from "../Metadata/metadata";
 
 const AlquileraLocalesComerciales = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -80,6 +81,7 @@ const AlquileraLocalesComerciales = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-fit">
+      <MetaData title="Buscar" description="Buscar" />
       <div className="inset-y-0 mb-4 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
       <div className="flex mt-3 justify-center align-middle items-center w-full">
         <label className="font-semibold text-xl text-center">

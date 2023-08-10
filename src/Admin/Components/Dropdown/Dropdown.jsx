@@ -22,14 +22,14 @@ import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-em
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState(
-    "https://siccic.com/backend/uploads/small_userinfo_dac703068b.png"
+    "https://backend.siccic.com/uploads/small_userinfo_dac703068b.png"
   );
   const [notificaciones, setNotificaciones] = useState();
   const { data: userData } = useQuery("profile", authUserData);
   const id = userData?.id;
   const user = AxiosInstance.get(`users/${id}?populate=photo`).then((data) => {
     const image = data?.data?.photo?.url;
-    const url = `https://siccic.com/backend${image}`;
+    const url = `https://backend.siccic.com${image}`;
 
     setImageUrl(url);
   });

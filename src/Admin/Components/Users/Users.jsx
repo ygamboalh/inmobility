@@ -5,6 +5,7 @@ import UserListPending from "../UserListPending/user-list-pending";
 import UserListDesact from "../UserListDesact/user-list-desact";
 import UserListActive from "../UserListActive/user-list-active";
 import Navbar from "../NavBar/NavBar";
+import MetaData from "../../../components/Metadata/metadata";
 
 const Users = () => {
   const [activeButton, setActiveButton] = useState(1);
@@ -17,6 +18,7 @@ const Users = () => {
       <div>
         <Navbar />
       </div>
+      <MetaData title="Usuarios" description="Usuarios" />
       <div>
         <hr />
         <div className="mt-24 mx-8 mb-2">

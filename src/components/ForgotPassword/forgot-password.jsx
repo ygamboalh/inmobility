@@ -12,6 +12,7 @@ import enviarCorreoPersonalizadoOrigen from "../../utils/email/send-personalized
 import enviarCorreoComunOrigen from "../../utils/email/send-common-email-origin";
 import { generateRandomCode } from "../../utils/helpers";
 import axios from "axios";
+import MetaData from "../Metadata/metadata";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const ForgotSchema = Yup.object().shape({
@@ -67,6 +68,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex my-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
+      <MetaData title="Olvidó clave" description="Olvidó clave" />
       <div className="my-20 lg:my-3 sm:my-6 flex flex-col">
         <label className="loginh">Recuperación de contraseña</label>
         <label className="loginh5">

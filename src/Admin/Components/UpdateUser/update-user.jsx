@@ -10,6 +10,7 @@ import { API } from "../../../constant";
 import { authUserData } from "../../../api/usersApi";
 import AxiosInstance from "../../../api/AxiosInstance";
 import MySpinner from "../../../components/Spinner/spinner";
+import MetaData from "../../../components/Metadata/metadata";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -105,6 +106,7 @@ const UpdateUser = () => {
 
   return (
     <div className="flex flex-col px-12 pt-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
+      <MetaData title="Actualizar usuario" description="Actualizar usuario" />
       <Formik
         initialValues={initialData}
         validationSchema={RegisterSchema}

@@ -11,6 +11,7 @@ import { createNotification, getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
 import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
 import { authUserData } from "../../../api/usersApi";
+import MetaData from "../../../components/Metadata/metadata";
 
 const PropertiesList = () => {
   const queryClient = useQueryClient();
@@ -214,6 +215,7 @@ const PropertiesList = () => {
 
   return (
     <div className="w-full">
+      <MetaData title="Propiedades" description="Propiedades activas" />
       <DataTable
         columns={column}
         data={records}

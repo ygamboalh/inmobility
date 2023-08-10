@@ -15,6 +15,7 @@ import axios from "axios";
 import Thumbnail from "../Thumbnail/thumbnail";
 import MySpinner from "../Spinner/spinner";
 import { BiHide, BiLock, BiShow } from "react-icons/bi";
+import MetaData from "../Metadata/metadata";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -129,6 +130,7 @@ const Profile = () => {
 
   return (
     <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
+      <MetaData title="Mi perfil" description="Mi perfil" />
       <div className="mb-4 mt-0 sm:my-2 flex flex-col">
         <label className="loginh my-2">Actualizar perfil</label>
         <div className="flex flex-col">

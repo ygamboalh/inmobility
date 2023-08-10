@@ -22,6 +22,7 @@ import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import MySpinner from "../Spinner/spinner";
 import { QueriesByFilters } from "../../utils/QueriesByFilters";
+import MetaData from "../Metadata/metadata";
 
 const AlquilerCasaApartamento = () => {
   const navigate = useNavigate();
@@ -176,6 +177,7 @@ const AlquilerCasaApartamento = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-fit">
+      <MetaData title="Buscar" description="Buscar" />
       <div className="inset-y-0 mb-4 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
       <div className="flex mt-3 justify-center align-middle items-center w-full">
         <label className="font-semibold text-xl flex text-center">

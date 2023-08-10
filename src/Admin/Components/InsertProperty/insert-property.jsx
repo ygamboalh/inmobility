@@ -46,6 +46,7 @@ import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-em
 import Swal from "sweetalert2";
 import CreatePropertyModal from "../../../components/Modals/create-property-modal";
 import CreatePortfolioModal from "../../../components/Modals/create-portfolio-modal";
+import MetaData from "../../../components/Metadata/metadata";
 
 const InsertProperty = () => {
   const { id } = useParams();
@@ -133,11 +134,6 @@ const InsertProperty = () => {
       distrito: property?.distrito,
       precio: property?.precio,
       tipoPropiedad: property?.tipoPropiedad,
-      tipoEdificio: property?.tipoEdificio,
-      tipoLocal: property?.tipoLocal,
-      tipoBodega: property?.tipoBodega,
-      tipoOficina: property?.tipoOficina,
-      tipoLote: property?.tipoLote,
       amenidades: amenidades,
       cochera: property?.cochera,
       usoDeSuelo: property?.usoDeSuelo,
@@ -223,11 +219,6 @@ const InsertProperty = () => {
           distrito: values.distrito,
           precio: values.precio,
           tipoPropiedad: selectedPropertyType,
-          tipoEdificio: values.tipoEdificio,
-          tipoBodega: values.tipoBodega,
-          tipoOficina: values.tipoOficina,
-          tipoLote: values.tipoLote,
-          tipoLocal: values.tipoLocal,
           amenidades: amenidades,
           areaPropiedad: values.areaPropiedad,
           areaTerreno: values.areaTerreno,
@@ -391,6 +382,10 @@ const InsertProperty = () => {
   };
   return (
     <div className="flex flex-col justify-center items-center h-fit">
+      <MetaData
+        title="Insertar o editar propiedad"
+        description="Insertar o editar propiedad"
+      />
       <CreatePropertyModal
         onDataReceived={handleDataFromChild}
         isVisible={showModal}

@@ -6,13 +6,13 @@ import AxiosInstance from "../../api/AxiosInstance";
 
 const Thumbnail = () => {
   const [imageUrl, setImageUrl] = useState(
-    "https://siccic.com/backend/uploads/userinfo_dac703068b.png"
+    "https://backend.siccic.com/uploads/userinfo_dac703068b.png"
   );
   const { data: userData } = useQuery("profile", authUserData);
   const id = userData?.id;
   const user = AxiosInstance.get(`users/${id}?populate=photo`).then((data) => {
     const image = data?.data?.photo?.url;
-    const url = `https://siccic.com/backend${image}`;
+    const url = `https://backend.siccic.com${image}`;
 
     setImageUrl(url);
   });

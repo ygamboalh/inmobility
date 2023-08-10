@@ -10,6 +10,7 @@ import { authUserData } from "../../api/usersApi";
 
 import { API, BEARER } from "../../constant";
 import MySpinner from "../Spinner/spinner";
+import MetaData from "../Metadata/metadata";
 
 const LoadPropertyImage = ({ creadoPor }) => {
   const id = useParams();
@@ -84,6 +85,7 @@ const LoadPropertyImage = ({ creadoPor }) => {
   }
   return (
     <div className="profile-photo flex -mt-20 items-center justify-center">
+      <MetaData title="Cargar imagen" description="Cargar imagen" />
       <form onSubmit={handleSubmit}>
         <label className="flex">
           Seleccione las imágenes para la propiedad: {id?.id}

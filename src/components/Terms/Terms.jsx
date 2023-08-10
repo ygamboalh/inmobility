@@ -3,6 +3,7 @@ import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import MetaData from "../Metadata/metadata";
 const Terms = () => {
   const navigate = useNavigate();
   const TermsSchema = Yup.object().shape({
@@ -51,6 +52,10 @@ const Terms = () => {
 
   return (
     <div className="flex flex-col items-center justify-left min-h-screen">
+      <MetaData
+        title="Términos y condiciones"
+        description="Términos y condiciones"
+      />
       <Formik
         initialValues={initialData}
         validationSchema={TermsSchema}

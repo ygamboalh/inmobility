@@ -77,7 +77,9 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
 
-      setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
+      setPdfUrl(
+        `https://backend.siccic.com/home/search/pdf/${response.data.data.id}`
+      );
     });
 
     setProperty(propertyFound);
@@ -107,13 +109,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   return (
     <section>
       <MetaData
-        title={"Detalles de la propiedad"}
-        content={property.tipoPropiedad}
-        imageAlt={"Imagen de la propiedad"}
-        imageURL={`https://siccic.com/backend${images[0]}`}
-        provincia={property.provincia}
-        categoria={property.categoria}
-        precio={property.precio}
+        title="Detalles de la propiedad"
+        content="Detalles de la propiedad"
       />
       <div className="container mx-auto pb-2 pt-6 bg-blue-200 rounded-xl">
         <div className="flex justify-between">

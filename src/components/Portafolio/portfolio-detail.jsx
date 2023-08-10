@@ -27,6 +27,7 @@ import {
 } from "react-icons/bi";
 import { message } from "antd";
 import AddPropertyModal from "../Modals/add-property-modal";
+import MetaData from "../Metadata/metadata";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
@@ -154,6 +155,10 @@ export const PortafolioDetail = () => {
   };
   return (
     <div className="flex justify-center flex-wrap mx-3">
+      <MetaData
+        title="Detalles del portafolio"
+        description="Detalles del portafolio"
+      />
       <AddPropertyModal
         onDataReceived={handleDataFromChildModal}
         isVisible={showModal}
@@ -291,15 +296,17 @@ export const PortafolioDetail = () => {
                           </div>
                         </div>
 
-                        <div className="flex items-center max-w-45 h-32">
-                          <div className="mb-3">
-                            <p className="text-xs flex truncate">
+                        <div className="flex items-center max-w-45 h-20">
+                          <div className="mb-3 w-28 h-36 items-center flex overflow-scroll">
+                            <span className="text-xs">
                               {record.attributes.descripcion ? (
                                 record.attributes.descripcion
                               ) : (
-                                <span>No tiene descripción</span>
+                                <span className="flex">
+                                  No tiene descripción
+                                </span>
                               )}
-                            </p>
+                            </span>
                           </div>
                         </div>
                       </div>

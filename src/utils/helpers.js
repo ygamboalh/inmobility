@@ -95,9 +95,9 @@ export const deleteNotification = async () => {
       .split("T")[1]
       .split(".")[0];
       //const currentTime = currentTimeString.slice(0, 2);
-      console.log('encontre desde helpers', notifications);
+  console.log('encontre desde helpers', notifications);
   notifications?.map((notif) => {
-      console.log('recorriendo desde helpers');
+    console.log('recorriendo desde helpers');
       const fecha = notif.attributes.createdAt.slice(0, 10);
       const hora = notif.attributes.createdAt.slice(11, 16);
       const horaCreado = deleteZero(hora.slice(0, 2));
@@ -105,7 +105,9 @@ export const deleteNotification = async () => {
       console.log(horaActual, horaCreado);
       const result = horaActual - horaCreado;
       console.log("resultado", result);
-      console.log(fecha, currentDateString);
+    console.log('comparando fechas',fecha, currentDateString);
+    //console.log('fecha actual',fecha, currentDate);
+    
       if (fecha === currentDate && result >= 3) {
         const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
           .then((response) => {
@@ -114,7 +116,7 @@ export const deleteNotification = async () => {
           .catch((error) => {
             return;
           });
-      } else if (fecha !== currentDate) {
+      }  else if (fecha !== currentDateString) {
         const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
           .then((response) => {
             return;
@@ -122,7 +124,7 @@ export const deleteNotification = async () => {
           .catch((error) => {
             return;
           });
-      }
+      } 
     });
 };
   

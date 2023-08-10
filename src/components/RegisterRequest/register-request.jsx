@@ -12,6 +12,7 @@ import { API } from "../../constant";
 import { userIntser } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
 import enviarCorreo from "../../utils/email/send-email";
+import MetaData from "../Metadata/metadata";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^(\d{2,}\s?)+$/;
@@ -175,6 +176,10 @@ const RegisterRequest = () => {
   }
   return (
     <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
+      <MetaData
+        title="Solicitud de registro"
+        description="Solicitud de registro"
+      />
       <div className="mb-0 mt-0 sm:my-2 flex flex-col">
         <label className="loginh my-2">Solicitud de Registro</label>
         <label className="loginh5 w-72 mb-1">

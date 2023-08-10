@@ -10,6 +10,7 @@ import { Estado, TipoAsesor } from "../../../BD/bd";
 import AxiosInstance from "../../../api/AxiosInstance";
 import { authUserData, passedUser, userIntser } from "../../../api/usersApi";
 import MySpinner from "../../../components/Spinner/spinner";
+import MetaData from "../../../components/Metadata/metadata";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -139,6 +140,10 @@ const InsertUser = () => {
   }
   return (
     <div className="flex flex-col border px-12 pt-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
+      <MetaData
+        title="Insertar o editar usuario"
+        description="Insertar o editar usuario"
+      />
       <Formik
         initialValues={{
           username: pasedUser?.username,
@@ -167,7 +172,7 @@ const InsertUser = () => {
                         <div
                           className="w-32 h-32 rounded-full"
                           style={{
-                            backgroundImage: `url('https://siccic.com/backend${userImg}')`,
+                            backgroundImage: `url('https://backend.siccic.com${userImg}')`,
                             backgroundPosition: "center",
                             backgroundSize: "100%",
                             backgroundRepeat: "no-repeat",
@@ -178,7 +183,7 @@ const InsertUser = () => {
                           alt="perfil"
                           className="w-32 h-32 rounded-full"
                           style={{
-                            backgroundImage: `url(https://siccic.com/backend/uploads/small_userinfo_dac703068b.png)`,
+                            backgroundImage: `url(https://backend.siccic.com/uploads/small_userinfo_dac703068b.png)`,
                             backgroundPosition: "cover",
                             backgroundSize: "100%",
                             backgroundRepeat: "no-repeat",

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import LoadPropertyImage from "./my-upload-property";
 import { authUserData } from "../../api/usersApi";
+import MetaData from "../Metadata/metadata";
 
 const Upload = () => {
   const { data: userData } = useQuery("profile", authUserData);
@@ -10,6 +11,7 @@ const Upload = () => {
   const navigate = useNavigate();
   return (
     <div className="flex flex-col  justify-center align-middle items-center">
+      <MetaData title="Cargar imagen" description="Cargar imagen" />
       <div className="mb-24 mt-32">
         <button
           type="button"

@@ -68,12 +68,7 @@ const PdfViewShared = () => {
   }
   return (
     <section className="flex justify-center min-h-full">
-      <MetaData
-        title={"La propiedad en pdf"}
-        content={property.tipoPropiedad}
-        imageAlt={"Imagen de la propiedad"}
-        imageURL={`https://siccic.com/backend${images[0]}`}
-      />
+      <MetaData title="La propiedad en pdf" content="La propiedad en pdf" />
       <PDFViewer
         style={{
           width: "80%",
@@ -91,7 +86,7 @@ const PdfViewShared = () => {
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
                   <Image
-                    src={`https://siccic.com/backend/uploads/biglogo_8b9bf26113.png?updated_at=2023-07-11T15:23:36.365Z`}
+                    src={`https://backend.siccic.com/uploads/biglogo_8b9bf26113.png`}
                     style={{}}
                   ></Image>
                 </View>
@@ -143,11 +138,11 @@ const PdfViewShared = () => {
                 <View className="mb-8">
                   {!images?.length ? (
                     <Image
-                      src={`https://siccic.com/backend/uploads/no_image_default_0e6727a941.jpg?updated_at=2023-07-10T05:06:31.319Zg`}
+                      src={`https://backend.siccic.com/uploads/no_image_default_0e6727a941.jpg`}
                     />
                   ) : (
                     images.map((elemento, index) => (
-                      <Image src={`https://siccic.com/backend${elemento}`} />
+                      <Image src={`https://backend.siccic.com${elemento}`} />
                     ))
                   )}
                 </View>

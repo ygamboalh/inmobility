@@ -11,6 +11,7 @@ import MySpinner from "../Spinner/spinner";
 import { useMutation } from "react-query";
 import { channgePassword, resetPassword } from "../../api/usersApi";
 import axios from "axios";
+import MetaData from "../Metadata/metadata";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const RecoverySchema = Yup.object().shape({
@@ -103,6 +104,7 @@ const ResetPassword = () => {
   }
   return (
     <div className="flex my-10 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
+      <MetaData title="Reiniciar clave" description="Reiniciar clave" />
       <div className="lg:my-2.5 flex flex-col">
         <label className="loginh">Recuperación de contraseña</label>
         <label className="loginh5">Introduzca los datos requeridos</label>

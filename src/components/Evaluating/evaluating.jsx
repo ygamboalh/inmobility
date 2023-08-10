@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import MetaData from "../Metadata/metadata";
 
 const Evaluating = () => {
   return (
     <div className="flex flex-col my-40 items-center justify-between w-screen bg-white">
+      <MetaData title="Evaluando" description="Evaluando" />
       <div className="mb-0 mt-0 text-center sm:my-2 flex flex-col">
         <label className="loginh my-2">Estamos evaluando</label>
         <label className="loginh5 w-72 mb-1">

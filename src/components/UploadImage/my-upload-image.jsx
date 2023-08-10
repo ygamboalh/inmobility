@@ -6,6 +6,7 @@ import axios from "axios";
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 import { API } from "../../constant";
+import MetaData from "../Metadata/metadata";
 
 const LoadImage = () => {
   const { data: userData } = useQuery("profile", authUserData);
@@ -25,22 +26,8 @@ const LoadImage = () => {
     });
     return renamedFile;
   };
-  /* const deleteOldPhoto = async () => {
-    const id = `u-${userData.id}`;
-    const upload = await axios({
-      method: "DELETE",
-      url: `${API}upload/files/${id}`,
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    });
-  }; */
   const handleSubmit = async (event) => {
     event.preventDefault();
-    //buscar la imagen de perfil anterior y borrarla
-    /* if (userData.photo != null) {
-      deleteOldPhoto();
-    } */
     const renamedImageFile = renameFile(image);
     const data = new FormData();
     data.append("files", renamedImageFile);
@@ -60,6 +47,7 @@ const LoadImage = () => {
 
   return (
     <div className="profile-photo flex -mt-20 items-center justify-center">
+      <MetaData title="Cargar imagen" description="Cargar imagen" />
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col items-center justify-center w-full">
           <label

@@ -7,6 +7,7 @@ import { Formik, Form, Field } from "formik";
 
 import AxiosInstance from "../../../api/AxiosInstance";
 import MySpinner from "../../../components/Spinner/spinner";
+import MetaData from "../../../components/Metadata/metadata";
 
 const InsertLink = () => {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const InsertLink = () => {
 
   return (
     <div className="flex flex-col ">
+      <MetaData title="Insertar enlace" description="Insertar enlace" />
       <div className="inset-y-0 mb-20 left-0 flex justify-center align-middle items-center pl-3"></div>
       <Formik
         initialValues={initialData}

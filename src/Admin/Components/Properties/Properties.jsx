@@ -5,6 +5,7 @@ import Navbar from "../NavBar/NavBar";
 import PropertyListActive from "../PropertyListActive/property-list-active";
 import PropertyListPending from "../PropertyListPending/property-list-pending";
 import PropertyListDesact from "../PropertyListDesact/property-list-desact";
+import MetaData from "../../../components/Metadata/metadata";
 
 const Properties = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Properties = () => {
       <div>
         <Navbar />
       </div>
+      <MetaData title="Propiedades" description="Propiedades" />
       <div>
         <hr />
         <div className="mt-24 mx-8 mb-2">

@@ -61,11 +61,7 @@ const SignIn = () => {
   }
   return (
     <div className="flex my-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
-      {/* <MetaData
-        title={"Iniciar sesión en el Sistema CIC"}
-        content={"Proporcione sus datos para iniciar sesión"}
-        imageURL={"https://siccic.com/backend/uploads/blue_logo_da5c34b1b7.png"}
-      /> */}
+      <MetaData title="Iniciar sesión" content={"Iniciar sesión"} />
       <div className="my-20 lg:my-3 sm:my-6 flex flex-col">
         <label className="loginh">Iniciar sesión</label>
         <label className="loginh5">Ingresa tus datos</label>

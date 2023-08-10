@@ -12,6 +12,7 @@ import { getToken } from "../../utils/helpers";
 import { getAllPortafolios } from "../../api/propertiesApi";
 import MySpinner from "../Spinner/spinner";
 import { BiHomeAlt, BiMailSend, BiUserCircle } from "react-icons/bi";
+import MetaData from "../Metadata/metadata";
 
 const Portafolio = () => {
   const queryClient = useQueryClient();
@@ -87,6 +88,7 @@ const Portafolio = () => {
   }
   return (
     <div className="w-full">
+      <MetaData title="Mis portafolios" description="Mis portafolios" />
       <div className="w-full justify-center items-center flex flex-col">
         <div className="flex flex-col items-center justify-center">
           {!records ? (
@@ -109,7 +111,7 @@ const Portafolio = () => {
               return (
                 <div className="w-full max-w-md my-2 p-4 mx-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
                   <div className="flex items-center justify-between mb-4">
-                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
+                    <h5 className="text-md mr-2 font-bold leading-none text-gray-900 dark:text-white">
                       Detalles del portafolio
                     </h5>
                     <span className="font-semibold text-blue-700 text-xs">

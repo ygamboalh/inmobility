@@ -6,6 +6,7 @@ import MySpinner from "../Spinner/spinner";
 import { BiMailSend, BiPhoneCall } from "react-icons/bi";
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
+import MetaData from "../Metadata/metadata";
 
 const PortafolioShare = () => {
   const { id } = useParams();
@@ -34,6 +35,10 @@ const PortafolioShare = () => {
   }
   return (
     <div>
+      <MetaData
+        title="Compartir portafolio"
+        description="Compartir portafolio"
+      />
       <div className="mx-8">
         <span className="font-semibold">
           ¡Saludos! Estimado {portafolio.attributes.clienteComprador}

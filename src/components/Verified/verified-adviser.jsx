@@ -4,6 +4,7 @@ import { AdviserCard } from "../AdviserCard/adviser-card";
 import { useQuery } from "react-query";
 import { authUserData } from "../../api/usersApi";
 import Thumbnail from "../Thumbnail/thumbnail";
+import MetaData from "../Metadata/metadata";
 
 const VerifiedAdviser = () => {
   const { data: userData } = useQuery("profile", authUserData);
@@ -14,6 +15,7 @@ const VerifiedAdviser = () => {
       <div className="mt-3 flex content-center align-middle justify-center">
         {role === "Authenticated" ? <Thumbnail /> : <span></span>}
       </div>
+      <MetaData title="Asesores" description="Asesores" />
       <div className="text-center">
         <div className="flex flex-col">
           <label className="font-bold text-sm"> ASESOR INMOBILIARIO</label>

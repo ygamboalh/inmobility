@@ -5,6 +5,7 @@ import MySpinner from "../Spinner/spinner";
 import { BiBell } from "react-icons/bi";
 
 import { useNavigate } from "react-router-dom";
+import MetaData from "../Metadata/metadata";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -64,7 +65,7 @@ const Notifications = () => {
             .catch((error) => {
               console.log("pero el error", error);
             });
-        } else if (fecha !== currentDate) {
+        } else if (fecha !== currentDateString) {
           const response = AxiosInstance.delete(
             `${API}notifications/${notif.id}`
           )
@@ -86,6 +87,7 @@ const Notifications = () => {
   }
   return (
     <div>
+      <MetaData title="Notificaciones" description="Notificaciones" />
       <div className="flex justify-center my-4 font-semibold">
         {notifications.length < 1 ? (
           <span>No hay notificaciones para mostrar</span>
