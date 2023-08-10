@@ -33,7 +33,6 @@ const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 export const PortafolioDetail = () => {
   const { data: userData } = useQuery("profile", authUserData);
   const location = useLocation();
-  console.log("lo que esta llegando", location.state);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [pending, setPending] = useState(true);
@@ -41,6 +40,7 @@ export const PortafolioDetail = () => {
   const [portafolio, setPortafolio] = useState();
   const [filterRecords, setFilterRecords] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [newPropertiesList, setNewPropertiesList] = useState([]);
 
   useEffect(() => {
     const data = location.state;
@@ -90,13 +90,12 @@ export const PortafolioDetail = () => {
       console.log("valores que llegan", values);
       setIsLoading(true);
       const id = userData?.id;
-      const mobile = userData?.mobile;
-      const email = userData?.email;
 
       const newProperties = [];
       records?.map((record) => {
         newProperties.push(record.id);
       });
+      newProperties.push(...newPropertiesList);
 
       const value = {
         creadoPor: id,
@@ -117,7 +116,6 @@ export const PortafolioDetail = () => {
         data: { data: value },
       })
         .then((result) => {
-          //const property = result.data.data.attributes;
           message.success("Portafolio actualizado correctamente");
           navigate("/home/portfolio");
         })
@@ -142,16 +140,9 @@ export const PortafolioDetail = () => {
     }
   }
   const handleDataFromChildModal = (data) => {
+    console.log("recibido del hijo", data);
     setShowModal(data.close);
-
-    /* if (
-      data?.data?.clienteComprador !== undefined &&
-      data?.data?.correoCliente !== undefined
-    ) {
-       setClienteName(data.data.clienteComprador);
-      setClienteEmail(data.data.correoCliente);
-      setCreated(true); 
-    } */
+    setNewPropertiesList(data.propertyList);
   };
   const handleFilter = (event) => {
     const searchData = filterRecords.filter((row) =>

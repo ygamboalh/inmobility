@@ -4,11 +4,14 @@ import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 import { useQuery } from "react-query";
 import { getAllPropertiesRQ } from "../../api/propertiesApi";
+import MySpinner from "../Spinner/spinner";
 
 const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
   const [close, setClose] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState([]);
   const [records, setRecords] = useState([]);
+  const [dataToSend, setDataToSend] = useState();
+  const [filterRecords, setFilterRecords] = useState([]);
 
   const selectCategory = (category) => {
     switch (category) {
@@ -60,7 +63,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
           foundedProperties
         );
         setRecords(foundedProperties);
-        //setFilterRecords(foundedProperties);
+        setFilterRecords(foundedProperties);
         //setPending(false);
       },
     }
@@ -75,18 +78,32 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
     onDataReceived({ close: false });
   };
   const sendDataToParent = () => {
-    console.log("opcion seleccionada", selectedOption);
-    if (selectedOption === "") {
+    setDataToSend(selectedOption);
+    if (selectedOption.length <= 0) {
       return;
     } else {
-      onDataReceived({ close: false, selected: selectedOption });
+      onDataReceived({ close: false, propertyList: selectedOption });
     }
   };
-  const handleOptionSelectChange = (event) => {
-    const selectedOption = event.target.value;
-    setSelectedOption(selectedOption);
+  const handleOptionSelectChange = (id) => {
+    if (selectedOption?.includes(id)) {
+      setSelectedOption(selectedOption.filter((item) => item !== id));
+    } else {
+      setSelectedOption([...selectedOption, id]);
+    }
   };
-
+  const handleFilter = (event) => {
+    const searchData = filterRecords.filter((row) =>
+      row.attributes.tipoPropiedad
+        .toLowerCase()
+        .includes(event.target.value.toLowerCase())
+    );
+    setRecords(searchData);
+  };
+  console.log("fue seleccionado", selectedOption);
+  if (!records) {
+    return <MySpinner />;
+  }
   //console.log("categoria seleccionada", selectedOption);
   if (!isVisible) return null;
   return (
@@ -94,36 +111,43 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
       <div className="flex flex-col mx-4">
         <button
           onClick={closeModal}
-          className="place-self-end bg-blue-700 text-white w-16 h-7 rounded-md"
+          className="place-self-end bg-blue-700 text-white w-10 h-7 rounded-md"
         >
           X
         </button>
-        <div className="bg-white p-4 max-w-[400px] max-h-[500px]  rounded-md">
+        <div className="bg-white overflow-scroll p-4 max-w-[400px] max-h-[500px]  rounded-md">
+          <div className="my-3 justify-center">
+            <input
+              type="text"
+              onChange={handleFilter}
+              className="px-2 py-2 flex w-full border border-gray-300 rounded-md"
+              placeholder="Filtrar por tipo de propiedad"
+            />
+          </div>
+          <div className="text-center">Seleccione las propiedades</div>
           <div className="flex justify-center flex-col content-center items-center">
             {records.map((record) => (
-              <div className="flex flex-col">
-                <div>categoria</div>
-                <hr />
+              <div className="w-full max-w-md mt-2 p-6 bg-white border border-gray-200 rounded-lg shadow sm:p-6">
+                <div className="flex items-center -mt-3 align-middle justify-between mb-4">
+                  <div className="truncate">
+                    {record.attributes.tipoPropiedad}
+                  </div>
+                  <span className="font-semibold text-blue-700 text-xs">
+                    <button onClick={() => handleOptionSelectChange(record.id)}>
+                      <input type="checkbox" className="h-6 w-6 rounded-full" />
+                    </button>
+                  </span>
+                </div>
+                <hr className="mb-2" />
+                <div>{record.attributes.provincia}</div>
+                <div>{record.attributes.canton}</div>
+                <div>{record.attributes.distrito}</div>
+                <div>
+                  {record.attributes.moneda}
+                  {record.attributes.precio}
+                </div>
               </div>
             ))}
-            {/* <select
-              required
-              name="categories"
-              value={selectedOption}
-              //disabled={category}
-              //defaultValue={category}
-              onChange={handleOptionSelectChange}
-              className="categories m-2 w-full max-[500px]:mx-0  md:w-fit lg:mx-80"
-            >
-              <option value="" label="">
-                {"Seleccione la categoría"}
-              </option>
-              {categories.map((item) => (
-                <option value={item.value} label={item.label}>
-                  {item.value}
-                </option>
-              ))}
-            </select> */}
           </div>
           <hr />
           <div className="flex justify-center mt-2">

@@ -54,8 +54,6 @@ import Portafolio from './components/Portafolio/portfolio';
 import { PortafolioDetail } from './components/Portafolio/portfolio-detail';
 import PortafolioShare from './components/Portafolio/portfolio-share';
 import CheckRole from './layouts/components/CheckRole';
-import { useQuery } from 'react-query';
-import { authUserData } from './api/usersApi';
 import Notifications from './components/Notifications/notifications';
 import SearchResultsCard from './components/SearchResults/search-results-card';
 

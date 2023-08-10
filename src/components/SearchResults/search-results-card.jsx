@@ -74,8 +74,6 @@ const SearchResultsCard = () => {
       setDataFromChild(oldList);
     }
   };
-
-  console.log("lista definitiva", dataFromChild);
   useEffect(() => {
     const categories = location.state.categories;
     setCategories(categories);
