@@ -238,7 +238,8 @@ const PortafolioCard = ({ propiedad }) => {
             </div>
           </div>
           <div className="text-3xl font-semibold text-blue-600">
-            $ {property.precio}
+            {property.moneda}
+            {property.precio}
           </div>
         </div>
 

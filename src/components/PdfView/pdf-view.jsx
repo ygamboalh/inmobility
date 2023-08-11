@@ -91,7 +91,9 @@ const PdfView = ({ property }) => {
                   </Text>
                 }
                 <Text>
-                  <Text>Precio: </Text>${property?.precio}
+                  <Text>Precio: </Text>
+                  {property?.moneda}
+                  {property?.precio}
                 </Text>
               </View>
             </View>

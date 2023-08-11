@@ -142,7 +142,7 @@ const PropertiesDesact = () => {
     {
       name: "Precio",
       id: "precio",
-      selector: (row) => row.attributes.precio,
+      selector: (row) => row.attributes.moneda + row.attributes.precio,
       sortable: true,
       width: "90px",
     },
