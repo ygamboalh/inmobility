@@ -69,7 +69,7 @@ app.get('/admin/properties/property-detail/:id', (req, res, next) => {
                 property = response.data.data.attributes;
                 
                 (property?.photos?.data !== null
-                        ? imageUrl = `https://backend.siccic.com/${property?.photos?.data[0]?.attributes?.url}`
+                        ? imageUrl = `https://backend.siccic.com${property?.photos?.data[0]?.attributes?.url}`
                         : imageUrl = 'https://backend.siccic.com/uploads/no_image_default_0e6727a941.jpg')
         }).catch((error) => { /* console.log('ocurrio este error', error); */ })
         fs.readFile(indexPath, 'utf8', (err, htmlData) => {
@@ -936,7 +936,7 @@ app.get('/home/search/pdf/:id', (req, res, next) => {
                 property = response.data.data.attributes;
                 
                 (property?.photos?.data !== null
-                        ? imageUrl = `https://backend.siccic.com/${property?.photos?.data[0]?.attributes?.url}`
+                        ? imageUrl = `https://backend.siccic.com${property?.photos?.data[0]?.attributes?.url}`
                         : imageUrl = 'https://backend.siccic.com/uploads/no_image_default_0e6727a941.jpg')
         }).catch((error) => { /* console.log('ocurrio este error', error); */ })
         fs.readFile(indexPath, 'utf8', (err, htmlData) => {
