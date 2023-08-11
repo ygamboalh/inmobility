@@ -49,7 +49,6 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
     {
       onSuccess: (data) => {
         const foundedProperties = [];
-        console.log("dfdfsdfsf", data);
         data.data.forEach((property) => {
           if (
             property?.attributes?.categories?.data[0]?.attributes?.nombre ===
@@ -58,10 +57,6 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
             foundedProperties.push(property);
           }
         });
-        console.log(
-          "encontre estas propiedades con la categoria",
-          foundedProperties
-        );
         setRecords(foundedProperties);
         setFilterRecords(foundedProperties);
         //setPending(false);
@@ -73,7 +68,6 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
     const categoria = selectCategory(category);
     const response = AxiosInstance.get(`${API}properties/`);
   }, []);
-  console.log("lo que recibo del padre", category);
   const closeModal = () => {
     onDataReceived({ close: false });
   };
@@ -100,11 +94,9 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
     );
     setRecords(searchData);
   };
-  console.log("fue seleccionado", selectedOption);
   if (!records) {
     return <MySpinner />;
   }
-  //console.log("categoria seleccionada", selectedOption);
   if (!isVisible) return null;
   return (
     <div className="fixed z-10 inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">

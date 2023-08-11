@@ -25,7 +25,6 @@ const PdfViewShared = () => {
   const [images, setImages] = useState([]);
 
   const getProperty = async () => {
-    console.log(id);
     setIsLoading(true);
     let propertyFound = null;
     let imagesCount = [];
@@ -35,12 +34,12 @@ const PdfViewShared = () => {
     )
       .then((response) => {
         propertyFound = response.data.data.attributes;
-        console.log("Propiedad encontrada", propertyFound);
+
         imagesCount = response.data.data.attributes.photos;
         setProperty(propertyFound);
       })
       .catch((error) => {
-        console.log("error de axiosInstance", error);
+        console.log(error);
       });
 
     imagesCount?.data?.forEach((image) => {

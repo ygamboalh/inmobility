@@ -43,9 +43,7 @@ const PropertyDetailsSearch = () => {
     ).then((response) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
-
-      setPdfUrl(`https://backend.siccic.com/home/search/pdf/${id}`);
-      //setPdfUrl(`/home/search/pdf/${id}`);
+      setPdfUrl(`https://siccic.com/home/search/pdf/${id}`);
     });
     setProperty(propertyFound);
     setIsLoading(false);

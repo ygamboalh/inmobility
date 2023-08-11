@@ -41,29 +41,26 @@ const Notifications = () => {
       .toISOString()
       .split("T")[1]
       .split(".")[0];
-    console.log("las notificaciones", notifications);
+
     if (notifications.length > 0) {
-      console.log("hay elementos");
       notifications.map((notif) => {
         const fecha = notif.attributes.createdAt.slice(0, 10);
         const hora = notif.attributes.createdAt.slice(11, 16);
         const horaCreado = deleteZero(hora.slice(0, 2));
         const horaActual = deleteZero(currentTimeString.slice(0, 2));
-        console.log(horaActual, horaCreado);
+
         const result = horaActual - horaCreado;
-        console.log("resultado", result);
-        console.log(fecha, currentDateString);
+
         setIsLoading(true);
         if (result >= 3) {
           const response = AxiosInstance.delete(
             `${API}notifications/${notif.id}`
           )
             .then((response) => {
-              console.log("respueta correacta", response);
               return response;
             })
             .catch((error) => {
-              console.log("pero el error", error);
+              console.log(error);
             });
         } else if (fecha !== currentDateString) {
           const response = AxiosInstance.delete(

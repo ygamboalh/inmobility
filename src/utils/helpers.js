@@ -94,20 +94,14 @@ export const deleteNotification = async () => {
       .toISOString()
       .split("T")[1]
       .split(".")[0];
-      //const currentTime = currentTimeString.slice(0, 2);
-  console.log('encontre desde helpers', notifications);
+      
   notifications?.map((notif) => {
-    console.log('recorriendo desde helpers');
+    
       const fecha = notif.attributes.createdAt.slice(0, 10);
       const hora = notif.attributes.createdAt.slice(11, 16);
       const horaCreado = deleteZero(hora.slice(0, 2));
-      const horaActual = deleteZero(currentTimeString.slice(0, 2));
-      console.log(horaActual, horaCreado);
+      const horaActual = deleteZero(currentTimeString.slice(0, 2));    
       const result = horaActual - horaCreado;
-      console.log("resultado", result);
-    console.log('comparando fechas',fecha, currentDateString);
-    //console.log('fecha actual',fecha, currentDate);
-    
       if (fecha === currentDate && result >= 3) {
         const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
           .then((response) => {
@@ -139,7 +133,7 @@ export const deletePortfolios = async (portfolios) => {
             },
           })
           .then((resp) => {
-            console.log("respuesta de borrar los portafolios", resp);
+            
           })
           .catch((err) => {
             console.log(err);
@@ -161,7 +155,7 @@ export const deletePortfolios = async (portfolios) => {
         resp.data.data.map((data) => {
           portfolios.push(data.id);
         });
-        console.log("encontrado los portfolios", portfolios);
+        
       })
       .catch((err) => {
         console.log(err);

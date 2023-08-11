@@ -33,7 +33,6 @@ const PropertiesList = () => {
             foundedProperties.push(property);
           }
         });
-        console.log(foundedProperties);
         setRecords(foundedProperties);
         setFilterRecords(foundedProperties);
         setPending(false);

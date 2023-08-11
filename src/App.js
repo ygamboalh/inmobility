@@ -134,8 +134,8 @@ const App = () => {
           </Route>
           <Route element={<ExtraLayout />}>
                <Route exact path="/home/investor" element={<Investor />} /> 
-        </Route>
-       <Route element={<ExtraLayoutShared />}>
+          </Route>
+          <Route element={<ExtraLayoutShared />}>
                 <Route exact path="/home/search/pdf/:id" element={<PdfViewShared />} /> 
           </Route>
           <Route exact path='/' element={<Home />} />

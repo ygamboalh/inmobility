@@ -12,7 +12,7 @@ const PdfView = ({ property }) => {
   useEffect(() => {
     getProperty();
   }, []);
-  console.log(property);
+
   const getProperty = async () => {
     setIsLoading(true);
     let imagesCount = [];

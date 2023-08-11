@@ -76,10 +76,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     ).then((response) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
-
-      setPdfUrl(
-        `https://backend.siccic.com/home/search/pdf/${response.data.data.id}`
-      );
+      setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
     });
 
     setProperty(propertyFound);

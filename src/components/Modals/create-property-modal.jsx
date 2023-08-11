@@ -6,11 +6,9 @@ const CreatePropertyModal = ({ isVisible, onDataReceived }) => {
   const [selectedOption, setSelectedOption] = useState("");
 
   const closeModal = () => {
-    console.log("opcion seleccionada", selectedOption);
     onDataReceived({ close: false });
   };
   const sendDataToParent = () => {
-    console.log("opcion seleccionada", selectedOption);
     if (selectedOption === "") {
       return;
     } else {
@@ -21,7 +19,7 @@ const CreatePropertyModal = ({ isVisible, onDataReceived }) => {
     const selectedOption = event.target.value;
     setSelectedOption(selectedOption);
   };
-  //console.log("categoria seleccionada", selectedOption);
+
   if (!isVisible) return null;
   return (
     <div className="fixed z-10 inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">

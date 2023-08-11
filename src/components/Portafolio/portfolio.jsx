@@ -63,9 +63,7 @@ const Portafolio = () => {
           const property = result.data.data.attributes;
           queryClient
             .invalidateQueries(["portafolios"])
-            .then((resultado) =>
-              console.log("resultado de eliminar el portfolio", resultado)
-            );
+            .then((resultado) => {});
         });
         if (result) {
           Swal.fire("Portafolio eliminado!", "");

@@ -39,7 +39,7 @@ const PropertyDetailsSearch = () => {
   const [images, setImages] = useState([]);
   const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
-  console.log("url del pdf", pdfUrl);
+  const navigate = useNavigate();
 
   const getProperty = async () => {
     setIsLoading(true);
@@ -51,13 +51,11 @@ const PropertyDetailsSearch = () => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
 
-      setPdfUrl(
-        `https://backend.siccic.com/home/search/pdf/${response.data.data.id}`
-      );
+      setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
     });
 
     setProperty(propertyFound);
-    console.log(propertyFound);
+
     setIsLoading(false);
     const imagesUrl = [];
     imagesCount?.data?.forEach((image) => {

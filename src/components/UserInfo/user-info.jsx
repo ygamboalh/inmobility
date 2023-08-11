@@ -35,7 +35,6 @@ const UserInfo = () => {
   useEffect(() => {
     const response = AxiosInstance.get(`${API}notifications`)
       .then((response) => {
-        console.log("encontre estas notificaciones", response.data.data);
         setNotificaciones(response.data.data);
       })
       .catch((err) => {

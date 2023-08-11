@@ -37,12 +37,7 @@ const Dropdown = () => {
     deleteNotification();
     const response = AxiosInstance.get(`${API}notifications`)
       .then((response) => {
-        //const length = response.data.data.length;
-        console.log("encontre estas notificaciones", response.data.data.length);
         setNotificaciones(response.data.data);
-        /* message.info(
-          `${response.data.data[length - 1].attributes.information}`
-        ); */
       })
       .catch((err) => {
         console.log(err);

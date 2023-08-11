@@ -48,7 +48,6 @@ const PortafolioCard = ({ propiedad }) => {
   const [confusedColor, setConfusedColor] = useState("#3F83F8");
   const [reaction, setReaction] = useState([]);
 
-  console.log(propiedad);
   const propertyId = propiedad.property;
   useEffect(() => {
     getProperty();
@@ -110,9 +109,7 @@ const PortafolioCard = ({ propiedad }) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
 
-      setPdfUrl(
-        `https://backend.siccic.com/home/search/pdf/${response.data.data.id}`
-      );
+      setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
     });
 
     setProperty(propertyFound);
@@ -127,7 +124,7 @@ const PortafolioCard = ({ propiedad }) => {
 
   const updatePortfolio = (reaction) => {
     setIsLoading(true);
-    console.log(reaction[0]);
+
     const values = {
       reaccion: reaction[0],
     };
@@ -135,11 +132,9 @@ const PortafolioCard = ({ propiedad }) => {
       data: { reaccion: reaction[0] },
     })
       .then((response) => {
-        console.log("respuesta de actualizar", response);
         message.success("La respuesta fue enviada correctamente");
       })
       .catch((error) => {
-        console.log("este fue el error", error);
         message.error("No se pudo enviar la respuesta");
       })
       .finally(() => {
@@ -156,7 +151,7 @@ const PortafolioCard = ({ propiedad }) => {
         propiedades.push(property.id);
       }
     });
-    console.log("propiedades desepues de borar", propiedades);
+
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       title: "¿Desea eliminar el inmueble del portafolio?",
@@ -172,12 +167,11 @@ const PortafolioCard = ({ propiedad }) => {
         })
           .then((response) => {
             message.success("El inmueble fue eliminado del portafolio");
-            console.log(response);
+
             window.location.reload();
           })
           .catch((err) => {
             message.error("El inmueble no fue eliminado. Intente nuevamente");
-            console.log(err);
           })
           .finally(setIsLoading(false));
       }

@@ -72,10 +72,10 @@ const SearchResults = () => {
       correoAsesor: email,
       categoria: categories,
     };
-    console.log(portafolioProperties);
+
     if (portafolioProperties.length > 0) {
       const totalPortfolios = data.data.length;
-      console.log(totalPortfolios);
+
       if (totalPortfolios < 100) {
         const response = axios(`${API}portafolios`, {
           method: "POST",
@@ -86,12 +86,11 @@ const SearchResults = () => {
           data: { data: values },
         })
           .then((response) => {
-            console.log("respuesta de guardar el portafolio", response);
             message.success("¡El portafolio fue creado correctamente!");
             navigate("/home/portfolio");
           })
           .catch((error) => {
-            console.log("ocurrio este error", error);
+            console.log(error);
           })
           .finally(() => {
             setIsLoading(false);
@@ -233,7 +232,6 @@ const SearchResults = () => {
               button
               onClick={() => {
                 AddProperty(row.id);
-                //console.log("desde dentro", abc);
               }}
               className={
                 !portafolioProperties?.includes(row.id)

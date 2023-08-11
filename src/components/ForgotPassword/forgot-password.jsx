@@ -40,7 +40,6 @@ const ForgotPassword = () => {
       const response = axios
         .get(`${API}users?filters[email][$eq]=${value.email}`)
         .then((response) => {
-          console.log("respuesta", response);
           if (response.data.length > 0) {
             enviarCorreoComunOrigen(value.email, body, asunto);
 
@@ -54,7 +53,7 @@ const ForgotPassword = () => {
           }
         })
         .catch((error) => {
-          console.log("el error", error);
+          console.log(error);
         });
     } catch (error) {
       message.error("¡Ocurrió un error. Intente de nuevo!");

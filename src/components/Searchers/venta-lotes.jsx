@@ -50,10 +50,8 @@ const AlquilerLotes = () => {
           })
           .then((response) => {
             const data = response.data.data;
-            console.log(url);
 
             if (data.length !== 0) {
-              console.log(data);
               navigate("/home/search/search-results", {
                 state: {
                   data,

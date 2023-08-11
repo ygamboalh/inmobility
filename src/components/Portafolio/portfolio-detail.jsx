@@ -49,7 +49,7 @@ export const PortafolioDetail = () => {
     setRecords(properties);
     setPending(false);
     setPortafolio(data?.row);
-    console.log("datos recibidos", data);
+
     setFilterRecords(properties);
   }, []);
   function deleteRowF(id, records) {
@@ -88,7 +88,6 @@ export const PortafolioDetail = () => {
         .required("¡El correo es requerido!"),
     }),
     onSubmit: async (values) => {
-      console.log("valores que llegan", values);
       setIsLoading(true);
       const id = userData?.id;
 
@@ -107,7 +106,7 @@ export const PortafolioDetail = () => {
         correoAsesor: portafolio.attributes.correoAsesor,
         categoria: portafolio.attributes.categoria,
       };
-      console.log("estos son los values", value);
+
       const response = axios(`${API}portafolios/${portafolio.id}`, {
         method: "PUT",
         headers: {
@@ -141,7 +140,6 @@ export const PortafolioDetail = () => {
     }
   }
   const handleDataFromChildModal = (data) => {
-    console.log("recibido del hijo", data);
     setShowModal(data.close);
     setNewPropertiesList(data.propertyList);
   };

@@ -7,11 +7,9 @@ const CreatePortfolioModal = ({ isVisible, onDataReceived }) => {
   const [correoCliente, setCorreoCliente] = useState("");
 
   const closeModal = () => {
-    console.log("opcion seleccionada", clienteComprador, correoCliente);
     onDataReceived({ close: false });
   };
   const sendDataToParent = () => {
-    console.log("opcion seleccionada", clienteComprador, correoCliente);
     if (clienteComprador === "" || correoCliente === "") {
       return;
     } else {

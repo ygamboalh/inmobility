@@ -41,7 +41,6 @@ const UsersDesact = () => {
         });
       }
       setRecords(foundedUsers);
-      console.log(foundedUsers);
       setFilterRecords(foundedUsers);
       setPending(false);
     },

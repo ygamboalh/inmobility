@@ -32,8 +32,6 @@ const ResetPassword = () => {
   const location = useLocation();
   const codigo = location.state.codigo;
   const user = location.state.user;
-  console.log("codigo", codigo);
-  console.log("user", user);
 
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -74,7 +72,7 @@ const ResetPassword = () => {
       };
 
       const code = values.code.toString();
-      console.log("values", value);
+
       if (codigo === code) {
         const response = axios(`${API}users/${user.id}`, {
           method: "PUT",
@@ -84,12 +82,10 @@ const ResetPassword = () => {
           body: JSON.stringify(value),
         })
           .then((response) => {
-            console.log("respuesta", response);
             message.success(`¡La contraseña fue cambiada exitosamente!`);
             navigate("/auth/signin");
           })
           .catch((error) => {
-            console.log("el error", error);
             message.error(`¡Ocurrió un error. Intente de nuevo!`);
           });
       } else {

@@ -31,7 +31,6 @@ const UsersList = () => {
         }
       });
       setRecords(foundedUsers);
-      console.log(foundedUsers);
       setFilterRecords(foundedUsers);
       setPending(false);
     },
@@ -59,14 +58,7 @@ const UsersList = () => {
             Authorization: `Bearer ${getToken()}`,
           },
         }).then((result) => {
-          queryClient
-            .invalidateQueries(["users"])
-            .then((resultado) =>
-              console.log(
-                "se borro el usuario, esperando borrar portafolios",
-                resultado
-              )
-            );
+          queryClient.invalidateQueries(["users"]).then((resultado) => {});
           findAndDeletePortfolios(id);
         });
         if (result) {

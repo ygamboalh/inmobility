@@ -102,7 +102,6 @@ const RegisterRequest = () => {
   useEffect(() => {
     const data = location?.state?.acepted;
     data !== undefined ? setAcepted(true) : setAcepted(false);
-    console.log(data);
   }, []);
   const {
     mutate: insertMutation,
@@ -142,7 +141,7 @@ const RegisterRequest = () => {
       const userData = await userResponse.json();
 
       const found = userData.find((userf) => userf.email === values.email);
-      console.log(value);
+
       if (!acepted || acepted === undefined) {
         message.error("Debe aceptar los términos y condiciones");
         return;
@@ -170,7 +169,6 @@ const RegisterRequest = () => {
       setIsLoading(false);
     }
   };
-  console.log("telefono", phoneNumber);
   if (isLoading) {
     return <MySpinner />;
   }

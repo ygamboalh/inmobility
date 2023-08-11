@@ -19,8 +19,7 @@ const PortafolioShare = () => {
     const response = AxiosInstance.get(`${API}portafolios/${id}?populate=*`)
       .then((response) => {
         const data = response.data.data.attributes.properties.data;
-        console.log(data);
-        console.log(response.data.data);
+
         data.map((prop) => {
           ids.push(prop.id);
         });

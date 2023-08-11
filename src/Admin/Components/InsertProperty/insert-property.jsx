@@ -261,7 +261,6 @@ const InsertProperty = () => {
         };
 
         if (!id) {
-          console.log(value);
           const response = await AxiosInstance.post("/properties", {
             data: value,
           })
@@ -338,7 +337,6 @@ const InsertProperty = () => {
         setProperty(property?.data?.data?.attributes);
         const category =
           property?.data?.data?.attributes.categories.data[0].attributes.nombre;
-        console.log("la categoria", category);
         setCategory(category);
         setSelectedOption(category);
       })

@@ -21,19 +21,16 @@ const CheckRole = ({ roles }) => {
       headers: { Authorization: `${BEARER} ${getToken()}` },
     })
       .then((response) => {
-        console.log("respuesta", response.data.active);
         setActive(response.data.active);
       })
       .finally(() => {
         setLoading(false);
       });
   }, []);
-  console.log("active fuera", active);
 
   const isAuthenticated = useIsAuthenticated();
   const location = useLocation();
-  //const active = userData?.active;
-  //console.log(userData);
+
   if (loading || !active) {
     return <MySpinner />;
   }

@@ -68,19 +68,6 @@ const Banner = () => {
             </label>
           </div>
         </Link>
-        {/* <Link
-          to="/home/insert-property"
-          className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary"
-        >
-          <div className="px-2">
-            <h1>Prueba</h1>
-          </div>
-          <div>
-            <label className="font-thin">
-              presiona para ver todas los alquileres
-            </label>
-          </div>
-        </Link> */}
         <button
           type="button"
           onClick={SelectLink}

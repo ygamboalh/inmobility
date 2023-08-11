@@ -98,7 +98,7 @@ const SearchResultsCard = () => {
 
     if (portafolioProperties.length > 0) {
       const totalPortfolios = data.data.length;
-      console.log(totalPortfolios);
+
       if (totalPortfolios < 100) {
         const response = axios(`${API}portafolios`, {
           method: "POST",
@@ -109,12 +109,11 @@ const SearchResultsCard = () => {
           data: { data: values },
         })
           .then((response) => {
-            console.log("respuesta de guardar el portafolio", response);
             message.success("¡El portafolio fue creado correctamente!");
             navigate("/home/portfolio");
           })
           .catch((error) => {
-            console.log("ocurrio este error", error);
+            console.log(error);
           })
           .finally(() => {
             setIsLoading(false);
