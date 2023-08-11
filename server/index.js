@@ -82,7 +82,7 @@ app.get('/admin/properties/property-detail/:id', (req, res, next) => {
                         "Sistema CIC"
                 )
         .replace('Sistema CIC', property?.categories.data[0].attributes.nombre)
-        .replace('Venta y Alquiler de inmuebles y propiedades', `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} \n ${property?.moneda}${property?.precio}`)
+        .replace('Venta y Alquiler de inmuebles y propiedades', `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} - ${property?.moneda}${property?.precio}`)
         .replace('__META_DESCRIPTION__', property?.tipoPropiedad)
         .replace('https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png', imageUrl)
                 return res.send(htmlData);
@@ -299,7 +299,7 @@ app.get('/home/search/property-detail/:id', (req, res, next) => {
                 property?.categories.data[0].attributes.nombre
         )
         .replace('Sistema CIC', property?.categories.data[0].attributes.nombre)
-        .replace('Venta y Alquiler de inmuebles y propiedades', `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} \n ${property?.moneda}${property?.precio}`)
+        .replace('Venta y Alquiler de inmuebles y propiedades', `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} - ${property?.moneda}${property?.precio}`)
         .replace('__META_DESCRIPTION__', property?.tipoPropiedad)
         .replace('https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png', `https://backend.siccic.com${property?.photos.data[0].attributes.url}`)
             
@@ -949,7 +949,7 @@ app.get('/home/search/pdf/:id', (req, res, next) => {
                         "Sistema CIC"
                 )
         .replace('Sistema CIC', property?.categories.data[0].attributes.nombre)
-        .replace('Venta y Alquiler de inmuebles y propiedades', `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} \n ${property?.moneda}${property?.precio}`)
+        .replace('Venta y Alquiler de inmuebles y propiedades', `${property?.tipoPropiedad} - ${property?.provincia} - ${property?.canton} - ${property?.moneda}${property?.precio}`)
         .replace('__META_DESCRIPTION__', property?.tipoPropiedad)
         .replace('https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png', imageUrl)
                 return res.send(htmlData);
