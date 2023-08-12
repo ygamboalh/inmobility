@@ -22,20 +22,6 @@ import no_image from "../../assets/images/no_image_default.jpg";
 import PdfView from "../PdfView/pdf-view";
 import MyNewCarousel from "../Carrusel/carrusel";
 
-import {
-  EmailIcon,
-  EmailShareButton,
-  FacebookIcon,
-  FacebookMessengerIcon,
-  FacebookMessengerShareButton,
-  FacebookShareButton,
-  TelegramIcon,
-  TelegramShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton,
-} from "react-share";
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -66,7 +52,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   const [images, setImages] = useState([]);
   const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
-
+  const [adviser, setAdviser] = useState();
   const getProperty = async () => {
     setIsLoading(true);
     let propertyFound = null;
@@ -80,7 +66,6 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     });
 
     setProperty(propertyFound);
-
     setIsLoading(false);
     const imagesUrl = [];
     imagesCount?.data?.forEach((image) => {
@@ -88,6 +73,18 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     });
     setImages(imagesUrl);
   };
+  useEffect(() => {
+    const userId = property?.creadoPor;
+    console.log("id del usuario", userId);
+    const response = AxiosInstance.get(`${API}users/${userId}`)
+      .then((response) => {
+        const adviser = response.data;
+        setAdviser(adviser);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   if (isLoading || !property) {
     return <MySpinner />;
@@ -129,14 +126,10 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
               userData?.active === "Supervisor" ? (
                 <div>
                   {created ? (
-                    <button
-                      onClick={sendDataToParent}
-                      //className="bg-green-400 rounded-md h-6 font-semibold w-12 hover:bg-green-600 text-black"
-                    >
+                    <button onClick={sendDataToParent}>
                       <input
                         type="checkbox"
                         className="h-12 w-12 rounded-full"
-                        //onClickCapture={sendDataToParent}
                       />
                     </button>
                   ) : null}
@@ -239,7 +232,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                 </div>
               </div>
             </div>
-            <Share pdfUrl={pdfUrl} />
+            <Share pdfUrl={pdfUrl} adviser={adviser} />
             <div
               className={
                 property.descripcion

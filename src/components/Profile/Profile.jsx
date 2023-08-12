@@ -130,195 +130,197 @@ const Profile = () => {
 
   return (
     <div className="flex my-1 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
-      <MetaData title="Mi perfil" description="Mi perfil" />
-      <div className="mb-4 mt-0 sm:my-2 flex flex-col">
-        <label className="loginh my-2">Actualizar perfil</label>
-        <div className="flex flex-col">
-          <div className="mb-20">
-            <Thumbnail />
-          </div>
-          <div>
-            <LoadImage />
+      <div className="border rounded-lg shadow border-gray-300 py-4 px-8">
+        <MetaData title="Mi perfil" description="Mi perfil" />
+        <div className="mb-4 mt-0 sm:my-2 flex flex-col">
+          <label className="loginh my-2">Actualizar perfil</label>
+          <div className="flex flex-col">
+            <div className="mb-20">
+              <Thumbnail />
+            </div>
+            <div>
+              <LoadImage />
+            </div>
           </div>
         </div>
-      </div>
-      <Formik
-        initialValues={{
-          username: userData?.username,
-          email: userData?.email,
-          password: userData?.password,
-          //password: "",
-          phone: userData?.phone,
-          company: userData?.company,
-          address: userData?.address,
-          mobile: userData?.mobile,
-          personalId: userData?.personalId,
-          photo: userData?.photo,
-        }}
-        validationSchema={ProfileSchema}
-        onSubmit={onFinish}
-      >
-        {({ errors, touched }) => (
-          <Form onFinish={onFinish} autoComplete="off">
-            <Field
-              placeholder="Nombre completo"
-              defaultValue={userData?.username}
-              type="text"
-              name="username"
-              className="common-input"
-            />
-
-            <div className="space">
-              {errors.username && touched.username ? (
-                <div className="errordivp text-xs">{errors.username}</div>
-              ) : null}
-            </div>
-
-            <Field
-              defaultValue={userData?.personalId}
-              placeholder="Identificador personal"
-              type="text"
-              name="personalId"
-              className="common-input"
-            />
-
-            <div className="space">
-              {errors.personalId && touched.personalId ? (
-                <div className="errordivp text-xs">{errors.personalId}</div>
-              ) : null}
-            </div>
-
-            <Field
-              defaultValue={userData?.email}
-              placeholder="Correo electrónico"
-              name="email"
-              type="email"
-              className="common-input"
-            />
-
-            <div className="space">
-              {errors.email && touched.email ? (
-                <div className="errordivp text-xs">{errors.email}</div>
-              ) : null}
-            </div>
-
-            <Field
-              defaultValue={userData?.phone}
-              placeholder="Teléfono de la oficina"
-              name="phone"
-              type="text"
-              className="common-input"
-            />
-
-            <div className="space">
-              {errors.phone && touched.phone ? (
-                <div className="errordivp text-xs">{errors.phone}</div>
-              ) : null}
-            </div>
-
-            <Field
-              defaultValue={userData?.mobile}
-              placeholder="Teléfono celular"
-              name="mobile"
-              type="text"
-              className="common-input"
-            />
-
-            <div className="space">
-              {errors.mobile && touched.mobile ? (
-                <div className="errordivp text-xs">{errors.mobile}</div>
-              ) : null}
-            </div>
-
-            <Field
-              placeholder="Nombre de la empresa"
-              type="text"
-              name="company"
-              className="common-input"
-            />
-
-            <div className="space">
-              {errors.company && touched.company ? (
-                <div className="errordivp text-xs">{errors.company}</div>
-              ) : null}
-            </div>
-
-            <Field
-              as="textarea"
-              defaultValue={userData?.address}
-              placeholder="Dirección física"
-              type="text"
-              name="address"
-              className="common-input -mb-2"
-            />
-
-            <div className="space">
-              {errors.address && touched.address ? (
-                <div className="errordivp text-xs">{errors.address}</div>
-              ) : null}
-            </div>
-            <div className="relative w-70">
+        <Formik
+          initialValues={{
+            username: userData?.username,
+            email: userData?.email,
+            password: userData?.password,
+            //password: "",
+            phone: userData?.phone,
+            company: userData?.company,
+            address: userData?.address,
+            mobile: userData?.mobile,
+            personalId: userData?.personalId,
+            photo: userData?.photo,
+          }}
+          validationSchema={ProfileSchema}
+          onSubmit={onFinish}
+        >
+          {({ errors, touched }) => (
+            <Form onFinish={onFinish} autoComplete="off">
               <Field
-                placeholder="Contraseña"
-                type={showPassword ? "text" : "password"}
-                name="password"
+                placeholder="Nombre completo"
+                defaultValue={userData?.username}
+                type="text"
+                name="username"
                 className="common-input"
               />
-              <button
-                type="button"
-                className="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <BiShow size={25} color="#84a8e1" />
-                ) : (
-                  <BiHide size={25} color="#84a8e1" />
-                )}
-              </button>
-            </div>
-            <div className="space">
-              {errors.password && touched.password ? (
-                <div className="errordivp text-xs">{errors.password}</div>
-              ) : null}
-            </div>
 
-            <div className="mb-1 -mt-3 text-left">
-              <label className="text-sm ml-2">
-                Tipo de asesor inmobiliario
-              </label>
-            </div>
+              <div className="space">
+                {errors.username && touched.username ? (
+                  <div className="errordivp text-xs">{errors.username}</div>
+                ) : null}
+              </div>
 
-            <div className="flex flex-col">
               <Field
-                className="w-60 common-input"
-                as="select"
-                name="type"
-                id="type"
-              >
-                <option value="" label="">
-                  {"Seleccione el tipo de asesor"}
-                </option>
-                {types.map((item) => (
-                  <option value={item.value} label={item.label}>
-                    {item.value}
-                  </option>
-                ))}
-              </Field>
-            </div>
+                defaultValue={userData?.personalId}
+                placeholder="Identificador personal"
+                type="text"
+                name="personalId"
+                className="common-input"
+              />
 
-            <div className="space">
-              {errors.type && touched.type ? (
-                <div className="errordivp text-xs">{errors.type}</div>
-              ) : null}
-            </div>
-            <div className="max-w-60 flex flex-col">
-              <button className="button-signin max-w-full" type="submit">
-                GUARDAR
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+              <div className="space">
+                {errors.personalId && touched.personalId ? (
+                  <div className="errordivp text-xs">{errors.personalId}</div>
+                ) : null}
+              </div>
+
+              <Field
+                defaultValue={userData?.email}
+                placeholder="Correo electrónico"
+                name="email"
+                type="email"
+                className="common-input"
+              />
+
+              <div className="space">
+                {errors.email && touched.email ? (
+                  <div className="errordivp text-xs">{errors.email}</div>
+                ) : null}
+              </div>
+
+              <Field
+                defaultValue={userData?.phone}
+                placeholder="Teléfono de la oficina"
+                name="phone"
+                type="text"
+                className="common-input"
+              />
+
+              <div className="space">
+                {errors.phone && touched.phone ? (
+                  <div className="errordivp text-xs">{errors.phone}</div>
+                ) : null}
+              </div>
+
+              <Field
+                defaultValue={userData?.mobile}
+                placeholder="Teléfono celular"
+                name="mobile"
+                type="text"
+                className="common-input"
+              />
+
+              <div className="space">
+                {errors.mobile && touched.mobile ? (
+                  <div className="errordivp text-xs">{errors.mobile}</div>
+                ) : null}
+              </div>
+
+              <Field
+                placeholder="Nombre de la empresa"
+                type="text"
+                name="company"
+                className="common-input"
+              />
+
+              <div className="space">
+                {errors.company && touched.company ? (
+                  <div className="errordivp text-xs">{errors.company}</div>
+                ) : null}
+              </div>
+
+              <Field
+                as="textarea"
+                defaultValue={userData?.address}
+                placeholder="Dirección física"
+                type="text"
+                name="address"
+                className="common-input -mb-2"
+              />
+
+              <div className="space">
+                {errors.address && touched.address ? (
+                  <div className="errordivp text-xs">{errors.address}</div>
+                ) : null}
+              </div>
+              <div className="relative w-70">
+                <Field
+                  placeholder="Contraseña"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="common-input"
+                />
+                <button
+                  type="button"
+                  className="text-white absolute right-2.5 bottom-2.5  px-2 py-1"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <BiShow size={25} color="#84a8e1" />
+                  ) : (
+                    <BiHide size={25} color="#84a8e1" />
+                  )}
+                </button>
+              </div>
+              <div className="space">
+                {errors.password && touched.password ? (
+                  <div className="errordivp text-xs">{errors.password}</div>
+                ) : null}
+              </div>
+
+              <div className="mb-1 -mt-3 text-left">
+                <label className="text-sm ml-2">
+                  Tipo de asesor inmobiliario
+                </label>
+              </div>
+
+              <div className="flex flex-col">
+                <Field
+                  className="w-60 common-input"
+                  as="select"
+                  name="type"
+                  id="type"
+                >
+                  <option value="" label="">
+                    {"Seleccione el tipo de asesor"}
+                  </option>
+                  {types.map((item) => (
+                    <option value={item.value} label={item.label}>
+                      {item.value}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+
+              <div className="space">
+                {errors.type && touched.type ? (
+                  <div className="errordivp text-xs">{errors.type}</div>
+                ) : null}
+              </div>
+              <div className="max-w-60 flex flex-col">
+                <button className="button-signin max-w-full" type="submit">
+                  GUARDAR
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };

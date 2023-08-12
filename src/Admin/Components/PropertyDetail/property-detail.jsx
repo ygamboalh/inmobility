@@ -7,21 +7,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import no_image from "../../../assets/images/no_image_default.jpg";
 
-import {
-  EmailIcon,
-  EmailShareButton,
-  FacebookIcon,
-  FacebookMessengerIcon,
-  FacebookMessengerShareButton,
-  FacebookShareButton,
-  TelegramIcon,
-  TelegramShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton,
-} from "react-share";
-
 import AxiosInstance from "../../../api/AxiosInstance";
 import { API } from "../../../constant";
 import MySpinner from "../../../components/Spinner/spinner";
@@ -30,7 +15,6 @@ import MyNewCarousel from "../../../components/Carrusel/carrusel";
 import { useQuery } from "react-query";
 import { authUserData } from "../../../api/usersApi";
 import Share from "../../../components/Share/share";
-import { Helmet } from "react-helmet";
 import MetaData from "../../../components/Metadata/metadata";
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);

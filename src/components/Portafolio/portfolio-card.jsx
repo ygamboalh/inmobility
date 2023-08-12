@@ -22,24 +22,11 @@ import no_image from "../../assets/images/no_image_default.jpg";
 import PdfView from "../PdfView/pdf-view";
 import MyNewCarousel from "../Carrusel/carrusel";
 
-import {
-  EmailIcon,
-  EmailShareButton,
-  FacebookIcon,
-  FacebookMessengerIcon,
-  FacebookMessengerShareButton,
-  FacebookShareButton,
-  TelegramIcon,
-  TelegramShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton,
-} from "react-share";
 import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+import Share from "../Share/share";
 
 const PortafolioCard = ({ propiedad }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -342,31 +329,7 @@ const PortafolioCard = ({ propiedad }) => {
             </div>
             <div className="mb-2">{reaction[0]}</div>
             <div>
-              <EmailShareButton url={pdfUrl}>
-                <EmailIcon round={true} size={30}></EmailIcon>
-              </EmailShareButton>
-              <FacebookShareButton url={pdfUrl}>
-                <FacebookIcon
-                  size={30}
-                  logoFillColor="blue"
-                  round={true}
-                ></FacebookIcon>
-              </FacebookShareButton>
-              <WhatsappShareButton url={pdfUrl}>
-                <WhatsappIcon size={30} round={true}></WhatsappIcon>
-              </WhatsappShareButton>
-              <FacebookMessengerShareButton url={pdfUrl}>
-                <FacebookMessengerIcon
-                  size={30}
-                  round={true}
-                ></FacebookMessengerIcon>
-              </FacebookMessengerShareButton>
-              <TwitterShareButton url={pdfUrl}>
-                <TwitterIcon size={30} round={true}></TwitterIcon>
-              </TwitterShareButton>
-              <TelegramShareButton url={pdfUrl}>
-                <TelegramIcon size={30} round={true}></TelegramIcon>
-              </TelegramShareButton>
+              <Share pdfUrl={pdfUrl} />
             </div>
             <div
               className={

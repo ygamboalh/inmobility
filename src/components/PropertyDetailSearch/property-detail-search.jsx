@@ -11,22 +11,10 @@ import MySpinner from "../Spinner/spinner";
 
 import no_image from "../../assets/images/no_image_default.jpg";
 import PdfView from "../PdfView/pdf-view";
-import {
-  EmailIcon,
-  EmailShareButton,
-  FacebookIcon,
-  FacebookMessengerIcon,
-  FacebookMessengerShareButton,
-  FacebookShareButton,
-  TelegramIcon,
-  TelegramShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton,
-} from "react-share";
+
 import MyNewCarousel from "../Carrusel/carrusel";
 import MetaData from "../Metadata/metadata";
+import Share from "../Share/share";
 
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +27,7 @@ const PropertyDetailsSearch = () => {
   const [images, setImages] = useState([]);
   const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
+  const [adviser, setAdviser] = useState();
   const navigate = useNavigate();
 
   const getProperty = async () => {
@@ -63,7 +52,6 @@ const PropertyDetailsSearch = () => {
     });
     setImages(imagesUrl);
   };
-
   if (isLoading || !property) {
     return <MySpinner />;
   }
@@ -189,31 +177,7 @@ const PropertyDetailsSearch = () => {
               </div>
             </div>
             <div>
-              <EmailShareButton url={pdfUrl}>
-                <EmailIcon round={true} size={30}></EmailIcon>
-              </EmailShareButton>
-              <FacebookShareButton url={pdfUrl}>
-                <FacebookIcon
-                  size={30}
-                  logoFillColor="blue"
-                  round={true}
-                ></FacebookIcon>
-              </FacebookShareButton>
-              <WhatsappShareButton url={pdfUrl}>
-                <WhatsappIcon size={30} round={true}></WhatsappIcon>
-              </WhatsappShareButton>
-              <FacebookMessengerShareButton url={pdfUrl}>
-                <FacebookMessengerIcon
-                  size={30}
-                  round={true}
-                ></FacebookMessengerIcon>
-              </FacebookMessengerShareButton>
-              <TwitterShareButton url={pdfUrl}>
-                <TwitterIcon size={30} round={true}></TwitterIcon>
-              </TwitterShareButton>
-              <TelegramShareButton url={pdfUrl}>
-                <TelegramIcon size={30} round={true}></TelegramIcon>
-              </TelegramShareButton>
+              <Share pdfUrl={pdfUrl} adviser={adviser} />
             </div>
             <div
               className={

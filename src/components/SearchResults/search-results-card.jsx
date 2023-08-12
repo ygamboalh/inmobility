@@ -78,6 +78,7 @@ const SearchResultsCard = () => {
     const categories = location.state.categories;
     setCategories(categories);
   }, []);
+
   const savePortafolio = () => {
     setIsLoading(true);
     dataFromChild.map((item) => {

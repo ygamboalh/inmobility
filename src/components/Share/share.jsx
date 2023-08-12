@@ -12,11 +12,16 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
-import no_image from "../../assets/images/no_image_default.jpg";
+
+import { BiUserCircle } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 const Share = (url) => {
   const pdfUrl = url.pdfUrl;
+  const adviser = url.adviser;
+  console.log("url y adiviser", adviser);
+  const navigate = useNavigate();
   return (
-    <div>
+    <div className="flex flex-row items-center align-middle">
       <EmailShareButton url={pdfUrl}>
         <EmailIcon round={true} size={30}></EmailIcon>
       </EmailShareButton>
@@ -39,6 +44,17 @@ const Share = (url) => {
       <TelegramShareButton url={pdfUrl}>
         <TelegramIcon size={30} round={true}></TelegramIcon>
       </TelegramShareButton>
+      <div className="mt-2">
+        <button
+          type="button"
+          onClick={() => {
+            navigate("/home/contact", { state: adviser });
+          }}
+          className="w-[30px] h-[30px] rounded-full bg-blue-500"
+        >
+          <BiUserCircle size={30} color="white" />
+        </button>
+      </div>
     </div>
   );
 };
