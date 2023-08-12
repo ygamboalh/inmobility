@@ -63,6 +63,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
       setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
+      getAdviser(propertyFound.creadoPor);
     });
 
     setProperty(propertyFound);
@@ -73,10 +74,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     });
     setImages(imagesUrl);
   };
-  useEffect(() => {
-    const userId = property?.creadoPor;
-    console.log("id del usuario", userId);
-    const response = AxiosInstance.get(`${API}users/${userId}`)
+  const getAdviser = (id) => {
+    const response = AxiosInstance.get(`${API}users/${id}`)
       .then((response) => {
         const adviser = response.data;
         setAdviser(adviser);
@@ -84,7 +83,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  };
 
   if (isLoading || !property) {
     return <MySpinner />;

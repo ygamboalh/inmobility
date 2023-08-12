@@ -18,6 +18,7 @@ import Share from "../../../components/Share/share";
 import MetaData from "../../../components/Metadata/metadata";
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [adviser, setAdviser] = useState();
   const getProperty = async () => {
     setIsLoading(true);
     let propertyFound = null;
@@ -30,6 +31,7 @@ const PropertyDetailsSearch = () => {
       setPdfUrl(`https://siccic.com/home/search/pdf/${id}`);
     });
     setProperty(propertyFound);
+    getAdviser(propertyFound.creadoPor);
     setIsLoading(false);
     const imagesUrl = [];
     imagesCount?.data?.forEach((image) => {
@@ -40,7 +42,16 @@ const PropertyDetailsSearch = () => {
   useEffect(() => {
     getProperty();
   }, []);
-
+  const getAdviser = (id) => {
+    const response = AxiosInstance.get(`${API}users/${id}`)
+      .then((response) => {
+        const adviser = response.data;
+        setAdviser(adviser);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const { id } = useParams();
   const [property, setProperty] = useState();
   const [images, setImages] = useState([]);
@@ -176,7 +187,7 @@ const PropertyDetailsSearch = () => {
                 <div>{property.cochera}</div>
               </div>
             </div>
-            <Share pdfUrl={pdfUrl} />
+            <Share pdfUrl={pdfUrl} adviser={adviser} />
             <div
               className={
                 property.descripcion
