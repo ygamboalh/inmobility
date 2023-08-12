@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 const Share = (url) => {
   const pdfUrl = url.pdfUrl;
   const adviser = url.adviser;
-  console.log("url y adiviser", adviser);
   const navigate = useNavigate();
   return (
     <div className="flex flex-row items-center align-middle">

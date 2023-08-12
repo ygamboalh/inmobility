@@ -73,7 +73,7 @@ const Contact = () => {
       }
     },
   });
-  if (isLoading) {
+  if (isLoading || !adviser) {
     return <MySpinner />;
   }
 
