@@ -13,6 +13,7 @@ import { userIntser } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
 import enviarCorreo from "../../utils/email/send-email";
 import MetaData from "../Metadata/metadata";
+import { BiHide, BiLock, BiShow } from "react-icons/bi";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^(\d{2,}\s?)+$/;
@@ -37,13 +38,11 @@ const RegisterSchema = Yup.object().shape({
   phone: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
     .min(8, "¡Teléfono invalido!")
-    .max(18, "¡Teléfono invalido!")
-    .required("¡El teléfono de la oficina es requerido!"),
+    .max(18, "¡Teléfono invalido!"),
   mobile: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
     .min(8, "¡Teléfono invalido!")
-    .max(20, "¡Teléfono invalido!")
-    .required("¡El teléfono celular es requerido!"),
+    .max(20, "¡Teléfono invalido!"),
   personalId: Yup.string().required("¡El identificador personal es requerido!"),
 });
 
@@ -90,7 +89,7 @@ const RegisterRequest = () => {
     email: "",
     password: "",
     type: "",
-    phone: null,
+    phone: "",
     company: "",
     address: "",
     mobile: "",
@@ -99,6 +98,7 @@ const RegisterRequest = () => {
   });
 
   const location = useLocation();
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     const data = location?.state?.acepted;
     data !== undefined ? setAcepted(true) : setAcepted(false);
@@ -115,17 +115,23 @@ const RegisterRequest = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [acepted, setAcepted] = useState(false);
   const [phoneNumber, setPhoneNumber] = React.useState();
+  const [officePhoneNumber, setOfficePhoneNumber] = React.useState();
   const handlePhoneNumberChange = (value) => {
+    console.log(value);
     setPhoneNumber(value);
   };
+  const handleOfficePhoneNumberChange = (value) => {
+    setOfficePhoneNumber(value);
+  };
   const onFinish = async (values) => {
+    console.log("valores", values);
     setIsLoading(true);
     try {
       const value = {
         username: values.username,
         email: values.email,
         password: values.password,
-        phone: values.phone,
+        phone: officePhoneNumber,
         company: values.company,
         address: values.address,
         mobile: phoneNumber,
@@ -261,7 +267,7 @@ const RegisterRequest = () => {
                   <div className="errordivp text-xs">{errors.email}</div>
                 ) : null}
               </div>
-              <div className="relative mb-1">
+              {/* <div className="relative mb-1">
                 <Field
                   type="tel"
                   className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
@@ -280,8 +286,40 @@ const RegisterRequest = () => {
                 {errors.phone && touched.phone ? (
                   <div className="errordivp text-xs">{errors.phone}</div>
                 ) : null}
-              </div>
+              </div> */}
               <div className="relative w-full -mt-5 -ml-5 -mb-1">
+                <PhoneInput
+                  placeholder="Teléfono de la oficina"
+                  country={"cr"}
+                  required
+                  inputStyle={{
+                    height: "55px",
+                    width: "100%",
+                    borderRadius: "10px",
+                    borderColor: "gray",
+                    borderWidth: "1px",
+                  }}
+                  containerStyle={{ margin: "20px" }}
+                  buttonStyle={{
+                    padding: "5px",
+                    border: "1px",
+                    borderTopLeftRadius: "10px",
+                    borderBottomLeftRadius: "10px",
+                    borderTopLeftColor: "black",
+                    borderBottomLeftColor: "black",
+                    alignItems: "left",
+                    margin: "1px",
+                  }}
+                  searchClass="input-search-class"
+                  value={officePhoneNumber}
+                  onChange={handleOfficePhoneNumberChange}
+                  inputProps={{
+                    name: "phone",
+                    required: true,
+                  }}
+                />
+              </div>
+              <div className="relative w-full -mb-1 -ml-5">
                 <PhoneInput
                   placeholder="Teléfono celular"
                   country={"cr"}
@@ -337,38 +375,37 @@ const RegisterRequest = () => {
               <div className="relative mb-1">
                 <Field
                   as="textarea"
-                  className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                  className="peer m-0 text-sm block h-[80px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-2  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
                   id="address"
                   name="address"
                   placeholder="Dirección física"
                 />
-                <label
-                  for="address"
-                  className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
-                >
-                  Dirección física
-                </label>
               </div>
               <div className="space">
                 {errors.address && touched.address ? (
                   <div className="errordivp text-xs">{errors.address}</div>
                 ) : null}
               </div>
-              <div className="relative mb-1">
+              <div className="relative w-80 mb-1">
                 <Field
-                  type="password"
-                  className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
-                  id="password"
-                  name="password"
                   placeholder="Contraseña"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="block w-full p-4 pl-3 text-xs h-[58px] rounded-lg"
                 />
-                <label
-                  for="password"
-                  className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
+                <button
+                  type="button"
+                  className="text-white absolute right-2.5 bottom-3  px-2 py-1"
+                  onClick={() => setShowPassword(!showPassword)}
                 >
-                  Contraseña
-                </label>
+                  {showPassword ? (
+                    <BiShow size={25} color="#84a8e1" />
+                  ) : (
+                    <BiHide size={25} color="#84a8e1" />
+                  )}
+                </button>
               </div>
+
               <div className="space">
                 {errors.password && touched.password ? (
                   <div className="errordivp text-xs">{errors.password}</div>

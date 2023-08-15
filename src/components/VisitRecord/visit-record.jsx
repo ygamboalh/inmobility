@@ -24,8 +24,7 @@ const VisitSchema = Yup.object().shape({
   phone: Yup.string()
     .matches(phoneRegex, "¡Teléfono invalido!")
     .min(8, "¡Teléfono invalido!")
-    .max(18, "¡Teléfono invalido!")
-    .required("¡El número de teléfono es requerido!"),
+    .max(18, "¡Teléfono invalido!"),
   managment: Yup.string().required("¡La gestión es requerida!"),
 });
 
@@ -158,7 +157,7 @@ const VisitRecord = () => {
                   <div className="errordivp text-xs">{errors.email}</div>
                 ) : null}
               </div>
-              <div className="relative -ml-5 w-full -mt-5 -mb-7">
+              <div className="relative -ml-5 w-full -mt-5 -mb-4">
                 <PhoneInput
                   placeholder="Teléfono celular"
                   country={"cr"}
@@ -173,7 +172,7 @@ const VisitRecord = () => {
                   containerStyle={{ margin: "20px" }}
                   buttonStyle={{
                     padding: "5px",
-                    border: "1px",
+                    border: "0px",
                     borderTopLeftRadius: "10px",
                     borderBottomLeftRadius: "10px",
                     borderTopLeftColor: "black",
@@ -189,11 +188,6 @@ const VisitRecord = () => {
                     required: true,
                   }}
                 />
-              </div>
-              <div className="space">
-                {errors.phone && touched.phone ? (
-                  <div className="errordivp text-xs">{errors.phone}</div>
-                ) : null}
               </div>
               <div className="mb-1 text-left">
                 <label className="text-sm ml-2">

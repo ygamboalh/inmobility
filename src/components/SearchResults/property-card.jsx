@@ -39,6 +39,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   const clientName = propiedad[2];
   const clientEmail = propiedad[3];
   const categories = propiedad[4];
+  const adviserId = propiedad[0].attributes.creadoPor;
 
   useEffect(() => {
     getProperty();
@@ -63,7 +64,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
       setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
-      getAdviser(propertyFound.creadoPor);
+      getAdviser();
     });
 
     setProperty(propertyFound);
@@ -74,8 +75,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     });
     setImages(imagesUrl);
   };
-  const getAdviser = (id) => {
-    const response = AxiosInstance.get(`${API}users/${id}`)
+  const getAdviser = async () => {
+    const response = await AxiosInstance.get(`${API}users/${adviserId}`)
       .then((response) => {
         const adviser = response.data;
         setAdviser(adviser);
@@ -99,6 +100,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     alignItems: "left",
     justifyContent: "left",
   };
+
   return (
     <section>
       <MetaData

@@ -89,21 +89,25 @@ const Portafolio = () => {
       <MetaData title="Mis portafolios" description="Mis portafolios" />
       <div className="w-full justify-center items-center flex flex-col">
         <div className="flex flex-col items-center justify-center">
-          {!records ? (
-            <span>No hay elementos para mostrar</span>
+          {!records || records?.length === 0 ? (
+            <span className="text-lg font-semibold mt-4">
+              No tienes portafolios creados
+            </span>
           ) : (
-            <div className="flex flex-col w-fit justify-center mt-3 items-center">
-              <label className="text-xl font-semibold">Mis portafolios</label>
+            <div>
+              <div className="flex flex-col w-fit justify-center mt-3 items-center">
+                <label className="text-xl font-semibold">Mis portafolios</label>
+              </div>
+              <div className="w-[350px] my-3 flex justify-center px-36">
+                <input
+                  type="text"
+                  onChange={handleFilter}
+                  className="px-2 py-2 flex max-w-[930px] w-full min-w-[350px] border border-gray-300 rounded-md"
+                  placeholder="Filtrar por cliente"
+                />
+              </div>
             </div>
           )}
-          <div className="w-[350px] my-3 flex justify-center px-36">
-            <input
-              type="text"
-              onChange={handleFilter}
-              className="px-2 py-2 flex max-w-[930px] w-full min-w-[350px] border border-gray-300 rounded-md"
-              placeholder="Filtrar por cliente"
-            />
-          </div>
           <div className="flex justify-center flex-wrap mx-3">
             {records.map((record) => {
               return (

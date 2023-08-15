@@ -34,11 +34,25 @@ const PortafolioCard = ({ propiedad }) => {
   const [dislikeColor, setDislikeColor] = useState("#3F83F8");
   const [confusedColor, setConfusedColor] = useState("#3F83F8");
   const [reaction, setReaction] = useState([]);
+  const [adviser, setAdviser] = useState();
 
+  const adviserId = propiedad?.portafolio?.attributes.creadoPor;
   const propertyId = propiedad.property;
+
   useEffect(() => {
     getProperty();
+    getAdviser(adviserId);
   }, []);
+  const getAdviser = async (id) => {
+    const response = await AxiosInstance.get(`${API}users/${id}`)
+      .then((response) => {
+        const adviser = response.data;
+        setAdviser(adviser);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleLikeClick = () => {
     reaction[0] === "Me Gusta, deseo verlo"
       ? setReaction([null, propertyId])
@@ -329,7 +343,7 @@ const PortafolioCard = ({ propiedad }) => {
             </div>
             <div className="mb-2">{reaction[0]}</div>
             <div>
-              <Share pdfUrl={pdfUrl} />
+              <Share pdfUrl={pdfUrl} adviser={adviser} />
             </div>
             <div
               className={

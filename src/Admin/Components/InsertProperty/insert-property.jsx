@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import * as Yup from "yup";
@@ -43,9 +43,6 @@ import { createNotification, getToken } from "../../../utils/helpers";
 import { useQuery } from "react-query";
 import { authUserData } from "../../../api/usersApi";
 import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
-import Swal from "sweetalert2";
-import CreatePropertyModal from "../../../components/Modals/create-property-modal";
-import CreatePortfolioModal from "../../../components/Modals/create-portfolio-modal";
 import MetaData from "../../../components/Metadata/metadata";
 
 const InsertProperty = () => {
@@ -63,7 +60,6 @@ const InsertProperty = () => {
   const [detallesExternos, setDetallesExternos] = useState({});
   const [property, setProperty] = useState();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   const [createdPropertyId, setCreatedPropertyId] = useState(null);
   const [userRole, setUserRole] = useState();
@@ -79,7 +75,6 @@ const InsertProperty = () => {
     setUserRole(response.data.role.name);
   });
 
-  useEffect(() => {}, []);
   const handleHouseProperty = (event) => {
     const option = event.target.value;
     setSelectedPropertyType(option);
@@ -114,11 +109,20 @@ const InsertProperty = () => {
     const option = event.target.value;
     if (option) setSelectedPropertyType(option);
   };
+  const handleOptionSelectChange = (event) => {
+    const selectedOption = event.target.value;
+    setSelectedOption(selectedOption);
+  };
+
   const handleChangeAmenidades = (selectedOption) => {
     setAmenidades(selectedOption);
   };
   const handleChangePatioJardin = (selectedOption) => {
     setPatio(selectedOption);
+
+    if (patio.length === 3) {
+      setMenuIsOpen(false);
+    }
   };
   const handleChangeDetallesInternos = (selectedOption) => {
     setDetallesInternos(selectedOption);
@@ -134,6 +138,11 @@ const InsertProperty = () => {
       distrito: property?.distrito,
       precio: property?.precio,
       tipoPropiedad: property?.tipoPropiedad,
+      tipoEdificio: property?.tipoEdificio,
+      tipoLocal: property?.tipoLocal,
+      tipoBodega: property?.tipoBodega,
+      tipoOficina: property?.tipoOficina,
+      tipoLote: property?.tipoLote,
       amenidades: amenidades,
       cochera: property?.cochera,
       usoDeSuelo: property?.usoDeSuelo,
@@ -183,7 +192,7 @@ const InsertProperty = () => {
       distrito: Yup.string().required("*").min(6, "*").max(150, "*"),
       precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
       areaTerreno: Yup.number().required("*").min(0, "*").max(500000, "*"),
-      //    anunciante: Yup.string().required("*").min(6, "*").max(150, "*"),
+
       uniqueId: Yup.string()
         .matches(idregex, "*")
         .required("*")
@@ -219,6 +228,11 @@ const InsertProperty = () => {
           distrito: values.distrito,
           precio: values.precio,
           tipoPropiedad: selectedPropertyType,
+          tipoEdificio: values.tipoEdificio,
+          tipoBodega: values.tipoBodega,
+          tipoOficina: values.tipoOficina,
+          tipoLote: values.tipoLote,
+          tipoLocal: values.tipoLocal,
           amenidades: amenidades,
           areaPropiedad: values.areaPropiedad,
           areaTerreno: values.areaTerreno,
@@ -261,6 +275,7 @@ const InsertProperty = () => {
         };
 
         if (!id) {
+          console.log(value);
           const response = await AxiosInstance.post("/properties", {
             data: value,
           })
@@ -317,7 +332,6 @@ const InsertProperty = () => {
               } else {
                 navigate(`/home/upload/${id}`, { replace: true });
               }
-              //navigate("/admin/properties", { replace: true });
             })
             .catch((error) => {
               message.error("¡Ocurrió un error inesperado!");
@@ -337,6 +351,7 @@ const InsertProperty = () => {
         setProperty(property?.data?.data?.attributes);
         const category =
           property?.data?.data?.attributes.categories.data[0].attributes.nombre;
+        console.log("la categoria", category);
         setCategory(category);
         setSelectedOption(category);
       })
@@ -372,44 +387,46 @@ const InsertProperty = () => {
   if (isLoading || (id && !property)) {
     return <MySpinner />;
   }
-  const handleDataFromChild = (data) => {
-    setShowModal(data.close);
-    if (data.selected !== undefined) {
-      setSelectedOption(data.selected);
-    }
-  };
+
   return (
     <div className="flex flex-col justify-center items-center h-fit">
       <MetaData
         title="Insertar o editar propiedad"
         description="Insertar o editar propiedad"
       />
-      <CreatePropertyModal
-        onDataReceived={handleDataFromChild}
-        isVisible={showModal}
-      />
       <div className="inset-y-0 mb-20 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
-      <div className="flex mt-3 flex-col justify-center align-middle items-center w-full">
-        <label className="font-semibold mb-3 text-xl">
+      <div className="flex mt-3 justify-center align-middle items-center w-full">
+        <label className="font-semibold text-xl">
           Crear o editar una propiedad
         </label>
-        <div className={id ? "hidden" : null}>
-          <button
-            className="bg-blue-700 px-3 py-2 text-white text-lg rounded-md"
-            onClick={() => {
-              setShowModal(true);
-            }}
-          >
-            Seleccionar la categoria
-          </button>
-        </div>
-        {selectedOption === "" || selectedOption === undefined ? null : (
-          <div className="my-3 flex justify-center text-center">
-            <span className="font-semibold">{selectedOption}</span>
-          </div>
-        )}
       </div>
       <form onSubmit={handleSubmit} autoComplete="off">
+        <div className="flex justify-center  flex-row content-center items-center">
+          <select
+            name="categories"
+            value={selectedOption}
+            disabled={category}
+            defaultValue={category}
+            onChange={handleOptionSelectChange}
+            className="categories  m-2 w-full  md:w-fit lg:mx-80"
+          >
+            <option value="" label="">
+              {"Seleccione la categoría"}
+            </option>
+            {categories.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <div className="space mb-2.5">
+            {errors.categories && touched.categories ? (
+              <div className="-ml-1.5 text-red-500 mt-4 text-xs">
+                {errors.categories}
+              </div>
+            ) : null}
+          </div>
+        </div>
         <div className="flex flex-wrap justify-center m-3">
           <input
             type="text"
@@ -419,7 +436,7 @@ const InsertProperty = () => {
             hidden={selectedOption === ""}
             name="uniqueId"
             placeholder="Identificador único"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property ml-1 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space mb-2.5">
             {errors.uniqueId && touched.uniqueId ? (
@@ -477,8 +494,9 @@ const InsertProperty = () => {
               <div className="errordiv text-xs">{errors.distrito}</div>
             ) : null}
           </div>
+
           {selectedOption === "" ? null : (
-            <div class="flex input-admin-property mr-4 pl-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 py-2">
+            <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
               <select
                 id="dropdown-button"
                 name="moneda"
@@ -496,7 +514,7 @@ const InsertProperty = () => {
                   defaultValue={property?.precio}
                   placeholder="Precio"
                   id="search-dropdown"
-                  className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[153px] bg-transparent z-20 text-sm text-gray-900 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500 "
+                  className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[153px] bg-transparent z-20 text-sm text-gray-900 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
               </div>
@@ -1435,25 +1453,22 @@ const InsertProperty = () => {
         </div>
         <div className="flex m-4 content-center items-center justify-center ">
           <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
-            <div
-              className={
-                selectedOption ===
-                  "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-                selectedOption === "Alquiler de Bodegas o Similares" ||
-                selectedOption === "Venta de Bodegas o Similares" ||
-                selectedOption === "Alquiler de Edificios" ||
-                selectedOption === "Venta de Edificios" ||
-                selectedOption ===
-                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
-                selectedOption === ""
-                  ? "hidden"
-                  : "m-1 flex justify-center items-center content-center self-start"
-              }
-            >
+            <div className="m-1 flex justify-center items-center content-center self-start">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   value=""
+                  disabled={
+                    selectedOption ===
+                      "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+                    selectedOption === "Alquiler de Bodegas o Similares" ||
+                    selectedOption === "Venta de Bodegas o Similares" ||
+                    selectedOption === "Alquiler de Edificios" ||
+                    selectedOption === "Venta de Edificios" ||
+                    selectedOption ===
+                      "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                    selectedOption === ""
+                  }
                   defaultValue={property?.ley7600}
                   onChange={handleChange}
                   id="ley7600"
@@ -1466,28 +1481,25 @@ const InsertProperty = () => {
                 </span>
               </label>
             </div>
-            <div
-              className={
-                selectedOption ===
-                  "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-                selectedOption === "Alquiler de Bodegas o Similares" ||
-                selectedOption === "Venta de Bodegas o Similares" ||
-                selectedOption === "Alquiler de Edificios" ||
-                selectedOption === "Venta de Edificios" ||
-                selectedOption === "Alquiler de Locales Comerciales" ||
-                selectedOption === "Venta de Locales Comerciales" ||
-                selectedOption ===
-                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
-                selectedOption === "Alquiler de Casas y Apartamentos" ||
-                selectedOption === ""
-                  ? "hidden"
-                  : "m-1 justify-center items-center content-center flex self-start"
-              }
-            >
+            <div className="m-1 justify-center items-center content-center flex self-start">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   value=""
+                  disabled={
+                    selectedOption ===
+                      "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+                    selectedOption === "Alquiler de Bodegas o Similares" ||
+                    selectedOption === "Venta de Bodegas o Similares" ||
+                    selectedOption === "Alquiler de Edificios" ||
+                    selectedOption === "Venta de Edificios" ||
+                    selectedOption === "Alquiler de Locales Comerciales" ||
+                    selectedOption === "Venta de Locales Comerciales" ||
+                    selectedOption ===
+                      "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                    selectedOption === "Alquiler de Casas y Apartamentos" ||
+                    selectedOption === ""
+                  }
                   defaultValue={property?.serviciosMedicos}
                   onChange={handleChange}
                   id="serviciosMedicos"
@@ -1500,24 +1512,7 @@ const InsertProperty = () => {
                 </span>
               </label>
             </div>
-            <div
-              className={
-                selectedOption === "Venta de Casas y Apartamentos" ||
-                selectedOption ===
-                  "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-                selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-                selectedOption === "Alquiler de Edificios" ||
-                selectedOption === "Venta de Edificios" ||
-                selectedOption === "Alquiler de Locales Comerciales" ||
-                selectedOption === "Venta de Locales Comerciales" ||
-                selectedOption ===
-                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
-                selectedOption === "Alquiler de Casas y Apartamentos" ||
-                selectedOption === ""
-                  ? "hidden"
-                  : "m-1 justify-center items-center content-center flex self-start"
-              }
-            >
+            <div className="m-1 justify-center items-center content-center flex self-start">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
@@ -1525,6 +1520,21 @@ const InsertProperty = () => {
                   defaultValue={property?.areaCarga}
                   onChange={handleChange}
                   id="areaCarga"
+                  disabled={
+                    selectedOption === "Venta de Casas y Apartamentos" ||
+                    selectedOption ===
+                      "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+                    selectedOption ===
+                      "Venta de Oficinas o Consultorios Médicos" ||
+                    selectedOption === "Alquiler de Edificios" ||
+                    selectedOption === "Venta de Edificios" ||
+                    selectedOption === "Alquiler de Locales Comerciales" ||
+                    selectedOption === "Venta de Locales Comerciales" ||
+                    selectedOption ===
+                      "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                    selectedOption === "Alquiler de Casas y Apartamentos" ||
+                    selectedOption === ""
+                  }
                   name="areaCarga"
                   className="sr-only peer"
                 />
@@ -1570,7 +1580,6 @@ const InsertProperty = () => {
           }
         >
           <Select
-            className="categories lg:mx-80"
             name="amenidades"
             noOptionsMessage={() => null}
             closeMenuOnSelect={false}
@@ -1578,6 +1587,7 @@ const InsertProperty = () => {
             options={Amenidades}
             placeholder={"Amenidades"}
             isMulti
+            className="categories lg:mx-80"
             onChange={handleChangeAmenidades}
           />
           <div className="space mb-2.5">
@@ -1691,6 +1701,7 @@ const InsertProperty = () => {
             ) : null}
           </div>
         </div>
+
         <div
           className={
             selectedOption === undefined || selectedOption === ""

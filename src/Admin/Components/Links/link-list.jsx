@@ -136,15 +136,6 @@ const LinkList = () => {
 
   return (
     <div className=" w-full">
-      <div className="ml-auto">
-        <button
-          onClick={() => navigate("/admin/links/insert-link")}
-          type="button"
-          className="mr-2 py-2 px-4 rounded bg-green-400 text-white"
-        >
-          Crear enlace
-        </button>
-      </div>
       <DataTable
         columns={column}
         data={records}
@@ -161,6 +152,15 @@ const LinkList = () => {
         subHeader
         subHeaderComponent={
           <div className="relative w-full my-1 px-2">
+            <div className="mt-4 mb-2 flex">
+              <button
+                onClick={() => navigate("/admin/links/insert-link")}
+                type="button"
+                className="mr-2 py-2 px-4 rounded bg-green-400 text-white"
+              >
+                Crear enlace
+              </button>
+            </div>
             <input
               type="text"
               onChange={handleFilter}

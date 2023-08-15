@@ -13,7 +13,11 @@ import { useQuery } from "react-query";
 import AxiosInstance from "../../../api/AxiosInstance";
 import { API } from "../../../constant";
 import { message } from "antd";
-import { deleteNotification } from "../../../utils/helpers";
+import {
+  deleteNotification,
+  deleteZero,
+  getUserTokenDate,
+} from "../../../utils/helpers";
 import enviarCorreoComunOrigen from "../../../utils/email/send-common-email-origin";
 import enviarCorreo from "../../../utils/email/send-email";
 import enviarCorreoPersonalizadoOrigen from "../../../utils/email/send-personalized-email-origin";
@@ -54,25 +58,42 @@ const Dropdown = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
+  const forcedLogOut = () => {
+    const token = getUserTokenDate();
+    const currentDate = new Date();
+    const currentDateString = currentDate.toISOString().split("T")[0];
+    const currentTimeString = currentDate
+      .toISOString()
+      .split("T")[1]
+      .split(".")[0];
+    const fecha = token.slice(0, 10);
+    const hora = token.slice(11, 16);
+    const horaCreado = deleteZero(hora.slice(0, 2));
+    const horaActual = deleteZero(currentTimeString.slice(0, 2));
+    const result = horaActual - horaCreado;
+    if (horaActual >= horaCreado) {
+      signOut();
+      window.location.reload(true);
+    }
+  };
+  useEffect(() => {
+    forcedLogOut();
+  });
   return (
     <div className="">
-      <div
+      <button
+        onClick={toggleMenu}
         className={
           notificaciones?.length < 1
-            ? "relative rounded-full w-[44px] h-[44px] justify-center items-center"
-            : "relative w-[44px] h-[44px] border-2 rounded-full border-red-600 justify-center items-center"
+            ? "fixed top-2 right-5 rounded-full "
+            : "fixed top-2 right-5 p-1 rounded-full border-2 border-red-600"
         }
-      >
-        <button
-          onClick={toggleMenu}
-          className="user-info-button"
-          style={buttonStyle}
-        ></button>
-      </div>
+        style={buttonStyle}
+      ></button>
+
       {isOpen && (
-        <div className="absolute z-10 mt-2 py-2 w-[134px] bg-white rounded-lg shadow-lg">
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+        <div className="fixed border right-1 top-12 z-10 p-4 w-[180px] h-fit mt-2 py-2 bg-blue-100 rounded-lg shadow-lg">
+          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiWrench size={20} />
             <a
               className="text-xs flex flex-row pt-1 pl-1"
@@ -81,14 +102,14 @@ const Dropdown = () => {
               Administrar
             </a>
           </div>
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiHomeAlt size={20} />
             <a className="text-xs flex flex-row pt-1 pl-1" href="/home/banner">
               Opciones
             </a>
           </div>
           {notificaciones?.length > 0 ? (
-            <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
               <BiBell size={20} />
               <a
                 className="text-xs flex flex-row pt-1 pl-1"
@@ -98,13 +119,13 @@ const Dropdown = () => {
               </a>
             </div>
           ) : null}
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiUserCircle size={20} />
             <a className="text-xs flex flex-row pt-1 pl-1" href="/user/profile">
               Perfil
             </a>
           </div>
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiLockOpenAlt size={20} />
             <a
               className="text-xs flex flex-row pt-1 pl-1"
@@ -113,10 +134,10 @@ const Dropdown = () => {
               Cambiar clave
             </a>
           </div>
-          <div className="px-2 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <div className="px-2 py-2 text-gray-800 rounded-lg hover:bg-blue-500 hover:text-white">
             <button onClick={() => signOut()} className="text-xs flex flex-row">
               <BiLogOut size={20} />{" "}
-              <label className="pt-0.5 pl-0.5">Salir</label>
+              <label className="pt-0.5 pl-0.5 cursor-pointer">Salir</label>
             </button>
           </div>
         </div>

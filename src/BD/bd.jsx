@@ -570,6 +570,10 @@ export const Estado = [
   { key: "Supervisor", value: "Supervisor" },
   { key: "Super Administrador", value: "Super Administrador" },
 ];
+export const EstadoRestringido = [
+  { key: "Solicitante", value: "Solicitante" },
+  { key: "Asesor verificado", value: "Asesor verificado" },
+];
 export const PropertyEstado = [
   { key: "Activo", value: "Activo" },
   { key: "Pendiente", value: "Pendiente" },

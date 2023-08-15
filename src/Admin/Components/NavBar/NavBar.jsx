@@ -17,8 +17,8 @@ const Navbar = () => {
     <nav className="bg-white nav-bar z-10 fixed w-screen border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" className="flex items-center">
-          <div className="logo-admin"></div>
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+          <div className="logo-admin fixed left-4"></div>
+          <span className="fixed left-16 self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             Sistema CIC
           </span>
         </a>
@@ -72,6 +72,14 @@ const Navbar = () => {
               }
             >
               Portal verificados
+            </NavLink>
+            <NavLink
+              to="/admin/links"
+              className={({ isActive }) =>
+                isActive ? activeClass : inactiveClass
+              }
+            >
+              Enlaces
             </NavLink>
           </ul>
         </div>

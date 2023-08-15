@@ -6,7 +6,7 @@ import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
-import { Estado, TipoAsesor } from "../../../BD/bd";
+import { Estado, EstadoRestringido, TipoAsesor } from "../../../BD/bd";
 import AxiosInstance from "../../../api/AxiosInstance";
 import { authUserData, passedUser, userIntser } from "../../../api/usersApi";
 import MySpinner from "../../../components/Spinner/spinner";
@@ -60,6 +60,7 @@ const InsertUser = () => {
 
   const { data: pasedUser } = useQuery(["id", id], () => passedUser(id));
   const { data: userData } = useQuery("profile", authUserData);
+  const active = userData?.active;
   const role = userData?.role.name;
   const userImg = pasedUser?.photo?.url;
   //setUserImage(userImg);
@@ -85,10 +86,6 @@ const InsertUser = () => {
     setIsLoading(true);
     let activo = undefined;
 
-    /* values.active === "Bloqueado"
-      ? (activo = "Bloqueado")
-      : (activo = values.active); */
-
     try {
       const value = {
         username: values.username,
@@ -101,7 +98,6 @@ const InsertUser = () => {
         mobile: values.mobile,
         personalId: values.personalId,
         active: activo,
-        //blocked: activo === "Bloqueado",
         photo: values.photo,
         role: values.role,
       };
@@ -309,11 +305,17 @@ const InsertUser = () => {
                   <option value="" label="">
                     {"Seleccione un estado"}
                   </option>
-                  {Estado.map((item) => (
-                    <option value={item.value} label={item.label}>
-                      {item.value}
-                    </option>
-                  ))}
+                  {active !== "Super Administrador"
+                    ? EstadoRestringido.map((item) => (
+                        <option value={item.value} label={item.label}>
+                          {item.value}
+                        </option>
+                      ))
+                    : Estado.map((item) => (
+                        <option value={item.value} label={item.label}>
+                          {item.value}
+                        </option>
+                      ))}
                 </Field>
                 <div className="space">
                   {errors.active && touched.active ? (

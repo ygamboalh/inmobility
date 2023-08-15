@@ -23,9 +23,9 @@ const VerifiedAdviser = () => {
           <label className="text-sm"> SISTEMA CIC</label>
         </div>
       </div>
-      <div className="grid grid-cols-4 p-1 md:grid-cols-2 lg:grid-cols-2  gap-0 max-md:grid-cols-1 text-center text-white font-medium">
+      <div className="grid grid-cols-4 p-1 md:grid-cols-2 lg:grid-cols-2 gap-0 max-md:grid-cols-1 text-center text-white font-medium">
         <AdviserCard>
-          <div className="grid grid-cols-3 lg:grid-cols-3 md:grid-cols-3  card-buttons content-around justify-center">
+          <div className="grid grid-cols-3 lg:grid-cols-3 md:grid-cols-3 card-buttons content-around justify-center">
             <div className="col-span-1 align-middle items-center orange-button justify-center flex md:w-[100px] lg:w-[150px]">
               <label className="justify-center items-center align-middle flex md:text-[11px]">
                 PASO A PASO
@@ -65,17 +65,19 @@ const VerifiedAdviser = () => {
             </div>
           </div>
         </AdviserCard>
-        <AdviserCard>
-          <a href="/home/links" className="flex w-full justify-center">
-            <div className="flex flex-col justify-center ">
+        <div className="border flex md:grid-col-2 py-4 lg:my-0 justify-center align-middle lg:p-4 lg:w-full shadow-1 hover:shadow-2xl rounded-lg hover:bg-red-700 bg-red-600">
+          <a href="/home/links" className="flex  w-full justify-center">
+            <div className="flex text-white text-lg font-semibold flex-col justify-center ">
               ENLACES DE INTERES DEL GREMIO
             </div>
           </a>
-        </AdviserCard>
+        </div>
         <AdviserCard>
-          <div className="reminder align-middle items-center content-center flex flex-col">
-            <span>Recordatorio general</span>
-            <span>
+          <div className="reminder align-middle text-black items-center content-center flex flex-col">
+            <span className="text-blue-900 font-bold text-base">
+              Recordatorio general
+            </span>
+            <span className="text-gray-500">
               Hasta alcanzar una cantidad mínima de 5 mil inmuebles, captados en
               esta LISTA GENERAL DE CAPTACIONES DEL GREMIO, este sistema será
               100% gratuito. Después de esa cantidad, habrá un costo mínimo para
@@ -85,23 +87,33 @@ const VerifiedAdviser = () => {
           </div>
         </AdviserCard>
         <AdviserCard>
-          <div className="policies">
-            <span>Esta será la política de participación en un futuro</span>
-            <span>Por trimestre:</span>
-            <span>$ 10.000 (Diez colones exactos)</span>
-            <span>Por año:</span>
-            <span>$ 30.000 (Treinta mil colones exactos)</span>
+          <div className="policies text-black flex flex-col">
+            <span className="text-blue-900 font-bold text-base">
+              Esta será la política de participación en un futuro
+            </span>
+            <div className="flex flex-row text-gray-700 justify-center">
+              <span>Por trimestre:</span>
+              <span>$ 10.000 (Diez colones exactos)</span>
+            </div>
+            <div className="flex flex-row justify-center text-gray-700">
+              <span>Por año:</span>
+              <span>$ 30.000 (Treinta mil colones exactos)</span>
+            </div>
             <hr />
-            <span>No se cobrará por inmueble sino por tiempo.</span>
-            <span>
+            <span className="text-gray-700">
+              No se cobrará por inmueble sino por tiempo.
+            </span>
+            <span className="text-gray-700">
               Así usted prodrá subir toda la información de las propiedades que
               requiera mientras sea un asesor activo en este sistema
             </span>
-            <span>
+            <span className="text-gray-700">
               Los pagos de subcripción anual o trimestral, se realizarán a
-              través de SINPE MOVIL DEL
+              través del
             </span>
-            <span>(506) 6383-2727</span>
+            <span className="text-blue-900 font-bold text-base">
+              SINPE MOVIL DEL (506) 6383-2727
+            </span>
           </div>
         </AdviserCard>
       </div>

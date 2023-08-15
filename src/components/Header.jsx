@@ -84,14 +84,11 @@ const Header = () => {
             <div className="flex flex-row justify-end items-end">
               {link === "Asesor verificado" && <UserInfo />}
               {link === "Solicitante" && <VisiterUserInfo />}
-              {link === "SuperAdmin" && <Dropdown />}
+              {link === "Super Administrador" && <Dropdown />}
               {link === "Supervisor" && <Dropdown />}
             </div>
           </div>
         )}
-        <div className="flex flex-row justify-center justify-self-center">
-          <Freelancer /> <span></span>
-        </div>
       </div>
     </header>
   );

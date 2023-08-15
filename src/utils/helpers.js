@@ -9,6 +9,8 @@ import {
   ACCESS_TOKEN_STORAGE,
   API
 } from "../constant";
+import { useSignOut } from "react-auth-kit";
+
 
 export const storeUser = (data) => {
     localStorage.setItem('user', JSON.stringify({
@@ -31,6 +33,9 @@ export const getUser = () => {
 }; 
 export const getUserRole = () => {
   return localStorage.getItem(ACCESS_TOKEN_STATE);
+};
+export const getUserTokenDate = () => {
+  return localStorage.getItem(ACCESS_TOKEN_STORAGE);
 };  
 
  export const setToken = (token) => {
@@ -71,7 +76,7 @@ export const createNotification = (type, information,reference) => {
 }).then((response) => console.log(response)).catch((error) => console.log(error))
 }
 
-function deleteZero(string) {
+export function deleteZero(string) {
     if (string.startsWith("0") && string.length > 1) {
       return string.slice(1);
     } else {
@@ -161,4 +166,5 @@ export const deletePortfolios = async (portfolios) => {
         console.log(err);
       });
     deletePortfolios(portfolios);
-  };
+};
+  
