@@ -72,7 +72,7 @@ const PropertyDetailsSearch = () => {
         title="Detalles de la propiedad"
         content="Detalles de la propiedad"
       />
-      <div className="container mx-auto min-h-[800px] pt-6">
+      <div className="container mx-auto min-h-[800px] bg-gray-300 pt-6">
         <div>
           <button
             onClick={() => {

@@ -194,7 +194,7 @@ const PortafolioCard = ({ propiedad }) => {
 
   return (
     <section>
-      <div className="container mx-auto pb-2 pt-6 bg-blue-200 rounded-xl">
+      <div className="container mx-auto pb-2 pt-6 bg-gray-300 rounded-xl">
         <div className="flex justify-between">
           <div>
             <button

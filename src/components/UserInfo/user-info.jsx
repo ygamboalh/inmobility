@@ -56,15 +56,15 @@ const UserInfo = () => {
       .toISOString()
       .split("T")[1]
       .split(".")[0];
-    const fecha = token.slice(0, 10);
-    const hora = token.slice(11, 16);
+    const fecha = token?.slice(0, 10);
+    const hora = token?.slice(11, 16);
     const horaCreado = deleteZero(hora.slice(0, 2));
-    const horaActual = deleteZero(currentTimeString.slice(0, 2));
+    const horaActual = deleteZero(currentTimeString?.slice(0, 2));
     const result = horaActual - horaCreado;
-
-    if (horaActual >= horaCreado) {
-      signOut();
-      window.location.reload(true);
+    console.log(horaActual, horaCreado);
+    if ((horaActual) => horaCreado) {
+      //signOut();
+      //window.location.reload(true);
     }
   };
   useEffect(() => {
@@ -93,7 +93,7 @@ const UserInfo = () => {
         style={buttonStyle}
       ></button>
       {isOpenM && (
-        <div className="fixed right-1 top-20 z-10 w-[200px] h-[250px] bg-white p-4 border rounded-lg shadow-lg">
+        <div className="fixed right-1 top-20 z-10 w-[200px] h-fit bg-white p-4 border rounded-lg shadow-lg">
           <div className="flex flex-row px-2 rounded-lg align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiUserCheck size={20} />
             <a

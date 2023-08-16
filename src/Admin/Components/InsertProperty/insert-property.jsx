@@ -1453,22 +1453,25 @@ const InsertProperty = () => {
         </div>
         <div className="flex m-4 content-center items-center justify-center ">
           <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
-            <div className="m-1 flex justify-center items-center content-center self-start">
+            <div
+              className={
+                selectedOption ===
+                  "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+                selectedOption === "Alquiler de Bodegas o Similares" ||
+                selectedOption === "Venta de Bodegas o Similares" ||
+                selectedOption === "Alquiler de Edificios" ||
+                selectedOption === "Venta de Edificios" ||
+                selectedOption ===
+                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                selectedOption === ""
+                  ? "hidden"
+                  : "m-1 flex justify-center items-center content-center self-start"
+              }
+            >
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   value=""
-                  disabled={
-                    selectedOption ===
-                      "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-                    selectedOption === "Alquiler de Bodegas o Similares" ||
-                    selectedOption === "Venta de Bodegas o Similares" ||
-                    selectedOption === "Alquiler de Edificios" ||
-                    selectedOption === "Venta de Edificios" ||
-                    selectedOption ===
-                      "Venta de Lotes, Fincas,Terrenos y Predios" ||
-                    selectedOption === ""
-                  }
                   defaultValue={property?.ley7600}
                   onChange={handleChange}
                   id="ley7600"
@@ -1481,25 +1484,28 @@ const InsertProperty = () => {
                 </span>
               </label>
             </div>
-            <div className="m-1 justify-center items-center content-center flex self-start">
+            <div
+              className={
+                selectedOption ===
+                  "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+                selectedOption === "Alquiler de Bodegas o Similares" ||
+                selectedOption === "Venta de Bodegas o Similares" ||
+                selectedOption === "Alquiler de Edificios" ||
+                selectedOption === "Venta de Edificios" ||
+                selectedOption === "Alquiler de Locales Comerciales" ||
+                selectedOption === "Venta de Locales Comerciales" ||
+                selectedOption ===
+                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                selectedOption === "Alquiler de Casas y Apartamentos" ||
+                selectedOption === ""
+                  ? "hidden"
+                  : "m-1 justify-center items-center content-center flex self-start"
+              }
+            >
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   value=""
-                  disabled={
-                    selectedOption ===
-                      "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-                    selectedOption === "Alquiler de Bodegas o Similares" ||
-                    selectedOption === "Venta de Bodegas o Similares" ||
-                    selectedOption === "Alquiler de Edificios" ||
-                    selectedOption === "Venta de Edificios" ||
-                    selectedOption === "Alquiler de Locales Comerciales" ||
-                    selectedOption === "Venta de Locales Comerciales" ||
-                    selectedOption ===
-                      "Venta de Lotes, Fincas,Terrenos y Predios" ||
-                    selectedOption === "Alquiler de Casas y Apartamentos" ||
-                    selectedOption === ""
-                  }
                   defaultValue={property?.serviciosMedicos}
                   onChange={handleChange}
                   id="serviciosMedicos"
@@ -1512,7 +1518,24 @@ const InsertProperty = () => {
                 </span>
               </label>
             </div>
-            <div className="m-1 justify-center items-center content-center flex self-start">
+            <div
+              className={
+                selectedOption === "Venta de Casas y Apartamentos" ||
+                selectedOption ===
+                  "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+                selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+                selectedOption === "Alquiler de Edificios" ||
+                selectedOption === "Venta de Edificios" ||
+                selectedOption === "Alquiler de Locales Comerciales" ||
+                selectedOption === "Venta de Locales Comerciales" ||
+                selectedOption ===
+                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                selectedOption === "Alquiler de Casas y Apartamentos" ||
+                selectedOption === ""
+                  ? "hidden"
+                  : "m-1 justify-center items-center content-center flex self-start"
+              }
+            >
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"

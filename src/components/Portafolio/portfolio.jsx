@@ -11,7 +11,7 @@ import { API } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import { getAllPortafolios } from "../../api/propertiesApi";
 import MySpinner from "../Spinner/spinner";
-import { BiHomeAlt, BiMailSend, BiUserCircle } from "react-icons/bi";
+import { BiCopyAlt, BiHomeAlt, BiMailSend, BiUserCircle } from "react-icons/bi";
 import MetaData from "../Metadata/metadata";
 
 const Portafolio = () => {
@@ -81,6 +81,9 @@ const Portafolio = () => {
     );
     setRecords(searchData);
   };
+  function copyToPaper(text) {
+    navigator.clipboard.writeText(`https://siccic.com${text}`);
+  }
   if (!records) {
     return <MySpinner />;
   }
@@ -152,11 +155,29 @@ const Portafolio = () => {
                             </div>
 
                             <hr />
-                            <div className="mt-2 flex flex-row align-middle items-center">
-                              <div className="bg-blue-300 flex justify-center align-middle items-center rounded-full w-[30px] h-[30px]">
-                                {record.attributes.properties.data.length}{" "}
+                            <div className="flex flex-row justify-between">
+                              <div className="mt-2 flex flex-row align-middle items-center">
+                                <div className="bg-blue-300 flex justify-center align-middle items-center rounded-full w-[30px] h-[30px]">
+                                  {record.attributes.properties.data.length}{" "}
+                                </div>
+                                <div>
+                                  <span className="ml-2 text-sm">
+                                    Propiedades
+                                  </span>
+                                </div>
                               </div>
-                              <span className="ml-2 text-sm">Propiedades</span>
+                              <div className="mt-3 text-sm align-middle">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    copyToPaper(
+                                      `/home/portfolio/share-portfolio/${record.id}`
+                                    )
+                                  }
+                                >
+                                  <BiCopyAlt size={25} />
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -171,7 +192,7 @@ const Portafolio = () => {
                                 })
                               }
                             >
-                              Detalles
+                              Administrar aglomerado
                             </button>
                             <button
                               type="button"
@@ -185,7 +206,7 @@ const Portafolio = () => {
                                 )
                               }
                             >
-                              Compartir
+                              Vista del cliente
                             </button>
                             <button
                               type="button"

@@ -43,7 +43,7 @@ const LoadPropertyImage = ({ creadoPor }) => {
         data.append("files", image[i]);
       }
     } else {
-      message.error("¡Sólo puede seleccionar hasta 10 imágenes!");
+      message.error("¡Sólo puede seleccionar hasta 25 imágenes!");
       return;
     }
     data.append("ref", ref);

@@ -7,6 +7,7 @@ import {
   BiUserCircle,
   BiWrench,
   BiBell,
+  BiBook,
 } from "react-icons/bi";
 import { authUserData } from "../../../api/usersApi";
 import { useQuery } from "react-query";
@@ -85,14 +86,14 @@ const Dropdown = () => {
         onClick={toggleMenu}
         className={
           notificaciones?.length < 1
-            ? "fixed top-2 right-5 rounded-full "
-            : "fixed top-2 right-5 p-1 rounded-full border-2 border-red-600"
+            ? "fixed top-8 right-5 rounded-full "
+            : "fixed top-8 right-5 p-1 rounded-full border-2 border-red-600"
         }
         style={buttonStyle}
       ></button>
 
       {isOpen && (
-        <div className="fixed border right-1 top-12 z-10 p-4 w-[180px] h-fit mt-2 py-2 bg-blue-100 rounded-lg shadow-lg">
+        <div className="fixed border right-1 top-20 z-10 p-4 w-[180px] h-fit mt-2 py-2 bg-gray-300 rounded-lg shadow-lg">
           <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiWrench size={20} />
             <a
@@ -119,6 +120,15 @@ const Dropdown = () => {
               </a>
             </div>
           ) : null}
+          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <BiBook size={20} />
+            <a
+              className="text-xs flex flex-row pt-1 pl-1"
+              href="/home/portfolio"
+            >
+              Portafolio
+            </a>
+          </div>
           <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiUserCircle size={20} />
             <a className="text-xs flex flex-row pt-1 pl-1" href="/user/profile">

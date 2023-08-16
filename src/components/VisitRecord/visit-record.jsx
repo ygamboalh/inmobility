@@ -21,8 +21,7 @@ const VisitSchema = Yup.object().shape({
   email: Yup.string()
     .matches(emailRegex, "¡Correo inválido!")
     .required("¡El correo es requerido!"),
-  phone: Yup.string()
-    .matches(phoneRegex, "¡Teléfono invalido!")
+  mobile: Yup.string()
     .min(8, "¡Teléfono invalido!")
     .max(18, "¡Teléfono invalido!"),
   managment: Yup.string().required("¡La gestión es requerida!"),

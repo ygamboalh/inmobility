@@ -70,7 +70,7 @@ const App = () => {
                 <Route path='/property/:id' element={<PropertyDetails />} />
                 <Route path="/user/verified-adviser" element={<VerifiedAdviser />}/>
                 <Route path="/user/profile" element={<Profile />} />
-            <Route path="/auth/change-password" element={<ChangePassword />} />
+                <Route path="/auth/change-password" element={<ChangePassword />} />
             <Route element={<CheckRole roles={['Super Administrador','Asesor verificado','Supervisor']} />}>
                 <Route path="/home/insert-property" element={<InsertProperty />} />
             </Route>
@@ -79,32 +79,19 @@ const App = () => {
             </Route>
                 <Route path="/home/banner" element={<Banner />} />
                 <Route exact path="/home/upload/:id" element={<Upload />} />
-               <Route path='/home/links' element={<LinkListAdviser />} />
-                <Route path="/home/search/search-results" element={<SearchResultsCard />} />
+                <Route path='/home/links' element={<LinkListAdviser />} />
                 <Route path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
                 <Route path="/home/portfolio" element={<Portafolio />} />
                 <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />
                 <Route path="/home/portfolio/:id" element={<Portafolio />} />
-                <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />                
+                
             </Route>
-                <Route path='/ventas' element={<Ventas />} />
-          <Route path="/home/search/selling-house-apartment" element={<VentaCasaApartamento />} />
-                <Route path="/home/search/rent-house-apartment" element={<AlquilerCasaApartamento />} />
-                <Route path="/home/search/selling-lots" element={<VentaLotes />} />
-                <Route path="/home/search/rent-lots" element={<AlquilerLotes />} />
-                <Route path="/home/search/selling-commercials" element={<VentaLocalesComerciales />} />
-                <Route path="/home/search/rent-commercials" element={<AlquilerLocalesComerciales />} />
-                <Route path="/home/search/selling-buildings" element={<VentaEdificios />} />
-                <Route path="/home/search/rent-buildings" element={<AlquilerEdificios />} />
-                <Route path="/home/search/selling-store" element={<VentaBodegas />} />
-                <Route path="/home/search/rent-store" element={<AlquilerBodegas />} />
-                <Route path="/home/search/selling-office" element={<VentaOficinas />} />
-                <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
-          <Route path='/alquiler' element={<Alquileres />} />
-          <Route path="/home/contact" element={<Contact />} />
+                
           <Route element={<PublicRoutes />}>
+                
+                <Route path="/home/contact" element={<Contact />} />
                 <Route path="/home/banner/visiter" element={<Banner />} />
-            <Route path="/user/sent-request" element={<SentRequest />} />
+                <Route path="/user/sent-request" element={<SentRequest />} />
                 <Route path="/user/evaluating" element={<Evaluating />} />
                 <Route path="/user/access-denied" element={<AccessDenied />} />
                 <Route path="/auth/signin" element={<SignIn />}/>
@@ -112,7 +99,7 @@ const App = () => {
                 <Route path="/auth/reset-password" element={<ResetPassword />} />
                 <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                 <Route path="/home/visit-record" element={<VisitRecord />} />
-                
+                <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
                 <Route path="/user/terms" element={<Terms />} />
                 <Route path="/user/logout" element={<Logout />} />
                 <Route path='*' element={<NotFound />} />
@@ -143,6 +130,23 @@ const App = () => {
                 <Route exact path="/home/search/pdf/:id" element={<PdfViewShared />} /> 
           </Route>
         <Route exact path='/' element={<Home />} />
+            <Route element={<Layout />}>
+              <Route path='/ventas' element={<Ventas />} /> 
+              <Route path="/home/search/search-results" element={<SearchResultsCard />} />
+              <Route path="/home/search/selling-house-apartment" element={<VentaCasaApartamento />} />
+              <Route path="/home/search/rent-house-apartment" element={<AlquilerCasaApartamento />} />
+              <Route path="/home/search/selling-lots" element={<VentaLotes />} />
+              <Route path="/home/search/rent-lots" element={<AlquilerLotes />} />
+              <Route path="/home/search/selling-commercials" element={<VentaLocalesComerciales />} />
+              <Route path="/home/search/rent-commercials" element={<AlquilerLocalesComerciales />} />
+              <Route path="/home/search/selling-buildings" element={<VentaEdificios />} />
+              <Route path="/home/search/rent-buildings" element={<AlquilerEdificios />} />
+              <Route path="/home/search/selling-store" element={<VentaBodegas />} />
+              <Route path="/home/search/rent-store" element={<AlquilerBodegas />} />
+              <Route path="/home/search/selling-office" element={<VentaOficinas />} />
+              <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
+              <Route path='/alquiler' element={<Alquileres />} />
+        </Route>
       </Routes>
     </div>)
 };

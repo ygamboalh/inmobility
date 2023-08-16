@@ -33,8 +33,8 @@ const Header = () => {
         const role = response?.data?.role?.name;
         const activo = response?.data?.active;
 
-        if (role === "SuperAdmin" || activo === "Super administrador") {
-          setLink("SuperAdmin");
+        if (role === "SuperAdmin" || activo === "Super Administrador") {
+          setLink("Super Administrador");
         } else if (activo === "Asesor verificado") {
           setLink("Asesor verificado");
         } else if (activo === "Solicitante") {

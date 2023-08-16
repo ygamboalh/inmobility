@@ -78,12 +78,12 @@ const PropertyDetailsSearch = () => {
   };
 
   return (
-    <section>
+    <section className="">
       <MetaData
         title="Detalles de la propiedad"
         description="Detalles de la propiedad"
       />
-      <div className="container mx-auto min-h-[800px] pt-28">
+      <div className="container rounded-md mx-auto min-h-[800px] bg-gray-300 pt-28">
         <div>
           <button
             onClick={() => {
@@ -696,7 +696,7 @@ const PropertyDetailsSearch = () => {
             )}
             {!property.detallesExternos ||
             Object.keys(property.detallesExternos).length === 0 ? null : (
-              <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
+              <div className="bg-gray-200 text-black px-3 mt-3 mb-4 rounded-sm">
                 <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Detalles Externos</label>
                   <ul>
@@ -716,7 +716,7 @@ const PropertyDetailsSearch = () => {
         </div>
       </div>
 
-      {visible && property ? (
+      {/* {visible && property ? (
         <div className="flex justify-center min-h-screen">
           <PDFViewer
             style={{
@@ -726,7 +726,7 @@ const PropertyDetailsSearch = () => {
             <PdfView property={property} />
           </PDFViewer>
         </div>
-      ) : null}
+      ) : null} */}
     </section>
   );
 };
