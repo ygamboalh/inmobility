@@ -89,7 +89,7 @@ const App = () => {
                 
           <Route element={<PublicRoutes />}>
                 
-                <Route path="/home/contact" element={<Contact />} />
+                
                 <Route path="/home/banner/visiter" element={<Banner />} />
                 <Route path="/user/sent-request" element={<SentRequest />} />
                 <Route path="/user/evaluating" element={<Evaluating />} />
@@ -145,7 +145,8 @@ const App = () => {
               <Route path="/home/search/rent-store" element={<AlquilerBodegas />} />
               <Route path="/home/search/selling-office" element={<VentaOficinas />} />
               <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
-              <Route path='/alquiler' element={<Alquileres />} />
+          <Route path='/alquiler' element={<Alquileres />} />
+          <Route path="/home/contact" element={<Contact />} />
         </Route>
       </Routes>
     </div>)
