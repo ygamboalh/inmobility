@@ -75,12 +75,12 @@ const Dropdown = ({ ubicacion }) => {
     if (currentDateString === fecha && horaActual >= horaCreado) {
       signOut();
       window.location.reload(true);
-    } else {
+    } /* else {
       if (horaActual <= horaCreado) {
         signOut();
         window.location.reload(true);
       }
-    }
+    } */
   };
   useEffect(() => {
     forcedLogOut();
