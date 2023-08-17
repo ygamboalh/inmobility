@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Select from "react-select";
 import { message } from "antd";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 
 import { API, BEARER } from "../../../constant";
 import AxiosInstance from "../../../api/AxiosInstance";
@@ -22,7 +22,6 @@ import {
   UbicacionCatastral,
   UbicacionDemografica,
   UbicacionGeografica,
-  Estado,
   Cochera,
   Densidad,
   Servicios,
@@ -200,18 +199,19 @@ const InsertProperty = () => {
         .max(20, "*"),
       active: Yup.string().required("*"),
 
-      habitaciones: Yup.number().min(0, "*").max(15, "*"),
-      areaPropiedad: Yup.string().min(0, "*").max(10000, "*"),
-      areaContruccion: Yup.number().min(0, "*").max(100000, "*"),
-      banos: Yup.number().min(0, "*").max(10, "*"),
-      cuotaMantenimiento: Yup.number().min(0, "*").max(500000, "*"),
-      areaBodega: Yup.number().min(0, "*").max(10000000, "*"),
-      altura: Yup.number().min(0, "*").max(500, "*"),
-      areaPlantas: Yup.number().min(0, "*").max(100000, "*"),
-      numeroPlantas: Yup.number().min(0, "*").max(100, "*"),
-      areaMesanini: Yup.number().min(0, "*").max(6000, "*"),
-      areaSotano: Yup.number().min(0, "*").max(6000, "*"),
+      //habitaciones: Yup.number().min(0, "*").max(15, "*"),
+      //areaPropiedad: Yup.string().min(0, "*").max(10000, "*"),
+      //areaContruccion: Yup.number().min(0, "*").max(100000, "*"),
+      //banos: Yup.number().min(0, "*").max(10, "*"),
+      //cuotaMantenimiento: Yup.number().min(0, "*").max(500000, "*"),
+      //areaBodega: Yup.number().min(0, "*").max(10000000, "*"),
+      //altura: Yup.number().min(0, "*").max(500, "*"),
+      //areaPlantas: Yup.number().min(0, "*").max(100000, "*"),
+      //numeroPlantas: Yup.number().min(0, "*").max(100, "*"),
+      //areaMesanini: Yup.number().min(0, "*").max(6000, "*"),
+      //areaSotano: Yup.number().min(0, "*").max(6000, "*"),
     }),
+    enableReinitialize: true,
     onSubmit: async (values) => {
       setIsLoading(true);
 
@@ -221,7 +221,6 @@ const InsertProperty = () => {
         if (cat) {
           catFounded.push(cat.id);
         }
-
         const value = {
           provincia: values.provincia,
           canton: values.canton,
@@ -275,7 +274,6 @@ const InsertProperty = () => {
         };
 
         if (!id) {
-          console.log(value);
           const response = await AxiosInstance.post("/properties", {
             data: value,
           })
@@ -307,6 +305,73 @@ const InsertProperty = () => {
               message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
             });
         } else {
+          let tipo = "";
+          selectedPropertyType !== ""
+            ? (tipo = selectedPropertyType)
+            : (tipo = values?.tipoPropiedad);
+          let newAmenidades = {};
+          Object.keys(amenidades).length !== 0
+            ? (newAmenidades = amenidades)
+            : (newAmenidades = property?.amenidades);
+          let newPatio = {};
+          Object.keys(patio).length !== 0
+            ? (newPatio = patio)
+            : (newPatio = property?.jardinPatio);
+          let newDetallesInternos = {};
+          Object.keys(detallesInternos).length !== 0
+            ? (newDetallesInternos = detallesInternos)
+            : (newDetallesInternos = property?.detallesInternos);
+          let newDetallesExternos = {};
+          Object.keys(detallesExternos).length !== 0
+            ? (newDetallesExternos = detallesExternos)
+            : (newDetallesExternos = property?.detallesExternos);
+          const value = {
+            provincia: values.provincia,
+            canton: values.canton,
+            distrito: values.distrito,
+            precio: values.precio,
+            tipoPropiedad: tipo,
+            amenidades: newAmenidades,
+            areaPropiedad: values.areaPropiedad,
+            areaTerreno: values.areaTerreno,
+            areaContruccion: values.areaContruccion,
+            habitaciones: values.habitaciones,
+            cochera: values.cochera,
+            usoDeSuelo: values.usoDeSuelo,
+            banos: values.banos,
+            jardinPatio: newPatio,
+            parqueo: values.parqueo,
+            ley7600: values.ley7600,
+            detallesInternos: newDetallesInternos,
+            detallesExternos: newDetallesExternos,
+            amueblado: values.amueblado,
+            aptoHijos: values.aptoHijos,
+            aptoMascotas: values.aptoMascotas,
+            cuotaMantenimiento: values.cuotaMantenimiento,
+            areaBodega: values.areaBodega,
+            altura: values.altura,
+            concepcionElectrica: values.concepcionElectrica,
+            areaCarga: values.areaCarga,
+            areaPlantas: values.areaPlantas,
+            numeroPlantas: values.numeroPlantas,
+            propositoTerreno: values.propositoTerreno,
+            ubicacionCastral: values.ubicacionCastral,
+            ubicacionDemografica: values.ubicacionDemografica,
+            ubicacionGeografica: values.ubicacionGeografica,
+            areaMesanini: values.areaMesanini,
+            areaSotano: values.areaSotano,
+            tipoDensidad: values.tipoDensidad,
+            servicios: values.servicios,
+            serviciosMedicos: values.serviciosMedicos,
+            Anunciante: anunciante,
+            categories: [property?.categories.data[0].id],
+            active: values.active,
+            creadoPor: userId,
+            uniqueId: values.uniqueId,
+            descripcion: values.descripcion,
+            moneda: values.moneda,
+          };
+          console.log("los valores", value);
           const response = await AxiosInstance.put(`/properties/${id}`, {
             data: value,
           })
@@ -344,14 +409,15 @@ const InsertProperty = () => {
       }
     },
   });
-
   useEffect(() => {
+    if (!id) {
+      handleSubmit();
+    }
     const response = AxiosInstance.get(`properties/${id}?populate=*`)
       .then((property) => {
         setProperty(property?.data?.data?.attributes);
         const category =
           property?.data?.data?.attributes.categories.data[0].attributes.nombre;
-        console.log("la categoria", category);
         setCategory(category);
         setSelectedOption(category);
       })
@@ -419,7 +485,7 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.categories && touched.categories ? (
               <div className="-ml-1.5 text-red-500 mt-4 text-xs">
                 {errors.categories}
@@ -438,7 +504,7 @@ const InsertProperty = () => {
             placeholder="Identificador único"
             className="input-admin-property ml-1 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.uniqueId && touched.uniqueId ? (
               <div className="errordiv text-xs">{errors.uniqueId}</div>
             ) : null}
@@ -460,7 +526,7 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.provincia && touched.provincia ? (
               <div className="errordiv text-xs">{errors.provincia}</div>
             ) : null}
@@ -475,7 +541,7 @@ const InsertProperty = () => {
             placeholder="Canton"
             className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.canton && touched.canton ? (
               <div className="errordiv text-xs">{errors.canton}</div>
             ) : null}
@@ -489,7 +555,7 @@ const InsertProperty = () => {
             placeholder="Distrito"
             className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.distrito && touched.distrito ? (
               <div className="errordiv text-xs">{errors.distrito}</div>
             ) : null}
@@ -529,7 +595,7 @@ const InsertProperty = () => {
             placeholder="Área del terreno"
             className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.areaTerreno && touched.areaTerreno ? (
               <div className="errordiv text-xs">{errors.areaTerreno}</div>
             ) : null}
@@ -621,7 +687,7 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.tipoLote && touched.tipoLote ? (
               <div className="errordiv text-xs">{errors.tipoLote}</div>
             ) : null}
@@ -660,6 +726,7 @@ const InsertProperty = () => {
             name="areaPropiedad"
             defaultValue={property?.areaPropiedad}
             onChange={handleChange}
+            max={10000}
             placeholder="Área de la propiedad"
             hidden={
               selectedOption ===
@@ -677,11 +744,7 @@ const InsertProperty = () => {
               <div className="errordiv text-xs">{errors.areaPropiedad}</div>
             ) : null}
           </div>
-          <div className="space mb-2.5">
-            {errors.tipoOficina && touched.tipoOficina ? (
-              <div className="errordiv text-xs">{errors.tipoOficina}</div>
-            ) : null}
-          </div>
+
           <select
             name="tipoEdificio"
             hidden={
@@ -803,6 +866,7 @@ const InsertProperty = () => {
             defaultValue={property?.areaContruccion}
             placeholder="Área construcción"
             onChange={handleChange}
+            max={100000}
             className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space mb-2.5">
@@ -816,6 +880,7 @@ const InsertProperty = () => {
             defaultValue={property?.habitaciones}
             onChange={handleChange}
             placeholder="Habitaciones"
+            max={15}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -844,6 +909,7 @@ const InsertProperty = () => {
             onChange={handleChange}
             defaultValue={property?.banos}
             placeholder="Baños"
+            max={10}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -999,6 +1065,7 @@ const InsertProperty = () => {
             defaultValue={property?.cuotaMantenimiento}
             onChange={handleChange}
             placeholder="Cuota mantenimiento"
+            max={500000}
             hidden={
               selectedOption ===
                 "Alquiler de Oficinas o Consultorios Médicos" ||
@@ -1022,6 +1089,7 @@ const InsertProperty = () => {
             type="number"
             name="areaBodega"
             defaultValue={property?.areaBodega}
+            max={10000000}
             onChange={handleChange}
             placeholder="Área bodega"
             hidden={
@@ -1051,6 +1119,7 @@ const InsertProperty = () => {
           <input
             type="number"
             name="altura"
+            max={500}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1111,6 +1180,7 @@ const InsertProperty = () => {
           <input
             type="number"
             name="areaPlantas"
+            max={100000}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1140,6 +1210,7 @@ const InsertProperty = () => {
           <input
             type="number"
             name="numeroPlantas"
+            max={100}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1276,7 +1347,22 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          <div
+            className={
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === ""
+                ? "hidden"
+                : "space mb-2.5"
+            }
+          >
             {errors.ubicacionGeografica && touched.ubicacionGeografica ? (
               <div className="errordiv text-xs">
                 {errors.ubicacionGeografica}
@@ -1301,7 +1387,7 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.active && touched.active ? (
               <div className="errordiv text-xs">{errors.active}</div>
             ) : null}
@@ -1309,6 +1395,7 @@ const InsertProperty = () => {
           <input
             type="number"
             name="areaMesanini"
+            max={6000}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1337,6 +1424,7 @@ const InsertProperty = () => {
           <input
             type="number"
             name="areaSotano"
+            max={6000}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1362,6 +1450,7 @@ const InsertProperty = () => {
               <div className="errordiv text-xs">{errors.areaSotano}</div>
             ) : null}
           </div>
+
           <select
             name="tipoDensidad"
             hidden={

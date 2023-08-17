@@ -23,7 +23,7 @@ const Navbar = () => {
           </span>
         </a>
         <div className="flex items-center md:order-2">
-          <Dropdown />
+          <Dropdown ubicacion={"absolute top-2 right-5"} />
           <button
             onClick={toggleMenu}
             data-collapse-toggle="mobile-menu-2"

@@ -61,11 +61,17 @@ const UserInfo = () => {
     const horaCreado = deleteZero(hora.slice(0, 2));
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
     const result = horaActual - horaCreado;
+    console.log(currentDateString, fecha);
     console.log(horaActual, horaCreado);
-    if ((horaActual) => horaCreado) {
-      //signOut();
-      //window.location.reload(true);
-    }
+    if (currentDateString === fecha && horaActual >= horaCreado) {
+      signOut();
+      window.location.reload(true);
+    } /* else {
+      if (horaActual <= horaCreado) {
+        signOut();
+        window.location.reload(true);
+      }
+    } */
   };
   useEffect(() => {
     forcedLogOut();

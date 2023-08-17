@@ -40,7 +40,7 @@ const AlquilerEdificios = () => {
       if (urlFinal.length !== 0) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[categories][id][$eq]=8${urlQuery}`;
-
+        console.log(url);
         const busqueda = axios
           .get(url, {
             headers: {
@@ -48,10 +48,10 @@ const AlquilerEdificios = () => {
             },
           })
           .then((response) => {
-            const data = response.data.data;
-            if (data.length !== 0) {
+            const propertyList = response.data.data;
+            if (propertyList.length !== 0) {
               navigate("/home/search/search-results", {
-                state: { data, categories: "Alquiler de Edificios" },
+                state: { propertyList, categories: "Alquiler de Edificios" },
               });
             } else {
               message.info("No se encontraron resultados");

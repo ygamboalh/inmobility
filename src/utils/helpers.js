@@ -77,8 +77,8 @@ export const createNotification = (type, information,reference) => {
 }
 
 export function deleteZero(string) {
-    if (string.startsWith("0") && string.length > 1) {
-      return string.slice(1);
+    if (string?.startsWith("0") && string?.length > 1) {
+      return string?.slice(1);
     } else {
       return string;
     }

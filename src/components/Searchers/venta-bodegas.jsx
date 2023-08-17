@@ -39,11 +39,11 @@ const AlquilerBodegas = () => {
             },
           })
           .then((response) => {
-            const data = response.data.data;
-            if (data.length !== 0) {
+            const propertyList = response.data.data;
+            if (propertyList.length !== 0) {
               navigate("/home/search/search-results", {
                 state: {
-                  data,
+                  propertyList,
                   categories: "Venta de Bodegas o Similares",
                 },
               });

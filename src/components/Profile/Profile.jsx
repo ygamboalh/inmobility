@@ -148,7 +148,6 @@ const Profile = () => {
             username: userData?.username,
             email: userData?.email,
             password: userData?.password,
-            //password: "",
             phone: userData?.phone,
             company: userData?.company,
             address: userData?.address,

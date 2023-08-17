@@ -49,11 +49,11 @@ const AlquilerLotes = () => {
             },
           })
           .then((response) => {
-            const data = response.data.data;
-            if (data.length !== 0) {
+            const propertyList = response.data.data;
+            if (propertyList.length !== 0) {
               navigate("/home/search/search-results", {
                 state: {
-                  data,
+                  propertyList,
                   categories: "Alquiler de Fincas, Lotes, Predios o Terrenos",
                 },
               });

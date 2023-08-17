@@ -84,8 +84,12 @@ const Header = () => {
             <div className="flex flex-row justify-end items-end">
               {link === "Asesor verificado" && <UserInfo />}
               {link === "Solicitante" && <VisiterUserInfo />}
-              {link === "Super Administrador" && <Dropdown />}
-              {link === "Supervisor" && <Dropdown />}
+              {link === "Super Administrador" && (
+                <Dropdown ubicacion={"absolute top-8 right-5"} />
+              )}
+              {link === "Supervisor" && (
+                <Dropdown ubicacion={"absolute top-8 right-5"} />
+              )}
             </div>
           </div>
         )}

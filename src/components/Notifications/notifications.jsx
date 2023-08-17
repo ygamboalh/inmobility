@@ -28,8 +28,8 @@ const Notifications = () => {
   }, []);
 
   function deleteZero(string) {
-    if (string.startsWith("0") && string.length > 1) {
-      return string.slice(1);
+    if (string?.startsWith("0") && string?.length > 1) {
+      return string?.slice(1);
     } else {
       return string;
     }
@@ -50,7 +50,6 @@ const Notifications = () => {
         const horaActual = deleteZero(currentTimeString.slice(0, 2));
 
         const result = horaActual - horaCreado;
-
         setIsLoading(true);
         if (result >= 3) {
           const response = AxiosInstance.delete(

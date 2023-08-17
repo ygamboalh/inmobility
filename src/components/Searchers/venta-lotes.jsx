@@ -49,12 +49,12 @@ const AlquilerLotes = () => {
             },
           })
           .then((response) => {
-            const data = response.data.data;
+            const propertyList = response.data.data;
 
-            if (data.length !== 0) {
+            if (propertyList.length !== 0) {
               navigate("/home/search/search-results", {
                 state: {
-                  data,
+                  propertyList,
                   categories: "Venta de Lotes, Fincas,Terrenos y Predios",
                 },
               });

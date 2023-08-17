@@ -24,7 +24,7 @@ import enviarCorreo from "../../../utils/email/send-email";
 import enviarCorreoPersonalizadoOrigen from "../../../utils/email/send-personalized-email-origin";
 import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
 
-const Dropdown = () => {
+const Dropdown = ({ ubicacion }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState(
     "https://backend.siccic.com/uploads/small_userinfo_dac703068b.png"
@@ -67,14 +67,19 @@ const Dropdown = () => {
       .toISOString()
       .split("T")[1]
       .split(".")[0];
-    const fecha = token.slice(0, 10);
-    const hora = token.slice(11, 16);
-    const horaCreado = deleteZero(hora.slice(0, 2));
-    const horaActual = deleteZero(currentTimeString.slice(0, 2));
+    const fecha = token?.slice(0, 10);
+    const hora = token?.slice(11, 16);
+    const horaCreado = deleteZero(hora?.slice(0, 2));
+    const horaActual = deleteZero(currentTimeString?.slice(0, 2));
     const result = horaActual - horaCreado;
-    if (horaActual >= horaCreado) {
+    if (currentDateString === fecha && horaActual >= horaCreado) {
       signOut();
       window.location.reload(true);
+    } else {
+      if (horaActual <= horaCreado) {
+        signOut();
+        window.location.reload(true);
+      }
     }
   };
   useEffect(() => {
@@ -86,14 +91,14 @@ const Dropdown = () => {
         onClick={toggleMenu}
         className={
           notificaciones?.length < 1
-            ? "fixed top-8 right-5 rounded-full "
-            : "fixed top-8 right-5 p-1 rounded-full border-2 border-red-600"
+            ? `${ubicacion} rounded-full`
+            : `${ubicacion} p-1 rounded-full border-2 border-red-600`
         }
         style={buttonStyle}
       ></button>
 
       {isOpen && (
-        <div className="fixed border right-1 top-20 z-10 p-4 w-[180px] h-fit mt-2 py-2 bg-gray-300 rounded-lg shadow-lg">
+        <div className="fixed border top-[70px] right-1 z-10 p-4 w-[180px] h-fit mt-2 py-2 bg-gray-300 rounded-lg shadow-lg">
           <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiWrench size={20} />
             <a
