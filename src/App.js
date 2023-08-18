@@ -57,6 +57,7 @@ import SearchResultsCard from './components/SearchResults/search-results-card';
 import Contact from './components/Contact/contact';
 import LinkList from './Admin/Components/Links/link-list';
 import LinkListAdviser from './components/Links/links-adviser';
+import SearchCard from './components/SearchResults/property-card';
 
 const App = () => {
   
@@ -84,12 +85,8 @@ const App = () => {
                 <Route path="/home/portfolio" element={<Portafolio />} />
                 <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />
                 <Route path="/home/portfolio/:id" element={<Portafolio />} />
-                
             </Route>
-                
           <Route element={<PublicRoutes />}>
-                
-                
                 <Route path="/home/banner/visiter" element={<Banner />} />
                 <Route path="/user/sent-request" element={<SentRequest />} />
                 <Route path="/user/evaluating" element={<Evaluating />} />
@@ -99,7 +96,6 @@ const App = () => {
                 <Route path="/auth/reset-password" element={<ResetPassword />} />
                 <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                 <Route path="/home/visit-record" element={<VisitRecord />} />
-                <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
                 <Route path="/user/terms" element={<Terms />} />
                 <Route path="/user/logout" element={<Logout />} />
                 <Route path='*' element={<NotFound />} />
@@ -127,7 +123,7 @@ const App = () => {
                <Route exact path="/home/investor" element={<Investor />} /> 
           </Route>
           <Route element={<ExtraLayoutShared />}>
-                <Route exact path="/home/search/pdf/:id" element={<PdfViewShared />} /> 
+                <Route exact path="/home/shared-property/:id" element={<SearchCard />} /> 
           </Route>
         <Route exact path='/' element={<Home />} />
             <Route element={<Layout />}>
@@ -145,7 +141,8 @@ const App = () => {
               <Route path="/home/search/rent-store" element={<AlquilerBodegas />} />
               <Route path="/home/search/selling-office" element={<VentaOficinas />} />
               <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
-          <Route path='/alquiler' element={<Alquileres />} />
+              <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
+              <Route path='/alquiler' element={<Alquileres />} />
           <Route path="/home/contact" element={<Contact />} />
         </Route>
       </Routes>

@@ -22,7 +22,7 @@ const VisiterUserInfo = () => {
     const horaCreado = deleteZero(hora.slice(0, 2));
     const horaActual = deleteZero(currentTimeString.slice(0, 2));
     const result = horaActual - horaCreado;
-    if (horaActual >= horaCreado) {
+    if (currentDateString === fecha && horaActual >= horaCreado) {
       signOut();
       window.location.reload(true);
     }

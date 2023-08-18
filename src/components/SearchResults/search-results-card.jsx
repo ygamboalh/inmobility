@@ -152,10 +152,40 @@ const SearchResultsCard = () => {
             </span>
           </div>
         ) : (
-          <div className="mx-8 mb-3 flex justify-center text-center mt-4">
+          <div className="mx-8 mb-3 flex flex-col justify-center text-center mt-4">
             <span className="font-semibold text-xl">
               Resultados de la búsqueda
             </span>
+            <div className="flex justify-center items-center content-center">
+              {userData?.active === "Asesor verificado" ||
+              userData?.active === "Super Administrador" ||
+              userData?.active === "Supervisor" ? (
+                <div className="flex">
+                  {clientEmail && clientName && created ? (
+                    <div>
+                      <button
+                        className="rounded-md text-white bg-blue-500 w-44 h-10  mx-12"
+                        onClick={savePortafolio}
+                      >
+                        Guardar Portafolio
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <button
+                        type="button"
+                        className="rounded-md text-white bg-green-400  h-10 w-44 mx-12"
+                        onClick={() => {
+                          setShowModal(true);
+                        }}
+                      >
+                        Crear Portafolio
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : null}
+            </div>
           </div>
         )}
         <div id="data" className="text-semibold text-sm ml-[110px]"></div>
@@ -163,36 +193,6 @@ const SearchResultsCard = () => {
           onDataReceived={handleDataFromChildModal}
           isVisible={showModal}
         />
-        <div className="ml-[58px]">
-          {userData?.active === "Asesor verificado" ||
-          userData?.active === "Super Administrador" ||
-          userData?.active === "Supervisor" ? (
-            <div className="flex justify-start ">
-              {clientEmail && clientName && created ? (
-                <div>
-                  <button
-                    className="rounded-md text-white bg-blue-500 w-44 h-10  mx-12"
-                    onClick={savePortafolio}
-                  >
-                    Guardar Portafolio
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <button
-                    type="button"
-                    className="rounded-md text-white bg-green-400  h-10 w-44 mx-12"
-                    onClick={() => {
-                      setShowModal(true);
-                    }}
-                  >
-                    Crear Portafolio
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : null}
-        </div>
       </div>
       {propertyList?.length !== 0
         ? propertyList?.map((property) => {

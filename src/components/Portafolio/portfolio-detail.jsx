@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import axios from "axios";
-import DataTable from "react-data-table-component";
 import withReactContent from "sweetalert2-react-content";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -18,9 +17,7 @@ import {
   BiBuildingHouse,
   BiConfused,
   BiCurrentLocation,
-  BiDetail,
   BiDislike,
-  BiEraser,
   BiHomeAlt,
   BiLike,
   BiMap,
@@ -78,7 +75,7 @@ export const PortafolioDetail = () => {
       clienteComprador: portafolio?.attributes.clienteComprador,
       correoCliente: portafolio?.attributes.correoCliente,
     },
-    validationSchema: Yup.object({
+    /* validationSchema: Yup.object({
       clienteComprador: Yup.string()
         .required("¡El nombre es requerido!")
         .min(6, "¡Muy corto!")
@@ -86,10 +83,11 @@ export const PortafolioDetail = () => {
       correoCliente: Yup.string()
         .matches(emailRegex, "¡Correo inválido!")
         .required("¡El correo es requerido!"),
-    }),
+    }), */
     onSubmit: async (values) => {
       setIsLoading(true);
       const id = userData?.id;
+      console.log(values);
 
       const newProperties = [];
       records?.map((record) => {
@@ -97,16 +95,25 @@ export const PortafolioDetail = () => {
       });
       newProperties.push(...newPropertiesList);
 
+      let cliente = "";
+      let correo = "";
+      values.clienteComprador === undefined
+        ? (cliente = portafolio?.attributes.clienteComprador)
+        : (cliente = values.clienteComprador);
+      values.correoCliente === undefined
+        ? (correo = portafolio?.attributes.correoCliente)
+        : (correo = values.correoCliente);
+
       const value = {
         creadoPor: id,
-        clienteComprador: values.clienteComprador,
-        correoCliente: values.correoCliente,
+        clienteComprador: cliente,
+        correoCliente: correo,
         properties: newProperties,
         telefonoAsesor: portafolio.attributes.telefonoAsesor,
         correoAsesor: portafolio.attributes.correoAsesor,
         categoria: portafolio.attributes.categoria,
       };
-
+      console.log("los valores", value);
       const response = axios(`${API}portafolios/${portafolio.id}`, {
         method: "PUT",
         headers: {
@@ -209,7 +216,7 @@ export const PortafolioDetail = () => {
                   setShowModal(true);
                 }}
                 type="button"
-                className="font-semibold"
+                className="bg-blue-700 rounded-md px-4 py-2 text-white"
               >
                 Agregar otras propiedades
               </button>
@@ -287,11 +294,6 @@ export const PortafolioDetail = () => {
                             </p>
                           </div>
                           <hr />
-                          <div className="mt-2">
-                            <div className="bg-blue-300 flex justify-center align-middle items-center rounded-full w-[50px] h-[50px]">
-                              {selectReaction(record.attributes.reaccion)}
-                            </div>
-                          </div>
                         </div>
 
                         <div className="flex items-center max-w-45 h-20">
@@ -307,6 +309,14 @@ export const PortafolioDetail = () => {
                             </span>
                           </div>
                         </div>
+                      </div>
+                      <div className="mt-2 flex flex-row align-middle">
+                        <div className="bg-blue-300 flex flex-row justify-center align-middle items-center rounded-full w-[40px] h-[40px]">
+                          {selectReaction(record.attributes.reaccion)}
+                        </div>
+                        <span className="text-xs ml-1 align-middle mt-3 flex">
+                          Reacción del cliente
+                        </span>
                       </div>
                       <div className="flex items-center justify-center space-x-4">
                         <div className="mt-2 flex justify-center flex-row">

@@ -1,48 +1,79 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  BiArea,
-  BiBath,
-  BiBed,
-  BiCar,
-  BiConfused,
-  BiDislike,
-  BiLike,
-  BiSolidFilePdf,
-  BiWindowClose,
-} from "react-icons/bi";
-import { message } from "antd";
-import { PDFViewer } from "@react-pdf/renderer";
+import { BiArea, BiBath, BiBed, BiCar, BiSolidFilePdf } from "react-icons/bi";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
 import no_image from "../../assets/images/no_image_default.jpg";
-import PdfView from "../PdfView/pdf-view";
 import MyNewCarousel from "../Carrusel/carrusel";
 
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MetaData from "../Metadata/metadata";
 import Share from "../Share/share";
 
 const SearchCard = ({ propiedad, onDataReceived }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataToSend, setDataToSend] = useState();
+  const [sharedProperty, setSharedProperty] = useState();
   const { data: userData } = useQuery("profile", authUserData);
   const navigate = useNavigate();
-  const propertyId = propiedad[0].id;
-  const propertyType = propiedad[0].attributes?.tipoPropiedad;
-  const created = propiedad[1];
-  const clientName = propiedad[2];
-  const clientEmail = propiedad[3];
-  const categories = propiedad[4];
-  const adviserId = propiedad[0].attributes.creadoPor;
+
+  const { id } = useParams();
+
+  //Si recibo un id por parametros es que es una propiedad que
+  //se esta compartiendo por lo que no debo cargar los datos
+  //de la otra propiedad que es resultados de la busqueda
+  //let propertyId = propiedad[0].id;
+  let propertyId = null;
+
+  id ? (propertyId = id) : (propertyId = propiedad[0].id);
+  console.log(propertyId);
+  let propertyType = null;
+  let created = null;
+  let adviserId = null;
+  if (!id) {
+    propertyType = propiedad[0]?.attributes?.tipoPropiedad;
+    created = propiedad[1];
+    adviserId = propiedad[0]?.attributes.creadoPor;
+  }
 
   useEffect(() => {
-    getProperty();
+    console.log("este es el id", id);
+    if (!id) {
+      getProperty();
+    } else {
+      setIsLoading(true);
+      let propertyFound = null;
+      let imagesCount = [];
+      const propertyResponse = AxiosInstance.get(
+        `${API}properties/${id}?populate=*`
+      )
+        .then((response) => {
+          console.log("repuesta", response);
+          propertyFound = response.data.data.attributes;
+          imagesCount = response.data.data.attributes.photos;
+          /* setPdfUrl(
+          `https://siccic.com/home/search/pdf/${response.data.data.id}`
+        ); */
+          //getAdviser();
+          setProperty(propertyFound);
+          const imagesUrl = [];
+          imagesCount?.data?.forEach((image) => {
+            imagesUrl.push(image.attributes.url);
+          });
+          setImages(imagesUrl);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   }, []);
   const sendDataToParent = () => {
     setDataToSend([{ propertyId, propertyType }]);
@@ -51,7 +82,6 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
 
   const [property, setProperty] = useState();
   const [images, setImages] = useState([]);
-  const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
   const [adviser, setAdviser] = useState();
   const getProperty = async () => {
@@ -63,7 +93,9 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     ).then((response) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
-      setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
+      setPdfUrl(
+        `https://siccic.com/home/shared-property/${response.data.data.id}`
+      );
       getAdviser();
     });
 
@@ -85,13 +117,13 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         console.log(error);
       });
   };
-
+  console.log(property);
   if (isLoading || !property) {
     return <MySpinner />;
   }
-  const seePdfDocument = () => {
+  /*  const seePdfDocument = () => {
     window.location.assign(pdfUrl);
-  };
+  }; */
   const divStyle = {
     display: "flex",
     padding: "4px",
@@ -109,7 +141,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
       />
       <div className="container mx-auto pb-2 pt-6 bg-gray-300 rounded-xl">
         <div className="flex justify-between">
-          <div>
+          {/* <div>
             <button
               onClick={() => {
                 seePdfDocument();
@@ -119,7 +151,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             >
               <BiSolidFilePdf size={35} />
             </button>
-          </div>
+          </div> */}
           <div>
             <div>
               {userData?.active === "Asesor verificado" ||
@@ -233,7 +265,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                 </div>
               </div>
             </div>
-            <Share pdfUrl={pdfUrl} adviser={adviser} />
+            {!id ? <Share pdfUrl={pdfUrl} adviser={adviser} /> : null}
+
             <div
               className={
                 property.descripcion
@@ -745,7 +778,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         </div>
       </div>
 
-      {visible && property ? (
+      {/*  {visible && property ? (
         <div className="flex justify-center min-h-screen">
           <PDFViewer
             style={{
@@ -755,7 +788,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             <PdfView property={property} />
           </PDFViewer>
         </div>
-      ) : null}
+      ) : null} */}
     </section>
   );
 };

@@ -121,7 +121,7 @@ const UserInfo = () => {
               className="text-xs flex flex-row pt-1 pl-1"
               href="/home/portfolio"
             >
-              Portafolio
+              Portafolios
             </a>
           </div>
           {notificaciones?.length > 0 ? (

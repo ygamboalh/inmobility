@@ -928,7 +928,7 @@ app.get('/home/investor', (req, res, next) => {
                 return res.send(htmlData);
         })
 });
-app.get('/home/search/pdf/:id', (req, res, next) => {
+app.get('/home/shared-property/:id', (req, res, next) => {
         if (typeof (parseInt(req.params.id)) === 'number') {
            propertyId = parseInt(req.params.id);
         }

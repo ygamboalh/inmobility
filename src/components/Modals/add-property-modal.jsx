@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
-import { categories } from "../../BD/bd";
+import { Provincia, categories } from "../../BD/bd";
 import AxiosInstance from "../../api/AxiosInstance";
-import { API } from "../../constant";
+import { API, BEARER } from "../../constant";
 import { useQuery } from "react-query";
 import { getAllPropertiesRQ } from "../../api/propertiesApi";
 import MySpinner from "../Spinner/spinner";
+import { useFormik } from "formik";
+import axios from "axios";
+import { getToken } from "../../utils/helpers";
+import { message } from "antd";
+import { QueriesByFilters } from "../../utils/QueriesByFilters";
 
 const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
   const [close, setClose] = useState(false);
@@ -12,6 +17,8 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
   const [records, setRecords] = useState([]);
   const [dataToSend, setDataToSend] = useState();
   const [filterRecords, setFilterRecords] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [categoria, setCategoria] = useState();
 
   const selectCategory = (category) => {
     switch (category) {
@@ -43,35 +50,21 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
         break;
     }
   };
-  const { data, isLoading: loadingProperties } = useQuery(
-    "properties",
-    getAllPropertiesRQ,
-    {
-      onSuccess: (data) => {
-        const foundedProperties = [];
-        data.data.forEach((property) => {
-          if (
-            property?.attributes?.categories?.data[0]?.attributes?.nombre ===
-            category
-          ) {
-            foundedProperties.push(property);
-          }
-        });
-        setRecords(foundedProperties);
-        setFilterRecords(foundedProperties);
-        //setPending(false);
-      },
-    }
-  );
 
   useEffect(() => {
     const categoria = selectCategory(category);
+    console.log(categoria);
+    setCategoria(categoria);
     const response = AxiosInstance.get(`${API}properties/`);
   }, []);
+
   const closeModal = () => {
+    setRecords([]);
+    setFilterRecords([]);
     onDataReceived({ close: false });
   };
   const sendDataToParent = () => {
+    console.log(selectedOption);
     setDataToSend(selectedOption);
     if (selectedOption.length <= 0) {
       return;
@@ -94,7 +87,57 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
     );
     setRecords(searchData);
   };
-  if (!records) {
+  //----------------------------------------------------------------
+  const { handleChange, handleSubmit, values, errors, touched } = useFormik({
+    initialValues: {
+      provincia: "",
+      canton: "",
+    },
+    onSubmit: (values) => {
+      setIsLoading(true);
+      const urlPortion = makeQueries(values);
+      let urlFinal = "";
+      urlPortion.map((value) => {
+        urlFinal += value.name;
+      });
+      if (urlFinal.length !== 0) {
+        const urlQuery = urlFinal.replace(/ /g, "%20");
+        const url = `${API}properties?filters[categories][id][$eq]=${categoria}${urlQuery}`;
+        console.log("url", url);
+
+        const busqueda = axios
+          .get(url, {
+            headers: {
+              Authorization: `Bearer ${BEARER} ${getToken()}`,
+            },
+          })
+          .then((response) => {
+            const propertyList = response.data.data;
+            console.log("las que encontre", propertyList);
+            if (propertyList.length !== 0) {
+              setRecords(propertyList);
+              setFilterRecords(propertyList);
+            } else {
+              message.info("No se encontraron resultados");
+              return;
+            }
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } else {
+        message.error(`Debe introducir al menos un criterio de búsqueda`);
+        setIsLoading(false);
+        return;
+      }
+    },
+  });
+  const makeQueries = (values) => {
+    const valuesFiltered = QueriesByFilters(values);
+    return valuesFiltered;
+  };
+  //----------------------------------------------------------------
+  if (!records || isLoading) {
     return <MySpinner />;
   }
   if (!isVisible) return null;
@@ -107,8 +150,85 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
         >
           X
         </button>
-        <div className="bg-white overflow-scroll p-4 max-w-[400px] max-h-[500px]  rounded-md">
-          <div className="my-3 justify-center">
+        <div className="bg-white overflow-scroll p-4 max-w-[900px] max-h-[700px]  rounded-md">
+          <div className="w-full">
+            <form onSubmit={handleSubmit} autoComplete="off">
+              <div className="flex flex-col w-full justify-center m-3">
+                <input
+                  type="text"
+                  value={values.uniqueId}
+                  onChange={handleChange}
+                  name="uniqueId"
+                  placeholder="Identificador único"
+                  className="input-admin-property  m-2 w-80 p-2"
+                />
+                <select
+                  name="provincia"
+                  value={values.provincia}
+                  onChange={handleChange}
+                  className="input-admin-property  m-2 w-80 p-2"
+                >
+                  <option value="" label="">
+                    {"Provincia"}
+                  </option>
+                  {Provincia.map((item) => (
+                    <option value={item.value} label={item.label}>
+                      {item.value}
+                    </option>
+                  ))}
+                </select>
+
+                <input
+                  type="text"
+                  value={values.canton}
+                  onChange={handleChange}
+                  name="canton"
+                  placeholder="Canton"
+                  className="input-admin-property  m-2 w-80 p-2"
+                />
+
+                <input
+                  type="text"
+                  value={values.distrito}
+                  onChange={handleChange}
+                  name="distrito"
+                  placeholder="Distrito"
+                  className="input-admin-property  m-2 w-80 p-2"
+                />
+                <input
+                  type="number"
+                  value={values.precio}
+                  onChange={handleChange}
+                  name="precio"
+                  placeholder="Precio"
+                  className="input-admin-property  m-2 w-80 p-2"
+                />
+                <input
+                  type="number"
+                  value={values.areaTerreno}
+                  onChange={handleChange}
+                  name="areaTerreno"
+                  placeholder="Área del terreno"
+                  className="input-admin-property  m-2 w-80 p-2"
+                />
+              </div>
+
+              <hr></hr>
+              <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
+                <div className="">
+                  <button
+                    type="submit"
+                    className="mr-2 mb-3 py-2 px-4 rounded bg-blue-700 text-white"
+                  >
+                    Realizar búsqueda
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div
+            className={records.length === 0 ? "hidden" : "my-3 justify-center"}
+          >
             <input
               type="text"
               onChange={handleFilter}
@@ -116,8 +236,16 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
               placeholder="Filtrar por tipo de propiedad"
             />
           </div>
-          <div className="text-center">Seleccione las propiedades</div>
-          <div className="flex justify-center flex-col content-center items-center">
+          <div className={records.length === 0 ? "hidden" : "text-center"}>
+            Seleccione las propiedades
+          </div>
+          <div
+            className={
+              records.length === 0
+                ? "hidden"
+                : "flex justify-center flex-col content-center items-center"
+            }
+          >
             {records.map((record) => (
               <div className="w-full max-w-md mt-2 p-6 bg-white border border-gray-200 rounded-lg shadow sm:p-6">
                 <div className="flex items-center -mt-3 align-middle justify-between mb-4">
@@ -142,7 +270,11 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
             ))}
           </div>
           <hr />
-          <div className="flex justify-center mt-2">
+          <div
+            className={
+              records.length === 0 ? "hidden" : "flex justify-center mt-2"
+            }
+          >
             <button
               onClick={sendDataToParent}
               className="bg-blue-700 px-3 py-1 my-3 rounded-md text-white text-lg"

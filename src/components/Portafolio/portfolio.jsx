@@ -99,7 +99,9 @@ const Portafolio = () => {
           ) : (
             <div>
               <div className="flex flex-col w-fit justify-center mt-3 items-center">
-                <label className="text-xl font-semibold">Mis portafolios</label>
+                <label className="text-xl font-semibold">
+                  Mis portafolios personalizados
+                </label>
               </div>
               <div className="w-[350px] my-3 flex justify-center px-36">
                 <input
@@ -166,7 +168,10 @@ const Portafolio = () => {
                                   </span>
                                 </div>
                               </div>
-                              <div className="mt-3 text-sm align-middle">
+                              <div className="mt-3 text-sm align-middle flex flex-row">
+                                <span className="text-xs mr-1 mt-1">
+                                  Enlace para compartir
+                                </span>
                                 <button
                                   type="button"
                                   onClick={() =>
