@@ -34,29 +34,17 @@ const LinkListAdviser = () => {
     return <MySpinner />;
   }
 
-  const paginationComponentOptions = {
-    rowsPerPageText: "Enlaces por página",
-    rangeSeparatorText: "de",
-    selectAllRowsItem: true,
-    selectAllRowsItemText: "Todos",
-  };
-
   const column = [
     {
       cell: (row) => (
         <div className="flex flex-col justify-center w-full mx-4">
           <button
-            className="flex flex-col bg-blue-500 hover:bg-blue-400 rounded-md p-2"
+            className="flex flex-col hover:bg-gray-400 rounded-md p-2"
             onClick={() => window.location.assign(row.attributes.url)}
           >
             <div className="flex">
-              <span className="flex text-lg font-semibold sm:text-xs justify-start">
+              <span className="flex text-lg font-semibold max-[500px]:text-xs text-left">
                 {row.attributes.descripcion}
-              </span>
-            </div>
-            <div className="flex">
-              <span className="flex justify-start text-gray-700">
-                {row.attributes.url}
               </span>
             </div>
           </button>
@@ -64,8 +52,11 @@ const LinkListAdviser = () => {
       ),
       accessor: "id",
       id: "detail",
+      name: (
+        <span className="text-xl font-semibold">Descripción de la URL</span>
+      ),
       ignoreRowClick: true,
-      allowOverflow: false,
+      allowOverflow: true,
       button: true,
       width: "100%",
     },
@@ -81,27 +72,24 @@ const LinkListAdviser = () => {
   if (isLoading || !records) {
     return <MySpinner />;
   }
-
   return (
     <div className="flex justify-start flex-col items-center w-full">
       <DataTable
         columns={column}
         data={records}
-        pagination
         fixedHeader
         fixedHeaderScrollHeight="550px"
         title="Enlaces de interés"
         progressPending={pending}
         highlightOnHover
         progressComponent={<MySpinner />}
-        paginationComponentOptions={paginationComponentOptions}
         subHeader
         subHeaderComponent={
-          <div className="relative w-full -mt-5 my-1 px-2">
+          <div className="relative w-full -mt-8 my-1 px-2">
             <input
               type="text"
               onChange={handleFilter}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 border border-gray-300 rounded-md"
               placeholder="Filtrar por descripción"
             />
           </div>

@@ -18,7 +18,7 @@ export const Provincia = [
   { value: "Cartago", label: "Cartago" },
   { value: "Heredia", label: "Heredia" },
   { value: "Limón", label: "Limón" },
-  { value: "San José", label: "San Jose" },
+  { value: "San José", label: "San José" },
   { value: "Guanacaste", label: "Guanacaste" },
   { value: "Puntarenas", label: "Puntarenas" },
 ];
@@ -152,12 +152,49 @@ export const TipoInmueble = [
   { key: "Apartamento de 3 niveles", value: "Apartamento de 3 niveles" },
   { key: "Chalet", value: "Chalet" },
   { key: "Loft", value: "Loft" },
+  { key: "Galpón", value: "Galpón" },
+  { key: "Torre médica", value: "Torre médica" },
+  { key: "Finca maderera", value: "Finca maderera" },
+  { key: "Finca agrícola", value: "Finca agrícola" },
   { key: "Casas Rural", value: "Casas Rural" },
   { key: "Casa de Playa", value: "Casa de Playa" },
   { key: "Casa Antigua pequeña", value: "Casa Antigua pequeña" },
   { key: "Casa Antigua Grande", value: "Casa Antigua Grande" },
 ];
 
+export const TipoPiso = [
+  { value: "Piso Laminado", label: "Piso Laminado" },
+  { value: "Piso de Baldosas", label: "Piso de Baldosas" },
+  { value: "Piso de Mármol", label: "Piso de Mármol" },
+  {
+    value: "Piso de Flotante o Laminado",
+    label: "Piso de Flotante o Laminado",
+  },
+  { value: "Piso de Mosaicos", label: "Piso de Mosaicos" },
+  { value: "Piso Antideslizante", label: "Piso Antideslizante" },
+  { value: "Piso de Piedra Natural", label: "Piso de Piedra Natural" },
+  {
+    value: "Piso de Porcelanato Técnico",
+    label: "Piso de Porcelanato Técnico",
+  },
+  { value: "Piso de Porcelanato", label: "Piso de Porcelanato" },
+  { value: "Piso Cerámico", label: "Piso Cerámico" },
+  { value: "Piso de Madera Natural", label: "Piso de Madera Natural" },
+  { value: "Piso de Concreto SB01", label: "Piso de Concreto SB01" },
+  { value: "Piso de Lastre Compactado", label: "Piso de Lastre Compactado" },
+  {
+    value: "Piso de Carpeta Asfáltica SR03",
+    label: "Piso de Carpeta Asfáltica SR03",
+  },
+  {
+    value: "Piso de Carpeta Asfáltica SR04",
+    label: "Piso de Carpeta Asfáltica SR04",
+  },
+  {
+    value: "Piso de Carpeta Asfáltica SR05",
+    label: "Piso de Carpeta Asfáltica SR05",
+  },
+];
 export const Amenidades = [
   { value: "Casa club", label: "Casa club" },
   { value: "Gimnasio", label: "Gimnasio" },
@@ -172,12 +209,16 @@ export const Amenidades = [
   { value: "Senderos", label: "Senderos" },
   { value: "Sala de Cine", label: "Sala de Cine" },
   { value: "Ranchos para BBQ", label: "Ranchos para BBQ" },
+  { value: "Sala de internet", label: "Sala de internet" },
+  { value: "Oficina de negocios", label: "Oficina de negocios" },
+  { value: "Sala de reuniones", label: "Sala de reuniones" },
 ];
 
 export const PatioJardin = [
   { value: "Con Jardín", label: "Con Jardín" },
   { value: "Con Patio", label: "Con Patio" },
   { value: "Con Terraza", label: "Con Terraza" },
+  { value: "Deck en la Terraza", label: "Deck en la Terraza" },
   {
     value: "No tiene patio, ni jardín ni terraza",
     label: "No tiene patio, ni jardín ni terraza",
@@ -196,7 +237,6 @@ export const DetallesInternos = [
   },
   { value: "Barra estilo americano", label: "Barra estilo americano" },
   { value: "Biblioteca/Estudio", label: "Biblioteca/Estudio" },
-  { value: "Bifamiliar", label: "Bifamiliar" },
   { value: "Bodega", label: "Bodega" },
   { value: "Calentador", label: "Calentador" },
   { value: "Chimenea", label: "Chimenea" },
@@ -223,6 +263,7 @@ export const DetallesInternos = [
   { value: "Turco", label: "Turco" },
   { value: "Vista panorámica", label: "Vista panorámica" },
   { value: "Zona de lavandería", label: "Zona de lavandería" },
+  { value: "Trastero", label: "Trastero" },
 ];
 
 export const DetallesExternos = [
@@ -239,7 +280,6 @@ export const DetallesExternos = [
   { value: "Lago", label: "Lago" },
   { value: "Laguna", label: "Laguna" },
   { value: "Montaña", label: "Montaña" },
-  { value: "Oficina de negocios", label: "Oficina de negocios" },
   { value: "Parqueadero visitantes", label: "Parqueadero visitantes" },
   { value: "Parques cercanos", label: "Parques cercanos" },
   { value: "Pesebrera", label: "Pesebrera" },
@@ -248,21 +288,13 @@ export const DetallesExternos = [
   { value: "Portería / Recepción", label: "Portería / Recepción" },
   { value: "Pozo de agua natural", label: "Pozo de agua natural" },
   { value: "Río/Quebrada cercano", label: "Río/Quebrada cercano" },
-  { value: "Sala de internet", label: "Sala de internet" },
   { value: "Sistema de riego", label: "Sistema de riego" },
   { value: "Sobre vía principal", label: "Sobre vía principal" },
   { value: "Trans. público cercano", label: "Trans. público cercano" },
-  { value: "Trastero", label: "Trastero" },
-  { value: "Urbanización Cerrada", label: "Urbanización Cerrada" },
+  { value: "Muro Perimetral", label: "Muro Perimetral" },
   { value: "Vigilancia", label: "Vigilancia" },
-  { value: "Vivienda unifamiliar", label: "Vivienda unifamiliar" },
-  { value: "Vivienda bifamiliar", label: "Vivienda bifamiliar" },
-  { value: "Vivienda multifamiliar", label: "Vivienda multifamiliar" },
   { value: "Zona campestre", label: "Zona campestre" },
   { value: "Zona camping", label: "Zona camping" },
-  { value: "Zona comercial", label: "Zona comercial" },
-  { value: "Zona industrial", label: "Zona industrial" },
-  { value: "Zona residencial", label: "Zona residencial" },
   { value: "Zonas verdes", label: "Zonas verdes" },
 ];
 
@@ -408,6 +440,22 @@ export const Locales = [
   {
     value: "Todo un piso dentro de un edificio",
     label: "Todo un piso dentro de un edificio",
+  },
+  {
+    value: "Galpón",
+    label: "Galpón",
+  },
+  {
+    value: "Torre médica",
+    label: "Torre médica",
+  },
+  {
+    value: "Finca maderera",
+    label: "Finca maderera",
+  },
+  {
+    value: "Finca agrícola",
+    label: "Finca agrícola",
   },
 ];
 
@@ -566,7 +614,8 @@ export const TipoAsesor = [
 
 export const Estado = [
   { key: "Solicitante", value: "Solicitante" },
-  { key: "Asesor verificado", value: "Asesor verificado" },
+  { key: "Asesor verificado activo", value: "Asesor verificado activo" },
+  { key: "Asesor verificado inactivo", value: "Asesor verificado inactivo" },
   { key: "Supervisor", value: "Supervisor" },
   { key: "Super Administrador", value: "Super Administrador" },
 ];

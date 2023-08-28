@@ -1,8 +1,27 @@
+import { message } from "antd";
 import AxiosInstance from "./AxiosInstance"
 
 export const authUser = async (userData) => {
-  const { data } = await AxiosInstance.post('/auth/local', userData);   
-  return data
+  const { data } = await AxiosInstance.post('/auth/local', userData).catch((error) => {
+    message.error(`¡Ocurrió un error. Vuelva a intentarlo!`);
+  });   
+  
+  if (data.user.isLoggedIn === true) {
+    message.error("¡Ya usted tiene una sesión abierta!");
+    return null;
+  }
+  else {
+    const response = AxiosInstance.put(`/users/${data.user.id}`, {
+               isLoggedIn: true 
+            })
+              .then((res) => {
+                return;
+              })
+              .catch((err) => {
+                return;
+              });
+    return data
+  }
 }
 
 export const resetPassword = async (userData) => {

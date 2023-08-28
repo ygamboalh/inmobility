@@ -987,6 +987,41 @@ app.get('/home/contact', (req, res, next) => {
                 return res.send(htmlData);
         })
 });
+
+app.get('/home/verified-adviser/my-property-list', (req, res, next) => {
+        fs.readFile(indexPath, 'utf8', (err, htmlData) => {
+                if (err) {
+                        console.error('Error leyendo el archivo index', err);
+                        return res.status(404).end()
+                }
+                htmlData = htmlData.replace(
+                        "__META_TITLE__",
+                        "Sistema CIC"
+                )
+                        .replace('Sistema CIC', "Sistema CIC")
+                        .replace('Venta y Alquiler de inmuebles y propiedades', "Mi lista de propiedades")
+                        .replace('https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png")
+                return res.send(htmlData);
+        })
+});
+
+app.get('/properties/edit-property/:id', (req, res, next) => {
+        fs.readFile(indexPath, 'utf8', (err, htmlData) => {
+                if (err) {
+                        console.error('Error leyendo el archivo index', err);
+                        return res.status(404).end()
+                }
+                htmlData = htmlData.replace(
+                        "__META_TITLE__",
+                        "Sistema CIC"
+                )
+                        .replace('Sistema CIC', "Sistema CIC")
+                        .replace('Venta y Alquiler de inmuebles y propiedades', "Editar la propiedad")
+                        .replace('https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png")
+                return res.send(htmlData);
+        })
+});
+
 // listening...
 app.listen(PORT, (error) => {
     if (error) {

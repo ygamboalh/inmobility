@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSignOut } from "react-auth-kit";
 import {
   BiLogOut,
@@ -23,9 +23,12 @@ import enviarCorreoComunOrigen from "../../../utils/email/send-common-email-orig
 import enviarCorreo from "../../../utils/email/send-email";
 import enviarCorreoPersonalizadoOrigen from "../../../utils/email/send-personalized-email-origin";
 import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
+import { useNavigate } from "react-router-dom";
 
 const Dropdown = ({ ubicacion }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+  const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(
     "https://backend.siccic.com/uploads/small_userinfo_dac703068b.png"
   );
@@ -73,6 +76,15 @@ const Dropdown = ({ ubicacion }) => {
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
     const result = horaActual - horaCreado;
     if (currentDateString === fecha && horaActual >= horaCreado) {
+      const response = AxiosInstance.put(`/users/${id}`, {
+        isLoggedIn: false,
+      })
+        .then((res) => {
+          return res;
+        })
+        .catch((err) => {
+          return err;
+        });
       signOut();
       window.location.reload(true);
     } /* else {
@@ -82,13 +94,35 @@ const Dropdown = ({ ubicacion }) => {
       }
     } */
   };
+  const loginOut = () => {
+    const response = AxiosInstance.put(`/users/${id}`, {
+      isLoggedIn: false,
+    })
+      .then((res) => {
+        window.location.reload(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     forcedLogOut();
   });
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div className="">
       <button
-        onClick={toggleMenu}
+        onClick={() => setIsOpen(!isOpen)}
         className={
           notificaciones?.length < 1
             ? `${ubicacion} rounded-full`
@@ -98,7 +132,10 @@ const Dropdown = ({ ubicacion }) => {
       ></button>
 
       {isOpen && (
-        <div className="fixed border top-[70px] right-1 z-10 p-4 w-[180px] h-fit mt-2 py-2 bg-gray-300 rounded-lg shadow-lg">
+        <div
+          ref={menuRef}
+          className="fixed border top-[70px] right-1 z-10 p-4 w-[180px] h-fit mt-2 py-2 bg-gray-300 rounded-lg shadow-lg"
+        >
           <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiWrench size={20} />
             <a
@@ -150,7 +187,13 @@ const Dropdown = ({ ubicacion }) => {
             </a>
           </div>
           <div className="px-2 py-2 text-gray-800 rounded-lg hover:bg-blue-500 hover:text-white">
-            <button onClick={() => signOut()} className="text-xs flex flex-row">
+            <button
+              onClick={() => {
+                loginOut();
+                signOut();
+              }}
+              className="text-xs flex flex-row"
+            >
               <BiLogOut size={20} />{" "}
               <label className="pt-0.5 pl-0.5 cursor-pointer">Salir</label>
             </button>

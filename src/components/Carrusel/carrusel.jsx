@@ -5,7 +5,7 @@ import "react-slideshow-image/dist/styles.css";
 import { Carousel } from "react-responsive-carousel";
 
 const MyNewCarousel = ({ images }) => (
-  <Carousel autoPlay>
+  <Carousel autoPlay showStatus={false}>
     {images.map((slideImage, index) => (
       <div key={index}>
         <img

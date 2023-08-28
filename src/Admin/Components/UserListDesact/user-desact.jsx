@@ -201,7 +201,6 @@ const UsersDesact = () => {
         columns={column}
         data={records}
         pagination
-        selectableRows
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight

@@ -157,14 +157,14 @@ const SearchResultsCard = () => {
               Resultados de la búsqueda
             </span>
             <div className="flex justify-center items-center content-center">
-              {userData?.active === "Asesor verificado" ||
+              {userData?.active === "Asesor verificado activo" ||
               userData?.active === "Super Administrador" ||
               userData?.active === "Supervisor" ? (
                 <div className="flex">
                   {clientEmail && clientName && created ? (
                     <div>
                       <button
-                        className="rounded-md text-white bg-blue-500 w-44 h-10  mx-12"
+                        className="rounded-md text-white bg-blue-500 w-44 h-10 -mb-4  mx-12"
                         onClick={savePortafolio}
                       >
                         Guardar Portafolio
@@ -174,7 +174,7 @@ const SearchResultsCard = () => {
                     <div>
                       <button
                         type="button"
-                        className="rounded-md text-white bg-green-400  h-10 w-44 mx-12"
+                        className="rounded-md text-white bg-green-400 -mb-4  h-10 w-44 mx-12"
                         onClick={() => {
                           setShowModal(true);
                         }}
@@ -212,6 +212,38 @@ const SearchResultsCard = () => {
             );
           })
         : "no hay datos para mostrar"}
+      <div className="flex justify-center">
+        <div className="flex justify-center items-center content-center">
+          {userData?.active === "Asesor verificado activo" ||
+          userData?.active === "Super Administrador" ||
+          userData?.active === "Supervisor" ? (
+            <div className="flex">
+              {clientEmail && clientName && created ? (
+                <div>
+                  <button
+                    className="rounded-md text-white bg-blue-500 w-44 h-10 mt-4  mx-12"
+                    onClick={savePortafolio}
+                  >
+                    Guardar Portafolio
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <button
+                    type="button"
+                    className="rounded-md text-white bg-green-400 mt-4  h-10 w-44 mx-12"
+                    onClick={() => {
+                      setShowModal(true);
+                    }}
+                  >
+                    Crear Portafolio
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 };

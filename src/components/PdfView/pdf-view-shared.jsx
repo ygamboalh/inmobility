@@ -119,7 +119,7 @@ const PdfViewShared = () => {
                     }
                     {
                       <Text>
-                        <Text>Canton: </Text>
+                        <Text>Cantón: </Text>
                         {property.canton}
                       </Text>
                     }

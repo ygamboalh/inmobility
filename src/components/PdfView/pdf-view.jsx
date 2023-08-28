@@ -80,7 +80,7 @@ const PdfView = ({ property }) => {
                 }
                 {
                   <Text>
-                    <Text>Canton: </Text>
+                    <Text>Cantón: </Text>
                     {property.canton}
                   </Text>
                 }

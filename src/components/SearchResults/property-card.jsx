@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-import { BiArea, BiBath, BiBed, BiCar, BiSolidFilePdf } from "react-icons/bi";
+import {
+  BiArea,
+  BiBath,
+  BiBed,
+  BiCar,
+  BiChair,
+  BiChild,
+  BiHotel,
+  BiSolidDog,
+  BiSolidFilePdf,
+} from "react-icons/bi";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import AxiosInstance from "../../api/AxiosInstance";
@@ -14,6 +24,12 @@ import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import MetaData from "../Metadata/metadata";
 import Share from "../Share/share";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { createNotification, getToken } from "../../utils/helpers";
+import enviarCorreoPersonalizado from "../../utils/email/send-personalized-email";
+import ShareAdviser from "../Share/share-adviser";
 
 const SearchCard = ({ propiedad, onDataReceived }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +47,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   let propertyId = null;
 
   id ? (propertyId = id) : (propertyId = propiedad[0].id);
-  console.log(propertyId);
+
   let propertyType = null;
   let created = null;
   let adviserId = null;
@@ -42,7 +58,6 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   }
 
   useEffect(() => {
-    console.log("este es el id", id);
     if (!id) {
       getProperty();
     } else {
@@ -53,12 +68,11 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         `${API}properties/${id}?populate=*`
       )
         .then((response) => {
-          console.log("repuesta", response);
           propertyFound = response.data.data.attributes;
           imagesCount = response.data.data.attributes.photos;
-          /* setPdfUrl(
-          `https://siccic.com/home/search/pdf/${response.data.data.id}`
-        ); */
+          setPdfUrl(
+            `https://siccic.com/home/shared-property/${response.data.data.id}`
+          );
           //getAdviser();
           setProperty(propertyFound);
           const imagesUrl = [];
@@ -117,7 +131,6 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         console.log(error);
       });
   };
-  console.log(property);
   if (isLoading || !property) {
     return <MySpinner />;
   }
@@ -132,14 +145,58 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     alignItems: "left",
     justifyContent: "left",
   };
+  const formatNumber = (number) => {
+    return new Intl.NumberFormat("es-ES", {
+      style: "decimal",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(number);
+  };
+  const DeleteProperty = async (id) => {
+    const MySwal = withReactContent(Swal);
+    setIsLoading(true);
+    MySwal.fire({
+      title: "¿Desea eliminar el inmueble?",
+      showDenyButton: true,
+      confirmButtonText: "Sí, eliminar",
+      confirmButtonColor: "#1863e4",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const response = axios(`${API}properties/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }).then((result) => {
+          const property = result.data.data.attributes;
+          createNotification(
+            "Eliminación",
+            `Se ha eliminado la propiedad ${result.data.data.attributes.uniqueId}`,
+            id
+          );
+          const body = `El siguiente inmueble ha sido eliminado por el usuario: ${userData.email}`;
+          enviarCorreoPersonalizado("infosistemacic@gmail.com", property, body);
+          window.location.reload(true);
+        });
+        if (result) {
+          Swal.fire("Inmueble eliminado!", "", "success");
+        } else {
+          Swal.fire("El Inmueble no fue eliminado", "", "error");
+        }
+      }
+    });
 
+    setIsLoading(false);
+  };
   return (
-    <section>
+    <section className="pt-16 -mb-4">
       <MetaData
         title="Detalles de la propiedad"
         content="Detalles de la propiedad"
       />
-      <div className="container mx-auto pb-2 pt-6 bg-gray-300 rounded-xl">
+      <div className="container mx-auto pt-4 pb-2 bg-gray-300 rounded-xl">
         <div className="flex justify-between">
           {/* <div>
             <button
@@ -154,16 +211,13 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           </div> */}
           <div>
             <div>
-              {userData?.active === "Asesor verificado" ||
+              {userData?.active === "Asesor verificado activo" ||
               userData?.active === "Super Administrador" ||
               userData?.active === "Supervisor" ? (
                 <div>
                   {created ? (
                     <button onClick={sendDataToParent}>
-                      <input
-                        type="checkbox"
-                        className="h-12 w-12 rounded-full"
-                      />
+                      <input type="checkbox" className="h-8 w-8 rounded-full" />
                     </button>
                   ) : null}
                 </div>
@@ -171,52 +225,155 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             </div>
           </div>
         </div>
+        {property?.creadoPor === userData?.id &&
+        userData?.active !== "Asesor verificado inactivo" ? (
+          <div className="flex justify-end -mt-2">
+            <button
+              onClick={() =>
+                navigate(`/properties/edit-property/${propiedad[0].id}`)
+              }
+              className="bg-blue-700 text-white px-4 py-1 mr-1 rounded-md"
+            >
+              Editar
+            </button>
+            <button
+              onClick={() => DeleteProperty(propiedad[0].id)}
+              className="bg-red-700 text-white px-4 py-1 rounded-md"
+            >
+              Eliminar
+            </button>
+          </div>
+        ) : null}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold">{property.tipoPropiedad}</h2>
-            <h3 className="text-lg mb-4">
-              {property.provincia +
-                " - " +
-                property.canton +
-                " - " +
-                property.distrito}
-            </h3>
-          </div>
-          <div className="mb-4 lg:mb-0 flex gap-x-2 text-sm">
-            <div className="bg-green-500 text-black px-3 rounded-full">
-              {property.tipoPropiedad}
+          <div className="flex justify-around">
+            <div>
+              <div className="text-[14px] w-full font-semibold flex flex-row">
+                <div>{property.categories.data[0].attributes.nombre}</div>
+              </div>
+              <h2 className="text-2xl font-semibold">
+                {property.tipoPropiedad}
+              </h2>
+              <h3 className="text-lg mb-4">
+                {property.provincia +
+                  " - " +
+                  property.canton +
+                  " - " +
+                  property.distrito}
+              </h3>
+              <div></div>
             </div>
-            <div className="bg-blue-500 text-black px-3 rounded-full">
-              {property.provincia}
+            <div className="pl-12 flex self-center align-middle">
+              <div
+                className={
+                  !property?.avaluo
+                    ? "hidden"
+                    : "flex flex-col justify-center px-1 text-xl font-semibold text-blue-600"
+                }
+              >
+                <span className="text-xs text-black">Valor según avalúo</span>
+                <span className="text-lg">
+                  {property.avaluoMoneda}
+                  {formatNumber(property.avaluo)}
+                </span>
+                {property.avaluoMoneda === "$" ? (
+                  <span className="text-[9px] -my-2 text-black">
+                    Dólares americanos
+                  </span>
+                ) : (
+                  <span className="text-[9px] -my-2 text-black">
+                    Colones costarricences
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-          <div className="text-3xl font-semibold text-blue-600">
-            {property.moneda} {property.precio}
+          <div className="flex gap-x-2 max-[500px]:flex-col">
+            <div className="flex flex-col justify-center border-l-2 max-[500px]:border-l-0 max-[500px]:border-r-0 border-r-2 px-1 text-xl font-semibold text-blue-600">
+              <span className="text-xs text-black">Precio de venta</span>
+              <span className="text-lg">
+                {property.moneda}
+                {formatNumber(property.precio)}
+              </span>
+
+              {property.moneda === "$" ? (
+                <span className="text-[9px] -my-2 text-black">
+                  Dólares americanos
+                </span>
+              ) : (
+                <span className="text-[9px] -my-2 text-black">
+                  Colones costarricences
+                </span>
+              )}
+            </div>
+
+            <div
+              className={
+                !property.precioAlquiler
+                  ? "hidden"
+                  : "flex flex-col justify-center border-r-2 max-[500px]:border-r-0 px-1 text-xl font-semibold text-blue-600"
+              }
+            >
+              <span className="text-xs text-black">Precio alquiler</span>
+              <span className="text-lg">
+                {property.monedaAlquiler}
+                {formatNumber(property.precioAlquiler)}
+              </span>
+              {property.monedaAlquiler === "$" ? (
+                <span className="text-[9px] -my-2 text-black">
+                  Dólares americanos
+                </span>
+              ) : (
+                <span className="text-[9px] -my-2 text-black">
+                  Colones costarricences
+                </span>
+              )}
+            </div>
+            <div
+              className={
+                !property.precioAlquilerCompra
+                  ? "hidden"
+                  : "flex flex-col justify-center border-r-2 max-[500px]:border-r-0 px-1 text-xl font-semibold text-blue-600"
+              }
+            >
+              <span className="text-xs text-black">
+                Precio alquiler con opción de venta
+              </span>
+              <span className="text-lg">
+                {property.monedaAlquilerVenta}
+                {formatNumber(property.precioAlquilerCompra)}
+              </span>
+              {property.monedaAlquiler === "$" ? (
+                <span className="text-[9px] -my-2 text-black">
+                  Dólares americanos
+                </span>
+              ) : (
+                <span className="text-[9px] -my-2 text-black">
+                  Colones costarricences
+                </span>
+              )}
+            </div>
           </div>
         </div>
+
         <div className="text-xl font-semibold text-blue-600">
           {property.uniqueId}
         </div>
-        <div className="flex flex-col items-start gap-8 lg:flex-row">
-          <div className="max-w-[568px] w-full">
-            <div className="mb-3">
-              {images.length !== 0 ? (
-                <MyNewCarousel images={images} />
-              ) : (
-                <span></span>
-              )}
-              <img
-                src={
-                  images.length !== 0 ? (
-                    <MyNewCarousel images={images} />
-                  ) : (
-                    no_image
-                  )
-                }
-                alt=""
-              />
-            </div>
-            <div className="flex gap-x-6 text-blue-700 mb-6">
+        <div className="mb-3">
+          {images.length !== 0 ? (
+            <MyNewCarousel images={images} />
+          ) : (
+            <span></span>
+          )}
+          <img
+            src={
+              images.length !== 0 ? <MyNewCarousel images={images} /> : no_image
+            }
+            alt=""
+          />
+        </div>
+        <div className="flex flex-col lg:flex-row">
+          <div className="w-full">
+            <div className="flex gap-x-6 flex-wrap text-blue-700 mb-6">
               <div className="flex">
                 <div
                   className={
@@ -225,7 +382,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                       : "hidden"
                   }
                 >
-                  <BiBed className="text-2xl" />
+                  <BiHotel className="text-2xl" />
                   <div>{property.habitaciones}</div>
                 </div>
                 <div
@@ -264,520 +421,1173 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                   <span className="text-sm">{property.cochera}</span>
                 </div>
               </div>
+              <div
+                className={
+                  property.amueblado ? "flex gap-x-2 items-center" : "hidden"
+                }
+              >
+                <BiChair className="text-2xl " />
+                <div>
+                  <span className="text-sm">{property.amueblado}</span>
+                </div>
+              </div>
+              <div
+                className={
+                  property.aptoHijos ? "flex gap-x-1 items-center" : "hidden"
+                }
+              >
+                <BiChild size={27} className="text-2xl " />
+                <div>
+                  <span className="text-sm">{property.aptoHijos}</span>
+                </div>
+              </div>
+              <div
+                className={
+                  property.aptoMascotas ? "flex gap-x-1 items-center" : "hidden"
+                }
+              >
+                <BiSolidDog className="text-2xl " />
+                <div>
+                  <span className="text-sm">{property.aptoMascotas}</span>
+                </div>
+              </div>
             </div>
-            {!id ? <Share pdfUrl={pdfUrl} adviser={adviser} /> : null}
+          </div>
+        </div>
+        <div className="text-sm">
+          <div className=" bg-blue-400 text-black px-3 mt-1 mb-1 font-semibold text-lg">
+            Otros detalles de la propiedad
+          </div>
+          <div class="flex flex-wrap">
+            <div className="w-full md:w-1/3 px-4 py-1">
+              <div class="text-left">
+                <div className="text-black rounded-sm">
+                  <div className="flex flex-row align-middle">
+                    <svg
+                      className="flex-shrink-0 mr-1 w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    {property.tomadaExclusividad ? (
+                      <label className="text-[14px] font-semibold">
+                        Tomada en exclusividad
+                      </label>
+                    ) : (
+                      <label className="text-[14px] font-semibold">
+                        No tomada en exclusividad
+                      </label>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="w-full md:w-1/3 px-4 py-1">
+              <div class="text-left">
+                <div className="text-black rounded-sm">
+                  <div className="flex flex-row align-middle">
+                    <svg
+                      className="flex-shrink-0 mr-1 w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    {property.vistaPanoramica ? (
+                      <label className="text-[14px] font-semibold">
+                        Tiene vista panorámica
+                      </label>
+                    ) : (
+                      <label className="text-[14px] font-semibold">
+                        No tiene vista panorámica
+                      </label>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className={
+                property.duenoFinanciaCompra
+                  ? "w-full md:w-1/3 px-4 py-1"
+                  : "hidden"
+              }
+            >
+              <div class="text-left">
+                <div className="text-black rounded-sm">
+                  <div className="flex flex-row align-middle">
+                    <svg
+                      className="flex-shrink-0 mr-1 w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    {property.duenoFinanciaCompra ? (
+                      <label className="text-[14px] font-semibold">
+                        El dueño financia la compra
+                      </label>
+                    ) : (
+                      <label className="text-[14px] font-semibold">
+                        El dueño no financia la compra
+                      </label>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className={
+                property.duenoRecibeVehiculo
+                  ? "w-full md:w-1/3 px-4 py-1"
+                  : "hidden"
+              }
+            >
+              <div class="text-left">
+                <div className="text-black rounded-sm">
+                  <div className="flex flex-row align-middle">
+                    <svg
+                      className="flex-shrink-0 mr-1 w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    {property.duenoRecibeVehiculo ? (
+                      <label className="text-[12px] font-semibold">
+                        El dueño recibe vehículos como parte del pago
+                      </label>
+                    ) : (
+                      <label className="text-[12px] font-semibold">
+                        El dueño NO recibe vehículos como parte del pago
+                      </label>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <div
+              className={
+                property.avaluo ? "w-full md:w-1/3 px-4 py-1" : "hidden"
+              }
+            >
+              <div class="text-left">
+                <div className="text-black rounded-sm">
+                  <div className="flex flex-row align-middle">
+                    <svg
+                      className="flex-shrink-0 mr-1 w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    {property.avaluo ? (
+                      <label className="text-[12px] font-semibold">
+                        Tiene avalúo reciente
+                      </label>
+                    ) : (
+                      <label className="text-[12px] font-semibold">
+                        No tiene avalúo reciente
+                      </label>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div> */}
+            <div
+              className={property.altura ? "w-full md:w-1/3 px-4 py-1" : null}
+            >
+              <div class="text-left">
+                <div
+                  className={
+                    property.altura ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.altura ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 mr-1 w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">Altura: </label>
+                      <label>{property.altura}</label>m
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+            <div
+              className={
+                property.amueblado ? "w-full md:w-1/3 px-4 py-1" : null
+              }
+            >
+              <div class="text-left">
+                <div
+                  className={
+                    property.amueblado ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.amueblado ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 mr-1 w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">Amueblado: </label>
+                      <label>{property.amueblado}</label>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
 
             <div
               className={
-                property.descripcion
-                  ? "flex flex-col justify-start content-start mt-2 gap-x-2"
-                  : "hidden"
+                property.aptoHijos ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div className="flex justify-start">
-                <span className="font-semibold">
-                  Descripción de la propiedad
-                </span>{" "}
+              <div class="text-left">
+                {" "}
+                <div
+                  className={
+                    property.aptoHijos ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.aptoHijos ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 mr-1 w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">
+                          Apto para niños:{" "}
+                        </label>
+                        <label>{property.aptoHijos}</label>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               </div>
-              <div>{property?.descripcion}</div>
-            </div>
-          </div>
-          <div className="max-w-[500px] w-full">
-            <div className=" text-black px-3 mt-3 font-semibold text-lg">
-              Otros detalles de la propiedad
             </div>
             <div
               className={
-                property.altura
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.aptoMascotas ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.altura ? (
-                <div>
-                  <label className="font-semibold mr-1">Altura: </label>
-                  <label>{property.altura}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.aptoMascotas ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.aptoMascotas ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 mr-1 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">
+                          Apto para mascotas:{" "}
+                        </label>
+                        <label>{property.aptoMascotas}</label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
+            </div>
+
+            <div
+              className={
+                property.areaBodega ? "w-full md:w-1/3 px-4 py-1" : null
+              }
+            >
+              <div class="text-left">
+                <div
+                  className={
+                    property.areaBodega ? " text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.areaBodega ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 mr-1 w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Área de la bodega:
+                      </label>
+                      <div className="flex flex-row">
+                        <label>{property.areaBodega}</label>
+                        <label>
+                          m<sup>2</sup>
+                        </label>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
             </div>
             <div
               className={
-                property.amueblado
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.areaCarga ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.amueblado ? (
-                <div>
-                  <label className="font-semibold mr-1">Amueblado: </label>
-                  <label>{property.amueblado}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.areaCarga ? " text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.areaCarga ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 mr-1 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        {property.areaCarga === true ? (
+                          <label>Tiene área de carga</label>
+                        ) : (
+                          <label>No tiene área de carga</label>
+                        )}
+                      </label>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.aptoHijos
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.areaContruccion ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.aptoHijos ? (
-                <div>
-                  <label className="font-semibold mr-1">
-                    Apto para niños:{" "}
-                  </label>
-                  <label>{property.aptoHijos}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.areaContruccion
+                      ? "text-black rounded-sm"
+                      : "hidden"
+                  }
+                >
+                  {property.areaContruccion ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 mr-1 h-4 mt-0.5 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Área de la construcción:{" "}
+                      </label>
+                      <div className="flex flex-row">
+                        <label>{property.areaContruccion}</label>
+                        <label>
+                          m<sup>2</sup>
+                        </label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.aptoMascotas
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.areaMesanini ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.aptoMascotas ? (
-                <div>
-                  <label className="font-semibold mr-1">
-                    Apto para mascotas:{" "}
-                  </label>
-                  <label>{property.aptoMascotas}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.areaMesanini ? " text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.areaMesanini ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mr-1 mt-0.5 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Área mezanine:{" "}
+                      </label>
+                      <div className="flex flex-row">
+                        <label>{property.areaMesanini}</label>
+                        <label>
+                          m<sup>2</sup>
+                        </label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.areaBodega
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.areaPlantas ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.areaBodega ? (
-                <div className="flex flex-row">
-                  <label className="font-semibold mr-1">
-                    Área de la bodega:
-                  </label>
-                  <div className="flex flex-row">
-                    <label>{property.areaBodega}</label>
-                    <label>
-                      m<sup>2</sup>
-                    </label>
-                  </div>
+              <div class="text-left">
+                {" "}
+                <div
+                  className={
+                    property.areaPlantas ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.areaPlantas ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Área por planta:{" "}
+                      </label>
+                      <div className="flex flex-row">
+                        <label>{property.areaPlantas}</label>
+                        <label>
+                          m<sup>2</sup>
+                        </label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.areaCarga
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.areaPropiedad ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.areaCarga ? (
-                <div>
-                  <label className="font-semibold mr-1">
-                    {property.areaCarga === true ? (
-                      <label>Tiene área de carga</label>
-                    ) : (
-                      <label>No tiene área de carga</label>
-                    )}
-                  </label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.areaPropiedad ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.areaPropiedad ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Área de la propiedad:{" "}
+                      </label>
+                      <div className="flex flex-row">
+                        <label>{property.areaPropiedad}</label>
+                        <label>
+                          m<sup>2</sup>
+                        </label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.areaContruccion
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.areaSotano ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.areaContruccion ? (
-                <div className="flex flex-row">
-                  <label className="font-semibold mr-1">
-                    Área de la construcción:{" "}
-                  </label>
-                  <div className="flex flex-row">
-                    <label>{property.areaContruccion}</label>
-                    <label>
-                      m<sup>2</sup>
-                    </label>
-                  </div>
+              <div class="text-left">
+                <div
+                  className={
+                    property.areaSotano ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.areaSotano ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Área del sótano:{" "}
+                      </label>
+                      <div className="flex flex-row">
+                        <label>{property.areaSotano}</label>
+                        <label>
+                          m<sup>2</sup>
+                        </label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.areaMesanini
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.areaTerreno ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.areaMesanini ? (
-                <div className="flex flex-row">
-                  <label className="font-semibold mr-1">Área mezanine: </label>
-                  <div className="flex flex-row">
-                    <label>{property.areaMesanini}</label>
-                    <label>
-                      m<sup>2</sup>
-                    </label>
-                  </div>
+              <div class="text-left">
+                <div
+                  className={
+                    property.areaTerreno ? " text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.areaTerreno ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Área del terreno:
+                      </label>
+                      <div className="flex flex-row">
+                        <label>{property.areaTerreno}</label>
+                        <label>
+                          m<sup>2</sup>
+                        </label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
-              className={
-                property.areaPlantas
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
-              }
+              className={property.cochera ? "w-full md:w-1/3 px-4 py-1" : null}
             >
-              {property.areaPlantas ? (
-                <div className="flex flex-row">
-                  <label className="font-semibold mr-1">
-                    Área por planta:{" "}
-                  </label>
-                  <div className="flex flex-row">
-                    <label>{property.areaPlantas}</label>
-                    <label>
-                      m<sup>2</sup>
-                    </label>
-                  </div>
+              <div class="text-left">
+                <div
+                  className={
+                    property.cochera ? " text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.cochera ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">Cochera: </label>
+                        <label>{property.cochera}</label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
-            <div
-              className={
-                property.areaPropiedad
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
-              }
-            >
-              {property.areaPropiedad ? (
-                <div className="flex flex-row">
-                  <label className="font-semibold mr-1">
-                    Área de la propiedad:{" "}
-                  </label>
-                  <div className="flex flex-row">
-                    <label>{property.areaPropiedad}</label>
-                    <label>
-                      m<sup>2</sup>
-                    </label>
-                  </div>
-                </div>
-              ) : null}
-            </div>
-            <div
-              className={
-                property.areaSotano
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
-              }
-            >
-              {property.areaSotano ? (
-                <div className="flex flex-row">
-                  <label className="font-semibold mr-1">
-                    Área del sótano:{" "}
-                  </label>
-                  <div className="flex flex-row">
-                    <label>{property.areaSotano}</label>
-                    <label>
-                      m<sup>2</sup>
-                    </label>
-                  </div>
-                </div>
-              ) : null}
-            </div>
-            <div
-              className={
-                property.areaTerreno
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
-              }
-            >
-              {property.areaTerreno ? (
-                <div className="flex flex-row">
-                  <label className="font-semibold mr-1">
-                    Área del terreno:
-                  </label>
-                  <div className="flex flex-row">
-                    <label>{property.areaTerreno}</label>
-                    <label>
-                      m<sup>2</sup>
-                    </label>
-                  </div>
-                </div>
-              ) : null}
-            </div>
-            <div
-              className={
-                property.cochera
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
-              }
-            >
-              {property.cochera ? (
-                <div>
-                  <label className="font-semibold mr-1">Cochera: </label>
-                  <label>{property.cochera}</label>
-                </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
                 property.concepcionElectrica
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                  ? "w-full md:w-1/3 px-4 py-1"
+                  : null
               }
             >
-              {property.concepcionElectrica ? (
-                <div>
-                  <label className="font-semibold mr-1">
-                    Tipo de instalación eléctrica:{" "}
-                  </label>
-                  <label>{property.concepcionElectrica}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.concepcionElectrica
+                      ? "text-black rounded-sm"
+                      : "hidden"
+                  }
+                >
+                  {property.concepcionElectrica ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">
+                          Tipo de instalación eléctrica:{" "}
+                        </label>
+                        <label>{property.concepcionElectrica}</label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.cuotaMantenimiento
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.cuotaMantenimiento ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.cuotaMantenimiento ? (
-                <div>
-                  <label className="font-semibold mr-1">
-                    Cuota de mantenimiento:
-                  </label>
-                  <label>${property.cuotaMantenimiento}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.cuotaMantenimiento
+                      ? "text-black rounded-sm"
+                      : "hidden"
+                  }
+                >
+                  {property.cuotaMantenimiento ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Cuota de mantenimiento:
+                      </label>
+                      <label>${property.cuotaMantenimiento}</label>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
+            </div>
+            <div
+              className={property.ley7600 ? "w-full md:w-1/3 px-4 py-1" : null}
+            >
+              <div class="text-left">
+                <div
+                  className={
+                    property.ley7600 ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.ley7600 ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold">
+                        {property.ley7600 === true ? (
+                          <label> Acondicionado a la ley N° 7600</label>
+                        ) : (
+                          <label>NO Acondicionado a la ley N° 7600</label>
+                        )}
+                      </label>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
             </div>
             <div
               className={
-                property.ley7600
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.numeroPlantas ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.ley7600 ? (
-                <div>
-                  <label className="font-semibold">
-                    {property.ley7600 === true ? (
-                      <label> Acondicionado a la ley N° 7600</label>
-                    ) : (
-                      <label>NO Acondicionado a la ley N° 7600</label>
-                    )}
-                  </label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.numeroPlantas ? " text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.numeroPlantas ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Número de plantas:
+                      </label>
+                      <label>{property.numeroPlantas}</label>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
+            </div>
+            <div
+              className={property.parqueo ? "w-full md:w-1/3 px-4 py-1" : null}
+            >
+              <div class="text-left">
+                <div
+                  className={
+                    property.parqueo ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.parqueo ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">Parqueo:</label>
+                        <label>{property.parqueo}</label>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
             </div>
             <div
               className={
-                property.numeroPlantas
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.servicios ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.numeroPlantas ? (
-                <div>
-                  <label className="font-semibold mr-1">
-                    Número de plantas:
-                  </label>
-                  <label>{property.numeroPlantas}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.servicios ? "text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.servicios ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">Servicios:</label>
+                        <label>{property.servicios}</label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.parqueo
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.serviciosMedicos ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.parqueo ? (
-                <div>
-                  <label className="font-semibold mr-1">Parqueo:</label>
-                  <label>{property.parqueo}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.serviciosMedicos
+                      ? "text-black rounded-sm"
+                      : "hidden"
+                  }
+                >
+                  {property.serviciosMedicos ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold">
+                        {property.serviciosMedicos === true ? (
+                          <label>Acondicionado para servicios médicos</label>
+                        ) : (
+                          <label>NO acondicionado para servicios médicos</label>
+                        )}
+                      </label>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.servicios
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.ubicacionCastral ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.servicios ? (
-                <div>
-                  <label className="font-semibold mr-1">Servicios:</label>
-                  <label>{property.servicios}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.ubicacionCastral
+                      ? " text-black rounded-sm"
+                      : "hidden"
+                  }
+                >
+                  {property.ubicacionCastral ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">
+                          Ubicación catastral:
+                        </label>
+                        <label>{property.ubicacionCastral}</label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
-            <div
-              className={
-                property.serviciosMedicos
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
-              }
-            >
-              {property.serviciosMedicos ? (
-                <div>
-                  <label className="font-semibold">
-                    {property.serviciosMedicos === true ? (
-                      <label>Acondicionado para servicios médicos</label>
-                    ) : (
-                      <label>NO acondicionado para servicios médicos</label>
-                    )}
-                  </label>
-                </div>
-              ) : null}
-            </div>
-            <div
-              className={
-                property.ubicacionCastral
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
-              }
-            >
-              {property.ubicacionCastral ? (
-                <div>
-                  <label className="font-semibold mr-1">
-                    Ubicación catastral:
-                  </label>
-                  <label>{property.ubicacionCastral}</label>
-                </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
                 property.ubicacionDemografica
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                  ? "w-full md:w-1/3 px-4 py-1"
+                  : null
               }
             >
-              {property.ubicacionDemografica ? (
-                <div>
-                  <label className="font-semibold mr-1">
-                    Ubicación demográfica:
-                  </label>
-                  <label>{property.ubicacionDemografica}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.ubicacionDemografica
+                      ? "text-black rounded-sm"
+                      : "hidden"
+                  }
+                >
+                  {property.ubicacionDemografica ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex flex-col">
+                        <label className="font-semibold mr-1">
+                          Ubicación demográfica:
+                        </label>
+                        <label>{property.ubicacionDemografica}</label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
                 property.ubicacionGeografica
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                  ? "w-full md:w-1/3 px-4 py-1"
+                  : null
               }
             >
-              {property.ubicacionGeografica ? (
-                <div>
-                  <label className="font-semibold mr-1">
-                    Ubicación geográfica:
-                  </label>
-                  <label>{property.ubicacionGeografica}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.ubicacionGeografica
+                      ? " text-black rounded-sm"
+                      : "hidden"
+                  }
+                >
+                  {property.ubicacionGeografica ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">
+                          Ubicación geográfica:
+                        </label>
+                        <label>{property.ubicacionGeografica}</label>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
             <div
               className={
-                property.usoDeSuelo
-                  ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
-                  : "hidden"
+                property.usoDeSuelo ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              {property.usoDeSuelo ? (
-                <div>
-                  <label className="font-semibold mr-1">Uso del suelo:</label>
-                  <label>{property.usoDeSuelo}</label>
+              <div class="text-left">
+                <div
+                  className={
+                    property.usoDeSuelo ? " text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property.usoDeSuelo ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Uso del suelo:
+                      </label>
+                      <label>{property.usoDeSuelo}</label>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
             </div>
+          </div>
+          <div
+            className={
+              Object.keys(property.jardinPatio).length === 0 ||
+              !property.jardinPatio
+                ? "hidden"
+                : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
+            }
+          >
+            Opciones de Patio-Jardín
+          </div>
+          <div class="flex flex-wrap w-full">
             {!property.jardinPatio ||
             Object.keys(property.jardinPatio).length === 0 ? null : (
-              <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm h-fit">
-                <div style={divStyle} className="flex flex-col max-h-[100px]">
-                  <label className="font-semibold">
-                    Opciones de patio / jardin
-                  </label>
-                  <ul>
-                    {!property.jardinPatio ||
-                    Object.keys(property.jardinPatio).length === 0 ||
-                    property.jardinPatio?.length === undefined ||
-                    property.jardinPatio?.length === 0
-                      ? null
-                      : property?.jardinPatio?.map((elemento, index) => (
-                          <li key={index}>{elemento.label}</li>
-                        ))}
-                  </ul>
-                </div>
+              <div className="text-black rounded-sm w-full flex flex-wrap">
+                {!property.jardinPatio ||
+                Object.keys(property.jardinPatio).length === 0 ||
+                property.jardinPatio?.length === undefined ||
+                property.jardinPatio?.length === 0
+                  ? null
+                  : property?.jardinPatio?.map((elemento, index) => (
+                      <div className="w-full md:w-1/3 px-4 py-1">
+                        <div className="flex flex-row">
+                          <svg
+                            className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                          </svg>
+
+                          {elemento.label}
+                        </div>
+                      </div>
+                    ))}
               </div>
             )}
+          </div>
+          <div
+            className={
+              Object.keys(property.amenidades).length === 0 ||
+              !property.amenidades
+                ? "hidden"
+                : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
+            }
+          >
+            Amenidades
+          </div>
+          <div class="flex flex-wrap w-full">
             {!property.amenidades ||
             Object.keys(property.amenidades).length === 0 ? null : (
-              <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
-                <div style={divStyle} className="flex flex-col max-h-[100px]">
-                  <label className="font-semibold">Amenidades</label>
-                  <ul>
-                    {!property.amenidades ||
-                    Object.keys(property.amenidades).length === 0 ||
-                    property.amenidades?.length === undefined ||
-                    property.amenidades?.length === 0
-                      ? null
-                      : property?.amenidades?.map((elemento, index) => (
-                          <li key={index}>{elemento.label}</li>
-                        ))}
-                  </ul>
-                </div>
+              <div className="text-black rounded-sm w-full flex flex-wrap">
+                {!property.amenidades ||
+                Object.keys(property.amenidades).length === 0 ||
+                property.amenidades?.length === undefined ||
+                property.amenidades?.length === 0
+                  ? null
+                  : property?.amenidades?.map((elemento, index) => (
+                      <div className="w-full md:w-1/3 px-4 py-1">
+                        <div className="flex flex-row">
+                          <svg
+                            className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                          </svg>
+                          {elemento.label}
+                        </div>
+                      </div>
+                    ))}
               </div>
             )}
+          </div>
+          <div
+            className={
+              Object.keys(property.detallesInternos).length === 0
+                ? "hidden"
+                : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
+            }
+          >
+            Detalles internos
+          </div>
+          <div class="flex flex-wrap w-full">
             {!property.detallesInternos ||
             Object.keys(property.detallesInternos).length === 0 ? null : (
-              <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
-                <div style={divStyle} className="flex flex-col max-h-[100px]">
-                  <label className="font-semibold">Detalles Internos</label>
-                  <ul>
-                    {!property.detallesInternos ||
-                    Object.keys(property.detallesInternos).length === 0 ||
-                    property.detallesInternos?.length === undefined ||
-                    property.detallesInternos?.length === 0
-                      ? null
-                      : property?.detallesInternos?.map((elemento, index) => (
-                          <li key={index}>{elemento.label}</li>
-                        ))}
-                  </ul>
-                </div>
+              <div className="text-black rounded-sm w-full flex flex-wrap">
+                {!property.detallesInternos ||
+                Object.keys(property.detallesInternos).length === 0 ||
+                property.detallesInternos?.length === undefined ||
+                property.detallesInternos?.length === 0
+                  ? null
+                  : property?.detallesInternos?.map((elemento, index) => (
+                      <div className="w-full md:w-1/3 px-4 py-1">
+                        <div className="flex flex-row">
+                          <svg
+                            className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                          </svg>
+                          {elemento.label}
+                        </div>
+                      </div>
+                    ))}
               </div>
             )}
+          </div>
+          <div
+            className={
+              Object.keys(property.detallesExternos).length === 0
+                ? "hidden"
+                : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
+            }
+          >
+            Detalles externos
+          </div>
+          <div class="flex flex-wrap w-full">
             {!property.detallesExternos ||
             Object.keys(property.detallesExternos).length === 0 ? null : (
-              <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
-                <div style={divStyle} className="flex flex-col max-h-[100px]">
-                  <label className="font-semibold">Detalles Externos</label>
-                  <ul>
-                    {!property.detallesExternos ||
-                    Object.keys(property.detallesExternos).length === 0 ||
-                    property.detallesExternos?.length === undefined ||
-                    property.detallesExternos?.length === 0
-                      ? null
-                      : property?.detallesExternos?.map((elemento, index) => (
-                          <li key={index}>{elemento.label}</li>
-                        ))}
-                  </ul>
-                </div>
+              <div className="text-black rounded-sm w-full flex flex-wrap">
+                {!property.detallesExternos ||
+                Object.keys(property.detallesExternos).length === 0 ||
+                property.detallesExternos?.length === undefined ||
+                property.detallesExternos?.length === 0
+                  ? null
+                  : property?.detallesExternos?.map((elemento, index) => (
+                      <div className="w-full md:w-1/3 px-4 py-1">
+                        <div className="flex flex-row">
+                          <svg
+                            className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                          </svg>
+                          {elemento.label}
+                        </div>
+                      </div>
+                    ))}
               </div>
             )}
           </div>
         </div>
+        <div
+          className={
+            property.descripcion
+              ? "flex flex-col justify-start content-start mt-3 gap-x-2"
+              : "hidden"
+          }
+        >
+          <div className="flex justify-start">
+            <span className="font-semibold">Descripción de la propiedad</span>{" "}
+          </div>
+          <span className="text-xs">{property?.descripcion}</span>
+        </div>
+        {!userData?.id ? (
+          <Share pdfUrl={pdfUrl} adviser={adviser} />
+        ) : (
+          <ShareAdviser pdfUrl={pdfUrl} />
+        )}
       </div>
-
       {/*  {visible && property ? (
         <div className="flex justify-center min-h-screen">
           <PDFViewer

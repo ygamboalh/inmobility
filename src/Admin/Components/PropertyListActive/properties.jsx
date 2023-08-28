@@ -97,9 +97,9 @@ const PropertiesList = () => {
   const column = [
     {
       name: "ID",
-      selector: (row) => row.id,
+      selector: (row) => row.attributes.uniqueId,
       sortable: true,
-      width: "60px",
+      width: "110px",
       id: "id",
     },
     {
@@ -115,28 +115,28 @@ const PropertiesList = () => {
       id: "provincia",
       selector: (row) => row.attributes.provincia,
       sortable: true,
-      width: "130px",
+      width: "120px",
     },
     {
       name: "Distrito",
       id: "distrito",
       selector: (row) => row.attributes.distrito,
       sortable: true,
-      width: "130px",
+      width: "120px",
     },
     {
-      name: "Canton",
+      name: "Cantón",
       id: "canton",
       selector: (row) => row.attributes.canton,
       sortable: true,
-      width: "150px",
+      width: "130px",
     },
     {
       name: "Tipo de Propiedad",
       id: "tipoPropiedad",
       selector: (row) => row.attributes.tipoPropiedad,
       sortable: true,
-      width: "230px",
+      width: "210px",
     },
     {
       name: "Habitaciones",
@@ -156,9 +156,7 @@ const PropertiesList = () => {
       cell: (row) => (
         <button
           className="detailButton"
-          onClick={() =>
-            navigate(`/admin/properties/property-detail/${row.id}`)
-          }
+          onClick={() => navigate(`/admin/shared-property/${row.id}`)}
         >
           Detalles
         </button>
@@ -219,7 +217,6 @@ const PropertiesList = () => {
         columns={column}
         data={records}
         pagination
-        selectableRows
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight

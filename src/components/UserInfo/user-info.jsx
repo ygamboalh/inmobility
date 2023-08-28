@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { useSignOut } from "react-auth-kit";
 import {
@@ -17,14 +17,16 @@ import { ACCESS_TOKEN_STORAGE, API } from "../../constant";
 import {
   deleteNotification,
   deleteZero,
-  forcedLogOut,
   getUserTokenDate,
 } from "../../utils/helpers";
+import { useNavigate } from "react-router-dom";
 
 const UserInfo = () => {
   const signOut = useSignOut();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenM, setIsOpenM] = useState(false);
+  const menuRef = useRef(null);
   const [imageUrl, setImageUrl] = useState(
     "https://backend.siccic.com/uploads/small_userinfo_dac703068b.png"
   );
@@ -61,9 +63,17 @@ const UserInfo = () => {
     const horaCreado = deleteZero(hora.slice(0, 2));
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
     const result = horaActual - horaCreado;
-    console.log(currentDateString, fecha);
-    console.log(horaActual, horaCreado);
+
     if (currentDateString === fecha && horaActual >= horaCreado) {
+      const response = AxiosInstance.put(`/users/${id}`, {
+        isLoggedIn: false,
+      })
+        .then((res) => {
+          return res;
+        })
+        .catch((err) => {
+          return err;
+        });
       signOut();
       window.location.reload(true);
     } /* else {
@@ -77,6 +87,18 @@ const UserInfo = () => {
     forcedLogOut();
   });
 
+  const loginOut = () => {
+    const response = AxiosInstance.put(`/users/${id}`, {
+      isLoggedIn: false,
+    })
+      .then((res) => {
+        window.location.reload(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const buttonStyle = {
     backgroundImage: `url("${imageUrl}")`,
     backgroundSize: "cover",
@@ -86,11 +108,23 @@ const UserInfo = () => {
   const toggleMenuM = () => {
     setIsOpenM(!isOpenM);
   };
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsOpenM(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="">
       <button
-        onClick={toggleMenuM}
+        onClick={() => setIsOpenM(!isOpenM)}
         className={
           notificaciones?.length < 1
             ? "absolute top-8 right-8 rounded-full"
@@ -99,7 +133,10 @@ const UserInfo = () => {
         style={buttonStyle}
       ></button>
       {isOpenM && (
-        <div className="fixed right-1 top-20 z-10 w-[200px] h-fit bg-white p-4 border rounded-lg shadow-lg">
+        <div
+          ref={menuRef}
+          className="fixed right-1 top-20 z-10 w-[200px] h-fit bg-white p-4 border rounded-lg shadow-lg"
+        >
           <div className="flex flex-row px-2 rounded-lg align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiUserCheck size={20} />
             <a
@@ -124,7 +161,7 @@ const UserInfo = () => {
               Portafolios
             </a>
           </div>
-          {notificaciones?.length > 0 ? (
+          {userData?.active === "Asesor verificado activo" ? (
             <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
               <BiBell size={20} />
               <a
@@ -151,7 +188,13 @@ const UserInfo = () => {
             </a>
           </div>
           <div className="px-2 py-2 text-gray-800 hover:bg-blue-500 rounded-lg hover:text-white">
-            <button onClick={() => signOut()} className="text-xs flex flex-row">
+            <button
+              onClick={() => {
+                loginOut();
+                signOut();
+              }}
+              className="text-xs flex flex-row"
+            >
               <BiLogOut size={20} />{" "}
               <label className="pt-0.5 pl-0.5 cursor-pointer">Salir</label>
             </button>

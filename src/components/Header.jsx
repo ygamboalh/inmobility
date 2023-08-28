@@ -14,6 +14,7 @@ import Dropdown from "../Admin/Components/Dropdown/Dropdown";
 import VisiterUserInfo from "./UserInfo/visiter-user-info";
 import { API, BEARER } from "../constant";
 import axios from "axios";
+import NoneUser from "./UserInfo/none-user";
 
 const Header = () => {
   const [link, setLink] = useState();
@@ -35,15 +36,18 @@ const Header = () => {
 
         if (role === "SuperAdmin" || activo === "Super Administrador") {
           setLink("Super Administrador");
-        } else if (activo === "Asesor verificado") {
+        } else if (
+          activo === "Asesor verificado activo" ||
+          activo === "Asesor verificado inactivo"
+        ) {
           setLink("Asesor verificado");
         } else if (activo === "Solicitante") {
           setLink("Solicitante");
         } else if (activo === "Supervisor") {
           setLink("Supervisor");
-        } else {
-          return false;
-        }
+        } /* else if (activo === undefined) {
+          setLink("None");
+        } */
       })
       .catch((error) => {
         return;
@@ -57,6 +61,7 @@ const Header = () => {
   const goBack = () => {
     navigate(-1);
   };
+
   return (
     <header className="py-6 border-b bg-primary flex">
       {pathname === "/" ? null : (
@@ -90,6 +95,7 @@ const Header = () => {
               {link === "Supervisor" && (
                 <Dropdown ubicacion={"absolute top-8 right-5"} />
               )}
+              {link === "None" && <NoneUser />}
             </div>
           </div>
         )}

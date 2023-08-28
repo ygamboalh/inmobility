@@ -10,8 +10,6 @@ import { API } from "../../../constant";
 import { findAndDeletePortfolios, getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
 import { getAllUsers } from "../../../api/usersApi";
-import axios from "axios";
-import { useEffect } from "react";
 
 const UsersList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +24,11 @@ const UsersList = () => {
     onSuccess: (data) => {
       const foundedUsers = [];
       data.forEach((user) => {
-        if (user.active === "Activo" || user.active === "Asesor verificado") {
+        if (
+          user.active === "Asesor verificado activo" ||
+          user.active === "Asesor verificado inactivo" ||
+          user.active === "Asesor verificado"
+        ) {
           foundedUsers.push(user);
         }
       });
@@ -35,7 +37,6 @@ const UsersList = () => {
       setPending(false);
     },
   });
-
   if (loadingUsers || isLoading) {
     return <MySpinner />;
   }
@@ -81,10 +82,31 @@ const UsersList = () => {
 
   const column = [
     {
-      name: "ID",
-      selector: (row) => row.id,
+      name: "Activo",
+      selector: (row) =>
+        row.active === "Asesor verificado activo" ? (
+          <svg
+            class="flex-shrink-0 w-4 h-4 text-blue-600"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+          </svg>
+        ) : (
+          <svg
+            class="flex-shrink-0 w-4 h-4 text-gray-400 "
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+          </svg>
+        ),
       sortable: true,
-      width: "60px",
+      width: "100px",
       id: "id",
     },
     {
@@ -192,7 +214,6 @@ const UsersList = () => {
         columns={column}
         data={records}
         pagination
-        selectableRows
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight

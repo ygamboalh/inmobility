@@ -6,24 +6,45 @@ import { BiBell } from "react-icons/bi";
 
 import { useNavigate } from "react-router-dom";
 import MetaData from "../Metadata/metadata";
+import { authUserData } from "../../api/usersApi";
+import { useQuery, useQueryClient } from "react-query";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+import { getToken } from "../../utils/helpers";
+import axios from "axios";
+import { getAllNotifications } from "../../api/propertiesApi";
+import { message } from "antd";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const getNotifications = async () => {
-    const res = await AxiosInstance.get(`${API}notifications`)
-      .then((response) => {
-        const data = response.data.data;
-        const notifications = data.reverse();
+  const queryClient = useQueryClient();
+  const { data: userData } = useQuery("profile", authUserData);
+  const id = userData?.id;
+
+  const { data, isLoading: loadingNotifications } = useQuery(
+    "notifications",
+    getAllNotifications,
+    {
+      onSuccess: (data) => {
+        let notifications = [];
+        data?.data?.map((item) => {
+          let users = [];
+          item.attributes.users.data?.map((user) => {
+            users.push(user.id);
+          });
+          if (!users.includes(id)) {
+            notifications.push(item);
+          }
+        });
+        notifications = notifications.reverse();
+
         setNotifications(notifications);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+      },
+    }
+  );
   useEffect(() => {
-    getNotifications();
     deleteNotification();
   }, []);
 
@@ -34,6 +55,64 @@ const Notifications = () => {
       return string;
     }
   }
+  const DeleteNotification = async (id) => {
+    let data = [];
+    const user = {
+      id: userData?.id,
+      attributes: {
+        active: userData?.active,
+        address: userData?.address,
+        blocked: userData?.blocked,
+        company: userData?.company,
+        confirmed: userData?.confirmed,
+        email: userData?.email,
+        isLoggedIn: userData?.isLoggedIn,
+        mobile: userData?.mobile,
+        personalId: userData?.personalId,
+        phone: userData?.phone,
+        provider: userData?.provider,
+        type: userData?.type,
+        username: userData?.username,
+        updated: userData?.updated,
+        createdAt: userData?.createdAt,
+      },
+    };
+    const MySwal = withReactContent(Swal);
+    setIsLoading(true);
+    MySwal.fire({
+      title: "¿Desea eliminar la notificación?",
+      showDenyButton: true,
+      confirmButtonText: "Sí, eliminar",
+      confirmButtonColor: "#1863e4",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsLoading(true);
+        const response = AxiosInstance.get(
+          `${API}notifications/${id}?populate=*`
+        ).then((result) => {
+          data = result.data.data.attributes.users.data;
+
+          data.push(user);
+          console.log("usuarios final", data);
+          const secondResponse = AxiosInstance.put(
+            `${API}notifications/${id}`,
+            {
+              data: { users: data },
+            }
+          )
+            .then(() => {
+              queryClient.invalidateQueries(["notifications"]);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+      }
+    });
+
+    setIsLoading(false);
+  };
   const deleteNotification = () => {
     const currentDate = new Date();
     const currentDateString = currentDate.toISOString().split("T")[0];
@@ -48,10 +127,12 @@ const Notifications = () => {
         const hora = notif.attributes.createdAt.slice(11, 16);
         const horaCreado = deleteZero(hora.slice(0, 2));
         const horaActual = deleteZero(currentTimeString.slice(0, 2));
+        const diaActual = deleteZero(currentDateString.slice(5, 7));
+        const diaCreado = deleteZero(currentDateString.slice(5, 7));
 
-        const result = horaActual - horaCreado;
         setIsLoading(true);
-        if (result >= 3) {
+        const result = horaActual - horaCreado;
+        if (diaActual - diaCreado >= 3) {
           const response = AxiosInstance.delete(
             `${API}notifications/${notif.id}`
           )
@@ -88,7 +169,7 @@ const Notifications = () => {
         {notifications.length < 1 ? (
           <span>No hay notificaciones para mostrar</span>
         ) : (
-          <span>Notificaciones</span>
+          <span>Todas las notificaciones</span>
         )}
       </div>
       {notifications?.map((notification) => {
@@ -108,17 +189,31 @@ const Notifications = () => {
             <div className="mx-2 align-middle">
               {notification.attributes.information}
             </div>
-            <div className="ml-4 my-2">
-              <button
-                onClick={() =>
-                  navigate(
-                    `/home/search/property-detail/${notification.attributes.reference}`
-                  )
-                }
-                className="bg-green-400 hover:bg-green-500 px-2 py-1 rounded-md cursor-pointer"
-              >
-                Revisar
-              </button>
+            <div className="flex flex-row">
+              {notification?.attributes.reference !== null &&
+              notification?.attributes.reference !== undefined ? (
+                <div className="ml-4 my-2">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigate(
+                        `/home/shared-property/${notification.attributes.reference}`
+                      )
+                    }
+                    className="bg-green-400 hover:bg-green-500 px-2 py-1 rounded-md cursor-pointer"
+                  >
+                    Revisar
+                  </button>
+                </div>
+              ) : null}
+              <div className="ml-4 my-2">
+                <button
+                  onClick={() => DeleteNotification(notification.id)}
+                  className="bg-red-600 hover:bg-red-700 px-2 py-1 rounded-md cursor-pointer"
+                >
+                  Eliminar
+                </button>
+              </div>
             </div>
           </div>
         );

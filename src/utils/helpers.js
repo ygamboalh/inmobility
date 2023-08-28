@@ -105,9 +105,11 @@ export const deleteNotification = async () => {
       const fecha = notif.attributes.createdAt.slice(0, 10);
       const hora = notif.attributes.createdAt.slice(11, 16);
       const horaCreado = deleteZero(hora.slice(0, 2));
-      const horaActual = deleteZero(currentTimeString.slice(0, 2));    
-      const result = horaActual - horaCreado;
-      if (fecha === currentDate && result >= 3) {
+    const horaActual = deleteZero(currentTimeString.slice(0, 2));
+    const diaActual = deleteZero(currentDateString.slice(5, 7));
+    const diaCreado = deleteZero(currentDateString.slice(5, 7));
+    
+      if (diaActual-diaCreado >= 3) {
         const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
           .then((response) => {
             return;

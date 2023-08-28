@@ -16,7 +16,8 @@ export const QueriesByFilters = (filterValue) => {
     banos,
     jardinPatio,
     cochera,
-  ley7600,
+    ley7600,
+
   detallesInternos,
   detallesExternos,
   areaTerreno,
@@ -39,7 +40,17 @@ export const QueriesByFilters = (filterValue) => {
   tipoDensidad,
   servicios,
   usoDeSuelo,
-  parqueo
+    parqueo,
+    tipoPiso,
+    monedaAlquiler,
+    monedaAlquilerVenta,
+    monedaCuotaMantenimiento,
+    tomadaExclusividad,
+    vistaPanoramica,
+    duenoFinanciaCompra,
+    duenoRecibeVehiculo,
+    tieneCuotaMantenimiento,
+  
   } = filterValue;
   const queries = [
     { name: `&filters[uniqueId][$eq]=${uniqueId}`, value: uniqueId },
@@ -79,6 +90,15 @@ export const QueriesByFilters = (filterValue) => {
     { name: `&filters[banos][$eq]=${banos}`, value: banos},
     { name: `&filters[ley7600][$eq]=${ley7600}`, value: ley7600 },
     { name: `&filters[serviciosMedicos][$eq]=${serviciosMedicos}`, value: serviciosMedicos },
+    { name: `&filters[tipoPiso][$eq]=${tipoPiso}`, value: tipoPiso },
+    { name: `&filters[monedaAlquiler][$eq]=${monedaAlquiler}`, value: monedaAlquiler },
+    { name: `&filters[monedaAlquilerVenta][$eq]=${monedaAlquilerVenta}`, value: monedaAlquilerVenta },
+    { name: `&filters[monedaCuotaMantenimiento][$eq]=${monedaCuotaMantenimiento}`, value: monedaCuotaMantenimiento },
+    { name: `&filters[tomadaExclusividad][$eq]=${tomadaExclusividad}`, value: tomadaExclusividad },
+    { name: `&filters[vistaPanoramica][$eq]=${vistaPanoramica}`, value: vistaPanoramica },
+    { name: `&filters[duenoFinanciaCompra][$eq]=${duenoFinanciaCompra}`, value: duenoFinanciaCompra },
+    { name: `&filters[duenoRecibeVehiculo][$eq]=${duenoRecibeVehiculo}`, value: duenoRecibeVehiculo },
+    { name: `&filters[tieneCuotaMantenimiento][$eq]=${tieneCuotaMantenimiento}`, value: tieneCuotaMantenimiento },
 
   ];
   // Devolviendo solo los elementos donde su valor no se undefined para evitar problemas en las consultas

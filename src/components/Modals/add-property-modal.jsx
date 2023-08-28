@@ -183,7 +183,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                   value={values.canton}
                   onChange={handleChange}
                   name="canton"
-                  placeholder="Canton"
+                  placeholder="Cantón"
                   className="input-admin-property  m-2 w-80 p-2"
                 />
 

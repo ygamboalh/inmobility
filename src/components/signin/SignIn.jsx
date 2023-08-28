@@ -11,6 +11,7 @@ import { BiShow, BiHide, BiUserCircle, BiLock } from "react-icons/bi";
 import { authUser } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
 import MetaData from "../Metadata/metadata";
+import AxiosInstance from "../../api/AxiosInstance";
 
 const SignIn = () => {
   const signIn = useSignIn();
@@ -43,15 +44,15 @@ const SignIn = () => {
             tokenType: "Bearer",
             authState: data.user,
           });
-
           window.location.reload(true);
           message.success(
             `¡Bienvenido(a) al Sistema Costarricense de Consultas Inmobiliarias Centralizadas.!`
           );
         },
-        onError: (error) => {
+        /* onError: (error) => {
           message.error(`¡Ocurrió un error. Vuelva a intentarlo!`);
-        },
+          console.log(error);
+        }, */
       });
     },
   });

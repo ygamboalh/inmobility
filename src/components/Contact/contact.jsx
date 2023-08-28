@@ -11,6 +11,7 @@ import { BiMailSend, BiPhone, BiUserCircle } from "react-icons/bi";
 import AxiosInstance from "../../api/AxiosInstance";
 import MySpinner from "../Spinner/spinner";
 import MetaData from "../Metadata/metadata";
+import { createNotification } from "../../utils/helpers";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const Contact = () => {
@@ -66,6 +67,11 @@ const Contact = () => {
           mobile: phoneNumber,
         };
         enviarCorreoComunOrigen(adviser.email, body, "Cliente interesado");
+        createNotification(
+          "Correo electrónico recibido",
+          `Se ha enviado un nuevo correo electrónico a través de ficha de contacto.`,
+          null
+        );
         message.success("¡Su mensaje fue enviado correctamente!");
       } catch (error) {
         message.error("¡Ocurrió un error inesperado!");

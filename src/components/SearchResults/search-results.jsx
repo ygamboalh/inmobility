@@ -195,7 +195,7 @@ const SearchResults = () => {
       width: "130px",
     },
     {
-      name: "Canton",
+      name: "Cantón",
       id: "canton",
       selector: (row) => row.attributes.canton,
       sortable: true,

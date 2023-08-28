@@ -58,6 +58,7 @@ import Contact from './components/Contact/contact';
 import LinkList from './Admin/Components/Links/link-list';
 import LinkListAdviser from './components/Links/links-adviser';
 import SearchCard from './components/SearchResults/property-card';
+import MyPropertyList from './components/Verified/my-property-list';
 
 const App = () => {
   
@@ -72,10 +73,10 @@ const App = () => {
                 <Route path="/user/verified-adviser" element={<VerifiedAdviser />}/>
                 <Route path="/user/profile" element={<Profile />} />
                 <Route path="/auth/change-password" element={<ChangePassword />} />
-            <Route element={<CheckRole roles={['Super Administrador','Asesor verificado','Supervisor']} />}>
+            <Route element={<CheckRole roles={['Super Administrador','Asesor verificado activo','Supervisor']} />}>
                 <Route path="/home/insert-property" element={<InsertProperty />} />
             </Route>
-            <Route element={<CheckRole roles={['Super Administrador', 'Asesor verificado','Supervisor']} />}>
+            <Route element={<CheckRole roles={['Super Administrador', 'Asesor verificado activo','Supervisor']} />}>
                 <Route path="/home/notifications" element={<Notifications />} />
             </Route>
                 <Route path="/home/banner" element={<Banner />} />
@@ -83,13 +84,16 @@ const App = () => {
                 <Route path='/home/links' element={<LinkListAdviser />} />
                 <Route path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
                 <Route path="/home/portfolio" element={<Portafolio />} />
-                <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />
-                <Route path="/home/portfolio/:id" element={<Portafolio />} />
+            <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />
+            <Route exact path="/properties/edit-property/:id" element={<InsertProperty />} />
+            <Route path="/home/portfolio/:id" element={<Portafolio />} />
+            <Route path="/user/logout" element={<Logout />} />
+            <Route exact path="/home/shared-property/:id" element={<SearchCard />} />
             </Route>
           <Route element={<PublicRoutes />}>
                 <Route path="/home/banner/visiter" element={<Banner />} />
                 <Route path="/user/sent-request" element={<SentRequest />} />
-                <Route path="/user/evaluating" element={<Evaluating />} />
+                
                 <Route path="/user/access-denied" element={<AccessDenied />} />
                 <Route path="/auth/signin" element={<SignIn />}/>
                 <Route path="/auth/register-request" element={<RegisterRequest />} />
@@ -97,17 +101,18 @@ const App = () => {
                 <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                 <Route path="/home/visit-record" element={<VisitRecord />} />
                 <Route path="/user/terms" element={<Terms />} />
-                <Route path="/user/logout" element={<Logout />} />
+                
                 <Route path='*' element={<NotFound />} />
             </Route>
           </Route>
 
           <Route element={<AdminLayout  />}>
           <Route element={<ProtectedRoutes />}>
-            <Route element={<CheckRole roles={['Super Administrador','Supervisor','Asesor verificado']} />}>
+            <Route element={<CheckRole roles={['Super Administrador','Supervisor','Asesor verificado activo']} />}>
               <Route exact path="/admin/properties/property-detail/:id" element={<PropertyDetailsAdmin />} />
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
               <Route exact path="/admin/properties/insert-property/:id" element={<InsertProperty />} />
+              <Route exact path="/admin/shared-property/:id" element={<SearchCard />} />
               <Route exact path='/admin/properties' element={<Properties />} />
               <Route exact path="/admin/users" element={<Users />} />
               <Route exact path="/admin/users/insert-user" element={<InsertUser />} />
@@ -129,6 +134,7 @@ const App = () => {
             <Route element={<Layout />}>
               <Route path='/ventas' element={<Ventas />} /> 
               <Route path="/home/search/search-results" element={<SearchResultsCard />} />
+              <Route path="/home/verified-adviser/my-property-list" element={<MyPropertyList />} />
               <Route path="/home/search/selling-house-apartment" element={<VentaCasaApartamento />} />
               <Route path="/home/search/rent-house-apartment" element={<AlquilerCasaApartamento />} />
               <Route path="/home/search/selling-lots" element={<VentaLotes />} />
@@ -143,6 +149,7 @@ const App = () => {
               <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
               <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
               <Route path='/alquiler' element={<Alquileres />} />
+              <Route path="/user/evaluating" element={<Evaluating />} />
           <Route path="/home/contact" element={<Contact />} />
         </Route>
       </Routes>

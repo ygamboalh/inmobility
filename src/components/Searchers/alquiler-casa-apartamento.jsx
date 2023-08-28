@@ -16,6 +16,11 @@ import {
   Cochera,
   Provincia,
   Amueblado,
+  Servicios,
+  UsoSuelo,
+  UbicacionGeografica,
+  UbicacionDemografica,
+  UbicacionCatastral,
 } from "../../BD/bd";
 
 import { API, BEARER } from "../../constant";
@@ -180,9 +185,10 @@ const AlquilerCasaApartamento = () => {
       <MetaData title="Buscar" description="Buscar" />
       <div className="inset-y-0 mb-4 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
       <div className="flex mt-3 justify-center align-middle items-center w-full">
-        <label className="font-semibold text-xl flex text-center">
-          Búsqueda: Alquiler de casas y apartamentos
-        </label>
+        <div className="font-semibold max-[450px]:text-xs text-xl text-center flex flex-col">
+          <span>Búsqueda por características específicas</span>
+          <span>Alquiler de casas y apartamentos</span>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} autoComplete="off">
@@ -193,7 +199,7 @@ const AlquilerCasaApartamento = () => {
             onChange={handleChange}
             name="uniqueId"
             placeholder="Identificador único"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.uniqueId && touched.uniqueId ? (
@@ -205,7 +211,7 @@ const AlquilerCasaApartamento = () => {
             type="select"
             value={values.provincia}
             onChange={handleChange}
-            className="input-admin-property m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6
           p-2"
           >
             <option value="" label="">
@@ -223,8 +229,8 @@ const AlquilerCasaApartamento = () => {
             name="canton"
             value={values.canton}
             onChange={handleChange}
-            placeholder="Canton"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            placeholder="Cantón"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.canton && touched.canton ? (
@@ -237,33 +243,119 @@ const AlquilerCasaApartamento = () => {
             placeholder="Distrito"
             onChange={handleChange}
             value={values.distrito}
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.distrito && touched.distrito ? (
               <div className="errordiv text-xs">{errors.cantodistriton}</div>
             ) : null}
           </div>
-          <input
-            type="number"
-            name="precio"
-            placeholder="Precio"
+          <select
+            name="ubicacionCastral"
+            value={values.ubicacionCastral}
             onChange={handleChange}
-            value={values.precio}
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.precio && touched.precio ? (
-              <div className="errordiv text-xs">{errors.precio}</div>
-            ) : null}
-          </div>
+            id="ubicacionCastral"
+            placeholder="Ubicación castral"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Ubicación catastral"}
+            </option>
+            {UbicacionCatastral.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="ubicacionDemografica"
+            value={values.ubicacionDemografica}
+            onChange={handleChange}
+            id="ubicacionDemografica"
+            placeholder="Ubicación demográfica"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Ubicación demográfica"}
+            </option>
+            {UbicacionDemografica.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="ubicacionGeografica"
+            value={values.ubicacionGeografica}
+            onChange={handleChange}
+            id="ubicacionGeografica"
+            placeholder="Ubicación geográfica"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Ubicación geográfica"}
+            </option>
+            {UbicacionGeografica.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="usoDeSuelo"
+            value={values.usoDeSuelo}
+            onChange={handleChange}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Uso del suelo"}
+            </option>
+            {UsoSuelo.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="vistaPanoramica"
+            id="vistaPanoramica"
+            onChange={handleChange}
+            placeholder="Vista Panorámica"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"¿Tiene vista panorámica?"}
+            </option>
+            <option value="Si" label="Si">
+              Si
+            </option>
+            <option value="No" label="No">
+              No
+            </option>
+          </select>
+
+          <select
+            onChange={handleChange}
+            name="servicios"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Servicios"}
+            </option>
+            {Servicios.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
           <input
             type="number"
             name="areaTerreno"
             onChange={handleChange}
             value={values.areaTerreno}
             placeholder="Área del terreno"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.areaTerreno && touched.areaTerreno ? (
@@ -275,7 +367,7 @@ const AlquilerCasaApartamento = () => {
             placeholder="Tipo de propiedad"
             onChange={handleChange}
             value={values.tipoPropiedad}
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           >
             <option value="" label="">
               {"Tipo de inmueble"}
@@ -286,26 +378,12 @@ const AlquilerCasaApartamento = () => {
               </option>
             ))}
           </select>
-          <input
-            type="number"
-            onChange={handleChange}
-            value={values.cuotaMantenimiento}
-            name="cuotaMantenimiento"
-            placeholder="Cuota de mantenimiento"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.cuotaMantenimiento && touched.cuotaMantenimiento ? (
-              <div className="errordiv text-xs">
-                {errors.cuotaMantenimiento}
-              </div>
-            ) : null}
-          </div>
+
           <select
             onChange={handleChange}
             value={values.cochera}
             name="cochera"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           >
             <option value="" label="">
               {"Cochera"}
@@ -323,7 +401,7 @@ const AlquilerCasaApartamento = () => {
             value={values.areaContruccion}
             name="areaContruccion"
             placeholder="Área construcción"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.areaContruccion && touched.areaContruccion ? (
@@ -336,7 +414,7 @@ const AlquilerCasaApartamento = () => {
             name="amueblado"
             id="amueblado"
             placeholder="Amueblado"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           >
             <option value="" label="">
               {"Amueblado"}
@@ -353,7 +431,7 @@ const AlquilerCasaApartamento = () => {
             value={values.habitaciones}
             name="habitaciones"
             placeholder="Habitaciones"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.habitaciones && touched.habitaciones ? (
@@ -366,13 +444,115 @@ const AlquilerCasaApartamento = () => {
             onChange={handleChange}
             value={values.banos}
             placeholder="Baños"
-            className="input-admin-property  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.banos && touched.banos ? (
               <div className="errordiv text-xs">{errors.banos}</div>
             ) : null}
           </div>
+          <select
+            name="tieneCuotaMantenimiento"
+            onChange={handleChange}
+            placeholder="Tiene cuota mantenimiento"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"¿Tiene cuota de mantenimiento?"}
+            </option>
+            <option value="Si" label="Si">
+              Si
+            </option>
+            <option value="No" label="No">
+              No
+            </option>
+          </select>
+          <div className="flex flex-wrap m-1 -mt-2 justify-center">
+            <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
+              <select
+                id="dropdown-button"
+                name="moneda"
+                onChange={handleChange}
+                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  min={0}
+                  onChange={handleChange}
+                  name="precio"
+                  placeholder="Precio de venta"
+                  id="search-dropdown"
+                  className="max-[450px]:w-[240px] min-[500px]:w-[240px] p-2.5 w-64 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+            <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
+              <select
+                name="monedaAlquiler"
+                onChange={handleChange}
+                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  min={0}
+                  onChange={handleChange}
+                  name="precioAlquiler"
+                  placeholder="Precio de alquiler"
+                  className="max-[450px]:w-[240px] min-[500px]:w-[240px] p-2.5 w-64 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+
+            <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
+              <select
+                name="monedaAlquilerVenta"
+                onChange={handleChange}
+                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  onChange={handleChange}
+                  min={0}
+                  name="precioAlquilerCompra"
+                  placeholder="Precio de alquiler compra"
+                  className="max-[450px]:w-[240px] min-[500px]:w-[240px] p-2.5 w-64 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+            <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+              <select
+                name="monedaCuotaMantenimiento"
+                onChange={handleChange}
+                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  onChange={handleChange}
+                  min={0}
+                  name="cuotaMantenimiento"
+                  placeholder="Cuota mantenimiento"
+                  className="max-[450px]:w-[240px] min-[500px]:w-[240px] p-2.5 w-64 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center mx-4"></div>
         </div>
         <div>
           <div className="flex m-4 content-center items-center justify-center ">
@@ -388,7 +568,7 @@ const AlquilerCasaApartamento = () => {
                     className="sr-only peer"
                   />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                  <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
                     Ley 7600
                   </span>
                 </label>
