@@ -6,7 +6,7 @@ import "react-phone-input-2/lib/style.css";
 import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 import { message } from "antd";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BiMailSend, BiPhone, BiUserCircle } from "react-icons/bi";
 import AxiosInstance from "../../api/AxiosInstance";
 import MySpinner from "../Spinner/spinner";
@@ -18,6 +18,7 @@ const Contact = () => {
   const location = useLocation();
   const adviser = location.state;
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(
     "https://backend.siccic.com/uploads/userinfo_dac703068b.png"
   );
@@ -25,7 +26,9 @@ const Contact = () => {
   const handlePhoneNumberChange = (value) => {
     setPhoneNumber(value);
   };
-  console.log("adviser desde shared", location);
+  const goBack = () => {
+    navigate(-1);
+  };
   useEffect(() => {
     const user = AxiosInstance.get(`users/${adviser?.id}?populate=photo`).then(
       (data) => {
@@ -70,9 +73,11 @@ const Contact = () => {
         createNotification(
           "Correo electrónico recibido",
           `Se ha enviado un nuevo correo electrónico a través de ficha de contacto.`,
-          null
+          null,
+          adviser.email
         );
         message.success("¡Su mensaje fue enviado correctamente!");
+        goBack();
       } catch (error) {
         message.error("¡Ocurrió un error inesperado!");
       } finally {
@@ -80,7 +85,7 @@ const Contact = () => {
       }
     },
   });
-  if (isLoading) {
+  if (isLoading || !adviser) {
     return <MySpinner />;
   }
 

@@ -66,7 +66,8 @@ const PropertiesDesact = () => {
         createNotification(
           "Eliminación",
           `Se ha eliminado la propiedad ${id}`,
-          id
+          id,
+          null
         );
         if (result) {
           Swal.fire("Inmueble eliminado!", "", "success");

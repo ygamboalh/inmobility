@@ -70,9 +70,9 @@ export const  generateRandomCode = () => {
 
     return randomCode;
   };
-export const createNotification = (type, information,reference) => {
+export const createNotification = (type, information,reference,emailReference) => {
   const response = AxiosInstance.post(`/notifications`, {
-    data: { type: type, information: information, expire:Date.now(), reference: reference},
+    data: { type: type, information: information, expire:Date.now(), reference: reference,emailReference:emailReference},
 }).then((response) => console.log(response)).catch((error) => console.log(error))
 }
 

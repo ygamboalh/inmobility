@@ -45,9 +45,9 @@ const Header = () => {
           setLink("Solicitante");
         } else if (activo === "Supervisor") {
           setLink("Supervisor");
-        } /* else if (activo === undefined) {
+        } else if (activo === undefined) {
           setLink("None");
-        } */
+        }
       })
       .catch((error) => {
         return;

@@ -578,6 +578,39 @@ const PropertyDetailsSearch = () => {
             </div>
             <div
               className={
+                property?.tipoVivienda ? "w-full md:w-1/3 px-4 py-1" : null
+              }
+            >
+              <div class="text-left">
+                <div
+                  className={
+                    property?.tipoVivienda ? " text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property?.tipoVivienda ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">
+                          Tipo de vivienda:
+                        </label>
+                        <label>{property?.tipoVivienda}</label>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+            <div
+              className={
                 property.ubicacionCastral
                   ? "bg-gray-200 text-black px-3 mt-3 rounded-sm"
                   : "hidden"
@@ -638,18 +671,53 @@ const PropertyDetailsSearch = () => {
                 </div>
               ) : null}
             </div>
-            {!property.jardinPatio ||
-            Object.keys(property.jardinPatio).length === 0 ? null : (
+            <div
+              className={
+                property?.ubicacionDetallada
+                  ? "w-full md:w-1/2 px-4 py-1"
+                  : null
+              }
+            >
+              <div class="text-left">
+                <div
+                  className={
+                    property?.ubicacionDetallada
+                      ? " text-black rounded-sm"
+                      : "hidden"
+                  }
+                >
+                  {property?.ubicacionDetallada ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Ubicación detallada:
+                      </label>
+                      <label>{property?.ubicacionDetallada}</label>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+            {!property?.jardinPatio ||
+            Object.keys(property?.jardinPatio)?.length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm h-fit">
                 <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">
                     Opciones de patio / jardin
                   </label>
                   <ul>
-                    {!property.jardinPatio ||
-                    Object.keys(property.jardinPatio).length === 0 ||
-                    property.jardinPatio?.length === undefined ||
-                    property.jardinPatio?.length === 0
+                    {!property?.jardinPatio ||
+                    Object.keys(property?.jardinPatio)?.length === 0 ||
+                    property?.jardinPatio?.length === undefined ||
+                    property?.jardinPatio?.length === 0
                       ? null
                       : property?.jardinPatio?.map((elemento, index) => (
                           <li key={index}>{elemento.label}</li>
@@ -658,16 +726,16 @@ const PropertyDetailsSearch = () => {
                 </div>
               </div>
             )}
-            {!property.amenidades ||
-            Object.keys(property.amenidades).length === 0 ? null : (
+            {!property?.amenidades ||
+            Object.keys(property?.amenidades)?.length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Amenidades</label>
                   <ul>
-                    {!property.amenidades ||
-                    Object.keys(property.amenidades).length === 0 ||
-                    property.amenidades?.length === undefined ||
-                    property.amenidades?.length === 0
+                    {!property?.amenidades ||
+                    Object.keys(property?.amenidades)?.length === 0 ||
+                    property?.amenidades?.length === undefined ||
+                    property?.amenidades?.length === 0
                       ? null
                       : property?.amenidades?.map((elemento, index) => (
                           <li key={index}>{elemento.label}</li>
@@ -676,16 +744,16 @@ const PropertyDetailsSearch = () => {
                 </div>
               </div>
             )}
-            {!property.detallesInternos ||
-            Object.keys(property.detallesInternos).length === 0 ? null : (
+            {!property?.detallesInternos ||
+            Object.keys(property?.detallesInternos)?.length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Detalles Internos</label>
                   <ul>
-                    {!property.detallesInternos ||
-                    Object.keys(property.detallesInternos).length === 0 ||
-                    property.detallesInternos?.length === undefined ||
-                    property.detallesInternos?.length === 0
+                    {!property?.detallesInternos ||
+                    Object.keys(property?.detallesInternos)?.length === 0 ||
+                    property?.detallesInternos?.length === undefined ||
+                    property?.detallesInternos?.length === 0
                       ? null
                       : property?.detallesInternos?.map((elemento, index) => (
                           <li key={index}>{elemento.label}</li>
@@ -694,16 +762,16 @@ const PropertyDetailsSearch = () => {
                 </div>
               </div>
             )}
-            {!property.detallesExternos ||
-            Object.keys(property.detallesExternos).length === 0 ? null : (
+            {!property?.detallesExternos ||
+            Object.keys(property?.detallesExternos)?.length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 mb-4 rounded-sm">
                 <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Detalles Externos</label>
                   <ul>
                     {!property.detallesExternos ||
-                    Object.keys(property.detallesExternos).length === 0 ||
-                    property.detallesExternos?.length === undefined ||
-                    property.detallesExternos?.length === 0
+                    Object.keys(property?.detallesExternos)?.length === 0 ||
+                    property?.detallesExternos?.length === undefined ||
+                    property?.detallesExternos?.length === 0
                       ? null
                       : property?.detallesExternos?.map((elemento, index) => (
                           <li key={index}>{elemento.label}</li>

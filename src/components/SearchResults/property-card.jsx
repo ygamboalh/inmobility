@@ -174,7 +174,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           createNotification(
             "Eliminación",
             `Se ha eliminado la propiedad ${result.data.data.attributes.uniqueId}`,
-            id
+            id,
+            null
           );
           const body = `El siguiente inmueble ha sido eliminado por el usuario: ${userData.email}`;
           enviarCorreoPersonalizado("infosistemacic@gmail.com", property, body);
@@ -190,6 +191,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
 
     setIsLoading(false);
   };
+
   return (
     <section className="pt-16 -mb-4">
       <MetaData
@@ -226,7 +228,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           </div>
         </div>
         {property?.creadoPor === userData?.id &&
-        userData?.active !== "Asesor verificado inactivo" ? (
+        userData?.active === "Asesor verificado activo" ? (
           <div className="flex justify-end -mt-2">
             <button
               onClick={() =>
@@ -237,7 +239,10 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
               Editar
             </button>
             <button
-              onClick={() => DeleteProperty(propiedad[0].id)}
+              onClick={() => {
+                DeleteProperty(propiedad[0].id);
+                window.location.reload(true);
+              }}
               className="bg-red-700 text-white px-4 py-1 rounded-md"
             >
               Eliminar
@@ -354,7 +359,6 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             </div>
           </div>
         </div>
-
         <div className="text-xl font-semibold text-blue-600">
           {property.uniqueId}
         </div>
@@ -1279,6 +1283,39 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             </div>
             <div
               className={
+                property?.tipoVivienda ? "w-full md:w-1/3 px-4 py-1" : null
+              }
+            >
+              <div class="text-left">
+                <div
+                  className={
+                    property?.tipoVivienda ? " text-black rounded-sm" : "hidden"
+                  }
+                >
+                  {property?.tipoVivienda ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <div className="flex max-[1200px]:flex-col">
+                        <label className="font-semibold mr-1">
+                          Tipo de vivienda:
+                        </label>
+                        <label>{property?.tipoVivienda}</label>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+            <div
+              className={
                 property.ubicacionCastral ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
@@ -1388,7 +1425,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             </div>
             <div
               className={
-                property.usoDeSuelo ? "w-full md:w-1/3 px-4 py-1" : null
+                property?.usoDeSuelo ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
               <div class="text-left">
@@ -1417,11 +1454,46 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                 </div>
               </div>
             </div>
+            <div
+              className={
+                property?.ubicacionDetallada
+                  ? "w-full md:w-1/2 px-4 py-1"
+                  : null
+              }
+            >
+              <div class="text-left">
+                <div
+                  className={
+                    property?.ubicacionDetallada
+                      ? " text-black rounded-sm"
+                      : "hidden"
+                  }
+                >
+                  {property?.ubicacionDetallada ? (
+                    <div className="flex flex-row align-middle">
+                      <svg
+                        className="flex-shrink-0 w-4 h-4 mt-0.5 mr-1 text-blue-600 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                      </svg>
+                      <label className="font-semibold mr-1">
+                        Ubicación detallada:
+                      </label>
+                      <label>{property?.ubicacionDetallada}</label>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
           </div>
           <div
             className={
-              Object.keys(property.jardinPatio).length === 0 ||
-              !property.jardinPatio
+              !property?.jardinPatio ||
+              Object.keys(property?.jardinPatio)?.length === 0
                 ? "hidden"
                 : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
             }
@@ -1429,11 +1501,11 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             Opciones de Patio-Jardín
           </div>
           <div class="flex flex-wrap w-full">
-            {!property.jardinPatio ||
-            Object.keys(property.jardinPatio).length === 0 ? null : (
+            {!property?.jardinPatio ||
+            Object.keys(property?.jardinPatio)?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
-                {!property.jardinPatio ||
-                Object.keys(property.jardinPatio).length === 0 ||
+                {!property?.jardinPatio ||
+                Object.keys(property?.jardinPatio)?.length === 0 ||
                 property.jardinPatio?.length === undefined ||
                 property.jardinPatio?.length === 0
                   ? null
@@ -1459,8 +1531,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           </div>
           <div
             className={
-              Object.keys(property.amenidades).length === 0 ||
-              !property.amenidades
+              !property?.amenidades ||
+              Object.keys(property?.amenidades)?.length === 0
                 ? "hidden"
                 : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
             }
@@ -1469,10 +1541,10 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           </div>
           <div class="flex flex-wrap w-full">
             {!property.amenidades ||
-            Object.keys(property.amenidades).length === 0 ? null : (
+            Object.keys(property?.amenidades)?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
-                {!property.amenidades ||
-                Object.keys(property.amenidades).length === 0 ||
+                {!property?.amenidades ||
+                Object.keys(property?.amenidades)?.length === 0 ||
                 property.amenidades?.length === undefined ||
                 property.amenidades?.length === 0
                   ? null
@@ -1497,7 +1569,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           </div>
           <div
             className={
-              Object.keys(property.detallesInternos).length === 0
+              !property?.detallesInternos ||
+              Object.keys(property?.detallesInternos)?.length === 0
                 ? "hidden"
                 : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
             }
@@ -1505,13 +1578,13 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             Detalles internos
           </div>
           <div class="flex flex-wrap w-full">
-            {!property.detallesInternos ||
-            Object.keys(property.detallesInternos).length === 0 ? null : (
+            {!property?.detallesInternos ||
+            Object.keys(property?.detallesInternos)?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
-                {!property.detallesInternos ||
-                Object.keys(property.detallesInternos).length === 0 ||
-                property.detallesInternos?.length === undefined ||
-                property.detallesInternos?.length === 0
+                {!property?.detallesInternos ||
+                Object.keys(property?.detallesInternos)?.length === 0 ||
+                property?.detallesInternos?.length === undefined ||
+                property?.detallesInternos?.length === 0
                   ? null
                   : property?.detallesInternos?.map((elemento, index) => (
                       <div className="w-full md:w-1/3 px-4 py-1">
@@ -1534,7 +1607,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           </div>
           <div
             className={
-              Object.keys(property.detallesExternos).length === 0
+              !property.detallesExternos ||
+              Object.keys(property?.detallesExternos)?.length === 0
                 ? "hidden"
                 : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
             }
@@ -1542,13 +1616,13 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             Detalles externos
           </div>
           <div class="flex flex-wrap w-full">
-            {!property.detallesExternos ||
-            Object.keys(property.detallesExternos).length === 0 ? null : (
+            {!property?.detallesExternos ||
+            Object.keys(property?.detallesExternos)?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
-                {!property.detallesExternos ||
-                Object.keys(property.detallesExternos).length === 0 ||
-                property.detallesExternos?.length === undefined ||
-                property.detallesExternos?.length === 0
+                {!property?.detallesExternos ||
+                Object.keys(property?.detallesExternos)?.length === 0 ||
+                property?.detallesExternos?.length === undefined ||
+                property?.detallesExternos?.length === 0
                   ? null
                   : property?.detallesExternos?.map((elemento, index) => (
                       <div className="w-full md:w-1/3 px-4 py-1">

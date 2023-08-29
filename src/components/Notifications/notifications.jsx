@@ -34,10 +34,15 @@ const Notifications = () => {
           item.attributes.users.data?.map((user) => {
             users.push(user.id);
           });
-          if (!users.includes(id)) {
+          if (
+            !users.includes(id) &&
+            (item.attributes.emailReference === userData.email ||
+              item.attributes.emailReference === null)
+          ) {
             notifications.push(item);
           }
         });
+
         notifications = notifications.reverse();
 
         setNotifications(notifications);

@@ -411,7 +411,15 @@ export const Parqueo = [
     label: "Parqueo de centro comercial",
   },
 ];
-
+export const TipoVivienda = [
+  {
+    value: "Vivienda unifamiliar",
+    label: "Vivienda unifamiliar",
+  },
+  { value: "Vivienda bifamiliar", label: "Vivienda bifamiliar" },
+  { value: "Vivienda multifamiliar", label: "Vivienda multifamiliar" },
+  { value: "Vivienda de interés social", label: "Vivienda de interés social" },
+];
 export const Locales = [
   {
     value: "Local Comercial",

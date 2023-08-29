@@ -35,6 +35,7 @@ import {
   Provincia,
   PropertyEstado,
   TipoPiso,
+  TipoVivienda,
 } from "../../../BD/bd";
 
 import MySpinner from "../../../components/Spinner/spinner";
@@ -200,6 +201,7 @@ const InsertProperty = () => {
       avaluoMoneda: property?.avaluoMoneda,
       ivaVenta: property?.ivaVenta,
       ivaAlquiler: property?.ivaAlquiler,
+      tipoVivienda: property?.tipoVivienda,
     },
     validationSchema: Yup.object({
       provincia: Yup.string().required("*"),
@@ -227,7 +229,7 @@ const InsertProperty = () => {
       //areaMesanini: Yup.number().min(0, "*").max(6000, "*"),
       //areaSotano: Yup.number().min(0, "*").max(6000, "*"),
     }),
-    enableReinitialize: true,
+    enableReinitialize: id ? true : false,
     onSubmit: async (values) => {
       setIsLoading(true);
 
@@ -303,9 +305,11 @@ const InsertProperty = () => {
           avaluoMoneda: values?.avaluoMoneda,
           ivaVenta: values?.ivaVenta,
           ivaAlquiler: values?.ivaAlquiler,
+          tipoVivienda: values?.tipoVivienda,
         };
 
         if (!id) {
+          console.log("valores", value);
           const response = await AxiosInstance.post("/properties", {
             data: value,
           })
@@ -324,7 +328,8 @@ const InsertProperty = () => {
               createNotification(
                 "Creación",
                 `Se ha creado la propiedad ${respons.data.data.attributes.uniqueId}`,
-                propertyId
+                propertyId,
+                null
               );
               if (userRole === "SuperAdmin") {
                 navigate(`/admin/upload/${propertyId}`, { replace: true });
@@ -416,6 +421,7 @@ const InsertProperty = () => {
             avaluoMoneda: values.avaluoMoneda,
             ivaVenta: values.ivaVenta,
             ivaAlquiler: values.ivaAlquiler,
+            tipoVivienda: values?.tipoVivienda,
           };
           const response = await AxiosInstance.put(`/properties/${id}`, {
             data: value,
@@ -425,7 +431,8 @@ const InsertProperty = () => {
               createNotification(
                 "Actualización",
                 `Se ha actualizado la propiedad ${response.data.data.attributes.uniqueId}`,
-                id
+                id,
+                null
               );
               const property = response.data.data.attributes;
               const body = `El siguiente inmueble fue modificado por el usuario: ${userData.email}`;
@@ -455,6 +462,7 @@ const InsertProperty = () => {
     },
   });
   useEffect(() => {
+    console.log("el id", id);
     if (!id) {
       handleSubmit();
     }
@@ -605,7 +613,21 @@ const InsertProperty = () => {
               <div className="errordiv text-xs">{errors.distrito}</div>
             ) : null}
           </div>
-
+          <input
+            type="text"
+            name="ubicacionDetallada"
+            defaultValue={property?.ubicacionDetallada}
+            placeholder="Ubicación detallada"
+            hidden={selectedOption === ""}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          {/* <div className="space mb-2.5">
+            {errors.ubicacionDetallada && touched.ubicacionDetallada ? (
+              <div className="errordiv text-xs">
+                {errors.ubicacionDetallada}
+              </div>
+            ) : null}
+          </div> */}
           <input
             type="number"
             hidden={selectedOption === ""}
@@ -724,11 +746,11 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
+          {/*  <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.tipoLote && touched.tipoLote ? (
               <div className="errordiv text-xs">{errors.tipoLote}</div>
             ) : null}
-          </div>
+          </div> */}
           <select
             hidden={
               selectedOption === "" ||
@@ -776,11 +798,11 @@ const InsertProperty = () => {
             }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/*  <div className="space mb-2.5">
             {errors.areaPropiedad && touched.areaPropiedad ? (
               <div className="errordiv text-xs">{errors.areaPropiedad}</div>
             ) : null}
-          </div>
+          </div> */}
 
           <select
             name="tipoEdificio"
@@ -845,11 +867,40 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.tipoLocal && touched.tipoLocal ? (
               <div className="errordiv text-xs">{errors.tipoLocal}</div>
             ) : null}
-          </div>
+          </div> */}
+          <select
+            name="tipoVivienda"
+            onChange={handleChange}
+            hidden={
+              selectedOption === "" ||
+              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
+            }
+            defaultValue={property?.tipoVivienda}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de vivienda"}
+            </option>
+            {TipoVivienda.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
           <select
             hidden={
               selectedOption === "Alquiler de Edificios" ||
@@ -881,11 +932,11 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.cochera && touched.cochera ? (
               <div className="errordiv text-xs">{errors.cochera}</div>
             ) : null}
-          </div>
+          </div> */}
           <input
             type="number"
             hidden={
@@ -906,11 +957,11 @@ const InsertProperty = () => {
             max={100000}
             className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.areaContruccion && touched.areaContruccion ? (
               <div className="errordiv text-xs">{errors.areaContruccion}</div>
             ) : null}
-          </div>
+          </div> */}
           <input
             type="number"
             name="habitaciones"
@@ -935,11 +986,11 @@ const InsertProperty = () => {
             }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.habitaciones && touched.habitaciones ? (
               <div className="errordiv text-xs">{errors.habitaciones}</div>
             ) : null}
-          </div>
+          </div> */}
           <input
             type="number"
             name="banos"
@@ -964,11 +1015,11 @@ const InsertProperty = () => {
             }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.banos && touched.banos ? (
               <div className="errordiv text-xs">{errors.banos}</div>
             ) : null}
-          </div>
+          </div> */}
 
           <select
             name="amueblado"
@@ -988,11 +1039,11 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.amueblado && touched.amueblado ? (
               <div className="errordiv text-xs">{errors.amueblado}</div>
             ) : null}
-          </div>
+          </div> */}
           <select
             name="aptoHijos"
             hidden={
@@ -1025,11 +1076,11 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.aptoHijos && touched.aptoHijos ? (
               <div className="errordiv text-xs">{errors.aptoHijos}</div>
             ) : null}
-          </div>
+          </div> */}
           <select
             name="parqueo"
             hidden={
@@ -1054,11 +1105,11 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.parqueo && touched.parqueo ? (
               <div className="errordiv text-xs">{errors.parqueo}</div>
             ) : null}
-          </div>
+          </div> */}
           <select
             hidden={
               selectedOption === "Alquiler de Edificios" ||
@@ -1122,11 +1173,11 @@ const InsertProperty = () => {
             }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.areaBodega && touched.areaBodega ? (
               <div className="errordiv text-xs">{errors.areaBodega}</div>
             ) : null}
-          </div>
+          </div> */}
           <input
             type="number"
             name="altura"
@@ -1151,11 +1202,11 @@ const InsertProperty = () => {
             placeholder="Altura"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.altura && touched.altura ? (
               <div className="errordiv text-xs">{errors.altura}</div>
             ) : null}
-          </div>
+          </div> */}
           <select
             name="concepcionElectrica"
             hidden={
@@ -1181,13 +1232,13 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.concepcionElectrica && touched.concepcionElectrica ? (
               <div className="errordiv text-xs">
                 {errors.concepcionElectrica}
               </div>
             ) : null}
-          </div>
+          </div> */}
           <input
             type="number"
             name="areaPlantas"
@@ -1213,11 +1264,11 @@ const InsertProperty = () => {
             placeholder="Área por plantas"
             className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/*  <div className="space mb-2.5">
             {errors.areaPlantas && touched.areaPlantas ? (
               <div className="errordiv text-xs">{errors.areaPlantas}</div>
             ) : null}
-          </div>
+          </div> */}
           <input
             type="number"
             name="numeroPlantas"
@@ -1241,11 +1292,11 @@ const InsertProperty = () => {
             placeholder="Número de plantas"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/*  <div className="space mb-2.5">
             {errors.numeroPlantas && touched.numeroPlantas ? (
               <div className="errordiv text-xs">{errors.numeroPlantas}</div>
             ) : null}
-          </div>
+          </div> */}
           <input
             type="text"
             name="propositoTerreno"
@@ -1254,26 +1305,12 @@ const InsertProperty = () => {
             hidden
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.propositoTerreno && touched.propositoTerreno ? (
               <div className="errordiv text-xs">{errors.propositoTerreno}</div>
             ) : null}
-          </div>
-          <input
-            type="text"
-            name="ubicacionDetallada"
-            defaultValue={property?.ubicacionDetallada}
-            placeholder="Ubicación detallada"
-            hidden={selectedOption === ""}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space mb-2.5">
-            {errors.ubicacionDetallada && touched.ubicacionDetallada ? (
-              <div className="errordiv text-xs">
-                {errors.ubicacionDetallada}
-              </div>
-            ) : null}
-          </div>
+          </div> */}
+
           <select
             name="tomadaExclusividad"
             id="tomadaExclusividad"
@@ -1286,10 +1323,10 @@ const InsertProperty = () => {
             <option value="" label="">
               {"¿Tomada con exclusividad?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
@@ -1305,10 +1342,10 @@ const InsertProperty = () => {
             <option value="" label="">
               {"¿Tiene vista panorámica?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
@@ -1336,10 +1373,10 @@ const InsertProperty = () => {
             <option value="" label="">
               {"¿Dueño financia compra?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
@@ -1358,7 +1395,7 @@ const InsertProperty = () => {
               selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
               selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
             }
-            name="duenoFinanciaCompra"
+            name="duenoRecibeVehiculo"
             defaultValue={property?.duenoRecibeVehiculo}
             onChange={handleChange}
             placeholder="Dueño recibe vehiculo"
@@ -1367,10 +1404,10 @@ const InsertProperty = () => {
             <option value="" label="">
               {"¿Dueño recibe vehiculo como parte del pago?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
@@ -1392,11 +1429,11 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.ubicacionCastral && touched.ubicacionCastral ? (
               <div className="errordiv text-xs">{errors.ubicacionCastral}</div>
             ) : null}
-          </div>
+          </div> */}
           <select
             name="ubicacionDemografica"
             id="ubicacionDemografica"
@@ -1415,13 +1452,13 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.ubicacionDemografica && touched.ubicacionDemografica ? (
               <div className="errordiv text-xs">
                 {errors.ubicacionDemografica}
               </div>
             ) : null}
-          </div>
+          </div> */}
           <select
             name="ubicacionGeografica"
             hidden={selectedOption === ""}
@@ -1462,6 +1499,7 @@ const InsertProperty = () => {
               </div>
             ) : null}
           </div>
+
           <select
             name="active"
             defaultValue={property?.active}
@@ -1480,11 +1518,6 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          {/* <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
-            {errors.active && touched.active ? (
-              <div className="errordiv text-xs">{errors.active}</div>
-            ) : null}
-          </div> */}
           <input
             type="number"
             name="areaMesanini"
@@ -1509,11 +1542,11 @@ const InsertProperty = () => {
             placeholder="Área mezanine"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/*  <div className="space mb-2.5">
             {errors.areaMesanini && touched.areaMesanini ? (
               <div className="errordiv text-xs">{errors.areaMesanini}</div>
             ) : null}
-          </div>
+          </div> */}
           <input
             type="number"
             name="areaSotano"
@@ -1538,11 +1571,11 @@ const InsertProperty = () => {
             placeholder="Área sótano"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.areaSotano && touched.areaSotano ? (
               <div className="errordiv text-xs">{errors.areaSotano}</div>
             ) : null}
-          </div>
+          </div> */}
 
           <select
             name="tipoDensidad"
@@ -1587,17 +1620,18 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.usoDeSuelo && touched.usoDeSuelo ? (
               <div className="errordiv text-xs">{errors.usoDeSuelo}</div>
             ) : null}
-          </div>
+          </div> */}
           {selectedOption === "" ? null : (
-            <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
+            <div class="flex flex-row w-fit border rounded-lg pl-1 max-[500px]:mb-2 border-gray-300 input-admin-property ml-1 mr-1 py-2">
               <select
                 id="dropdown-button"
                 name="moneda"
                 onChange={handleChange}
+                defaultValue={property?.moneda}
                 class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="$">USD</option>
@@ -1612,22 +1646,23 @@ const InsertProperty = () => {
                   defaultValue={property?.precio}
                   placeholder="Precio de venta"
                   id="search-dropdown"
-                  className="block max-[450px]:w-[240px] text-gray-500 min-[500px]:w-[240px] min-[650px]:w-[200px] p-2.5 w-80 bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                  className="block max-[450px]:w-[145px] text-gray-500 min-[500px]:w-[145px] min-[650px]:w-[145px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-              <div className="m-1 flex justify-center items-center content-center self-start">
+              <div className="m-1 flex justify-center items-center content-center mt-2.5 self-start">
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     value=""
                     defaultValue={property?.ivaVenta}
+                    defaultChecked={property?.ivaVenta}
                     onChange={handleChange}
                     id="ivaVenta"
                     name="ivaVenta"
                     className="sr-only peer"
                   />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                  <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
+                  <span className="ml-3 text-sm text-gray-500 font-semibold ">
                     +IVA
                   </span>
                 </label>
@@ -1635,11 +1670,13 @@ const InsertProperty = () => {
             </div>
           )}
           {selectedOption === "" ? null : (
-            <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+            <div class="flex flex-row w-fit border rounded-lg pl-1 border-gray-300 input-admin-property ml-1 mr-1 py-2">
               <select
+                id="dropdown-button"
                 name="monedaAlquiler"
                 onChange={handleChange}
-                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                defaultValue={property?.monedaAlquiler}
+                class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="$">USD</option>
                 <option value="₡">CRC</option>
@@ -1652,33 +1689,37 @@ const InsertProperty = () => {
                   name="precioAlquiler"
                   defaultValue={property?.precioAlquiler}
                   placeholder="Precio de alquiler"
-                  className="block max-[450px]:w-[240px] text-gray-500 min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                  id="search-dropdown"
+                  className="block max-[450px]:w-[145px] text-gray-500 min-[500px]:w-[145px] min-[650px]:w-[145px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-              <div className="m-1 flex justify-center items-center content-center self-start">
+              <div className="m-1 flex justify-center items-center content-center mt-2.5 self-start">
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     value=""
-                    defaultValue={property?.ivaAquiler}
+                    defaultValue={property?.ivaAlquiler}
+                    defaultChecked={property?.ivaAlquiler}
                     onChange={handleChange}
                     id="ivaAlquiler"
                     name="ivaAlquiler"
                     className="sr-only peer"
                   />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                  <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
+                  <span className="ml-3 text-sm text-gray-500 font-semibold ">
                     +IVA
                   </span>
                 </label>
               </div>
             </div>
           )}
+
           {selectedOption === "" ? null : (
-            <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+            <div class="flex flex-row input-admin-property ml-1 mr-1 py-2">
               <select
                 name="monedaAlquilerVenta"
                 onChange={handleChange}
+                defaultValue={property?.monedaAlquilerCompra}
                 class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="$">USD</option>
@@ -1692,7 +1733,7 @@ const InsertProperty = () => {
                   name="precioAlquilerCompra"
                   defaultValue={property?.precioAlquilerCompra}
                   placeholder="Precio de alquiler compra"
-                  className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                  className="block max-[450px]:w-[243px] text-gray-500 min-[500px]:w-[243px] max-[640px]:w-[243px] min-[641px]:w-[200px] p-2.5 w-[243px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
@@ -1702,25 +1743,27 @@ const InsertProperty = () => {
             hidden={selectedOption === ""}
             defaultValue={property?.tieneCuotaMantenimiento}
             onChange={handleChange}
-            placeholder="Tiene cuota mantenimiento"
+            placeholder="¿Tiene cuota mantenimiento?"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           >
             <option value="" label="">
               {"¿Tiene cuota de mantenimiento?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
           {selectedOption === "" ? null : (
-            <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+            <div class="flex flex-row input-admin-property ml-1 mr-1 py-2">
               <select
+                id="dropdown-button"
                 name="monedaCuotaMantenimiento"
+                defaultValue={property?.monedaCuotaMantenimiento}
                 onChange={handleChange}
-                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="$">USD</option>
                 <option value="₡">CRC</option>
@@ -1728,20 +1771,22 @@ const InsertProperty = () => {
               <div class="relative w-full">
                 <input
                   type="number"
-                  onChange={handleChange}
                   min={0}
+                  onChange={handleChange}
                   name="cuotaMantenimiento"
                   defaultValue={property?.cuotaMantenimiento}
-                  placeholder="Cuota mantenimiento"
-                  className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Cuota de mantenimiento"
+                  id="search-dropdown"
+                  className="block max-[450px]:w-[243px] text-gray-500 min-[500px]:w-[243px] max-[640px]:w-[243px] min-[641px]:w-[200px] p-2.5 w-[243px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
           )}
           {selectedOption === "" ? null : (
-            <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+            <div class="flex input-admin-property ml-1 mr-1 py-2">
               <select
                 name="avaluoMoneda"
+                id="avaluoMoneda"
                 onChange={handleChange}
                 defaultValue={property?.avaluoMoneda}
                 class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
@@ -1756,8 +1801,8 @@ const InsertProperty = () => {
                   min={0}
                   name="avaluo"
                   defaultValue={property?.avaluo}
-                  placeholder="Cuota mantenimiento"
-                  className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Valor según avalúo"
+                  className="block max-[450px]:w-[243px] text-gray-500 min-[500px]:w-[243px] max-[640px]:w-[243px] min-[641px]:w-[200px] p-2.5 w-[243px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
@@ -1767,7 +1812,7 @@ const InsertProperty = () => {
             onChange={handleChange}
             name="servicios"
             hidden={selectedOption === ""}
-            className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           >
             <option value="" label="">
               {"Servicios"}
@@ -1792,6 +1837,7 @@ const InsertProperty = () => {
                 <input
                   type="checkbox"
                   value=""
+                  defaultChecked={property?.ley7600}
                   defaultValue={property?.ley7600}
                   onChange={handleChange}
                   id="ley7600"
@@ -1826,6 +1872,7 @@ const InsertProperty = () => {
                 <input
                   type="checkbox"
                   value=""
+                  defaultChecked={property?.serviciosMedicos}
                   defaultValue={property?.serviciosMedicos}
                   onChange={handleChange}
                   id="serviciosMedicos"
@@ -1861,6 +1908,7 @@ const InsertProperty = () => {
                   type="checkbox"
                   value=""
                   defaultValue={property?.areaCarga}
+                  defaultChecked={property?.areaCarga}
                   onChange={handleChange}
                   id="areaCarga"
                   disabled={
@@ -1916,14 +1964,14 @@ const InsertProperty = () => {
             options={Amenidades}
             placeholder={"Amenidades"}
             isMulti
-            className="categories lg:mx-80"
+            className="categories lg:mx-80 my-1"
             onChange={handleChangeAmenidades}
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.amenidades && touched.amenidades ? (
               <div className="errordiv text-xs">{errors.amenidades}</div>
             ) : null}
-          </div>
+          </div> */}
         </div>
         <div
           className={
@@ -1946,7 +1994,7 @@ const InsertProperty = () => {
           <Select
             noOptionsMessage={() => null}
             closeMenuOnSelect={false}
-            className="categories lg:mx-80"
+            className="categories lg:mx-80 my-1"
             name="jardinPatio"
             defaultValue={property?.jardinPatio}
             options={PatioJardin}
@@ -1954,11 +2002,11 @@ const InsertProperty = () => {
             isMulti
             onChange={handleChangePatioJardin}
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.jardinPatio && touched.jardinPatio ? (
               <div className="errordiv text-xs">{errors.jardinPatio}</div>
             ) : null}
-          </div>
+          </div> */}
         </div>
         <div
           className={
@@ -1979,7 +2027,7 @@ const InsertProperty = () => {
           }
         >
           <Select
-            className="categories lg:mx-80"
+            className="categories lg:mx-80 mt-1"
             name="detallesInternos"
             noOptionsMessage={() => null}
             closeMenuOnSelect={false}
@@ -1989,11 +2037,11 @@ const InsertProperty = () => {
             isMulti
             onChange={handleChangeDetallesInternos}
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.detallesInternos && touched.detallesInternos ? (
               <div className="errordiv text-xs">{errors.detallesInternos}</div>
             ) : null}
-          </div>
+          </div> */}
         </div>
         <div
           className={
@@ -2014,7 +2062,7 @@ const InsertProperty = () => {
           }
         >
           <Select
-            className="categories lg:mx-80"
+            className="categories lg:mx-80 mt-1"
             name="detallesExternos"
             noOptionsMessage={() => null}
             closeMenuOnSelect={false}
@@ -2024,11 +2072,11 @@ const InsertProperty = () => {
             isMulti
             onChange={handleChangeDetallesExternos}
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.detallesExternos && touched.detallesExternos ? (
               <div className="errordiv text-xs">{errors.detallesExternos}</div>
             ) : null}
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-center w-full mb-2">
           <textarea
@@ -2039,11 +2087,11 @@ const InsertProperty = () => {
             placeholder="Descripción de la propiedad"
             className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
           />
-          <div className="space mb-2.5">
+          {/* <div className="space mb-2.5">
             {errors.descripcion && touched.descripcion ? (
               <div className="errordiv text-xs">{errors.descripcion}</div>
             ) : null}
-          </div>
+          </div> */}
         </div>
         <div
           className={
