@@ -95,21 +95,23 @@ export const deleteNotification = async () => {
       });
       const currentDate = new Date();
       const currentDateString = currentDate.toISOString().split("T")[0];
-      const currentTimeString = currentDate
+      /* const currentTimeString = currentDate
       .toISOString()
       .split("T")[1]
       .split(".")[0];
-      
+       */
   notifications?.map((notif) => {
     
       const fecha = notif.attributes.createdAt.slice(0, 10);
-      const hora = notif.attributes.createdAt.slice(11, 16);
-      const horaCreado = deleteZero(hora.slice(0, 2));
-    const horaActual = deleteZero(currentTimeString.slice(0, 2));
+      /* const hora = notif.attributes.createdAt.slice(11, 16); */
+      /* const horaCreado = deleteZero(hora.slice(0, 2));
+    const horaActual = deleteZero(currentTimeString.slice(0, 2)); */
     const diaActual = deleteZero(currentDateString.slice(5, 7));
-    const diaCreado = deleteZero(currentDateString.slice(5, 7));
-    
-      if (diaActual-diaCreado >= 3) {
+    const diaCreado = deleteZero(fecha.slice(5, 7));
+    const diaInicial = diaActual.slice(0, 2);
+    const diaFinal = diaCreado.slice(0, 2);
+    const resultado = diaInicial - diaFinal;
+      if (resultado >= 3) {
         const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
           .then((response) => {
             return;
@@ -117,15 +119,7 @@ export const deleteNotification = async () => {
           .catch((error) => {
             return;
           });
-      }  else if (fecha !== currentDateString) {
-        const response = AxiosInstance.delete(`${API}notifications/${notif.id}`)
-          .then((response) => {
-            return;
-          })
-          .catch((error) => {
-            return;
-          });
-      } 
+      }  
     });
 };
   

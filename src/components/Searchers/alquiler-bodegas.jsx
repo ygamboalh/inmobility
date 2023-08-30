@@ -16,6 +16,7 @@ import {
   UbicacionGeografica,
   UbicacionDemografica,
   UbicacionCatastral,
+  TipoPiso,
 } from "../../BD/bd";
 import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
@@ -255,232 +256,282 @@ const AlquilerBodegas = () => {
             <option value="" label="">
               {"¿Tiene vista panorámica?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
+          <div className="flex flex-wrap m-1 justify-center">
+            <div class="flex flex-row w-fit max-[500px]:pt-0 input-admin-property ml-1 mr-1 py-2">
+              <select
+                id="dropdown-button"
+                name="moneda"
+                onChange={handleChange}
+                class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="">$</option>
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  min={0}
+                  onChange={handleChange}
+                  name="precio"
+                  placeholder="Precio de venta"
+                  id="search-dropdown"
+                  className="block text-gray-500 max-[600px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
 
-          <select
-            onChange={handleChange}
-            name="servicios"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Servicios"}
-            </option>
-            {Servicios.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
+            <div class="flex flex-row w-fit max-[500px]:mb-2 border rounded-lg pl-1 border-gray-300 input-admin-property ml-1 mr-1 py-2">
+              <select
+                id="dropdown-button"
+                name="monedaAlquiler"
+                onChange={handleChange}
+                class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="">$</option>
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  min={0}
+                  onChange={handleChange}
+                  name="precioAlquiler"
+                  placeholder="Precio de alquiler"
+                  id="search-dropdown"
+                  className="block max-[450px]:w-[145px] text-gray-500 min-[500px]:w-[145px] min-[650px]:w-[145px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div className="m-1 flex justify-center items-center content-center mt-2.5 self-start">
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    value=""
+                    onChange={handleChange}
+                    id="ivaAlquiler"
+                    name="ivaAlquiler"
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                  <span className="ml-3 text-sm text-gray-500 font-semibold ">
+                    +IVA
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div class="flex flex-row w-fit border rounded-lg pl-1 border-gray-300 input-admin-property ml-1 mr-1 py-2">
+              <select
+                name="monedaAlquilerVenta"
+                onChange={handleChange}
+                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="">$</option>
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  onChange={handleChange}
+                  min={0}
+                  name="precioAlquilerCompra"
+                  placeholder="Precio alquiler-compra"
+                  className="block max-[450px]:w-[145px] text-gray-500 min-[500px]:w-[145px] min-[650px]:w-[183px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div className="m-1 flex justify-center items-center content-center mt-2.5 self-start">
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    value=""
+                    onChange={handleChange}
+                    id="ivaVenta"
+                    name="ivaVenta"
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                  <span className="ml-3 text-sm text-gray-500 font-semibold ">
+                    +IVA
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div class="flex input-admin-property ml-1 mr-1 py-2">
+              <select
+                name="avaluoMoneda"
+                id="avaluoMoneda"
+                onChange={handleChange}
+                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="">$</option>
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  onChange={handleChange}
+                  min={0}
+                  name="avaluo"
+                  placeholder="Valor según avalúo"
+                  className="block max-[450px]:w-[243px] text-gray-500 min-[500px]:w-[243px] max-[640px]:w-[243px] min-[641px]:w-[200px] p-2.5 w-[243px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+            <select
+              name="tieneCuotaMantenimiento"
+              onChange={handleChange}
+              placeholder="¿Tiene cuota mantenimiento?"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            >
+              <option value="" label="">
+                {"¿Tiene cuota de mantenimiento?"}
               </option>
-            ))}
-          </select>
-          <input
-            type="number"
-            value={values.areaTerreno}
-            onChange={handleChange}
-            name="areaTerreno"
-            placeholder="Área del terreno"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaTerreno && touched.areaTerreno ? (
-              <div className="errordiv text-xs">{errors.areaTerreno}</div>
-            ) : null}
-          </div>
-
-          <input
-            type="number"
-            value={values.areaPropiedad}
-            onChange={handleChange}
-            name="areaPropiedad"
-            placeholder="Área de la propiedad"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaPropiedad && touched.areaPropiedad ? (
-              <div className="errordiv text-xs">{errors.areaPropiedad}</div>
-            ) : null}
-          </div>
-          <input
-            type="number"
-            value={values.areaContruccion}
-            onChange={handleChange}
-            name="areaContruccion"
-            placeholder="Área construcción"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaContruccion && touched.areaContruccion ? (
-              <div className="errordiv text-xs">{errors.areaContruccion}</div>
-            ) : null}
-          </div>
-          <select
-            name="parqueo"
-            value={values.parqueo}
-            onChange={handleChange}
-            id="parqueo"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Parqueo"}
-            </option>
-            {Parqueo.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
+              <option value={true} label="Si">
+                Si
               </option>
-            ))}
-          </select>
-          <input
-            type="number"
-            value={values.areaBodega}
-            onChange={handleChange}
-            name="areaBodega"
-            placeholder="Área bodega"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaBodega && touched.areaBodega ? (
-              <div className="errordiv text-xs">{errors.areaBodega}</div>
-            ) : null}
-          </div>
-          <input
-            type="number"
-            value={values.altura}
-            onChange={handleChange}
-            name="altura"
-            placeholder="Altura"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.altura && touched.altura ? (
-              <div className="errordiv text-xs">{errors.altura}</div>
-            ) : null}
-          </div>
-          <select
-            name="concepcionElectrica"
-            value={values.concepcionElectrica}
-            onChange={handleChange}
-            id="concepcionElectrica"
-            placeholder="Conexión eléctrica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Conexión eléctrica"}
-            </option>
-            {Electrica.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
+              <option value={false} label="No">
+                No
               </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex flex-wrap m-1 -mt-2 justify-center">
-          <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
-            <select
-              id="dropdown-button"
-              name="moneda"
-              onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
-            >
-              <option value="$">USD</option>
-              <option value="₡">CRC</option>
             </select>
-            <div class="relative w-full">
-              <input
-                type="number"
-                min={0}
-                onChange={handleChange}
-                name="precio"
-                placeholder="Precio de venta"
-                id="search-dropdown"
-                className="max-[450px]:w-[240px] min-[500px]:w-[240px] p-2.5 w-64 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-          </div>
-          <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
-            <select
-              name="monedaAlquiler"
-              onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
-            >
-              <option value="$">USD</option>
-              <option value="₡">CRC</option>
-            </select>
-            <div class="relative w-full">
-              <input
-                type="number"
-                min={0}
-                onChange={handleChange}
-                name="precioAlquiler"
-                placeholder="Precio de alquiler"
-                className="max-[450px]:w-[240px] min-[500px]:w-[240px] p-2.5 w-64 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-          </div>
 
-          <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
-            <select
-              name="monedaAlquilerVenta"
-              onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
-            >
-              <option value="$">USD</option>
-              <option value="₡">CRC</option>
-            </select>
-            <div class="relative w-full">
-              <input
-                type="number"
+            <div class="flex flex-row input-admin-property ml-1 mr-1 py-2">
+              <select
+                id="dropdown-button"
+                name="monedaCuotaMantenimiento"
                 onChange={handleChange}
-                min={0}
-                name="precioAlquilerCompra"
-                placeholder="Precio de alquiler compra"
-                className="max-[450px]:w-[240px] min-[500px]:w-[240px] p-2.5 w-64 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
-              />
+                class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="">$</option>
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  min={0}
+                  onChange={handleChange}
+                  name="cuotaMantenimiento"
+                  placeholder="Cuota de mantenimiento"
+                  id="search-dropdown"
+                  className="block max-[450px]:w-[243px] text-gray-500 min-[500px]:w-[243px] max-[640px]:w-[243px] min-[641px]:w-[200px] p-2.5 w-[243px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="flex flex-wrap justify-center mx-4">
-          <select
-            name="tieneCuotaMantenimiento"
-            onChange={handleChange}
-            placeholder="Tiene cuota mantenimiento"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"¿Tiene cuota de mantenimiento?"}
-            </option>
-            <option value="Si" label="Si">
-              Si
-            </option>
-            <option value="No" label="No">
-              No
-            </option>
-          </select>
+            <select
+              onChange={handleChange}
+              name="servicios"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            >
+              <option value="" label="">
+                {"Servicios"}
+              </option>
+              {Servicios.map((item) => (
+                <option value={item.value} label={item.label}>
+                  {item.value}
+                </option>
+              ))}
+            </select>
+            <input
+              type="number"
+              value={values.areaTerreno}
+              onChange={handleChange}
+              name="areaTerreno"
+              placeholder="Área del terreno"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            />
+            <input
+              type="number"
+              value={values.areaPropiedad}
+              onChange={handleChange}
+              name="areaPropiedad"
+              placeholder="Área de la propiedad"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            />
+            <input
+              type="number"
+              value={values.areaContruccion}
+              onChange={handleChange}
+              name="areaContruccion"
+              placeholder="Área construcción"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            />
+            <select
+              name="parqueo"
+              value={values.parqueo}
+              onChange={handleChange}
+              id="parqueo"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            >
+              <option value="" label="">
+                {"Parqueo"}
+              </option>
+              {Parqueo.map((item) => (
+                <option value={item.value} label={item.label}>
+                  {item.value}
+                </option>
+              ))}
+            </select>
+            <input
+              type="number"
+              value={values.areaBodega}
+              onChange={handleChange}
+              name="areaBodega"
+              placeholder="Área bodega"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            />
+            <input
+              type="number"
+              value={values.altura}
+              onChange={handleChange}
+              name="altura"
+              placeholder="Altura"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            />
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
             <select
-              name="monedaCuotaMantenimiento"
+              name="concepcionElectrica"
+              value={values.concepcionElectrica}
               onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              id="concepcionElectrica"
+              placeholder="Conexión eléctrica"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
             >
-              <option value="$">USD</option>
-              <option value="₡">CRC</option>
+              <option value="" label="">
+                {"Conexión eléctrica"}
+              </option>
+              {Electrica.map((item) => (
+                <option value={item.value} label={item.label}>
+                  {item.value}
+                </option>
+              ))}
             </select>
-            <div class="relative w-full">
-              <input
-                type="number"
-                onChange={handleChange}
-                min={0}
-                name="cuotaMantenimiento"
-                placeholder="Cuota mantenimiento"
-                className="max-[450px]:w-[240px] min-[500px]:w-[240px] p-2.5 w-64 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
+            <select
+              name="tipoPiso"
+              onChange={handleChange}
+              placeholder="Tipo de piso"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            >
+              <option value="" label="">
+                {"Tipo de piso"}
+              </option>
+              {TipoPiso.map((item) => (
+                <option value={item.value} label={item.label}>
+                  {item.value}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
+
         <div className="flex justify-center">
           <div className="flex m-4 content-center items-center justify-center ">
             <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">

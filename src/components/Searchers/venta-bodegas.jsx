@@ -15,6 +15,7 @@ import {
   UbicacionGeografica,
   UbicacionDemografica,
   UbicacionCatastral,
+  TipoPiso,
 } from "../../BD/bd";
 import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
@@ -244,13 +245,14 @@ const AlquilerBodegas = () => {
               No
             </option>
           </select>
-          <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               id="dropdown-button"
               name="moneda"
               onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -262,17 +264,18 @@ const AlquilerBodegas = () => {
                 name="precio"
                 placeholder="Precio de venta"
                 id="search-dropdown"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[200px] p-2.5 w-80 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               name="monedaAlquiler"
               onChange={handleChange}
               class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -283,17 +286,18 @@ const AlquilerBodegas = () => {
                 onChange={handleChange}
                 name="precioAlquiler"
                 placeholder="Precio de alquiler"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               name="monedaAlquilerVenta"
               onChange={handleChange}
               class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -304,7 +308,7 @@ const AlquilerBodegas = () => {
                 min={0}
                 name="precioAlquilerCompra"
                 placeholder="Precio de alquiler compra"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -318,20 +322,21 @@ const AlquilerBodegas = () => {
             <option value="" label="">
               {"¿Tiene cuota de mantenimiento?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property py-2">
             <select
               name="monedaCuotaMantenimiento"
               onChange={handleChange}
               class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -342,7 +347,7 @@ const AlquilerBodegas = () => {
                 min={0}
                 name="cuotaMantenimiento"
                 placeholder="Cuota mantenimiento"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[183px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -475,44 +480,61 @@ const AlquilerBodegas = () => {
               </option>
             ))}
           </select>
+          <select
+            name="tipoPiso"
+            onChange={handleChange}
+            placeholder="Tipo de piso"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de piso"}
+            </option>
+            {TipoPiso.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="flex m-4 content-center items-center justify-center ">
-          <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
-            <div className="m-1 flex justify-center items-center content-center self-start">
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  onChange={handleChange}
-                  value={values.ley7600}
-                  id="ley7600"
-                  name="ley7600"
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Ley 7600
-                </span>
-              </label>
+        <div className="flex justify-center">
+          <div className="flex m-4 content-center items-center justify-center ">
+            <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
+              <div className="m-1 flex justify-center items-center content-center self-start">
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    onChange={handleChange}
+                    value={values.ley7600}
+                    id="ley7600"
+                    name="ley7600"
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                  <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Ley 7600
+                  </span>
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex m-4 content-center items-center justify-center ">
-          <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
-            <div className="m-1 justify-center items-center content-center flex self-start">
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  value={values.areaCarga}
-                  onChange={handleChange}
-                  id="areaCarga"
-                  name="areaCarga"
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Área carga
-                </span>
-              </label>
+          <div className="flex m-4 content-center items-center justify-center ">
+            <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
+              <div className="m-1 justify-center items-center content-center flex self-start">
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    value={values.areaCarga}
+                    onChange={handleChange}
+                    id="areaCarga"
+                    name="areaCarga"
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                  <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Área carga
+                  </span>
+                </label>
+              </div>
             </div>
           </div>
         </div>

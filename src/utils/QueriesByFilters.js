@@ -42,7 +42,10 @@ export const QueriesByFilters = (filterValue) => {
   usoDeSuelo,
     parqueo,
     tipoPiso,
+    moneda,
     monedaAlquiler,
+    precioAlquiler,
+    precioAlquilerCompra,
     monedaAlquilerVenta,
     monedaCuotaMantenimiento,
     tomadaExclusividad,
@@ -50,6 +53,11 @@ export const QueriesByFilters = (filterValue) => {
     duenoFinanciaCompra,
     duenoRecibeVehiculo,
     tieneCuotaMantenimiento,
+    ivaVenta,
+    ivaAlquiler,
+    avaluo,
+    avaluoMoneda,
+    tipoVivienda
   
   } = filterValue;
   const queries = [
@@ -99,6 +107,14 @@ export const QueriesByFilters = (filterValue) => {
     { name: `&filters[duenoFinanciaCompra][$eq]=${duenoFinanciaCompra}`, value: duenoFinanciaCompra },
     { name: `&filters[duenoRecibeVehiculo][$eq]=${duenoRecibeVehiculo}`, value: duenoRecibeVehiculo },
     { name: `&filters[tieneCuotaMantenimiento][$eq]=${tieneCuotaMantenimiento}`, value: tieneCuotaMantenimiento },
+    { name: `&filters[moneda][$eq]=${moneda}`, value: moneda },
+    { name: `&filters[ivaVenta][$eq]=${ivaVenta}`, value: ivaVenta },
+    { name: `&filters[ivaAlquiler][$eq]=${ivaAlquiler}`, value: ivaAlquiler },
+    { name: `&filters[avaluo][$eq]=${avaluo}`, value: avaluo },
+    { name: `&filters[avaluoMoneda][$eq]=${avaluoMoneda}`, value: avaluoMoneda },
+    { name: `&filters[precioAlquiler][$eq]=${precioAlquiler}`, value: precioAlquiler },
+    { name: `&filters[precioAlquilerCompra][$eq]=${precioAlquilerCompra}`, value: precioAlquilerCompra },
+    { name: `&filters[tipoVivienda][$eq]=${tipoVivienda}`, value: tipoVivienda },
 
   ];
   // Devolviendo solo los elementos donde su valor no se undefined para evitar problemas en las consultas

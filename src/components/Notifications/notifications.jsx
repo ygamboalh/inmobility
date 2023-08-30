@@ -36,7 +36,7 @@ const Notifications = () => {
           });
           if (
             !users.includes(id) &&
-            (item.attributes.emailReference === userData.email ||
+            (item.attributes.emailReference === userData?.email ||
               item.attributes.emailReference === null)
           ) {
             notifications.push(item);
@@ -99,7 +99,6 @@ const Notifications = () => {
           data = result.data.data.attributes.users.data;
 
           data.push(user);
-          console.log("usuarios final", data);
           const secondResponse = AxiosInstance.put(
             `${API}notifications/${id}`,
             {
@@ -121,23 +120,26 @@ const Notifications = () => {
   const deleteNotification = () => {
     const currentDate = new Date();
     const currentDateString = currentDate.toISOString().split("T")[0];
-    const currentTimeString = currentDate
+    /* const currentTimeString = currentDate
       .toISOString()
       .split("T")[1]
       .split(".")[0];
-
+ */
     if (notifications.length > 0) {
       notifications.map((notif) => {
-        const fecha = notif.attributes.createdAt.slice(0, 10);
-        const hora = notif.attributes.createdAt.slice(11, 16);
-        const horaCreado = deleteZero(hora.slice(0, 2));
-        const horaActual = deleteZero(currentTimeString.slice(0, 2));
-        const diaActual = deleteZero(currentDateString.slice(5, 7));
-        const diaCreado = deleteZero(currentDateString.slice(5, 7));
-
         setIsLoading(true);
-        const result = horaActual - horaCreado;
-        if (diaActual - diaCreado >= 3) {
+        const fecha = notif.attributes.createdAt.slice(0, 10);
+        /* const hora = notif.attributes.createdAt.slice(11, 16); */
+        /* const horaCreado = deleteZero(hora.slice(0, 2));
+        const horaActual = deleteZero(currentTimeString.slice(0, 2)); */
+
+        const diaActual = deleteZero(currentDateString.slice(5, 7));
+        const diaCreado = deleteZero(fecha.slice(5, 7));
+        const diaInicial = diaActual.slice(0, 2);
+        const diaFinal = diaCreado.slice(0, 2);
+        const resultado = diaInicial - diaFinal;
+
+        if (resultado >= 3) {
           const response = AxiosInstance.delete(
             `${API}notifications/${notif.id}`
           )
@@ -146,16 +148,6 @@ const Notifications = () => {
             })
             .catch((error) => {
               console.log(error);
-            });
-        } else if (fecha !== currentDateString) {
-          const response = AxiosInstance.delete(
-            `${API}notifications/${notif.id}`
-          )
-            .then((response) => {
-              return;
-            })
-            .catch((error) => {
-              return;
             })
             .finally(() => {
               setIsLoading(false);

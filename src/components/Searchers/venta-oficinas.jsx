@@ -12,6 +12,7 @@ import {
   Parqueo,
   Provincia,
   Servicios,
+  TipoPiso,
   UbicacionCatastral,
   UbicacionDemografica,
   UbicacionGeografica,
@@ -233,20 +234,21 @@ const AlquilerOficinas = () => {
             <option value="" label="">
               {"¿Tiene vista panorámica?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
-          <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               id="dropdown-button"
               name="moneda"
               onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -258,17 +260,18 @@ const AlquilerOficinas = () => {
                 name="precio"
                 placeholder="Precio de venta"
                 id="search-dropdown"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[200px] p-2.5 w-80 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               name="monedaAlquiler"
               onChange={handleChange}
               class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -279,17 +282,18 @@ const AlquilerOficinas = () => {
                 onChange={handleChange}
                 name="precioAlquiler"
                 placeholder="Precio de alquiler"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               name="monedaAlquilerVenta"
               onChange={handleChange}
               class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -300,7 +304,7 @@ const AlquilerOficinas = () => {
                 min={0}
                 name="precioAlquilerCompra"
                 placeholder="Precio de alquiler compra"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -314,20 +318,21 @@ const AlquilerOficinas = () => {
             <option value="" label="">
               {"¿Tiene cuota de mantenimiento?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property py-2">
             <select
               name="monedaCuotaMantenimiento"
               onChange={handleChange}
               class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -338,7 +343,7 @@ const AlquilerOficinas = () => {
                 min={0}
                 name="cuotaMantenimiento"
                 placeholder="Cuota mantenimiento"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[183px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -434,6 +439,21 @@ const AlquilerOficinas = () => {
               {"Conexión eléctrica"}
             </option>
             {Electrica.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="tipoPiso"
+            onChange={handleChange}
+            placeholder="Tipo de piso"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de piso"}
+            </option>
+            {TipoPiso.map((item) => (
               <option value={item.value} label={item.label}>
                 {item.value}
               </option>

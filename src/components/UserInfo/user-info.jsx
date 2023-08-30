@@ -62,7 +62,7 @@ const UserInfo = () => {
     const hora = token?.slice(11, 16);
     const horaCreado = deleteZero(hora.slice(0, 2));
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
-    const result = horaActual - horaCreado;
+    /* const result = horaActual - horaCreado; */
 
     if (currentDateString === fecha && horaActual >= horaCreado) {
       const response = AxiosInstance.put(`/users/${id}`, {

@@ -11,6 +11,7 @@ import AxiosInstance from "../../../api/AxiosInstance";
 import { authUserData, passedUser, userIntser } from "../../../api/usersApi";
 import MySpinner from "../../../components/Spinner/spinner";
 import MetaData from "../../../components/Metadata/metadata";
+import enviarCorreoComunOrigen from "../../../utils/email/send-common-email-origin";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^[0-9]+$/;
@@ -106,6 +107,14 @@ const InsertUser = () => {
       if (pasedUser) {
         const response = await AxiosInstance.put(`users/${pasedUser.id}`, value)
           .then((response) => {
+            //Si el usuario es cambiado a Asesor verificado activo se envia un correo al usuario con la notificacion
+            if (value.active === "Asesor verificado activo") {
+              enviarCorreoComunOrigen(
+                pasedUser.email,
+                "Estimado: Su usuario ha sido actualizado a: Asesor verificado",
+                "Actualización"
+              );
+            }
             message.success("El usuario se actualizó exitosamente");
             navigate("/admin/users");
           })

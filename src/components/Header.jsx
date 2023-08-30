@@ -17,7 +17,7 @@ import axios from "axios";
 import NoneUser from "./UserInfo/none-user";
 
 const Header = () => {
-  const [link, setLink] = useState();
+  const [link, setLink] = useState("None");
 
   useEffect(() => {
     SelectLink();
@@ -83,10 +83,13 @@ const Header = () => {
         </div>
 
         {!userData ? (
-          <span></span>
+          <div className="flex flex-row justify-end items-end">
+            {link === "None" && <NoneUser />}
+          </div>
         ) : (
           <div>
             <div className="flex flex-row justify-end items-end">
+              {link === "None" && <NoneUser />}
               {link === "Asesor verificado" && <UserInfo />}
               {link === "Solicitante" && <VisiterUserInfo />}
               {link === "Super Administrador" && (
@@ -95,7 +98,6 @@ const Header = () => {
               {link === "Supervisor" && (
                 <Dropdown ubicacion={"absolute top-8 right-5"} />
               )}
-              {link === "None" && <NoneUser />}
             </div>
           </div>
         )}

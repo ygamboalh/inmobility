@@ -21,6 +21,7 @@ import {
   UbicacionGeografica,
   UsoSuelo,
   Servicios,
+  TipoVivienda,
 } from "../../BD/bd";
 
 import { API, BEARER } from "../../constant";
@@ -184,9 +185,12 @@ const VentaCasaApartamento = () => {
     <div className="flex flex-col justify-center items-center h-fit">
       <MetaData title="Buscar" description="Buscar" />
       <div className="inset-y-0 mb-4 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
-      <div className="flex mt-3 justify-center align-middle items-center w-full">
+      <div className="flex flex-col mt-3 justify-center align-middle items-center w-full">
         <label className="font-semibold text-xl flex text-center">
-          Búsqueda: Venta de casas y apartamentos
+          Búsqueda por características específicas
+        </label>
+        <label className="font-semibold text-xl flex text-center">
+          Venta de casas y apartamentos
         </label>
       </div>
 
@@ -326,20 +330,21 @@ const VentaCasaApartamento = () => {
             <option value="" label="">
               {"¿Tiene vista panorámica?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
-          <div class="flex input-admin-property w-80 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               id="dropdown-button"
               name="moneda"
               onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -351,17 +356,18 @@ const VentaCasaApartamento = () => {
                 name="precio"
                 placeholder="Precio de venta"
                 id="search-dropdown"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[200px] p-2.5 w-80 bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               name="monedaAlquiler"
               onChange={handleChange}
               class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -372,17 +378,18 @@ const VentaCasaApartamento = () => {
                 onChange={handleChange}
                 name="precioAlquiler"
                 placeholder="Precio de alquiler"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               name="monedaAlquilerVenta"
               onChange={handleChange}
               class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -393,7 +400,7 @@ const VentaCasaApartamento = () => {
                 min={0}
                 name="precioAlquilerCompra"
                 placeholder="Precio de alquiler compra"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -407,20 +414,21 @@ const VentaCasaApartamento = () => {
             <option value="" label="">
               {"¿Tiene cuota de mantenimiento?"}
             </option>
-            <option value="Si" label="Si">
+            <option value={true} label="Si">
               Si
             </option>
-            <option value="No" label="No">
+            <option value={false} label="No">
               No
             </option>
           </select>
 
-          <div class="flex input-admin-property w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit input-admin-property py-2">
             <select
               name="monedaCuotaMantenimiento"
               onChange={handleChange}
               class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
+              <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
@@ -431,7 +439,7 @@ const VentaCasaApartamento = () => {
                 min={0}
                 name="cuotaMantenimiento"
                 placeholder="Cuota mantenimiento"
-                className="block max-[450px]:w-[240px] min-[500px]:w-[240px] min-[650px]:w-[153px] p-2.5 w-[200px] bg-transparent z-20 text-sm text-gray-500 rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[183px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -475,6 +483,20 @@ const VentaCasaApartamento = () => {
               {"Tipo de inmueble"}
             </option>
             {TipoInmueble.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="tipoVivienda"
+            onChange={handleChange}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de vivienda"}
+            </option>
+            {TipoVivienda.map((item) => (
               <option value={item.value} label={item.label}>
                 {item.value}
               </option>

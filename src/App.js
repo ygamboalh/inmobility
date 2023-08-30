@@ -62,8 +62,6 @@ import MyPropertyList from './components/Verified/my-property-list';
 
 const App = () => {
   
-  //const active = userData.active
-  
   return (
     <div className='mx-auto h-fit bg-white'>
         <Routes>
@@ -92,9 +90,6 @@ const App = () => {
             </Route>
           <Route element={<PublicRoutes />}>
                 <Route path="/home/banner/visiter" element={<Banner />} />
-                <Route path="/user/sent-request" element={<SentRequest />} />
-                
-                <Route path="/user/access-denied" element={<AccessDenied />} />
                 <Route path="/auth/signin" element={<SignIn />}/>
                 <Route path="/auth/register-request" element={<RegisterRequest />} />
                 <Route path="/auth/reset-password" element={<ResetPassword />} />
@@ -150,6 +145,8 @@ const App = () => {
               <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
               <Route path='/alquiler' element={<Alquileres />} />
               <Route path="/user/evaluating" element={<Evaluating />} />
+              <Route path="/user/sent-request" element={<SentRequest />} />
+              <Route path="/user/access-denied" element={<AccessDenied />} />
           <Route path="/home/contact" element={<Contact />} />
         </Route>
       </Routes>
