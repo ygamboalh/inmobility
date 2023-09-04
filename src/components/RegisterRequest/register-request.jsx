@@ -14,6 +14,7 @@ import MySpinner from "../Spinner/spinner";
 import enviarCorreo from "../../utils/email/send-email";
 import MetaData from "../Metadata/metadata";
 import { BiHide, BiLock, BiShow } from "react-icons/bi";
+import { AsesorTypes, TipoAsesor, types } from "../../BD/bd";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^(\d{2,}\s?)+$/;
@@ -26,6 +27,7 @@ const RegisterSchema = Yup.object().shape({
     .min(6, "¡Debe ser más larga!")
     .max(50, "¡Demasiado larga!")
     .required("¡La contraseña es requerida!"),
+  certifications: Yup.string().min(2, "¡Debe ser más larga!"),
   company: Yup.string()
     .min(4, "¡Debe ser más larga!")
     .max(50, "¡Demasiado larga!")
@@ -47,43 +49,6 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const RegisterRequest = () => {
-  const types = [
-    {
-      key: "Asesor Inmobiliario Independiente",
-      value: "Asesor Inmobiliario Independiente",
-      text: "Asesor Inmobiliario Independiente",
-    },
-    {
-      key: "Asesor Agremiado a una cámara, federación de Bienes",
-      value: "Asesor Agremiado a una cámara, federación de Bienes",
-      text: "Asesor Agremiado a una cámara, federación de Bienes",
-    },
-    {
-      key: "Dueño de Franquicia Inmobiliaria",
-      value: "Dueño de Franquicia Inmobiliaria",
-      text: "Dueño de Franquicia Inmobiliaria",
-    },
-    {
-      key: "Asesor colaborador en una empresa de Bienes Raíces",
-      value: "Asesor colaborador en una empresa de Bienes Raíces",
-      text: "Asesor colaborador en una empresa de Bienes Raíces",
-    },
-    {
-      key: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-      value: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-      text: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-    },
-    {
-      key: "Colaborador en una Institución Financiera con Bienes Adjudicados",
-      value: "Colaborador en una Institución Financiera con Bienes Adjudicados",
-      text: "Colaborador en una Institución Financiera con Bienes Adjudicados",
-    },
-    {
-      key: "Asistente de Asesor Inmobiliario",
-      value: "Asistente de Asesor Inmobiliario",
-      text: "Asistente de Asesor Inmobiliario",
-    },
-  ];
   const [initialData, setinitialData] = useState({
     username: "",
     email: "",
@@ -95,6 +60,7 @@ const RegisterRequest = () => {
     mobile: "",
     personalId: "",
     acepted: false,
+    certifications: "",
   });
 
   const location = useLocation();
@@ -117,14 +83,12 @@ const RegisterRequest = () => {
   const [phoneNumber, setPhoneNumber] = React.useState();
   const [officePhoneNumber, setOfficePhoneNumber] = React.useState();
   const handlePhoneNumberChange = (value) => {
-    console.log(value);
     setPhoneNumber(value);
   };
   const handleOfficePhoneNumberChange = (value) => {
     setOfficePhoneNumber(value);
   };
   const onFinish = async (values) => {
-    console.log("valores", values);
     setIsLoading(true);
     try {
       const value = {
@@ -137,7 +101,8 @@ const RegisterRequest = () => {
         mobile: phoneNumber,
         personalId: values.personalId,
         type: values.type,
-        aceptedd: acepted,
+        acepted: acepted,
+        certifications: values.certifications,
       };
 
       const userResponse = await fetch(`${API}/users`, {
@@ -175,6 +140,7 @@ const RegisterRequest = () => {
       setIsLoading(false);
     }
   };
+  console.log(acepted);
   if (isLoading) {
     return <MySpinner />;
   }
@@ -192,7 +158,12 @@ const RegisterRequest = () => {
             formulario y esperar la comprobación de los datos.
           </label>
         </div>
-        <div className="flex mx-4 mb-2 -mt-4 justify-center items-center">
+        <div className="flex mx-4 mb-2 flex-col -mt-6 justify-center items-center">
+          {acepted ? null : (
+            <label className="flex text-red-500 w-[250px] mb-1 items-center text-sm">
+              Debe aceptar los términos y condiciones antes de continuar
+            </label>
+          )}
           <label className="flex items-center text-sm font-semibold">
             <a href="/user/terms">
               <span>Leer términos y condiciones</span>
@@ -267,26 +238,29 @@ const RegisterRequest = () => {
                   <div className="errordivp text-xs">{errors.email}</div>
                 ) : null}
               </div>
-              {/* <div className="relative mb-1">
+              <div className="relative mb-1">
                 <Field
-                  type="tel"
+                  type="text"
                   className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
-                  id="phone"
-                  name="phone"
-                  placeholder="Teléfono de la oficina"
+                  id="certifications"
+                  name="certifications"
+                  placeholder="Certificaciones"
                 />
                 <label
-                  for="phone"
+                  for="certifications"
                   className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
                 >
-                  Teléfono de la oficina
+                  Certificaciones
                 </label>
               </div>
               <div className="space">
-                {errors.phone && touched.phone ? (
-                  <div className="errordivp text-xs">{errors.phone}</div>
+                {errors.certifications && touched.certifications ? (
+                  <div className="errordivp text-xs">
+                    {errors.certifications}
+                  </div>
                 ) : null}
-              </div> */}
+              </div>
+
               <div className="relative w-full -mt-5 -ml-5 -mb-1">
                 <PhoneInput
                   placeholder="Teléfono de la oficina"
@@ -418,7 +392,7 @@ const RegisterRequest = () => {
               </div>
 
               <Field
-                className="common-input mb-1 h-[58px]"
+                className="rounded-lg text-[13px] w-80 mb-1 h-[58px]"
                 as="select"
                 name="type"
                 id="type"
@@ -426,7 +400,7 @@ const RegisterRequest = () => {
                 <option value="" label="">
                   {"Seleccione el tipo de asesor"}
                 </option>
-                {types.map((item) => (
+                {TipoAsesor.map((item) => (
                   <option value={item.value} label={item.label}>
                     {item.value}
                   </option>

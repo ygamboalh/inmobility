@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
+import axios from "axios";
 import * as Yup from "yup";
 import Select from "react-select";
 import { message } from "antd";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 
 import { API, BEARER } from "../../../constant";
 import AxiosInstance from "../../../api/AxiosInstance";
@@ -39,9 +41,7 @@ import {
 } from "../../../BD/bd";
 
 import MySpinner from "../../../components/Spinner/spinner";
-import axios from "axios";
 import { createNotification, getToken } from "../../../utils/helpers";
-import { useQuery } from "react-query";
 import { authUserData } from "../../../api/usersApi";
 import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
 import MetaData from "../../../components/Metadata/metadata";
@@ -182,7 +182,7 @@ const InsertProperty = () => {
 
       active: property?.active,
       areaTerreno: property?.areaTerreno,
-      uniqueId: property?.uniqueId,
+      uniqueId: property?.uniqueId.toLowerCase(),
       descripcion: property?.descripcion,
       moneda: property?.moneda,
       monedaAlquiler: property?.monedaAlquiler,
@@ -202,6 +202,7 @@ const InsertProperty = () => {
       ivaVenta: property?.ivaVenta,
       ivaAlquiler: property?.ivaAlquiler,
       tipoVivienda: property?.tipoVivienda,
+      ubicacionCercana: property?.ubicacionCercana,
     },
     validationSchema: Yup.object({
       provincia: Yup.string().required("*"),
@@ -286,7 +287,7 @@ const InsertProperty = () => {
           categories: catFounded,
           active: values.active,
           creadoPor: userId,
-          uniqueId: values.uniqueId,
+          uniqueId: values.uniqueId.toLowerCase(),
           descripcion: values.descripcion,
           moneda: values.moneda,
           monedaAlquiler: values?.monedaAlquiler,
@@ -306,6 +307,7 @@ const InsertProperty = () => {
           ivaVenta: values?.ivaVenta,
           ivaAlquiler: values?.ivaAlquiler,
           tipoVivienda: values?.tipoVivienda,
+          ubicacionCercana: values.ubicacionCercana,
         };
 
         if (!id) {
@@ -404,7 +406,7 @@ const InsertProperty = () => {
             categories: [property?.categories.data[0].id],
             active: values.active,
             creadoPor: userId,
-            uniqueId: values.uniqueId,
+            uniqueId: values.uniqueId.toLowerCase(),
             descripcion: values.descripcion,
             moneda: values.moneda,
             monedaAlquiler: values?.monedaAlquiler,
@@ -422,6 +424,7 @@ const InsertProperty = () => {
             ivaVenta: values.ivaVenta,
             ivaAlquiler: values.ivaAlquiler,
             tipoVivienda: values?.tipoVivienda,
+            ubicacionCercana: values.ubicacionCercana,
           };
           const response = await AxiosInstance.put(`/properties/${id}`, {
             data: value,
@@ -514,11 +517,17 @@ const InsertProperty = () => {
         description="Insertar o editar propiedad"
       />
       <div className="inset-y-0 mb-20 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
-      <div className="flex mt-3 justify-center align-middle items-center w-full">
-        <label className="font-semibold text-xl">
-          Crear o editar una propiedad
-        </label>
-      </div>
+      {id ? (
+        <div className="flex mt-3 justify-center align-middle items-center w-full">
+          <label className="font-semibold text-xl">
+            Editar la propiedad seleccionada
+          </label>
+        </div>
+      ) : (
+        <div className="flex mt-3 justify-center align-middle items-center w-full">
+          <label className="font-semibold text-xl">Crear una propiedad</label>
+        </div>
+      )}
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className="flex justify-center  flex-row content-center items-center">
           <select
@@ -613,21 +622,7 @@ const InsertProperty = () => {
               <div className="errordiv text-xs">{errors.distrito}</div>
             ) : null}
           </div>
-          <input
-            type="text"
-            name="ubicacionDetallada"
-            defaultValue={property?.ubicacionDetallada}
-            placeholder="Ubicación detallada"
-            hidden={selectedOption === ""}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          {/* <div className="space mb-2.5">
-            {errors.ubicacionDetallada && touched.ubicacionDetallada ? (
-              <div className="errordiv text-xs">
-                {errors.ubicacionDetallada}
-              </div>
-            ) : null}
-          </div> */}
+
           <select
             name="tomadaExclusividad"
             id="tomadaExclusividad"
@@ -746,11 +741,7 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          {/* <div className="space mb-2.5">
-            {errors.ubicacionCastral && touched.ubicacionCastral ? (
-              <div className="errordiv text-xs">{errors.ubicacionCastral}</div>
-            ) : null}
-          </div> */}
+
           <select
             name="ubicacionDemografica"
             id="ubicacionDemografica"
@@ -1964,7 +1955,7 @@ const InsertProperty = () => {
             options={Amenidades}
             placeholder={"Amenidades"}
             isMulti
-            className="categories lg:mx-80 my-1"
+            className="categories lg:mx-80 mb-2 my-1"
             onChange={handleChangeAmenidades}
           />
           {/* <div className="space mb-2.5">
@@ -1994,7 +1985,7 @@ const InsertProperty = () => {
           <Select
             noOptionsMessage={() => null}
             closeMenuOnSelect={false}
-            className="categories lg:mx-80 my-1"
+            className="categories lg:mx-80 mb-2 my-1"
             name="jardinPatio"
             defaultValue={property?.jardinPatio}
             options={PatioJardin}
@@ -2027,7 +2018,7 @@ const InsertProperty = () => {
           }
         >
           <Select
-            className="categories lg:mx-80 mt-1"
+            className="categories lg:mx-80 mb-2 mt-1"
             name="detallesInternos"
             noOptionsMessage={() => null}
             closeMenuOnSelect={false}
@@ -2062,7 +2053,7 @@ const InsertProperty = () => {
           }
         >
           <Select
-            className="categories lg:mx-80 mt-1"
+            className="categories lg:mx-80 mb-2 mt-1"
             name="detallesExternos"
             noOptionsMessage={() => null}
             closeMenuOnSelect={false}
@@ -2078,6 +2069,26 @@ const InsertProperty = () => {
             ) : null}
           </div> */}
         </div>
+        <div className="flex justify-center w-full mb-0">
+          <textarea
+            hidden={selectedOption === ""}
+            name="ubicacionDetallada"
+            defaultValue={property?.ubicacionDetallada}
+            onChange={handleChange}
+            placeholder="Ubicación exacta"
+            className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
+          />
+        </div>
+        <div className="flex justify-center w-full mb-0">
+          <textarea
+            hidden={selectedOption === ""}
+            name="ubicacionCercana"
+            defaultValue={property?.ubicacionCercana}
+            onChange={handleChange}
+            placeholder="Ubicación cercana"
+            className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
+          />
+        </div>
         <div className="flex justify-center w-full mb-2">
           <textarea
             hidden={selectedOption === ""}
@@ -2087,12 +2098,21 @@ const InsertProperty = () => {
             placeholder="Descripción de la propiedad"
             className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
           />
-          {/* <div className="space mb-2.5">
-            {errors.descripcion && touched.descripcion ? (
-              <div className="errordiv text-xs">{errors.descripcion}</div>
-            ) : null}
-          </div> */}
         </div>
+
+        {/* <input
+          type="text"
+          name="ubicacionDetallada"
+          defaultValue={property?.ubicacionDetallada}
+          placeholder="Ubicación detallada"
+          hidden={selectedOption === ""}
+          className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+        />
+        <div className="space mb-2.5">
+          {errors.ubicacionDetallada && touched.ubicacionDetallada ? (
+            <div className="errordiv text-xs">{errors.ubicacionDetallada}</div>
+          ) : null}
+        </div> */}
         <div
           className={
             selectedOption === undefined || selectedOption === ""

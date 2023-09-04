@@ -6,7 +6,13 @@ import { useSignIn } from "react-auth-kit";
 import { message } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { BiShow, BiHide, BiUserCircle, BiLock } from "react-icons/bi";
+import {
+  BiShow,
+  BiHide,
+  BiUserCircle,
+  BiLock,
+  BiLogInCircle,
+} from "react-icons/bi";
 
 import { authUser } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
@@ -64,6 +70,9 @@ const SignIn = () => {
     <div className="flex my-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
       <div className="border rounded-lg shadow border-gray-300 p-4">
         <MetaData title="Iniciar sesión" content={"Iniciar sesión"} />
+        <div className="flex justify-center">
+          <BiLogInCircle size={50} />
+        </div>
         <div className="my-20 lg:my-3 sm:my-6 flex flex-col">
           <label className="loginh">Iniciar sesión</label>
           <label className="loginh5">Ingresa tus datos</label>

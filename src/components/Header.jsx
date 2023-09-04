@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Link, useNavigate, useResolvedPath } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useResolvedPath,
+} from "react-router-dom";
 
 import { Avatar } from "flowbite-react";
 import { BiArrowBack } from "react-icons/bi";
 
 import UserInfo from "./UserInfo/user-info";
-import Freelancer from "./Freelancer/Freelancer";
 import { authUserData } from "../api/usersApi";
 import logo from "../assets/images/logo192.png";
 import { getToken } from "../utils/helpers";
@@ -18,7 +22,7 @@ import NoneUser from "./UserInfo/none-user";
 
 const Header = () => {
   const [link, setLink] = useState("None");
-
+  const location = useLocation();
   useEffect(() => {
     SelectLink();
   }, []);
@@ -38,7 +42,8 @@ const Header = () => {
           setLink("Super Administrador");
         } else if (
           activo === "Asesor verificado activo" ||
-          activo === "Asesor verificado inactivo"
+          activo === "Asesor verificado inactivo" ||
+          activo === "Freelancer"
         ) {
           setLink("Asesor verificado");
         } else if (activo === "Solicitante") {
@@ -82,14 +87,17 @@ const Header = () => {
           </Link>
         </div>
 
-        {!userData ? (
+        {!userData &&
+        location?.pathname !== "/home/visit-record" &&
+        location?.pathname !== "/home/visit-record" &&
+        location?.pathname !== "/auth/signin" &&
+        location?.pathname !== "/auth/register-request" ? (
           <div className="flex flex-row justify-end items-end">
             {link === "None" && <NoneUser />}
           </div>
         ) : (
           <div>
             <div className="flex flex-row justify-end items-end">
-              {link === "None" && <NoneUser />}
               {link === "Asesor verificado" && <UserInfo />}
               {link === "Solicitante" && <VisiterUserInfo />}
               {link === "Super Administrador" && (

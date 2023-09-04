@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery, useQueryClient } from "react-query";
 
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
@@ -8,7 +9,6 @@ import withReactContent from "sweetalert2-react-content";
 import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
-import { useQuery, useQueryClient } from "react-query";
 import { getAllLinks } from "../../../api/propertiesApi";
 
 const LinkList = () => {

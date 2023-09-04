@@ -13,6 +13,10 @@ export const getAllPropertiesRQ = async () => {
   const { data } = await AxiosInstance.get('/properties?populate=*');
   return data
 }
+export const getAllButtons = async () => {
+  const { data } = await AxiosInstance.get('/buttons?populate=*');
+  return data
+}
 export const getAllNotifications = async () => {
   const { data } = await AxiosInstance.get('/notifications?populate=*');
   return data

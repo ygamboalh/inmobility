@@ -14,11 +14,13 @@ import {
 } from "react-share";
 
 import { useNavigate } from "react-router-dom";
+import MySpinner from "../Spinner/spinner";
 const Share = (url) => {
   const pdfUrl = url.pdfUrl;
   const adviser = url.adviser;
   //console.log("adviser en shared", adviser);
   const navigate = useNavigate();
+
   return (
     <div className="flex flex-row max-[500px]:flex-col items-center align-middle my-2">
       <div className="flex flex-row align-middle">

@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSignOut } from "react-auth-kit";
-import { BiHomeAlt, BiLogOut, BiUserCheck, BiUserCircle } from "react-icons/bi";
+import {
+  BiHomeAlt,
+  BiLogOut,
+  BiMailSend,
+  BiSearch,
+  BiUserCheck,
+  BiUserCircle,
+} from "react-icons/bi";
 import { FaWarehouse } from "react-icons/fa";
 import { SiHomeassistantcommunitystore } from "react-icons/si";
 
@@ -40,9 +47,9 @@ const NoneUser = () => {
       {isOpen && (
         <div
           ref={menuRef}
-          className="absolute top-20 right-1 z-10 w-[170px] h-fit mt-2 py-2 bg-white rounded-lg shadow-lg"
+          className="absolute p-2 top-20 right-1 z-10 w-[170px] h-fit mt-2 py-2 bg-white rounded-lg shadow-lg"
         >
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800  hover:bg-blue-500 hover:text-white">
+          <div className="flex flex-row rounded-md px-2 align-middle py-2 text-gray-800  hover:bg-blue-500 hover:text-white">
             <BiHomeAlt size={22} />
             <a
               className="text-xs flex  py-1 w-full flex-row pl-1 "
@@ -52,35 +59,67 @@ const NoneUser = () => {
             </a>
           </div>
           <hr />
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <SiHomeassistantcommunitystore
               style={{
                 fontSize: 18,
               }}
             />
             <a
-              className="text-xs flex py-1 w-full flex-row pl-1"
+              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
               href="/ventas"
             >
               Ventas
             </a>
           </div>
+
           <hr />
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <FaWarehouse
               style={{
                 fontSize: 18,
               }}
             />
             <a
-              className="text-xs flex  py-1 w-full flex-row pl-1"
+              className="text-xs flex -mt-0.5 py-1 w-full flex-row pl-1"
               href="/alquiler"
             >
               Alquiler
             </a>
           </div>
           <hr />
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <BiSearch
+              style={{
+                fontSize: 22,
+                marginLeft: -2,
+                marginTop: 6,
+              }}
+            />
+            <a
+              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
+              href="/home/visiter-search"
+            >
+              Buscar por identificador
+            </a>
+          </div>
+          <hr />
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <BiMailSend
+              style={{
+                fontSize: 22,
+                marginLeft: -2,
+              }}
+            />
+            <a
+              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
+              href="/home/visiter-contact"
+            >
+              Contactar
+            </a>
+          </div>
+          <hr />
+          <div className="flex flex-row px-2 rounded-md align-middle -ml-1 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiUserCircle size={22} className="mt-4" />
             <a
               className="text-xs flex py-1 w-full flex-row pl-1 "

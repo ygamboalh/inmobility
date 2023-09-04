@@ -66,6 +66,14 @@ const Navbar = () => {
               Usuarios
             </NavLink>
             <NavLink
+              to="/admin/buttons"
+              className={({ isActive }) =>
+                isActive ? activeClass : inactiveClass
+              }
+            >
+              Botones
+            </NavLink>
+            <NavLink
               to="/user/verified-adviser"
               className={({ isActive }) =>
                 isActive ? activeClass : inactiveClass

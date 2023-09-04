@@ -48,6 +48,7 @@ const RegisterSchema = Yup.object().shape({
     .min(9, "¡Debe ser más larga!")
     .max(20, "¡Demasiado larga!")
     .required("¡El identificador personal es requerido!"),
+  certifications: Yup.string().min(2, "¡Debe ser más larga!"),
 });
 
 const InsertUser = () => {
@@ -64,7 +65,6 @@ const InsertUser = () => {
   const active = userData?.active;
   const role = userData?.role.name;
   const userImg = pasedUser?.photo?.url;
-  //setUserImage(userImg);
   const [initialData, setinitialData] = useState({
     username: pasedUser?.username,
     email: pasedUser?.email,
@@ -77,6 +77,7 @@ const InsertUser = () => {
     personalId: pasedUser?.personalId,
     active: pasedUser?.active,
     photo: pasedUser?.photo,
+    certifications: pasedUser?.certifications,
   });
 
   const navigate = useNavigate();
@@ -101,6 +102,7 @@ const InsertUser = () => {
         active: activo,
         photo: values.photo,
         role: values.role,
+        certifications: values.certifications,
       };
 
       //si trae un id modificar, sino crear un nuevo registro
@@ -162,6 +164,7 @@ const InsertUser = () => {
           personalId: pasedUser?.personalId,
           active: pasedUser?.active,
           photo: pasedUser?.photo,
+          certifications: pasedUser?.certifications,
         }}
         validationSchema={RegisterSchema}
         onSubmit={onFinish}
@@ -233,6 +236,19 @@ const InsertUser = () => {
                 <div className="space">
                   {errors.email && touched.email ? (
                     <div className="errordivp text-xs">{errors.email}</div>
+                  ) : null}
+                </div>
+                <Field
+                  type="text"
+                  name="certifications"
+                  className="w-full input-admin-property"
+                  placeholder="Certificaciones"
+                />
+                <div className="space">
+                  {errors.certifications && touched.certifications ? (
+                    <div className="errordivp text-xs">
+                      {errors.certifications}
+                    </div>
                   ) : null}
                 </div>
                 <Field

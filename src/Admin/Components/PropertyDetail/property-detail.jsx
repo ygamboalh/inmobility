@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
 import { BiArea, BiBath, BiBed, BiCar, BiSolidFilePdf } from "react-icons/bi";
-import { PDFViewer } from "@react-pdf/renderer";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import no_image from "../../../assets/images/no_image_default.jpg";
-
 import AxiosInstance from "../../../api/AxiosInstance";
 import { API } from "../../../constant";
 import MySpinner from "../../../components/Spinner/spinner";
-import PdfView from "../../../components/PdfView/pdf-view";
 import MyNewCarousel from "../../../components/Carrusel/carrusel";
-import { useQuery } from "react-query";
 import { authUserData } from "../../../api/usersApi";
 import Share from "../../../components/Share/share";
 import MetaData from "../../../components/Metadata/metadata";
+import AudioPlayer from "../../../components/AudioPlayer/audio-player";
 const PropertyDetailsSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [adviser, setAdviser] = useState();
+  const [audio, setAudio] = useState(null);
   const getProperty = async () => {
     setIsLoading(true);
     let propertyFound = null;
@@ -38,6 +37,8 @@ const PropertyDetailsSearch = () => {
       imagesUrl.push(image.attributes.url);
     });
     setImages(imagesUrl);
+    const audio = propertyFound?.audio?.data?.attributes?.url;
+    setAudio(`https://backend.siccic.com${audio}`);
   };
   useEffect(() => {
     getProperty();
@@ -55,12 +56,8 @@ const PropertyDetailsSearch = () => {
   const { id } = useParams();
   const [property, setProperty] = useState();
   const [images, setImages] = useState([]);
-  const [visible, setVisible] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState();
-  const navigate = useNavigate();
 
-  const { data: userData } = useQuery("profile", authUserData);
-  const userEmail = userData?.email;
+  const [pdfUrl, setPdfUrl] = useState();
 
   const seePdfDocument = () => {
     window.location.assign(pdfUrl);
@@ -204,7 +201,17 @@ const PropertyDetailsSearch = () => {
             </div>
           </div>
           <div className="max-w-[500px] w-full">
-            <div className=" text-black px-3 mt-3 font-semibold text-lg">
+            <div
+              className={
+                property?.audio.data === null ||
+                property?.audio.data === undefined
+                  ? "hidden"
+                  : null
+              }
+            >
+              <AudioPlayer src={audio} />
+            </div>
+            <div className="max-[500px]:text-[14px] text-black px-3 mt-3 font-semibold text-lg">
               Otros detalles de la propiedad
             </div>
             <div

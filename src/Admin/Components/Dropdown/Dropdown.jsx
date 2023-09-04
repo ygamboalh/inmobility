@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSignOut } from "react-auth-kit";
+
 import {
   BiLogOut,
   BiHomeAlt,
@@ -9,26 +10,22 @@ import {
   BiBell,
   BiBook,
 } from "react-icons/bi";
+
 import { authUserData } from "../../../api/usersApi";
 import { useQuery } from "react-query";
 import AxiosInstance from "../../../api/AxiosInstance";
 import { API } from "../../../constant";
-import { message } from "antd";
+
 import {
   deleteNotification,
   deleteZero,
   getUserTokenDate,
 } from "../../../utils/helpers";
-import enviarCorreoComunOrigen from "../../../utils/email/send-common-email-origin";
-import enviarCorreo from "../../../utils/email/send-email";
-import enviarCorreoPersonalizadoOrigen from "../../../utils/email/send-personalized-email-origin";
-import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
-import { useNavigate } from "react-router-dom";
 
 const Dropdown = ({ ubicacion }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
-  const navigate = useNavigate();
+
   const [imageUrl, setImageUrl] = useState(
     "https://backend.siccic.com/uploads/small_userinfo_dac703068b.png"
   );
@@ -59,9 +56,7 @@ const Dropdown = ({ ubicacion }) => {
     height: "40px",
   };
   const signOut = useSignOut();
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+
   const forcedLogOut = () => {
     const token = getUserTokenDate();
     const currentDate = new Date();
@@ -80,19 +75,13 @@ const Dropdown = ({ ubicacion }) => {
         isLoggedIn: false,
       })
         .then((res) => {
-          return res;
+          signOut();
+          window.location.reload(true);
         })
         .catch((err) => {
           return err;
         });
-      signOut();
-      window.location.reload(true);
-    } /* else {
-      if (horaActual <= horaCreado) {
-        signOut();
-        window.location.reload(true);
-      }
-    } */
+    }
   };
   const loginOut = () => {
     const response = AxiosInstance.put(`/users/${id}`, {

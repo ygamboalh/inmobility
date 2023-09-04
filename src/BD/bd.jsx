@@ -10,6 +10,20 @@ export const CategoriaInmueble = [
   },
 ];
 
+export const TipoContacto = [
+  {
+    key: "Sugerencia",
+    value: "Sugerencia",
+  },
+  {
+    key: "Error encontrado en el sistema",
+    value: "Error encontrado en el sistema",
+  },
+  {
+    key: "Otro",
+    value: "Otro",
+  },
+];
 export const Provincia = [
   {
     value: "Alajuela",
@@ -567,6 +581,10 @@ export const UbicacionCatastral = [
   { key: "Con Callejon lateral", value: "Con Callejon lateral" },
   { key: "Con Callejón fondo", value: "Con Callejón fondo" },
   { key: "Lote en servidumbre", value: "Lote en servidumbre" },
+  { key: "Zona residencial", value: "Zona residencial" },
+  { key: "Zona industrial", value: "Zona industrial" },
+  { key: "Zona comercial", value: "Zona comercial" },
+  { key: "Zona agraria", value: "Zona agraria" },
 ];
 
 export const UbicacionDemografica = [
@@ -626,17 +644,19 @@ export const Estado = [
   { key: "Asesor verificado inactivo", value: "Asesor verificado inactivo" },
   { key: "Supervisor", value: "Supervisor" },
   { key: "Super Administrador", value: "Super Administrador" },
+  { key: "Freelancer", value: "Freelancer" },
 ];
 export const EstadoRestringido = [
   { key: "Solicitante", value: "Solicitante" },
   { key: "Asesor verificado", value: "Asesor verificado" },
+  { key: "Freelancer", value: "Freelancer" },
 ];
 export const PropertyEstado = [
   { key: "Activo", value: "Activo" },
   { key: "Pendiente", value: "Pendiente" },
   { key: "Desactivado", value: "Desactivado" },
 ];
-export const types = [
+/* export const types = [
   {
     key: "Asesor Inmobiliario Independiente",
     value: "Asesor Inmobiliario Independiente",
@@ -673,3 +693,4 @@ export const types = [
     text: "Asistente de Asesor Inmobiliario",
   },
 ];
+ */

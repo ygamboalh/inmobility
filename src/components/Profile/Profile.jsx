@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
-import { types } from "../../BD/bd";
+import { TipoAsesor } from "../../BD/bd";
 import LoadImage from "../UploadImage/my-upload-image";
 import axios from "axios";
 import Thumbnail from "../Thumbnail/thumbnail";
@@ -47,6 +47,7 @@ const ProfileSchema = Yup.object().shape({
     .max(15, "¡Teléfono invalido!")
     .required("¡El teléfono celular es requerido!"),
   personalId: Yup.string().required("¡El identificador personal es requerido!"),
+  certifications: Yup.string().min(2, "¡Debe ser más larga!"),
 });
 
 const Profile = () => {
@@ -76,6 +77,7 @@ const Profile = () => {
     type: userData?.type,
     personalId: userData?.personalId,
     photo: userData?.photo,
+    certifications: userData?.certifications,
   });
 
   const navigate = useNavigate();
@@ -96,6 +98,7 @@ const Profile = () => {
         personalId: values.personalId,
         photo: image,
         type: values.type,
+        certifications: values.certifications,
       };
       //find the user that is logged in
       const response = await fetch(`${API}/users/me?populate=role`, {
@@ -201,6 +204,21 @@ const Profile = () => {
                   <div className="errordivp text-xs">{errors.email}</div>
                 ) : null}
               </div>
+              <Field
+                defaultValue={userData?.certifications}
+                placeholder="Certificaciones"
+                name="certifications"
+                type="text"
+                className="common-input"
+              />
+
+              <div className="space">
+                {errors.certifications && touched.certifications ? (
+                  <div className="errordivp text-xs">
+                    {errors.certifications}
+                  </div>
+                ) : null}
+              </div>
 
               <Field
                 defaultValue={userData?.phone}
@@ -294,11 +312,12 @@ const Profile = () => {
                   as="select"
                   name="type"
                   id="type"
+                  defaultValue={userData?.type}
                 >
                   <option value="" label="">
                     {"Seleccione el tipo de asesor"}
                   </option>
-                  {types.map((item) => (
+                  {TipoAsesor.map((item) => (
                     <option value={item.value} label={item.label}>
                       {item.value}
                     </option>

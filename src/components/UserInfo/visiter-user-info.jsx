@@ -32,13 +32,13 @@ const VisiterUserInfo = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          return res;
+          signOut();
+          //return res;
+          window.location.reload(true);
         })
         .catch((err) => {
           return err;
         });
-      signOut();
-      window.location.reload(true);
     }
   };
   useEffect(() => {

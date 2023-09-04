@@ -15,6 +15,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { BiCopyAlt } from "react-icons/bi";
+import MySpinner from "../Spinner/spinner";
 const ShareAdviser = (url) => {
   const pdfUrl = url.pdfUrl;
   const adviser = url.adviser;
@@ -23,6 +24,7 @@ const ShareAdviser = (url) => {
   function copyToPaper(text) {
     navigator.clipboard.writeText(text);
   }
+
   return (
     <div className="flex flex-row max-[500px]:flex-col items-center align-middle my-2">
       <div className="flex flex-row align-middle">

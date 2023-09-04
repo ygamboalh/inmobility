@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { getAllPropertiesRQ } from "../../../api/propertiesApi";
-import DataTable from "react-data-table-component";
 import { useQuery, useQueryClient } from "react-query";
-import { API } from "../../../constant";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import DataTable from "react-data-table-component";
+import axios from "axios";
 import Swal from "sweetalert2";
+
+import { getAllPropertiesRQ } from "../../../api/propertiesApi";
+import { API } from "../../../constant";
 import withReactContent from "sweetalert2-react-content";
 import { createNotification, getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";

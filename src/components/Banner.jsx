@@ -6,13 +6,32 @@ import { API, BEARER } from "../constant";
 import MySpinner from "./Spinner/spinner";
 import axios from "axios";
 import MetaData from "./Metadata/metadata";
+import { authUserData } from "../api/usersApi";
+import { useQuery } from "react-query";
 
 const Banner = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { data: userData } = useQuery("profile", authUserData);
+
   const SelectLink = async () => {
-    setIsLoading(true);
-    const token = getToken();
+    //setIsLoading(true);
+
+    if (userData?.active === "Super Administrador") {
+      navigate("/home/insert-property", { replace: true });
+    }
+    if (
+      userData?.active === "Supervisor" ||
+      userData?.active === "Asesor verificado activo"
+    ) {
+      navigate("/home/insert-property", { replace: true });
+    } else if (userData.active === "Solicitante") {
+      navigate("/user/evaluating", { replace: true });
+    } else {
+      navigate("/user/access-denied", { replace: true });
+    }
+
+    /*  const token = getToken();
     const response = await axios
       .get(`${API}/users/me?populate=role`, {
         headers: { Authorization: `${BEARER} ${token}` },
@@ -32,7 +51,7 @@ const Banner = () => {
         }
       })
       .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsLoading(false)); */
   };
   if (isLoading) {
     return <MySpinner />;
@@ -68,22 +87,36 @@ const Banner = () => {
             </label>
           </div>
         </Link>
-        <button
-          type="button"
-          onClick={SelectLink}
-          className="border flex flex-col py-14 justify-center
-          align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg
-          bg-primary text-center items-center"
-        >
-          <div className="px-2">
-            <h1>Subir un inmueble</h1>
-          </div>
-          <div>
-            <label className="font-thin">
-              si eres un asesor verificado podrás subir un inmueble
-            </label>
-          </div>
-        </button>
+        {!userData ||
+        userData?.active === "Asesor verificado inactivo" ||
+        userData?.active === "Freelancer" ? (
+          <Link
+            to="https://sites.google.com/view/sicic/portal-solo-asesores-inmobiliarios/ubicar-asesores-inmobiliarios-por-zona"
+            className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary"
+          >
+            <div className="px-2">
+              <h1>Buscar un Asesor inmobiliario</h1>
+            </div>
+            <div>
+              <label className="font-thin">por zona geográfica</label>
+            </div>
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={SelectLink}
+            className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary text-center items-center"
+          >
+            <div className="px-2">
+              <h1>Subir un inmueble</h1>
+            </div>
+            <div>
+              <label className="font-thin">
+                si eres un asesor verificado podrás subir un inmueble
+              </label>
+            </div>
+          </button>
+        )}
       </div>
     </section>
   );

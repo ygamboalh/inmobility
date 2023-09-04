@@ -30,10 +30,13 @@ import axios from "axios";
 import { createNotification, getToken } from "../../utils/helpers";
 import enviarCorreoPersonalizado from "../../utils/email/send-personalized-email";
 import ShareAdviser from "../Share/share-adviser";
+import AudioPlayer from "../AudioPlayer/audio-player";
 
 const SearchCard = ({ propiedad, onDataReceived }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataToSend, setDataToSend] = useState();
+  const [audio, setAudio] = useState(null);
+
   const [sharedProperty, setSharedProperty] = useState();
   const { data: userData } = useQuery("profile", authUserData);
   const navigate = useNavigate();
@@ -80,6 +83,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             imagesUrl.push(image.attributes.url);
           });
           setImages(imagesUrl);
+          const audio = propertyFound?.audio?.data?.attributes?.url;
+          setAudio(`https://backend.siccic.com${audio}`);
         })
         .catch((error) => {
           console.log(error);
@@ -110,6 +115,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
       setPdfUrl(
         `https://siccic.com/home/shared-property/${response.data.data.id}`
       );
+      const audio = propertyFound?.audio?.data?.attributes?.url;
+      setAudio(`https://backend.siccic.com${audio}`);
       getAdviser();
     });
 
@@ -137,14 +144,6 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   /*  const seePdfDocument = () => {
     window.location.assign(pdfUrl);
   }; */
-  const divStyle = {
-    display: "flex",
-    padding: "4px",
-    overflow: " auto",
-
-    alignItems: "left",
-    justifyContent: "left",
-  };
   const formatNumber = (number) => {
     return new Intl.NumberFormat("es-ES", {
       style: "decimal",
@@ -249,12 +248,12 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             </button>
           </div>
         ) : null}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex justify-around">
+        <div className="text-[14px] w-full font-semibold flex flex-row">
+          <div>{property.categories.data[0].attributes.nombre}</div>
+        </div>
+        <div className="flex flex-col lg:flex-row">
+          <div className="flex">
             <div>
-              <div className="text-[14px] w-full font-semibold flex flex-row">
-                <div>{property.categories.data[0].attributes.nombre}</div>
-              </div>
               <h2 className="text-2xl font-semibold">
                 {property.tipoPropiedad}
               </h2>
@@ -267,7 +266,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
               </h3>
               <div></div>
             </div>
-            <div className="pl-12 flex self-center align-middle">
+            <div className="pl-12 flex align-middle">
               <div
                 className={
                   !property?.avaluo
@@ -275,17 +274,19 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                     : "flex flex-col justify-center px-1 text-xl font-semibold text-blue-600"
                 }
               >
-                <span className="text-xs text-black">Valor según avalúo</span>
+                <span className="text-xs text-black truncate">
+                  Valor según avalúo
+                </span>
                 <span className="text-lg">
                   {property.avaluoMoneda}
                   {formatNumber(property.avaluo)}
                 </span>
-                {property.avaluoMoneda === "$" ? (
-                  <span className="text-[9px] -my-2 text-black">
+                {!property.avaluoMoneda === "$" ? (
+                  <label className="text-[9px] truncate -my-2 text-black">
                     Dólares americanos
-                  </span>
+                  </label>
                 ) : (
-                  <span className="text-[9px] -my-2 text-black">
+                  <span className="text-[9px] truncate -my-2 text-black">
                     Colones costarricences
                   </span>
                 )}
@@ -301,11 +302,11 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
               </span>
 
               {property.moneda === "$" ? (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Dólares americanos
                 </span>
               ) : (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Colones costarricences
                 </span>
               )}
@@ -318,17 +319,19 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                   : "flex flex-col justify-center border-r-2 max-[500px]:border-r-0 px-1 text-xl font-semibold text-blue-600"
               }
             >
-              <span className="text-xs text-black">Precio alquiler</span>
+              <span className="text-xs text-black truncate">
+                Precio alquiler
+              </span>
               <span className="text-lg">
                 {property.monedaAlquiler}
                 {formatNumber(property.precioAlquiler)}
               </span>
               {property.monedaAlquiler === "$" ? (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Dólares americanos
                 </span>
               ) : (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Colones costarricences
                 </span>
               )}
@@ -348,11 +351,11 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                 {formatNumber(property.precioAlquilerCompra)}
               </span>
               {property.monedaAlquiler === "$" ? (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Dólares americanos
                 </span>
               ) : (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Colones costarricences
                 </span>
               )}
@@ -459,7 +462,17 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           </div>
         </div>
         <div className="text-sm">
-          <div className=" bg-blue-400 text-black px-3 mt-1 mb-1 font-semibold text-lg">
+          <div
+            className={
+              property?.audio.data === null ||
+              property?.audio.data === undefined
+                ? "hidden"
+                : null
+            }
+          >
+            <AudioPlayer src={audio} />
+          </div>
+          <div className="max-[500px]:text-[14px] bg-blue-400 text-black px-3 mt-1 mb-1 font-semibold text-lg">
             Otros detalles de la propiedad
           </div>
           <div class="flex flex-wrap">

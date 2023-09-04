@@ -35,6 +35,7 @@ import { useQuery } from "react-query";
 import { authUserData } from "../../api/usersApi";
 import MetaData from "../Metadata/metadata";
 import ShareAdviser from "../Share/share-adviser";
+import AudioPlayer from "../AudioPlayer/audio-player";
 
 const PortafolioCard = ({ propiedad }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,6 +44,7 @@ const PortafolioCard = ({ propiedad }) => {
   const [confusedColor, setConfusedColor] = useState("#3F83F8");
   const [reaction, setReaction] = useState([]);
   const [adviser, setAdviser] = useState();
+  const [audio, setAudio] = useState(null);
   const { data: userData } = useQuery("profile", authUserData);
 
   const adviserId = propiedad?.portafolio?.attributes.creadoPor;
@@ -130,6 +132,8 @@ const PortafolioCard = ({ propiedad }) => {
       imagesUrl.push(image.attributes.url);
     });
     setImages(imagesUrl);
+    const audio = propertyFound.audio?.data?.attributes?.url;
+    setAudio(`https://backend.siccic.com${audio}`);
   };
 
   const updatePortfolio = (reaction) => {
@@ -226,12 +230,12 @@ const PortafolioCard = ({ propiedad }) => {
             </button>
           </form>
         </div>
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex justify-around">
+        <div className="text-[14px] w-full font-semibold flex flex-row">
+          <div>{property.categories.data[0].attributes.nombre}</div>
+        </div>
+        <div className="flex flex-col lg:flex-row">
+          <div className="flex">
             <div>
-              <div className="text-[14px] w-full font-semibold flex flex-row">
-                <div>{property.categories.data[0].attributes.nombre}</div>
-              </div>
               <h2 className="text-2xl font-semibold">
                 {property.tipoPropiedad}
               </h2>
@@ -252,17 +256,19 @@ const PortafolioCard = ({ propiedad }) => {
                     : "flex flex-col justify-center px-1 text-xl font-semibold text-blue-600"
                 }
               >
-                <span className="text-xs text-black">Valor según avalúo</span>
+                <span className="text-xs text-black truncate">
+                  Valor según avalúo
+                </span>
                 <span className="text-lg">
                   {property.avaluoMoneda}
                   {formatNumber(property.avaluo)}
                 </span>
                 {property.avaluoMoneda === "$" ? (
-                  <span className="text-[9px] -my-2 text-black">
+                  <span className="text-[9px] truncate -my-2 text-black">
                     Dólares americanos
                   </span>
                 ) : (
-                  <span className="text-[9px] -my-2 text-black">
+                  <span className="text-[9px] -my-2 truncate text-black">
                     Colones costarricences
                   </span>
                 )}
@@ -271,18 +277,20 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
           <div className="flex gap-x-2 max-[500px]:flex-col">
             <div className="flex flex-col justify-center border-l-2 max-[500px]:border-l-0 max-[500px]:border-r-0 border-r-2 px-1 text-xl font-semibold text-blue-600">
-              <span className="text-xs text-black">Precio de venta</span>
+              <span className="text-xs text-black truncate">
+                Precio de venta
+              </span>
               <span className="text-lg">
                 {property.moneda}
                 {formatNumber(property.precio)}
               </span>
 
               {property.moneda === "$" ? (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Dólares americanos
                 </span>
               ) : (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Colones costarricences
                 </span>
               )}
@@ -295,17 +303,19 @@ const PortafolioCard = ({ propiedad }) => {
                   : "flex flex-col justify-center border-r-2 max-[500px]:border-r-0 px-1 text-xl font-semibold text-blue-600"
               }
             >
-              <span className="text-xs text-black">Precio alquiler</span>
+              <span className="text-xs text-black truncate">
+                Precio alquiler
+              </span>
               <span className="text-lg">
                 {property.monedaAlquiler}
                 {formatNumber(property.precioAlquiler)}
               </span>
               {property.monedaAlquiler === "$" ? (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Dólares americanos
                 </span>
               ) : (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Colones costarricences
                 </span>
               )}
@@ -325,11 +335,11 @@ const PortafolioCard = ({ propiedad }) => {
                 {formatNumber(property.precioAlquilerCompra)}
               </span>
               {property.monedaAlquiler === "$" ? (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Dólares americanos
                 </span>
               ) : (
-                <span className="text-[9px] -my-2 text-black">
+                <span className="text-[9px] truncate -my-2 text-black">
                   Colones costarricences
                 </span>
               )}
@@ -468,7 +478,17 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
         </div>
         <div className="text-sm">
-          <div className=" bg-blue-400 text-black px-3 mt-1 mb-1 font-semibold text-lg">
+          <div
+            className={
+              property?.audio.data === null ||
+              property?.audio.data === undefined
+                ? "hidden"
+                : null
+            }
+          >
+            <AudioPlayer src={audio} />
+          </div>
+          <div className="max-[500px]:text-[14px] bg-blue-400 text-black px-3 mt-1 mb-1 font-semibold text-lg">
             Otros detalles de la propiedad
           </div>
           <div class="flex flex-wrap">

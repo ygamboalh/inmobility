@@ -59,6 +59,9 @@ import LinkList from './Admin/Components/Links/link-list';
 import LinkListAdviser from './components/Links/links-adviser';
 import SearchCard from './components/SearchResults/property-card';
 import MyPropertyList from './components/Verified/my-property-list';
+import ContactVisiter from './components/ContactVisiter/contact-visiter';
+import Button from './Admin/Components/Buttons/button';
+import VisiterSearch from './components/Searchers/visiter-search';
 
 const App = () => {
   
@@ -112,6 +115,7 @@ const App = () => {
               <Route exact path="/admin/users" element={<Users />} />
               <Route exact path="/admin/users/insert-user" element={<InsertUser />} />
               <Route path='/admin/links' element={<LinkList />} />
+              <Route path='/admin/buttons' element={<Button />} />
               <Route exact path="/admin/links/insert-link" element={<InsertLink />} />
               <Route exact path="/admin/links/insert-link/:id" element={<InsertLink />} />
               <Route exact path="/admin/users/insert-user/:id" element={<InsertUser />} />
@@ -148,6 +152,8 @@ const App = () => {
               <Route path="/user/sent-request" element={<SentRequest />} />
               <Route path="/user/access-denied" element={<AccessDenied />} />
           <Route path="/home/contact" element={<Contact />} />
+          <Route path="/home/visiter-contact" element={<ContactVisiter />} />
+          <Route path="/home/visiter-search" element={<VisiterSearch />} />
         </Route>
       </Routes>
     </div>)

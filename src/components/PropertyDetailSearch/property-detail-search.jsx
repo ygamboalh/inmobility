@@ -195,7 +195,7 @@ const PropertyDetailsSearch = () => {
             </div>
           </div>
           <div className="max-w-[500px] w-full">
-            <div className=" text-black px-3 mt-3 font-semibold text-lg">
+            <div className="max-[500px]:text-[14px] text-black px-3 mt-3 font-semibold text-lg">
               Otros detalles de la propiedad
             </div>
             <div

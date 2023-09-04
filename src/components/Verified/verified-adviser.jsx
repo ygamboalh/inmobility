@@ -5,14 +5,14 @@ import { useQuery } from "react-query";
 import { authUserData } from "../../api/usersApi";
 import Thumbnail from "../Thumbnail/thumbnail";
 import MetaData from "../Metadata/metadata";
-import { getAllPropertiesRQ } from "../../api/propertiesApi";
+import { getAllButtons, getAllPropertiesRQ } from "../../api/propertiesApi";
 import { useNavigate } from "react-router-dom";
 
 const VerifiedAdviser = () => {
   const { data: userData } = useQuery("profile", authUserData);
   const [propertyList, setPropertyList] = useState();
+  const [buttons, setButtons] = useState([]);
   const navigate = useNavigate();
-  const role = userData?.role.name;
   const active = userData?.active;
   const { data, isLoading: loadingProperties } = useQuery(
     "properties",
@@ -31,7 +31,16 @@ const VerifiedAdviser = () => {
       },
     }
   );
-
+  const { data: buttonsData, isLoading: loadingButtons } = useQuery(
+    "buttons",
+    getAllButtons,
+    {
+      onSuccess: (data) => {
+        console.log(data.data);
+        setButtons(data.data);
+      },
+    }
+  );
   return (
     <section className="flex flex-col justify-center items-center content-center">
       <div className="flex max-w-[400px] flex-col justify-center">
@@ -53,7 +62,7 @@ const VerifiedAdviser = () => {
         </div>
         <div className="flex flex-col mx-2 text-center text-white font-medium">
           <AdviserCard>
-            <div className="grid grid-cols-2 lg:grid-cols-2 md:grid-cols-2 card-buttons content-around justify-center">
+            <div className="grid  grid-cols-2 lg:grid-cols-2 md:grid-cols-2 card-buttons content-around justify-center">
               <button
                 onClick={() =>
                   navigate("/home/verified-adviser/my-property-list", {
@@ -75,7 +84,19 @@ const VerifiedAdviser = () => {
                   MIS PORTAFOLIOS
                 </a>
               </div>
-              <div className="col-span-1 align-middle items-center orange-button justify-center flex">
+              {buttons?.map((boton) => {
+                return (
+                  <div className="col-span-1 align-middle items-center orange-button justify-center flex">
+                    <a
+                      href={boton?.attributes?.url}
+                      className="justify-center items-center align-middle flex md:text-[11px]"
+                    >
+                      {boton?.attributes?.description}
+                    </a>
+                  </div>
+                );
+              })}
+              {/* <div className="col-span-1 align-middle items-center orange-button justify-center flex">
                 <a
                   href="https://sites.google.com/view/centro-de-ayuda-al-sistema-cic/p%C3%A1gina-principal"
                   className="justify-center flex-col items-center align-middle flex md:text-[11px]"
@@ -115,8 +136,8 @@ const VerifiedAdviser = () => {
                   href="https://sites.google.com/view/freelancerspublicistas/p%C3%A1gina-principal"
                   className="justify-center items-center align-middle flex-col flex md:text-[11px]"
                 >
-                  <span className="md:text-[11px]">LISTA DE</span>
-                  <span className="md:text-[11px]">FREELANCERS ACTIVO</span>
+                  <span className="md:text-[11px]">FREELANCERS</span>
+                  <span className="md:text-[11px]">PUBLICISTAS</span>
                 </a>
               </div>
               <div className="col-span-1 orange-button justify-center flex align-middle items-center">
@@ -126,7 +147,7 @@ const VerifiedAdviser = () => {
                 >
                   <span className="md:text-[11px]">CONCURSOS INTERNOS</span>
                 </a>
-              </div>
+              </div> */}
             </div>
           </AdviserCard>
 
