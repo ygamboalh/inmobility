@@ -34,13 +34,12 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataToSend, setDataToSend] = useState();
   const [audio, setAudio] = useState(null);
+  const [idProperty, setIdProperty] = useState();
 
-  const [sharedProperty, setSharedProperty] = useState();
   const { data: userData } = useQuery("profile", authUserData);
   const navigate = useNavigate();
 
   const { id } = useParams();
-
   //Si recibo un id por parametros es que es una propiedad que
   //se esta compartiendo por lo que no debo cargar los datos
   //de la otra propiedad que es resultados de la busqueda
@@ -57,39 +56,54 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     created = propiedad[1];
     adviserId = propiedad[0]?.attributes.creadoPor;
   }
+  //Busca la propiedad cuando paso el uniqueId por parametro
+  const getPropertyByIniqueId = (uniqueId) => {
+    setIsLoading(true);
+    let propertyFound = null;
+    let imagesCount = [];
 
+    const propertyId = AxiosInstance.get(
+      `${API}properties?filters[uniqueId][$eq]=${uniqueId}`
+    )
+      .then((res) => {
+        propertyFound = res.data.data;
+        setIdProperty(propertyFound);
+        const propertyResponse = AxiosInstance.get(
+          `${API}properties/${propertyFound[0]?.id}?populate=*`
+        )
+          .then((response) => {
+            propertyFound = response.data.data.attributes;
+            imagesCount = response.data.data.attributes.photos;
+            setPdfUrl(
+              `https://siccic.com/home/shared-property/${propertyFound?.uniqueId?.toLowerCase()}`
+            );
+            //getAdviser();
+            setProperty(propertyFound);
+            const imagesUrl = [];
+            imagesCount?.data?.forEach((image) => {
+              imagesUrl.push(image.attributes.url);
+            });
+            setImages(imagesUrl);
+            const audio = propertyFound?.audio?.data?.attributes?.url;
+            setAudio(`https://backend.siccic.com${audio}`);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
   useEffect(() => {
     if (!id) {
       getProperty();
     } else {
-      setIsLoading(true);
-      let propertyFound = null;
-      let imagesCount = [];
-      const propertyResponse = AxiosInstance.get(
-        `${API}properties/${id}?populate=*`
-      )
-        .then((response) => {
-          propertyFound = response.data.data.attributes;
-          imagesCount = response.data.data.attributes.photos;
-          setPdfUrl(
-            `https://siccic.com/home/shared-property/${response.data.data.id}`
-          );
-          //getAdviser();
-          setProperty(propertyFound);
-          const imagesUrl = [];
-          imagesCount?.data?.forEach((image) => {
-            imagesUrl.push(image.attributes.url);
-          });
-          setImages(imagesUrl);
-          const audio = propertyFound?.audio?.data?.attributes?.url;
-          setAudio(`https://backend.siccic.com${audio}`);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      getPropertyByIniqueId(propertyId);
     }
   }, []);
   const sendDataToParent = () => {
@@ -101,30 +115,35 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   const [images, setImages] = useState([]);
   const [pdfUrl, setPdfUrl] = useState();
   const [adviser, setAdviser] = useState();
+
   const getProperty = async () => {
     setIsLoading(true);
     let propertyFound = null;
     let imagesCount = [];
     const propertyResponse = await AxiosInstance.get(
       `${API}properties/${propertyId}?populate=*`
-    ).then((response) => {
-      propertyFound = response.data.data.attributes;
-      imagesCount = response.data.data.attributes.photos;
-      setPdfUrl(
-        `https://siccic.com/home/shared-property/${response.data.data.id}`
-      );
-      const audio = propertyFound?.audio?.data?.attributes?.url;
-      setAudio(`https://backend.siccic.com${audio}`);
-      getAdviser();
-    });
+    )
+      .then((response) => {
+        propertyFound = response.data.data.attributes;
+        imagesCount = response.data.data.attributes.photos;
+        setPdfUrl(
+          `https://siccic.com/home/shared-property/${propertyFound?.uniqueId?.toLowerCase()}`
+        );
+        const audio = propertyFound?.audio?.data?.attributes?.url;
+        setAudio(`https://backend.siccic.com${audio}`);
+        getAdviser();
 
-    setProperty(propertyFound);
-    setIsLoading(false);
-    const imagesUrl = [];
-    imagesCount?.data?.forEach((image) => {
-      imagesUrl.push(image.attributes.url);
-    });
-    setImages(imagesUrl);
+        setProperty(propertyFound);
+        setIsLoading(false);
+        const imagesUrl = [];
+        imagesCount?.data?.forEach((image) => {
+          imagesUrl.push(image.attributes.url);
+        });
+        setImages(imagesUrl);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const getAdviser = async () => {
     const response = await AxiosInstance.get(`${API}users/${adviserId}`)
@@ -139,6 +158,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   if (isLoading || !property) {
     return <MySpinner />;
   }
+  console.log(idProperty);
   /*  const seePdfDocument = () => {
     window.location.assign(pdfUrl);
   }; */
@@ -189,6 +209,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     setIsLoading(false);
   };
 
+  console.log("propiedad", propiedad, property);
   return (
     <section className="pt-16 -mb-4">
       <MetaData
@@ -227,14 +248,25 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         {property?.creadoPor === userData?.id &&
         userData?.active === "Asesor verificado activo" ? (
           <div className="flex justify-end -mt-2">
-            <button
-              onClick={() =>
-                navigate(`/properties/edit-property/${propiedad[0].id}`)
-              }
-              className="bg-blue-700 text-white px-4 py-1 mr-1 rounded-md"
-            >
-              Editar
-            </button>
+            {!propiedad ? (
+              <button
+                onClick={() =>
+                  navigate(`/properties/edit-property/${idProperty[0]?.id}`)
+                }
+                className="bg-blue-700 text-white px-4 py-1 mr-1 rounded-md"
+              >
+                Editar
+              </button>
+            ) : (
+              <button
+                onClick={() =>
+                  navigate(`/properties/edit-property/${propiedad[0]?.id}`)
+                }
+                className="bg-blue-700 text-white px-4 py-1 mr-1 rounded-md"
+              >
+                Editar
+              </button>
+            )}
             <button
               onClick={() => {
                 DeleteProperty(propiedad[0].id);

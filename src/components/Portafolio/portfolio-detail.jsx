@@ -324,7 +324,9 @@ export const PortafolioDetail = () => {
                             type="button"
                             className="detailButton mr-1 text-sm"
                             onClick={() =>
-                              navigate(`/home/shared-property/${record.id}`)
+                              navigate(
+                                `/home/shared-property/${record.attributes.uniqueId}`
+                              )
                             }
                           >
                             Detalles

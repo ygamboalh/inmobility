@@ -27,7 +27,9 @@ const PropertyDetailsSearch = () => {
     ).then((response) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
-      setPdfUrl(`https://siccic.com/home/shared-property/${id}`);
+      setPdfUrl(
+        `https://siccic.com/home/shared-property/${propertyFound.uniqueId}`
+      );
     });
     setProperty(propertyFound);
     getAdviser(propertyFound.creadoPor);

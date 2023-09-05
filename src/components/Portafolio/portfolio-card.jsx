@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 import {
   BiArea,
   BiBath,
-  BiBed,
   BiCar,
   BiChair,
   BiChild,
@@ -12,26 +12,19 @@ import {
   BiHotel,
   BiLike,
   BiSolidDog,
-  BiSolidFilePdf,
   BiWindowClose,
 } from "react-icons/bi";
 import { message } from "antd";
-import { PDFViewer } from "@react-pdf/renderer";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
 import no_image from "../../assets/images/no_image_default.jpg";
-import PdfView from "../PdfView/pdf-view";
 import MyNewCarousel from "../Carrusel/carrusel";
-
-import { Helmet } from "react-helmet";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import axios from "axios";
 import Share from "../Share/share";
-import { useQuery } from "react-query";
 import { authUserData } from "../../api/usersApi";
 import MetaData from "../Metadata/metadata";
 import ShareAdviser from "../Share/share-adviser";
@@ -121,7 +114,9 @@ const PortafolioCard = ({ propiedad }) => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
       const id = response.data.data.id;
-      setPdfUrl(`https://siccic.com/home/shared-property/${id}`);
+      setPdfUrl(
+        `https://siccic.com/home/shared-property/${propertyFound?.uniqueId}`
+      );
     });
 
     setProperty(propertyFound);

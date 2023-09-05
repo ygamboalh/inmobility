@@ -151,7 +151,9 @@ const PropertiesDesact = () => {
       cell: (row) => (
         <button
           className="detailButton"
-          onClick={() => navigate(`/admin/shared-property/${row.id}`)}
+          onClick={() =>
+            navigate(`/admin/shared-property/${row.attributes.uniqueId}`)
+          }
         >
           Detalles
         </button>

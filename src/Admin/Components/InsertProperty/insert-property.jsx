@@ -55,10 +55,10 @@ const InsertProperty = () => {
 
   const [category, setCategory] = useState();
   const [categoriesDB, setCategoriesDB] = useState({});
-  const [amenidades, setAmenidades] = useState({});
-  const [patio, setPatio] = useState({});
-  const [detallesInternos, setDetallesInternos] = useState({});
-  const [detallesExternos, setDetallesExternos] = useState({});
+  const [amenidades, setAmenidades] = useState();
+  const [patio, setPatio] = useState();
+  const [detallesInternos, setDetallesInternos] = useState();
+  const [detallesExternos, setDetallesExternos] = useState();
   const [property, setProperty] = useState();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
@@ -121,7 +121,7 @@ const InsertProperty = () => {
   const handleChangePatioJardin = (selectedOption) => {
     setPatio(selectedOption);
 
-    if (patio.length === 3) {
+    if (patio?.length === 3) {
       setMenuIsOpen(false);
     }
   };
@@ -186,7 +186,7 @@ const InsertProperty = () => {
       descripcion: property?.descripcion,
       moneda: property?.moneda,
       monedaAlquiler: property?.monedaAlquiler,
-      monedaAlquilerCompra: property?.monedaAlquilerCompra,
+      monedaAlquilerVenta: property?.monedaAlquilerVenta,
       monedaCuotaMantenimiento: property?.monedaCuotaMantenimiento,
       ubicacionDetallada: property?.ubicacionDetallada,
       vistaPanoramica: property?.vistaPanoramica,
@@ -291,7 +291,7 @@ const InsertProperty = () => {
           descripcion: values.descripcion,
           moneda: values.moneda,
           monedaAlquiler: values?.monedaAlquiler,
-          monedaAlquilerCompra: values?.monedaAlquilerCompra,
+          monedaAlquilerVenta: values?.monedaAlquilerVenta,
           monedaCuotaMantenimiento: values?.monedaCuotaMantenimiento,
           ubicacionDetallada: values.ubicacionDetallada,
           vistaPanoramica: values.vistaPanoramica,
@@ -311,13 +311,11 @@ const InsertProperty = () => {
         };
 
         if (!id) {
-          console.log("valores", value);
           const response = await AxiosInstance.post("/properties", {
             data: value,
           })
             .then((respons) => {
               message.success("¡La propiedad fue creada correctamente!");
-
               const property = respons.data.data.attributes;
               const body = `El siguiente inmueble fue creado por el usuario: ${userData.email}`;
               enviarCorreoPersonalizado(
@@ -349,19 +347,17 @@ const InsertProperty = () => {
             ? (tipo = selectedPropertyType)
             : (tipo = values?.tipoPropiedad);
           let newAmenidades = {};
-          Object.keys(amenidades).length !== 0
+          amenidades
             ? (newAmenidades = amenidades)
             : (newAmenidades = property?.amenidades);
           let newPatio = {};
-          Object.keys(patio).length !== 0
-            ? (newPatio = patio)
-            : (newPatio = property?.jardinPatio);
+          patio ? (newPatio = patio) : (newPatio = property?.jardinPatio);
           let newDetallesInternos = {};
-          Object.keys(detallesInternos).length !== 0
+          detallesInternos
             ? (newDetallesInternos = detallesInternos)
             : (newDetallesInternos = property?.detallesInternos);
           let newDetallesExternos = {};
-          Object.keys(detallesExternos).length !== 0
+          detallesExternos
             ? (newDetallesExternos = detallesExternos)
             : (newDetallesExternos = property?.detallesExternos);
           const value = {
@@ -410,7 +406,7 @@ const InsertProperty = () => {
             descripcion: values.descripcion,
             moneda: values.moneda,
             monedaAlquiler: values?.monedaAlquiler,
-            monedaAlquilerCompra: values?.monedaAlquilerCompra,
+            monedaAlquilerVenta: values?.monedaAlquilerVenta,
             monedaCuotaMantenimiento: values?.monedaCuotaMantenimiento,
             ubicacionDetallada: values.ubicacionDetallada,
             vistaPanoramica: values.vistaPanoramica,
@@ -426,6 +422,7 @@ const InsertProperty = () => {
             tipoVivienda: values?.tipoVivienda,
             ubicacionCercana: values.ubicacionCercana,
           };
+          console.log("los valores", value);
           const response = await AxiosInstance.put(`/properties/${id}`, {
             data: value,
           })
@@ -454,10 +451,12 @@ const InsertProperty = () => {
               }
             })
             .catch((error) => {
+              console.log(error);
               message.error("¡Ocurrió un error inesperado!");
             });
         }
       } catch (error) {
+        console.log(error);
         message.error("¡Ocurrió un error inesperado!");
       } finally {
         setIsLoading(false);
@@ -520,7 +519,7 @@ const InsertProperty = () => {
       {id ? (
         <div className="flex mt-3 justify-center align-middle items-center w-full">
           <label className="font-semibold text-xl">
-            Editar la propiedad seleccionada
+            Editar la propiedad {property?.uniqueId}
           </label>
         </div>
       ) : (
@@ -863,7 +862,7 @@ const InsertProperty = () => {
               <select
                 name="monedaAlquilerVenta"
                 onChange={handleChange}
-                defaultValue={property?.monedaAlquilerCompra}
+                defaultValue={property?.monedaAlquilerVenta}
                 class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="">$</option>
