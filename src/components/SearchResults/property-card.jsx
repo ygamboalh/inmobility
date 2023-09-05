@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   BiArea,
   BiBath,
-  BiBed,
   BiCar,
   BiChair,
   BiChild,
   BiHotel,
   BiSolidDog,
-  BiSolidFilePdf,
 } from "react-icons/bi";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
@@ -20,13 +23,8 @@ import no_image from "../../assets/images/no_image_default.jpg";
 import MyNewCarousel from "../Carrusel/carrusel";
 
 import { authUserData } from "../../api/usersApi";
-import { useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
 import MetaData from "../Metadata/metadata";
 import Share from "../Share/share";
-import withReactContent from "sweetalert2-react-content";
-import Swal from "sweetalert2";
-import axios from "axios";
 import { createNotification, getToken } from "../../utils/helpers";
 import enviarCorreoPersonalizado from "../../utils/email/send-personalized-email";
 import ShareAdviser from "../Share/share-adviser";

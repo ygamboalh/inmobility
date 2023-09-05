@@ -278,6 +278,10 @@ export const DetallesInternos = [
   { value: "Vista panorámica", label: "Vista panorámica" },
   { value: "Zona de lavandería", label: "Zona de lavandería" },
   { value: "Trastero", label: "Trastero" },
+  { value: "Cableado subterráneo", label: "Cableado subterráneo" },
+  { value: "Extractor de grasa", label: "Extractor de grasa" },
+  { value: "Incluye lavadora de ropa", label: "Incluye lavadora de ropa" },
+  { value: "Incluye secadora de ropa", label: "Incluye secadora de ropa" },
 ];
 
 export const DetallesExternos = [
@@ -310,6 +314,15 @@ export const DetallesExternos = [
   { value: "Zona campestre", label: "Zona campestre" },
   { value: "Zona camping", label: "Zona camping" },
   { value: "Zonas verdes", label: "Zonas verdes" },
+  { value: "Pet friendly", label: "Pet friendly" },
+  { value: "Acceso Electrónico", label: "Acceso Electrónico" },
+  { value: "Calles Adoquinadas", label: "Calles Adoquinadas" },
+  { value: "Parque canino", label: "Parque canino" },
+  { value: "Piscina para Adultos", label: "Piscina para Adultos" },
+  { value: "Piscina para niños", label: "Piscina para niños" },
+  { value: "Playground", label: "Playground" },
+  { value: "Vídeo Vigilancia", label: "Vídeo Vigilancia" },
+  { value: "Vídeo Vigilancia", label: "Vídeo Vigilancia" },
 ];
 
 export const DetallesExternosMulti = [
