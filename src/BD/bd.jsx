@@ -215,10 +215,10 @@ export const Amenidades = [
   { value: "Piscina", label: "Piscina" },
   { value: "Canchas Deportivas", label: "Canchas Deportivas" },
   {
-    value: "Area de recreacion infantil",
-    label: "Area de recreacion infantil",
+    value: "Área de recreación infantil",
+    label: "Área de recreación infantil",
   },
-  { value: "Ciclo via", label: "Ciclo via" },
+  { value: "Ciclo vía", label: "Ciclo vía" },
   { value: "Parque de mascotas", label: "Parque de mascotas" },
   { value: "Senderos", label: "Senderos" },
   { value: "Sala de Cine", label: "Sala de Cine" },
@@ -260,11 +260,11 @@ export const DetallesInternos = [
   },
   { value: "Closets", label: "Closets" },
   { value: "Cocina equipada", label: "Cocina equipada" },
-  { value: "Cocina integral", label: "Cocina integral" },
+  { value: "Cocina integrada", label: "Cocina integrada" },
   { value: "Cocina tipo americano", label: "Cocina tipo americano" },
   { value: "Comedor auxiliar", label: "Comedor auxiliar" },
   { value: "Despensa", label: "Despensa" },
-  { value: "Doble Ventana", label: "Doble Ventanlabel" },
+  { value: "Doble Ventana", label: "Doble Ventana" },
   { value: "Gas domiciliario", label: "Gas domiciliario" },
   { value: "Habitación conductores", label: "Habitación conductores" },
   { value: "Habitación servicio", label: "Habitación servicio" },
@@ -335,7 +335,7 @@ export const DetallesExternosMulti = [
 
 export const Amueblado = [
   { key: "No Amueblado", value: "No Amueblado" },
-  { key: "Solo Linea Blanca", value: "Solo Linea Blanca" },
+  { key: "Solo Línea Blanca", value: "Solo Línea Blanca" },
   { key: "Full Amueblado", value: "Full Amueblado" },
 ];
 
@@ -351,7 +351,7 @@ export const AptoNinos = [
 
 export const AptoMascotas = [
   { key: "No apto con mascotas", value: "No apto con mascotas" },
-  { key: "Apto con 1 Mascotas pequeña", value: "Apto con 1 Mascotas pequeña" },
+  { key: "Apto con 1 Mascota pequeña", value: "Apto con 1 Mascota pequeña" },
   {
     key: "Apto con 2 Mascotas pequeñas",
     value: "Apto con 2 Mascotas pequeñas",
@@ -581,8 +581,8 @@ export const categories = [
 export const Electrica = [
   { key: "110V", value: "110V" },
   { key: "220V", value: "220V" },
-  { key: "Trifasico 380V", value: "Trifasico 380V" },
-  { key: "Trifasico 400V", value: "Trifasico 400V" },
+  { key: "Trifásico 380V", value: "Trifásico 380V" },
+  { key: "Trifásico 400V", value: "Trifásico 400V" },
 ];
 
 export const UbicacionCatastral = [
@@ -591,7 +591,7 @@ export const UbicacionCatastral = [
   { key: "Esquinero", value: "Esquinero" },
   { key: "Medianero con dos frentes", value: "Medianero con dos frentes" },
   { key: "Medianero", value: "Medianero" },
-  { key: "Con Callejon lateral", value: "Con Callejon lateral" },
+  { key: "Con Callejón lateral", value: "Con Callejón lateral" },
   { key: "Con Callejón fondo", value: "Con Callejón fondo" },
   { key: "Lote en servidumbre", value: "Lote en servidumbre" },
   { key: "Zona residencial", value: "Zona residencial" },
@@ -661,7 +661,8 @@ export const Estado = [
 ];
 export const EstadoRestringido = [
   { key: "Solicitante", value: "Solicitante" },
-  { key: "Asesor verificado", value: "Asesor verificado" },
+  { key: "Asesor verificado activo", value: "Asesor verificado activo" },
+  { key: "Asesor verificado inactivo", value: "Asesor verificado inactivo" },
   { key: "Freelancer", value: "Freelancer" },
 ];
 export const PropertyEstado = [

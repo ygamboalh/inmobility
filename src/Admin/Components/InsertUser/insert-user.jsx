@@ -48,7 +48,6 @@ const RegisterSchema = Yup.object().shape({
     .min(9, "¡Debe ser más larga!")
     .max(20, "¡Demasiado larga!")
     .required("¡El identificador personal es requerido!"),
-  certifications: Yup.string().min(2, "¡Debe ser más larga!"),
 });
 
 const InsertUser = () => {
@@ -171,10 +170,11 @@ const InsertUser = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="flex flex-col mx-20 mt-40 align-middle lg:flex-row items-center justify-center ">
-              <div className="lg:w-1/3 align-top  flex flex-col mb-4 -mt-20">
+            <div className="flex flex-col mx-20 max-[1024px]:-mx-4 mt-40 align-middle lg:flex-row items-center justify-center ">
+              <div className="lg:w-1/3 align-top flex flex-col mb-4 max-[1024px]:-mt-32 -mt-20">
                 <div className="flex flex-col justify-center items-center">
-                  {role === "Authenticated" || role === "SuperAdmin" ? (
+                  {role === "Authenticated" ||
+                  userData?.active === "Super Administrador" ? (
                     <div className="flex flex-col justify-center items-center">
                       {userImg ? (
                         <div
@@ -204,7 +204,7 @@ const InsertUser = () => {
                   )}
                 </div>
               </div>
-              <div className="lg:w-1/3 px-10">
+              <div className="lg:w-1/3 px-4 max-[1024px]:px-0 max-[1024px]:w-full">
                 <Field
                   type="text"
                   name="username"
@@ -275,11 +275,11 @@ const InsertUser = () => {
                   ) : null}
                 </div>
               </div>
-              <div className="lg:w-1/3 px-10">
+              <div className="lg:w-1/3 px-4 mt-1.5 max-[1024px]:px-0 max-[1024px]:w-full">
                 <Field
                   type="text"
                   name="company"
-                  className="w-full input-admin-property"
+                  className="w-full input-admin-property min-[1024px]:w-full"
                   placeholder="Nombre de la empresa"
                 />
                 <div className="space">
@@ -303,7 +303,7 @@ const InsertUser = () => {
                   as="select"
                   id="type"
                   name="type"
-                  className="w-full input-admin-property"
+                  className="w-full text-gray-500 input-admin-property"
                   placeholder="Tipo de asesor"
                 >
                   <option value="" label="">
@@ -324,7 +324,7 @@ const InsertUser = () => {
                   as="select"
                   name="active"
                   id="active"
-                  className="w-full input-admin-property"
+                  className="w-full text-gray-500 input-admin-property"
                   placeholder="Estado"
                 >
                   <option value="" label="">
@@ -350,7 +350,7 @@ const InsertUser = () => {
                 <Field
                   as="textarea"
                   name="address"
-                  className="w-full input-admin-property"
+                  className="w-full h-[90px] input-admin-property"
                   placeholder="Dirección física"
                 />
                 <div className="space">

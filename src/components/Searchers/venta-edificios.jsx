@@ -385,20 +385,6 @@ const AlquilerEdificios = () => {
               </option>
             ))}
           </select>
-
-          <input
-            type="number"
-            value={values.areaPlantas}
-            onChange={handleChange}
-            name="areaPlantas"
-            placeholder="Área por plantas"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaPlantas && touched.areaPlantas ? (
-              <div className="errordiv text-xs">{errors.areaPlantas}</div>
-            ) : null}
-          </div>
           <input
             type="number"
             value={values.numeroPlantas}

@@ -200,7 +200,7 @@ const AlquilerEdificios = () => {
             </div>
           </div>
 
-          <div class="flex flex-row w-fit max-[500px]:mb-2 border rounded-lg pl-1 border-gray-300 input-admin-property ml-1 mr-1 py-2">
+          <div class="flex flex-row w-fit max-[750px]:mb-2 max-[500px]:mb-2 border rounded-lg pl-1 border-gray-300 input-admin-property ml-1 mr-1 py-2">
             <select
               id="dropdown-button"
               name="monedaAlquiler"
@@ -458,20 +458,6 @@ const AlquilerEdificios = () => {
               </option>
             ))}
           </select>
-
-          <input
-            type="number"
-            value={values.areaPlantas}
-            onChange={handleChange}
-            name="areaPlantas"
-            placeholder="Área por plantas"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaPlantas && touched.areaPlantas ? (
-              <div className="errordiv text-xs">{errors.areaPlantas}</div>
-            ) : null}
-          </div>
           <input
             type="number"
             value={values.numeroPlantas}

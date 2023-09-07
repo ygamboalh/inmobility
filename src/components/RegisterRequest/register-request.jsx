@@ -13,7 +13,7 @@ import { userIntser } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
 import enviarCorreo from "../../utils/email/send-email";
 import MetaData from "../Metadata/metadata";
-import { BiHide, BiLock, BiShow } from "react-icons/bi";
+import { BiHide, BiLock, BiShow, BiUserPlus } from "react-icons/bi";
 import { AsesorTypes, TipoAsesor, types } from "../../BD/bd";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -151,6 +151,9 @@ const RegisterRequest = () => {
           title="Solicitud de registro"
           description="Solicitud de registro"
         />
+        <div className="flex justify-center -mb-2">
+          <BiUserPlus size={50} />
+        </div>
         <div className="mb-0 mt-0 sm:my-2 flex flex-col">
           <label className="loginh my-2">Solicitud de Registro</label>
           <label className="loginh5 w-72 mb-1">

@@ -9,6 +9,11 @@ import {
   BiWrench,
   BiBell,
   BiBook,
+  BiUser,
+  BiSitemap,
+  BiLink,
+  BiChevronDownCircle,
+  BiBuildingHouse,
 } from "react-icons/bi";
 
 import { authUserData } from "../../../api/usersApi";
@@ -174,6 +179,53 @@ const Dropdown = ({ ubicacion }) => {
             >
               Cambiar clave
             </a>
+          </div>
+          <div className="min-[1100px]:hidden">
+            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              <BiBuildingHouse size={20} />
+              <a
+                className="text-xs flex flex-row pt-1 pl-1"
+                href="/auth/change-password"
+              >
+                Propiedades
+              </a>
+            </div>
+            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              <BiUser size={20} />
+              <a
+                className="text-xs flex flex-row pt-1 pl-1"
+                href="/auth/change-password"
+              >
+                Usuarios
+              </a>
+            </div>
+            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              <BiChevronDownCircle size={20} />
+              <a
+                className="text-xs flex flex-row pt-1 pl-1"
+                href="/auth/change-password"
+              >
+                Botones
+              </a>
+            </div>
+            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              <BiSitemap size={20} />
+              <a
+                className="text-xs flex flex-row pt-1 pl-1"
+                href="/auth/change-password"
+              >
+                Portal verificados
+              </a>
+            </div>
+            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              <BiLink size={20} />
+              <a
+                className="text-xs flex flex-row pt-1 pl-1"
+                href="/auth/change-password"
+              >
+                Enlaces
+              </a>
+            </div>
           </div>
           <div className="px-2 py-2 text-gray-800 rounded-lg hover:bg-blue-500 hover:text-white">
             <button

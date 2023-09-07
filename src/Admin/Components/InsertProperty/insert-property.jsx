@@ -1644,7 +1644,7 @@ const InsertProperty = () => {
             defaultValue={property?.areaBodega}
             max={10000000}
             onChange={handleChange}
-            placeholder="Área bodega"
+            placeholder="Área bodega en m³"
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||

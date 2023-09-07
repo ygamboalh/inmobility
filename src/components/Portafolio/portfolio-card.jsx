@@ -231,10 +231,10 @@ const PortafolioCard = ({ propiedad }) => {
         <div className="flex flex-col lg:flex-row">
           <div className="flex">
             <div>
-              <h2 className="text-2xl font-semibold">
+              <h2 className="text-2xl max-[500px]:text-xl font-semibold">
                 {property.tipoPropiedad}
               </h2>
-              <h3 className="text-lg mb-4">
+              <h3 className="text-lg max-[500px]:text-sm mb-4">
                 {property.provincia +
                   " - " +
                   property.canton +

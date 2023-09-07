@@ -16,9 +16,9 @@ const Upload = () => {
       : navigate("/home/banner");
   };
   return (
-    <div className="flex flex-col  justify-center align-middle items-center">
-      <MetaData title="Cargar imagen" description="Cargar imagen" />
-      <div className="mb-24 mt-32">
+    <div className="flex flex-col justify-center align-middle items-center">
+      <MetaData title="Cargar datos" description="Cargar datos" />
+      <div className="mb-24 mt-20">
         <button
           type="button"
           className="text-l mr-2 py-2 px-4 rounded bg-blue-700 text-white"

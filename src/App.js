@@ -62,6 +62,7 @@ import MyPropertyList from './components/Verified/my-property-list';
 import ContactVisiter from './components/ContactVisiter/contact-visiter';
 import Button from './Admin/Components/Buttons/button';
 import VisiterSearch from './components/Searchers/visiter-search';
+import VideoPlayer from './components/Video/video-player';
 
 const App = () => {
   
@@ -90,6 +91,7 @@ const App = () => {
             <Route path="/home/portfolio/:id" element={<Portafolio />} />
             <Route path="/user/logout" element={<Logout />} />
             <Route exact path="/home/shared-property/:id" element={<SearchCard />} />
+            
             </Route>
           <Route element={<PublicRoutes />}>
                 <Route path="/home/banner/visiter" element={<Banner />} />
@@ -154,6 +156,7 @@ const App = () => {
           <Route path="/home/contact" element={<Contact />} />
           <Route path="/home/visiter-contact" element={<ContactVisiter />} />
           <Route path="/home/visiter-search" element={<VisiterSearch />} />
+          <Route path="/home/video-player" element={<VideoPlayer />} />
         </Route>
       </Routes>
     </div>)

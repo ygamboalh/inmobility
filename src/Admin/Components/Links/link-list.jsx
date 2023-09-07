@@ -5,20 +5,26 @@ import { useQuery, useQueryClient } from "react-query";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
 import { getAllLinks } from "../../../api/propertiesApi";
+import AxiosInstance from "../../../api/AxiosInstance";
+import { message } from "antd";
+import MetaData from "../../../components/Metadata/metadata";
 
 const LinkList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
   const [filterRecords, setFilterRecords] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
+  const urlRegex = "^(http|https|ftp)://.*";
   const { data, isLoading: loadingLinks } = useQuery("links", getAllLinks, {
     onSuccess: (data) => {
       const foundedLinks = [];
@@ -28,11 +34,49 @@ const LinkList = () => {
       setRecords(foundedLinks);
       setFilterRecords(foundedLinks);
       setPending(false);
+      console.log(foundedLinks);
+    },
+  });
+  const { handleChange, handleSubmit, values, errors, touched } = useFormik({
+    initialValues: {
+      descripcion: "",
+      url: "",
+    },
+    validationSchema: Yup.object({
+      descripcion: Yup.string().required("*").min(3, "*").max(1000, "*"),
+      url: Yup.string().matches(urlRegex, "*").required("*").max(3000, "*"),
+    }),
+    onSubmit: async (values) => {
+      setIsLoading(true);
+      try {
+        const value = {
+          descripcion: values.descripcion,
+          url: values.url,
+        };
+
+        const response = await AxiosInstance.put(
+          `/links/${selectedRows[0]?.id}`,
+          {
+            data: value,
+          }
+        )
+          .then((respons) => {
+            message.success("¡El enlace fue actualizado correctamente!");
+            queryClient.invalidateQueries(["links"]);
+            window.location.reload(true);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
   if (loadingLinks) {
     return <MySpinner />;
   }
+
   const DeleteLink = async (id) => {
     const MySwal = withReactContent(Swal);
     setIsLoading(true);
@@ -56,8 +100,6 @@ const LinkList = () => {
         } else {
           Swal.fire("El enlace no fue eliminado", "", "error");
         }
-      } else if (result.isDenied) {
-        Swal.fire("El enlace no fue eliminado", "", "info");
       }
     });
 
@@ -73,53 +115,43 @@ const LinkList = () => {
 
   const column = [
     {
-      name: "ID",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "60px",
-      id: "id",
-    },
-    {
-      name: "Descripción",
-      id: "descripcion",
-      selector: (row) => row.attributes.descripcion,
-      sortable: true,
-      width: "300px",
-    },
-    {
-      name: "URL",
-      id: "url",
-      selector: (row) => row.attributes.url,
-      sortable: true,
-      width: "670px",
-    },
-    {
       cell: (row) => (
-        <button
-          className="detailButton"
-          onClick={() => window.location.assign(row.attributes.url)}
-        >
-          Visitar enlace
-        </button>
+        <div className="flex  w-full flex-col p-2 my-2">
+          <div className="flex flex-col justify-start">
+            <div className="mt-2 mb-1 font-semibold ">
+              {row.attributes.descripcion}
+            </div>
+            <div className="text-gray-500 mb-2">{row.attributes.url}</div>
+          </div>
+          <div className="flex flex-row justify-start mb-2">
+            <div className="mr-2">
+              <button
+                className="detailButton"
+                onClick={() => window.location.assign(row.attributes.url)}
+              >
+                Visitar enlace
+              </button>
+            </div>
+            <div>
+              <button
+                className="deleteButton"
+                onClick={() => DeleteLink(row.id)}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
       ),
       accessor: "id",
-      id: "detail",
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-      width: "150px",
-    },
-    {
-      cell: (row) => (
-        <button className="deleteButton" onClick={() => DeleteLink(row.id)}>
-          Eliminar
-        </button>
+      id: "descripcion",
+      name: (
+        <span className="text-xl font-semibold">Seleccione para editarlo</span>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      id: "delete",
-      width: "80px",
+      width: "90%",
     },
   ];
   const handleFilter = (event) => {
@@ -135,7 +167,8 @@ const LinkList = () => {
   }
 
   return (
-    <div className=" w-full">
+    <div className="w-full px-6">
+      <MetaData title="Enlaces" description="Enlaces" />
       <DataTable
         columns={column}
         data={records}
@@ -143,15 +176,21 @@ const LinkList = () => {
         fixedHeader
         fixedHeaderScrollHeight="550px"
         selectableRowsHighlight
+        selectableRows
+        selectableRowsSingle
         title="Enlaces de interés"
         progressPending={pending}
         highlightOnHover
         progressComponent={<MySpinner />}
         paginationComponentOptions={paginationComponentOptions}
         subHeader
+        noDataComponent="No hay enlaces para mostrar"
+        onSelectedRowsChange={({ selectedRows }) =>
+          setSelectedRows(selectedRows)
+        }
         subHeaderComponent={
           <div className="relative w-full my-1 px-2">
-            <div className="mt-4 mb-2 flex">
+            <div className="mt-4 -mx-6 mb-2 max-[500px]:justify-center flex">
               <button
                 onClick={() => navigate("/admin/links/insert-link")}
                 type="button"
@@ -160,12 +199,83 @@ const LinkList = () => {
                 Crear enlace
               </button>
             </div>
-            <input
-              type="text"
-              onChange={handleFilter}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
-              placeholder="Filtrar por dirección"
-            />
+            <div className="-mx-6">
+              <input
+                type="text"
+                onChange={handleFilter}
+                className="w-full px-4 py-2  border border-gray-300 rounded-md"
+                placeholder="Filtrar por dirección"
+              />
+            </div>
+            <div className={selectedRows?.length > 0 ? "-mx-9" : "hidden"}>
+              <div className="mx-3.5 mt-2 justify-start flex max-[500px]:flex-col -mb-5">
+                <span className="font-semibold mr-2 text-xs flex">
+                  Está editando el enlace:{" "}
+                </span>
+                <span className="text-xs flex font-normal">
+                  {selectedRows[0]?.attributes?.descripcion}
+                </span>
+              </div>
+
+              <div className="mt-4 rounded-md p-3 flex w-full">
+                <form
+                  onSubmit={handleSubmit}
+                  autoComplete="off"
+                  className="w-full"
+                >
+                  <div className="flex flex-row max-[800px]:flex-col w-full align-middle">
+                    <div className="w-full max-[800px]:mb-2 flex min-[800px]:mr-2">
+                      <input
+                        type="text"
+                        className="border w-full shadow flex border-gray-300 text-xs rounded-md"
+                        placeholder="Descripción del botón"
+                        name="descripcion"
+                        maxLength={40}
+                        onChange={handleChange}
+                        defaultValue={
+                          selectedRows?.length > 0
+                            ? selectedRows[0].attributes.descripcion
+                            : null
+                        }
+                      />
+                    </div>
+                    {errors.descripcion && touched.descripcion ? (
+                      <div className="-ml-1.5 text-red-500 mt-3 text-xs">
+                        {errors.descripcion}
+                      </div>
+                    ) : null}
+
+                    <div className="flex w-full max-[800px]:mb-2">
+                      <input
+                        type="text"
+                        className="border shadow border-gray-300 text-xs rounded-md w-full"
+                        placeholder="Dirección del enlace"
+                        onChange={handleChange}
+                        defaultValue={
+                          selectedRows?.length > 0
+                            ? selectedRows[0].attributes.url
+                            : null
+                        }
+                        name="url"
+                      />
+                    </div>
+                    {errors.url && touched.url ? (
+                      <div className="-ml-1.5 text-red-500 mt-3 text-xs">
+                        {errors.url}
+                      </div>
+                    ) : null}
+                    <div className="mx-2 align-middle max-[500px]:justify-center flex">
+                      <button
+                        className="px-4 py-1 text-sm bg-blue-700 rounded-md text-white hover:bg-blue-500"
+                        type="submit"
+                      >
+                        Actualizar
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         }
       ></DataTable>

@@ -13,6 +13,7 @@ import MySpinner from "../Spinner/spinner";
 import enviarCorreo from "../../utils/email/send-email";
 import enviarCorreoPersonalizadoOrigen from "../../utils/email/send-personalized-email-origin";
 import MetaData from "../Metadata/metadata";
+import { BiTask } from "react-icons/bi";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^(\d{2,}\s?)+$/;
@@ -103,6 +104,9 @@ const VisitRecord = () => {
       <div className="border rounded-lg shadow border-gray-300 py-4 px-8">
         <MetaData title="Registro de visita" description="Registro de visita" />
         <div className="mb-0 mt-0 sm:my-2 flex flex-col">
+          <div className="flex justify-center">
+            <BiTask size={50} />
+          </div>
           <label className="loginh my-2">Registro de visita</label>
           <label className="loginh5 w-72 mb-1">
             Si estás de visita y deseas realizar alguna acción, por favor
@@ -230,7 +234,7 @@ const VisitRecord = () => {
                   className="button-signin max-w-full login_submit_btn"
                   type="submit"
                 >
-                  REGISTRARME
+                  ENTRAR
                 </button>
               </div>
               <div className="flex flex-row mx-2 mt-2 justify-between">

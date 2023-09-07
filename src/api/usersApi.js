@@ -40,11 +40,6 @@ export const userIntser = async (userData) => {
     return data
 }
 
-// export const updateCategory = async ( categoryData ) => {
-//   const { data } = await AxiosInstance.put(`/categories${ id }`, categoryData.id);
-//   return data
-// }
-
 export const authUserData = async () => {
   const { data } = await AxiosInstance.get('/users/me?populate=*');
   return data
@@ -64,11 +59,11 @@ export const uploadImage = async (image) => {
 }
 
 export const getAllUsers = async () => {
-  const { data } = await AxiosInstance.get('/users?populate=*');
+  const { data } = await AxiosInstance.get('/users?populate=*&pagination[page]=1&pagination[pageSize]=100');
   return data
 }
 export const getAllLinks = async () => {
-  const { data } = await AxiosInstance.get('/links');
+  const { data } = await AxiosInstance.get('/links?pagination[page]=1&pagination[pageSize]=100');
   return data
 }
 

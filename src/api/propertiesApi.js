@@ -6,11 +6,11 @@ export const authUser = async ( userData ) => {
 }
 
 export const getAllProperties = async () => {
-  const { data } = await AxiosInstance.get('/properties');
+  const { data } = await AxiosInstance.get('/properties?populate=*&pagination[page]=1&pagination[pageSize]=100');
   return data
 }
 export const getAllPropertiesRQ = async () => {
-  const { data } = await AxiosInstance.get('/properties?populate=*');
+  const { data } = await AxiosInstance.get('/properties?populate=*&pagination[page]=1&pagination[pageSize]=100');
   return data
 }
 export const getAllButtons = async () => {
@@ -18,16 +18,16 @@ export const getAllButtons = async () => {
   return data
 }
 export const getAllNotifications = async () => {
-  const { data } = await AxiosInstance.get('/notifications?populate=*');
+  const { data } = await AxiosInstance.get('/notifications?populate=*&pagination[page]=1&pagination[pageSize]=100');
   return data
 }
 export const getAllPortafolios = async () => {
-  const { data } = await AxiosInstance.get('/portafolios?populate=*');
+  const { data } = await AxiosInstance.get('/portafolios?populate=*&pagination[page]=1&pagination[pageSize]=100');
   return data
 }
 
 export const getAllLinks = async () => {
-  const { data } = await AxiosInstance.get('/links');
+  const { data } = await AxiosInstance.get('/links?pagination[page]=1&pagination[pageSize]=100');
   return data
 }
 export const getActiveProperties = async () => {

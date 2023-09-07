@@ -3,7 +3,7 @@ import UserList from "./user-list";
 
 const UserListActive = () => {
   return (
-    <div className="overflow-x-auto mx-10 shadow-md sm:rounded-lg">
+    <div className="overflow-x-auto mx-2 shadow-md sm:rounded-lg">
       <MetaData
         title="Asesores verificados"
         description="Asesores verificados"

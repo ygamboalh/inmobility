@@ -13,6 +13,23 @@ const Properties = () => {
   const handleButtonClick = (buttonNumber) => {
     setActiveButton(buttonNumber);
   };
+  const handleStateChange = (event) => {
+    const selectedOption = event.target.value;
+    console.log("", selectedOption);
+    switch (selectedOption) {
+      case "Propiedades activas":
+        handleButtonClick(1);
+        break;
+      case "Propiedades inactivas":
+        handleButtonClick(3);
+        break;
+      case "Propiedades pendientes":
+        handleButtonClick(2);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -22,8 +39,29 @@ const Properties = () => {
       <MetaData title="Propiedades" description="Propiedades" />
       <div>
         <hr />
-        <div className="mt-24 mx-8 mb-2">
-          <div className="inset-y-0 left-0 flex justify-between items-center pl-3">
+        <div className="mt-20 flex justify-center  mb-2">
+          <div className="min-[600px]:hidden">
+            <select
+              name="state"
+              onChange={handleStateChange}
+              className="w-80 rounded-md border text-gray-500 border-gray-300"
+              id=""
+            >
+              <option className="" value="">
+                Seleccione una opción
+              </option>
+              <option className="" value="Propiedades activas">
+                Propiedades activas
+              </option>
+              <option className="" value="Propiedades inactivas">
+                Propiedades inactivas
+              </option>
+              <option className="" value="Propiedades pendientes">
+                Propiedades pendientes
+              </option>
+            </select>
+          </div>
+          <div className="inset-y-0 left-0 max-[600px]:hidden flex flex-row justify-center pl-3">
             <div>
               <button
                 onClick={() => handleButtonClick(1)}

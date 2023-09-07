@@ -29,6 +29,8 @@ import { createNotification, getToken } from "../../utils/helpers";
 import enviarCorreoPersonalizado from "../../utils/email/send-personalized-email";
 import ShareAdviser from "../Share/share-adviser";
 import AudioPlayer from "../AudioPlayer/audio-player";
+import videoImage from "../../assets/images/video.png";
+import Map from "../Map/map";
 
 const SearchCard = ({ propiedad, onDataReceived }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -158,7 +160,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   if (isLoading || !property) {
     return <MySpinner />;
   }
-  console.log(idProperty);
+
   /*  const seePdfDocument = () => {
     window.location.assign(pdfUrl);
   }; */
@@ -209,7 +211,6 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
     setIsLoading(false);
   };
 
-  console.log("propiedad", propiedad, property);
   return (
     <section className="pt-16 -mb-4">
       <MetaData
@@ -253,7 +254,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                 onClick={() =>
                   navigate(`/properties/edit-property/${idProperty[0]?.id}`)
                 }
-                className="bg-blue-700 text-white px-4 py-1 mr-1 rounded-md"
+                className="bg-blue-700 max-[500px]:text-[12px] max-[500px]:h-[25px] text-white px-4 py-1 mr-1 rounded-md"
               >
                 Editar
               </button>
@@ -262,7 +263,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                 onClick={() =>
                   navigate(`/properties/edit-property/${propiedad[0]?.id}`)
                 }
-                className="bg-blue-700 text-white px-4 py-1 mr-1 rounded-md"
+                className="bg-blue-700 max-[500px]:text-[12px] max-[500px]:h-[25px] text-white px-4 py-1 mr-1 rounded-md"
               >
                 Editar
               </button>
@@ -272,7 +273,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                 DeleteProperty(propiedad[0].id);
                 window.location.reload(true);
               }}
-              className="bg-red-700 text-white px-4 py-1 rounded-md"
+              className="bg-red-700 max-[500px]:text-[12px] max-[500px]:h-[25px] text-white px-4 py-1 rounded-md"
             >
               Eliminar
             </button>
@@ -284,10 +285,10 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         <div className="flex flex-col lg:flex-row">
           <div className="flex">
             <div>
-              <h2 className="text-2xl font-semibold">
+              <h2 className="text-2xl max-[500px]:text-xl font-semibold">
                 {property.tipoPropiedad}
               </h2>
-              <h3 className="text-lg mb-4">
+              <h3 className="text-lg max-[500px]:text-sm mb-4">
                 {property.provincia +
                   " - " +
                   property.canton +
@@ -494,13 +495,35 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         <div className="text-sm">
           <div
             className={
-              property?.audio.data === null ||
-              property?.audio.data === undefined
+              property?.audio?.data === null ||
+              property?.audio?.data === undefined
                 ? "hidden"
                 : null
             }
           >
             <AudioPlayer src={audio} />
+          </div>
+          <div
+            className={
+              !property?.video?.data === null ||
+              !property?.video?.data === undefined
+                ? "hidden"
+                : "py-2"
+            }
+          >
+            <button
+              type="button"
+              onClick={() => {
+                navigate("/home/video-player", {
+                  state: { property: property },
+                });
+              }}
+            >
+              <div className="flex flex-row align-middle ">
+                <div className="video-image mr-1"></div>
+                <span className="mt-3">Video promocional</span>
+              </div>
+            </button>
           </div>
           <div className="max-[500px]:text-[14px] bg-blue-400 text-black px-3 mt-1 mb-1 font-semibold text-lg">
             Otros detalles de la propiedad
@@ -1686,6 +1709,15 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
               </div>
             )}
           </div>
+        </div>
+        <div className="flex flex-row my-2 mb-2 gap-x-2">
+          {/* aqui donde va la address, si tiene excluisividad lleva la direccion exacta, sino lleva la ubicacion aproximada */}
+          <Map
+            address={
+              "Catedral, avenida 12 entre calles 07 y 09 San José, Costa Rica"
+            }
+            exclusividad={property?.exclusividad}
+          />
         </div>
         <div
           className={

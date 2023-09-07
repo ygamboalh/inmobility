@@ -13,6 +13,22 @@ const Users = () => {
   const handleButtonClick = (buttonNumber) => {
     setActiveButton(buttonNumber);
   };
+  const handleStateChange = (event) => {
+    const selectedOption = event.target.value;
+    switch (selectedOption) {
+      case "Asesores verificados":
+        handleButtonClick(1);
+        break;
+      case "Solicitantes":
+        handleButtonClick(2);
+        break;
+      case "Supervisores":
+        handleButtonClick(3);
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <div>
       <div>
@@ -21,8 +37,29 @@ const Users = () => {
       <MetaData title="Usuarios" description="Usuarios" />
       <div>
         <hr />
-        <div className="mt-24 mx-8 mb-2">
-          <div className="inset-y-0 left-0 flex items-center pl-3">
+        <div className="mt-20 mx-4 mb-2 flex justify-center">
+          <div className="min-[730px]:hidden flex justify-center">
+            <select
+              name="state"
+              onChange={handleStateChange}
+              className="w-80 rounded-md border text-gray-500 border-gray-300"
+              id=""
+            >
+              <option className="" value="">
+                Seleccione una opción
+              </option>
+              <option className="" value="Asesores verificados">
+                Asesores verificados
+              </option>
+              <option className="" value="Solicitantes">
+                Solicitantes
+              </option>
+              <option className="" value="Supervisores">
+                Supervisores
+              </option>
+            </select>
+          </div>
+          <div className="inset-y-0 max-[750px]:hidden left-0 flex justify-center items-center pl-3">
             <div>
               <button
                 onClick={() => handleButtonClick(1)}
@@ -31,7 +68,7 @@ const Users = () => {
                   activeButton === 1 ? "bg-blue-500 text-white" : "bg-gray-300"
                 }`}
               >
-                Asesor verificado
+                Asesores verificados
               </button>
             </div>
             <div>

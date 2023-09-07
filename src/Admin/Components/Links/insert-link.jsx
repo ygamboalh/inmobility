@@ -74,7 +74,7 @@ const InsertLink = () => {
                 type="text"
                 name="url"
                 placeholder="URL"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property m-2 w-80 p-2"
               />
               <div className="space mb-2.5">
                 {errors.url && touched.url ? (
@@ -85,7 +85,7 @@ const InsertLink = () => {
                 type="text"
                 name="descripcion"
                 placeholder="Descripción"
-                className="input-admin-property m-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+                className="input-admin-property m-2 w-80 p-2"
               />
               <div className="space mb-2.5">
                 {errors.descripcion && touched.descripcion ? (

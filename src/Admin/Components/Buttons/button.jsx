@@ -117,14 +117,7 @@ const Button = () => {
     setIsLoading(false);
   };
   const column = [
-    {
-      name: "ID",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "90px",
-      id: "id",
-    },
-    {
+    /*  {
       name: "Descripción",
       id: "description",
       selector: (row) => row.attributes.description,
@@ -137,52 +130,32 @@ const Button = () => {
       selector: (row) => row.attributes.url,
       sortable: true,
       width: "500px",
-    },
+    }, */
 
-    /* {
+    {
       cell: (row) => (
-        <button
-          className="detailButton"
-          onClick={() => navigate(`/admin/shared-property/${row.id}`)}
-        >
-          Detalles
-        </button>
+        <div className="w-full flex flex-col mb-4 my-2 ml-2 p-2 justify-start">
+          <div className="flex flex-col">
+            <div className="font-medium">{row.attributes.description}</div>
+            <div>{row.attributes.url}</div>
+          </div>
+          <div className="mt-2">
+            <button
+              className="deleteButton"
+              onClick={() => DeleteButton(row.id)}
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
       ),
       accessor: "id",
       id: "detail",
+      name: <span className="text-lg">Seleccione un boton para editarlo</span>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      width: "75px",
-    }, */
-    /* {
-      cell: (row) => (
-        <button
-          className="editButton"
-          onClick={() =>
-            navigate(`/admin/properties/insert-property/${row.id}`)
-          }
-        >
-          Editar
-        </button>
-      ),
-      ignoreRowClick: false,
-      allowOverflow: true,
-      button: true,
-      id: "edit",
-      width: "60px",
-    }, */
-    {
-      cell: (row) => (
-        <button className="deleteButton" onClick={() => DeleteButton(row.id)}>
-          Eliminar
-        </button>
-      ),
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-      id: "delete",
-      width: "80px",
+      width: "70%",
     },
   ];
   const paginationComponentOptions = {
@@ -193,100 +166,92 @@ const Button = () => {
   };
 
   return (
-    <div className="z-0 overflow-x-auto mx-10 shadow-md sm:rounded-lg">
+    <div className="z-0 overflow-x-auto mx-2 shadow-md sm:rounded-lg">
       <MetaData
         title="Botones del portal del Asesor verificado"
         description="Botones del portal del Asesor verificado"
       />
-      <table className="w-full mt-16 text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full mt-16 text-sm text-left text-gray-500 ">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
           {selectedRows?.length > 0 ? (
-            <div className="mx-5 -mb-5">
+            <div className="mx-5 mt-2 -mb-5">
               <span className="text-xs font-semibold">
-                Edite el botón: {selectedRows[0]?.attributes?.description}
+                Está editando el botón:{" "}
+                {selectedRows[0]?.attributes?.description}
               </span>
             </div>
           ) : (
-            <div className="mx-5 -mb-5">
-              <span className="text-xs font-semibold">crear un botón</span>
+            <div className="mx-5 mt-2 -mb-5">
+              <span className="text-xs font-semibold">Crear un botón</span>
             </div>
           )}
           <div className="mt-4 rounded-md p-3 flex w-full">
-            <div className="w-full flex">
-              <form
-                onSubmit={handleSubmit}
-                autoComplete="off"
-                className="w-full"
-              >
-                <div className="flex w-full">
-                  <div className="mx-2 w-ful flex">
-                    <input
-                      type="text"
-                      className="border shadow flex border-gray-300 text-xs rounded-md w-80"
-                      placeholder="Descripción del botón"
-                      name="description"
-                      maxLength={40}
-                      onChange={handleChange}
-                      defaultValue={
-                        selectedRows?.length > 0
-                          ? selectedRows[0].attributes.description
-                          : null
-                      }
-                    />
-                  </div>
-                  {errors.description && touched.description ? (
-                    <div className="-ml-1.5 text-red-500 mt-3 text-xs">
-                      {errors.description}
-                    </div>
-                  ) : null}
-
-                  <div className="mx-2 flex w-full">
-                    <input
-                      type="text"
-                      className="border shadow border-gray-300 text-xs rounded-md w-full"
-                      placeholder="Dirección del enlace"
-                      onChange={handleChange}
-                      defaultValue={
-                        selectedRows?.length > 0
-                          ? selectedRows[0].attributes.url
-                          : null
-                      }
-                      name="url"
-                    />
-                  </div>
-                  {errors.url && touched.url ? (
-                    <div className="-ml-1.5 text-red-500 mt-3 text-xs">
-                      {errors.url}
-                    </div>
-                  ) : null}
-                  {selectedRows.length === 0 ? (
-                    <div className="mx-2">
-                      <button
-                        className="px-4 py-2 bg-blue-700 rounded-md text-white hover:bg-blue-500"
-                        type="submit"
-                      >
-                        Crear
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="mx-2">
-                      <button
-                        className="px-4 py-2 bg-green-400 rounded-md text-white hover:bg-green-500"
-                        type="submit"
-                      >
-                        Actualizar
-                      </button>
-                    </div>
-                  )}
+            <form onSubmit={handleSubmit} autoComplete="off" className="w-full">
+              <div className="flex flex-row max-[800px]:flex-col w-full">
+                <div className="w-full max-[800px]:mb-2 flex min-[800px]:mr-2">
+                  <input
+                    type="text"
+                    className="border w-full shadow flex border-gray-300 text-xs rounded-md"
+                    placeholder="Descripción del botón"
+                    name="description"
+                    maxLength={40}
+                    onChange={handleChange}
+                    defaultValue={
+                      selectedRows?.length > 0
+                        ? selectedRows[0].attributes.description
+                        : null
+                    }
+                  />
                 </div>
-              </form>
-            </div>
+                {errors.description && touched.description ? (
+                  <div className="-ml-1.5 text-red-500 mt-3 text-xs">
+                    {errors.description}
+                  </div>
+                ) : null}
+
+                <div className="flex w-full max-[800px]:mb-2">
+                  <input
+                    type="text"
+                    className="border shadow border-gray-300 text-xs rounded-md w-full"
+                    placeholder="Dirección del enlace"
+                    onChange={handleChange}
+                    defaultValue={
+                      selectedRows?.length > 0
+                        ? selectedRows[0].attributes.url
+                        : null
+                    }
+                    name="url"
+                  />
+                </div>
+                {errors.url && touched.url ? (
+                  <div className="-ml-1.5 text-red-500 mt-3 text-xs">
+                    {errors.url}
+                  </div>
+                ) : null}
+                {selectedRows.length === 0 ? (
+                  <div className="mx-2">
+                    <button
+                      className="px-4 py-2 bg-green-400 rounded-md text-white hover:bg-green-500"
+                      type="submit"
+                    >
+                      Crear
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mx-2">
+                    <button
+                      className="px-4 py-2 bg-blue-700 rounded-md text-white hover:bg-blue-500"
+                      type="submit"
+                    >
+                      Actualizar
+                    </button>
+                  </div>
+                )}
+              </div>
+            </form>
           </div>
         </thead>
         <tbody>
-          <div>
-            <span>Seleccione un botón para editarlo</span>
-          </div>
           <div className="w-full">
             <DataTable
               columns={column}
@@ -299,7 +264,7 @@ const Button = () => {
               highlightOnHover
               progressComponent={<MySpinner />}
               paginationComponentOptions={paginationComponentOptions}
-              noDataComponent={"No hay datos para mostrar"}
+              noDataComponent={"No hay botones para mostrar"}
               selectableRows
               selectableRowsSingle
               noHeader

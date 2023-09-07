@@ -155,7 +155,7 @@ const VerifiedAdviser = () => {
             <div className="border flex md:grid-col-2 py-4 lg:my-0 justify-center align-middle lg:p-4 shadow-1 hover:shadow-2xl rounded-lg hover:bg-red-700 bg-red-600">
               <a href="/home/links" className="flex  w-full justify-center">
                 <div className="flex text-white text-lg font-semibold flex-col justify-center ">
-                  ENLACES DE INTERES DEL GREMIO
+                  ENLACES DE INTERÉS DEL GREMIO
                 </div>
               </a>
             </div>
