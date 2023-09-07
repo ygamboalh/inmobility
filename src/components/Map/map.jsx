@@ -10,6 +10,17 @@ import AxiosInstance from "../../api/AxiosInstance";
 const Map = ({ address, exclusividad }) => {
   const [key, setkey] = useState(null);
 
+  useEffect(() => {
+    const response = AxiosInstance(`tokens?filters[type][$eq]=map`)
+      .then((data) => {
+        const keyf = data?.data?.data[0]?.attributes?.token;
+        setkey(keyf);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    getCoordinates();
+  });
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: key,
   });
@@ -35,17 +46,6 @@ const Map = ({ address, exclusividad }) => {
       console.error("Error al obtener las coordenadas:", error);
     }
   };
-  useEffect(() => {
-    const response = AxiosInstance(`tokens?filters[type][$eq]=map`)
-      .then((data) => {
-        const keyf = data?.data?.data[0]?.attributes?.token;
-        setkey(keyf);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    getCoordinates();
-  });
 
   const center = {
     lat: 0,
@@ -61,17 +61,17 @@ const Map = ({ address, exclusividad }) => {
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
   }, []);
-  if (loadError)
+  if (loadError || !key)
     return (
       <div className="flex justify-center">
         No he podido cargar mapa. Vuelva a intentarlo
       </div>
     );
   console.log("dfsdfsd", key);
-  if (!isLoaded)
+  if (!isLoaded || !key)
     return <div className="flex justify-center">Cargando el mapa...</div>;
-  console.log(exclusividad);
-  return isLoaded && latitud && longitud ? (
+
+  return isLoaded && latitud && longitud && key ? (
     <GoogleMap
       mapContainerStyle={{ height: "500px", width: "100%" }}
       center={{ lat: latitud, lng: longitud }}

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { getToken } from "../utils/helpers";
-import { API, BEARER } from "../constant";
 import MySpinner from "./Spinner/spinner";
-import axios from "axios";
+
 import MetaData from "./Metadata/metadata";
 import { authUserData } from "../api/usersApi";
 import { useQuery } from "react-query";

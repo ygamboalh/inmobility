@@ -6,29 +6,96 @@ export const authUser = async ( userData ) => {
 }
 
 export const getAllProperties = async () => {
-  const { data } = await AxiosInstance.get('/properties?populate=*&pagination[page]=1&pagination[pageSize]=100');
-  return data
+  let allData = [];
+  let data = [];
+  const { data:firstdata } = await AxiosInstance.get('/properties');
+  const totalPaginas = firstdata.meta.pagination.pageCount;
+
+  for (let page = 1; page <= totalPaginas; page++) {
+    const { data:actualData } = await AxiosInstance.get(`/properties?populate=*&pagination[page]=${page}&pagination[pageSize]=25`);
+    allData.push(actualData.data);
+  }
+  allData.map((datos) => {
+    datos.forEach((datosA) => {
+      data.push(datosA);
+    })
+  })
+  return { data:data };
 }
 export const getAllPropertiesRQ = async () => {
-  const { data } = await AxiosInstance.get('/properties?populate=*&pagination[page]=1&pagination[pageSize]=100');
-  return data
+  //const { data } = await AxiosInstance.get('/properties?populate=*');
+  //return data
+  let allData = [];
+  let data = [];
+  const { data:firstdata } = await AxiosInstance.get('/properties');
+  const totalPaginas = firstdata.meta.pagination.pageCount;
+
+  for (let page = 1; page <= totalPaginas; page++) {
+    const { data:actualData } = await AxiosInstance.get(`/properties?populate=*&pagination[page]=${page}&pagination[pageSize]=25`);
+    allData.push(actualData.data);
+  }
+  allData.map((datos) => {
+    datos.forEach((datosA) => {
+      data.push(datosA);
+    })
+  })
+  return { data:data };
 }
 export const getAllButtons = async () => {
   const { data } = await AxiosInstance.get('/buttons?populate=*');
   return data
 }
 export const getAllNotifications = async () => {
-  const { data } = await AxiosInstance.get('/notifications?populate=*&pagination[page]=1&pagination[pageSize]=100');
-  return data
+  let allData = [];
+  let data = [];
+  const { data:firstdata } = await AxiosInstance.get('/notifications');
+  const totalPaginas = firstdata.meta.pagination.pageCount;
+
+  for (let page = 1; page <= totalPaginas; page++) {
+    const { data:actualData } = await AxiosInstance.get(`/notifications?populate=*&pagination[page]=${page}&pagination[pageSize]=25`);
+    allData.push(actualData.data);
+  }
+  allData.map((datos) => {
+    datos.forEach((datosA) => {
+      data.push(datosA);
+    })
+  })
+  return { data:data };
 }
 export const getAllPortafolios = async () => {
-  const { data } = await AxiosInstance.get('/portafolios?populate=*&pagination[page]=1&pagination[pageSize]=100');
-  return data
+  let allData = [];
+  let data = [];
+  const { data:firstdata } = await AxiosInstance.get('/portafolios');
+  const totalPaginas = firstdata.meta.pagination.pageCount;
+
+  for (let page = 1; page <= totalPaginas; page++) {
+    const { data:actualData } = await AxiosInstance.get(`/portafolios?populate=*&pagination[page]=${page}&pagination[pageSize]=25`);
+    allData.push(actualData.data);
+  }
+  allData.map((datos) => {
+    datos.forEach((datosA) => {
+      data.push(datosA);
+    })
+  })
+  return { data:data };
 }
 
 export const getAllLinks = async () => {
-  const { data } = await AxiosInstance.get('/links?pagination[page]=1&pagination[pageSize]=100');
-  return data
+  let allData = [];
+  let data = [];
+  const { data:firstdata } = await AxiosInstance.get('/links');
+  const totalPaginas = firstdata.meta.pagination.pageCount;
+
+  for (let page = 1; page <= totalPaginas; page++) {
+    const { data:actualData } = await AxiosInstance.get(`/links?pagination[page]=${page}&pagination[pageSize]=25`);
+    allData.push(actualData.data);
+  }
+  allData.map((datos) => {
+    datos.forEach((datosA) => {
+      data.push(datosA);
+    })
+  })
+  return { data:data };
 }
 export const getActiveProperties = async () => {
   const foundedProperties = [];

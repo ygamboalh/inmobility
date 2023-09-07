@@ -34,7 +34,6 @@ const LinkList = () => {
       setRecords(foundedLinks);
       setFilterRecords(foundedLinks);
       setPending(false);
-      console.log(foundedLinks);
     },
   });
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
@@ -116,7 +115,7 @@ const LinkList = () => {
   const column = [
     {
       cell: (row) => (
-        <div className="flex  w-full flex-col p-2 my-2">
+        <div className="flex w-full flex-col p-2 my-2">
           <div className="flex flex-col justify-start">
             <div className="mt-2 mb-1 font-semibold ">
               {row.attributes.descripcion}
@@ -167,7 +166,7 @@ const LinkList = () => {
   }
 
   return (
-    <div className="w-full px-6">
+    <div className="w-full h-[400px] px-6">
       <MetaData title="Enlaces" description="Enlaces" />
       <DataTable
         columns={column}
