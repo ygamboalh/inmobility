@@ -325,7 +325,7 @@ export const PortafolioDetail = () => {
                             className="detailButton mr-1 text-sm"
                             onClick={() =>
                               navigate(
-                                `/home/shared-property/${record.attributes.uniqueId}`
+                                `/home/shared-property/${record?.attributes?.uniqueId}`
                               )
                             }
                           >
@@ -333,7 +333,7 @@ export const PortafolioDetail = () => {
                           </button>
                           <button
                             type="button"
-                            onClick={() => deleteRow(record.id, records)}
+                            onClick={() => deleteRow(record?.id, records)}
                             className="deleteButton text-sm"
                           >
                             Eliminar

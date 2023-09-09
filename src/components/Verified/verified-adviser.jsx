@@ -5,38 +5,20 @@ import { useQuery } from "react-query";
 import { authUserData } from "../../api/usersApi";
 import Thumbnail from "../Thumbnail/thumbnail";
 import MetaData from "../Metadata/metadata";
-import { getAllButtons, getAllPropertiesRQ } from "../../api/propertiesApi";
+import { getAllButtons } from "../../api/propertiesApi";
 import { useNavigate } from "react-router-dom";
 
 const VerifiedAdviser = () => {
   const { data: userData } = useQuery("profile", authUserData);
-  const [propertyList, setPropertyList] = useState();
   const [buttons, setButtons] = useState([]);
   const navigate = useNavigate();
   const active = userData?.active;
-  const { data, isLoading: loadingProperties } = useQuery(
-    "properties",
-    getAllPropertiesRQ,
-    {
-      onSuccess: (data) => {
-        const foundedProperties = [];
-        data.data.forEach((property) => {
-          if (property.attributes.creadoPor === userData?.id) {
-            foundedProperties.push(property);
-          }
-        });
-        setPropertyList(foundedProperties);
-        /* setFilterRecords(foundedProperties);
-        setPending(false); */
-      },
-    }
-  );
+
   const { data: buttonsData, isLoading: loadingButtons } = useQuery(
     "buttons",
     getAllButtons,
     {
       onSuccess: (data) => {
-        console.log(data.data);
         setButtons(data.data);
       },
     }
@@ -65,17 +47,13 @@ const VerifiedAdviser = () => {
             <div className="grid  grid-cols-2 lg:grid-cols-2 md:grid-cols-2 card-buttons content-around justify-center">
               <button
                 onClick={() =>
-                  navigate("/home/verified-adviser/my-property-list", {
-                    state: {
-                      propertyList,
-                      categories: "Venta de casas y apartamentos",
-                    },
-                  })
+                  navigate("/home/verified-adviser/my-property-list")
                 }
                 className="col-span-1 align-middle items-center orange-button justify-center flex"
               >
                 <span className="text-[12px]">MI LISTA</span>
               </button>
+
               <div className="col-span-1 align-middle items-center orange-button justify-center flex">
                 <a
                   href="/home/portfolio"

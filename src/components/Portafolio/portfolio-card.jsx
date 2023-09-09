@@ -29,6 +29,7 @@ import { authUserData } from "../../api/usersApi";
 import MetaData from "../Metadata/metadata";
 import ShareAdviser from "../Share/share-adviser";
 import AudioPlayer from "../AudioPlayer/audio-player";
+import Map from "../Map/map";
 
 const PortafolioCard = ({ propiedad }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -100,6 +101,7 @@ const PortafolioCard = ({ propiedad }) => {
   const [images, setImages] = useState([]);
   const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
+  const [address, setAddress] = useState();
 
   const seePdfDocument = () => {
     window.location.assign(pdfUrl);
@@ -117,6 +119,9 @@ const PortafolioCard = ({ propiedad }) => {
       setPdfUrl(
         `https://siccic.com/home/shared-property/${propertyFound?.uniqueId}`
       );
+      propertyFound?.tomadaExclusividad
+        ? setAddress(propertyFound.ubicacionDetallada)
+        : setAddress(propertyFound.ubicacionCercana);
     });
 
     setProperty(propertyFound);
@@ -1504,10 +1509,12 @@ const PortafolioCard = ({ propiedad }) => {
                       >
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                       </svg>
-                      <label className="font-semibold mr-1">
-                        Ubicación detallada:
-                      </label>
-                      <label>{property?.ubicacionDetallada}</label>
+                      <div className="flex flex-col">
+                        <label className="font-semibold mr-1 flex flex-row">
+                          Ubicación detallada:
+                        </label>
+                        <label>{property?.ubicacionDetallada}</label>
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -1667,6 +1674,9 @@ const PortafolioCard = ({ propiedad }) => {
               </div>
             )}
           </div>
+        </div>
+        <div className="flex flex-row my-2 mb-2 gap-x-2">
+          <Map address={address} exclusividad={property?.tomadaExclusividad} />
         </div>
         <div
           className={

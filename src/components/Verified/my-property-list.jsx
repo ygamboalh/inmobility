@@ -5,12 +5,27 @@ import MySpinner from "../Spinner/spinner";
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
 import SearchCard from "../SearchResults/property-card";
+import { getAllPropertiesRQ } from "../../api/propertiesApi";
+import AxiosInstance from "../../api/AxiosInstance";
 
 const MyPropertyList = () => {
   const { data: userData } = useQuery("profile", authUserData);
-  const location = useLocation();
-  const propertyList = location.state.propertyList;
+  const [propertyList, setPropertyList] = useState();
 
+  useEffect(() => {
+    const response = AxiosInstance.get(
+      `properties?filters[creadoPor][$eq]=${userData?.id}&populate=*`
+    )
+      .then((res) => {
+        setPropertyList(res.data.data);
+        console.log(res.data);
+      })
+      .catch(console.error());
+  }, []);
+
+  if (!propertyList) {
+    return <MySpinner />;
+  }
   return (
     <div>
       <div className="">

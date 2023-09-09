@@ -37,6 +37,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   const [dataToSend, setDataToSend] = useState();
   const [audio, setAudio] = useState(null);
   const [idProperty, setIdProperty] = useState();
+  const [address, setAddress] = useState();
 
   const { data: userData } = useQuery("profile", authUserData);
   const navigate = useNavigate();
@@ -81,6 +82,9 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             );
             //getAdviser();
             setProperty(propertyFound);
+            propertyFound?.tomadaExclusividad
+              ? setAddress(propertyFound.ubicacionDetallada)
+              : setAddress(propertyFound.ubicacionCercana);
             const imagesUrl = [];
             imagesCount?.data?.forEach((image) => {
               imagesUrl.push(image.attributes.url);
@@ -134,7 +138,9 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         const audio = propertyFound?.audio?.data?.attributes?.url;
         setAudio(`https://backend.siccic.com${audio}`);
         getAdviser();
-
+        propertyFound?.tomadaExclusividad
+          ? setAddress(propertyFound.ubicacionDetallada)
+          : setAddress(propertyFound.ubicacionCercana);
         setProperty(propertyFound);
         setIsLoading(false);
         const imagesUrl = [];
@@ -1546,10 +1552,12 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                       >
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                       </svg>
-                      <label className="font-semibold mr-1">
-                        Ubicación detallada:
-                      </label>
-                      <label>{property?.ubicacionDetallada}</label>
+                      <div className="flex flex-col">
+                        <label className="font-semibold mr-1 flex flex-row">
+                          Ubicación detallada:
+                        </label>
+                        <label>{property?.ubicacionDetallada}</label>
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -1712,12 +1720,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         </div>
         <div className="flex flex-row my-2 mb-2 gap-x-2">
           {/* aqui donde va la address, si tiene excluisividad lleva la direccion exacta, sino lleva la ubicacion aproximada */}
-          <Map
-            address={
-              "Catedral, avenida 12 entre calles 07 y 09 San José, Costa Rica"
-            }
-            exclusividad={property?.exclusividad}
-          />
+          <Map address={address} exclusividad={property?.tomadaExclusividad} />
         </div>
         <div
           className={
