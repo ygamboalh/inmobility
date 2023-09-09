@@ -42,7 +42,6 @@ const AlquilerEdificios = () => {
       if (urlFinal.length !== 0) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[categories][id][$eq]=8${urlQuery}`;
-        console.log(url);
         const busqueda = axios
           .get(url, {
             headers: {

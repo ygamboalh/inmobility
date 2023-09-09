@@ -27,7 +27,6 @@ const VisiterSearch = () => {
       if (urlFinal.length !== 0) {
         const url = `${API}properties?filters[uniqueId][$eq]=${values?.uniqueId}`;
 
-        console.log(url);
         const busqueda = axios
           .get(url, {})
           .then((response) => {

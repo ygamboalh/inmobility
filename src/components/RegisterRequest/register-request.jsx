@@ -140,7 +140,7 @@ const RegisterRequest = () => {
       setIsLoading(false);
     }
   };
-  console.log(acepted);
+
   if (isLoading) {
     return <MySpinner />;
   }

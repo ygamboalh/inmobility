@@ -87,7 +87,6 @@ export const PortafolioDetail = () => {
     onSubmit: async (values) => {
       setIsLoading(true);
       const id = userData?.id;
-      console.log(values);
 
       const newProperties = [];
       records?.map((record) => {
@@ -113,7 +112,7 @@ export const PortafolioDetail = () => {
         correoAsesor: portafolio.attributes.correoAsesor,
         categoria: portafolio.attributes.categoria,
       };
-      console.log("los valores", value);
+
       const response = axios(`${API}portafolios/${portafolio.id}`, {
         method: "PUT",
         headers: {

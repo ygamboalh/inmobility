@@ -44,7 +44,6 @@ const AlquilerBodegas = () => {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[categories][id][$eq]=10${urlQuery}`;
 
-        console.log(url);
         const busqueda = axios
           .get(url, {
             headers: {

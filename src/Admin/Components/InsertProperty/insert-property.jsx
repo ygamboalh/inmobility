@@ -422,7 +422,7 @@ const InsertProperty = () => {
             tipoVivienda: values?.tipoVivienda,
             ubicacionCercana: values.ubicacionCercana,
           };
-          console.log("los valores", value);
+
           const response = await AxiosInstance.put(`/properties/${id}`, {
             data: value,
           })
@@ -464,7 +464,6 @@ const InsertProperty = () => {
     },
   });
   useEffect(() => {
-    console.log("el id", id);
     if (!id) {
       handleSubmit();
     }

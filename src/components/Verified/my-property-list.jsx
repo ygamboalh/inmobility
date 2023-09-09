@@ -1,11 +1,10 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import MySpinner from "../Spinner/spinner";
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
 import SearchCard from "../SearchResults/property-card";
-import { getAllPropertiesRQ } from "../../api/propertiesApi";
+
 import AxiosInstance from "../../api/AxiosInstance";
 
 const MyPropertyList = () => {
@@ -18,7 +17,6 @@ const MyPropertyList = () => {
     )
       .then((res) => {
         setPropertyList(res.data.data);
-        console.log(res.data);
       })
       .catch(console.error());
   }, []);

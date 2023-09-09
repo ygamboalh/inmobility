@@ -15,7 +15,7 @@ const Properties = () => {
   };
   const handleStateChange = (event) => {
     const selectedOption = event.target.value;
-    console.log("", selectedOption);
+
     switch (selectedOption) {
       case "Propiedades activas":
         handleButtonClick(1);

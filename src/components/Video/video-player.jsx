@@ -1,15 +1,20 @@
 import ReactPlayer from "react-player";
 import MetaData from "../Metadata/metadata";
-import video from "../../assets/images/no-te-hago-falta.mp4";
+
 import { useLocation } from "react-router-dom";
 import {
   BiArea,
+  BiBath,
   BiBuildingHouse,
   BiCategory,
+  BiChair,
+  BiChild,
   BiCurrentLocation,
   BiHomeAlt,
   BiHotel,
   BiMap,
+  BiMoney,
+  BiSolidDog,
 } from "react-icons/bi";
 const VideoPlayer = () => {
   const location = useLocation();
@@ -91,7 +96,7 @@ const VideoPlayer = () => {
                         {propiedad?.areaTerreno} m<sup>2</sup>
                       </p>
                     </div>
-                    <div className="flex flex-row">
+                    <div className="flex flex-row max-[600px]:py-1 ">
                       <div
                         className={
                           propiedad?.habitaciones
@@ -104,6 +109,83 @@ const VideoPlayer = () => {
                         </span>
                         <p className="text-sm text-gray-500 truncate">
                           {propiedad?.habitaciones} habitaciones
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-row max-[600px]:py-1 ">
+                      <div
+                        className={
+                          propiedad?.banos ? "flex flex-row mr-1" : "hidden"
+                        }
+                      >
+                        <span className="">
+                          <BiBath size={20} />
+                        </span>
+                        <p className="text-sm text-gray-500 truncate">
+                          {propiedad?.banos} baños
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-row max-[600px]:py-1 ">
+                      <div
+                        className={
+                          propiedad?.precio ? "flex flex-row mr-1" : "hidden"
+                        }
+                      >
+                        <span className="mr-0.5">
+                          <BiMoney size={20} />
+                        </span>
+                        <div className="flex flex-row">
+                          <p className="text-sm text-gray-500 mr-0.5 truncate">
+                            {propiedad?.moneda}
+                          </p>
+                          <p className="text-sm text-gray-500 truncate">
+                            {propiedad?.precio}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-row max-[600px]:py-1">
+                      <div
+                        className={
+                          propiedad?.amueblado ? "flex flex-row mr-1" : "hidden"
+                        }
+                      >
+                        <span className="">
+                          <BiChair size={20} />
+                        </span>
+                        <p className="text-sm text-gray-500 truncate">
+                          {propiedad?.amueblado}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-row max-[600px]:py-1 ">
+                      <div
+                        className={
+                          propiedad?.aptoHijos ? "flex flex-row mr-1" : "hidden"
+                        }
+                      >
+                        <span className="">
+                          <BiChild size={20} />
+                        </span>
+                        <p className="text-sm text-gray-500 truncate">
+                          {propiedad?.aptoHijos}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-row max-[600px]:py-1">
+                      <div
+                        className={
+                          propiedad?.aptoMascotas
+                            ? "flex flex-row mr-1"
+                            : "hidden"
+                        }
+                      >
+                        <span className="">
+                          <BiSolidDog size={20} />
+                        </span>
+                        <p className="text-sm text-gray-500 truncate">
+                          {propiedad?.aptoMascotas}
                         </p>
                       </div>
                     </div>

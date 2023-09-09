@@ -26,6 +26,7 @@ import {
   deleteZero,
   getUserTokenDate,
 } from "../../../utils/helpers";
+import { getAllNotifications } from "../../../api/propertiesApi";
 
 const Dropdown = ({ ubicacion }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,15 +44,34 @@ const Dropdown = ({ ubicacion }) => {
 
     setImageUrl(url);
   });
+  const { data, isLoading: loadingNotifications } = useQuery(
+    "notifications",
+    getAllNotifications,
+    {
+      onSuccess: (data) => {
+        let notifications = [];
+        data?.data?.map((item) => {
+          let users = [];
+          item.attributes.users.data?.map((user) => {
+            users.push(user.id);
+          });
+          if (
+            !users.includes(id) &&
+            (item.attributes.emailReference === userData?.email ||
+              item.attributes.emailReference === null)
+          ) {
+            notifications.push(item);
+          }
+        });
+
+        notifications = notifications.reverse();
+
+        setNotificaciones(notifications);
+      },
+    }
+  );
   useEffect(() => {
     deleteNotification();
-    const response = AxiosInstance.get(`${API}notifications`)
-      .then((response) => {
-        setNotificaciones(response.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }, []);
 
   const buttonStyle = {

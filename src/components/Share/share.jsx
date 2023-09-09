@@ -18,7 +18,6 @@ import MySpinner from "../Spinner/spinner";
 const Share = (url) => {
   const pdfUrl = url.pdfUrl;
   const adviser = url.adviser;
-  //console.log("adviser en shared", adviser);
   const navigate = useNavigate();
 
   return (

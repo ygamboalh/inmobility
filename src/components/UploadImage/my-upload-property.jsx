@@ -36,7 +36,6 @@ const LoadPropertyImage = ({ creadoPor }) => {
   };
   const handleChangeVideo = (event) => {
     setVideo(event.target.files);
-    console.log(event.target.files);
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -89,7 +88,6 @@ const LoadPropertyImage = ({ creadoPor }) => {
     data.append("refId", refid);
     data.append("field", fieldAudio);
     data.append("files", audio[0]);
-    console.log("esta es la data", data);
 
     //Aqui verifico que el id del usuario logueado sea el mismo del usuario que creo la propiedad
     if (userId === creadoPor) {
@@ -108,7 +106,6 @@ const LoadPropertyImage = ({ creadoPor }) => {
           message.error(
             "¡Ocurrió un error cargando el archivo de audio. Vuelva a intentarlo!"
           );
-          console.log("el error", err);
         })
 
         .finally(() => setIsLoading(false));
@@ -128,7 +125,6 @@ const LoadPropertyImage = ({ creadoPor }) => {
     data.append("refId", refid);
     data.append("field", fieldVideo);
     data.append("files", video[0]);
-    console.log("esta es la data", data);
 
     //Aqui verifico que el id del usuario logueado sea el mismo del usuario que creo la propiedad
     if (userId === creadoPor) {
@@ -147,7 +143,6 @@ const LoadPropertyImage = ({ creadoPor }) => {
           message.error(
             "¡Ocurrió un error cargando el archivo de video. Vuelva a intentarlo!"
           );
-          console.log("el error", err);
         })
 
         .finally(() => setIsLoading(false));

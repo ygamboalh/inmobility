@@ -19,13 +19,12 @@ import {
   UbicacionGeografica,
   categories,
 } from "../../BD/bd";
-import AxiosInstance from "../../api/AxiosInstance";
-import { API, BEARER } from "../../constant";
-import { useQuery } from "react-query";
-import { getAllPropertiesRQ } from "../../api/propertiesApi";
-import MySpinner from "../Spinner/spinner";
+
 import { useFormik } from "formik";
 import axios from "axios";
+
+import { API, BEARER } from "../../constant";
+import MySpinner from "../Spinner/spinner";
 import { getToken } from "../../utils/helpers";
 import { message } from "antd";
 import { QueriesByFilters } from "../../utils/QueriesByFilters";
@@ -129,7 +128,6 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
         venta-casa-apartamento
        */
 
-      console.log(values);
       setIsLoading(true);
       const urlPortion = makeQueries(values);
       let urlFinal = "";
@@ -139,7 +137,6 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
       if (urlFinal.length !== 0) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[categories][id][$eq]=${categoria}${urlQuery}`;
-        console.log("url", url);
 
         const busqueda = axios
           .get(url, {
@@ -149,7 +146,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
           })
           .then((response) => {
             const propertyList = response.data.data;
-            console.log("las que encontre", propertyList);
+
             if (propertyList.length !== 0) {
               setRecords(propertyList);
               setFilterRecords(propertyList);

@@ -19,7 +19,6 @@ import MySpinner from "../Spinner/spinner";
 const ShareAdviser = (url) => {
   const pdfUrl = url.pdfUrl;
   const adviser = url.adviser;
-  //console.log("adviser en shared", adviser);
   const navigate = useNavigate();
   function copyToPaper(text) {
     navigator.clipboard.writeText(text);
