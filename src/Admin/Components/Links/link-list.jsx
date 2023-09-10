@@ -209,7 +209,7 @@ const LinkList = () => {
             <div className={selectedRows?.length > 0 ? "-mx-9" : "hidden"}>
               <div className="mx-3.5 mt-2 justify-start flex max-[500px]:flex-col -mb-5">
                 <span className="font-semibold mr-2 text-xs flex">
-                  Está editando el enlace:{" "}
+                  Entre los nuevos datos del enlace:{" "}
                 </span>
                 <span className="text-xs flex font-normal">
                   {selectedRows[0]?.attributes?.descripcion}

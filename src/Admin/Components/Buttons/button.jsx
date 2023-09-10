@@ -176,7 +176,7 @@ const Button = () => {
           {selectedRows?.length > 0 ? (
             <div className="mx-5 mt-2 -mb-5">
               <span className="text-xs font-semibold">
-                Está editando el botón:{" "}
+                Entre los nuevos datos del botón:{" "}
                 {selectedRows[0]?.attributes?.description}
               </span>
             </div>
