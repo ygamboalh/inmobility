@@ -54,17 +54,16 @@ const VentaCasaApartamento = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
-    initialValues: {
-      provincia: "",
-      canton: "",
-    },
+    initialValues: {},
     onSubmit: (values) => {
       setIsLoading(true);
       const urlPortion = makeQueries(values);
       let urlFinal = "";
+
       urlPortion.map((value) => {
         urlFinal += value.name;
       });
+
       if (
         urlFinal.length !== 0 ||
         patio?.length > 0 ||
@@ -73,6 +72,7 @@ const VentaCasaApartamento = () => {
         detallesExternos?.length > 0
       ) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
+
         const url = `${API}properties?filters[categories][id][$eq]=1${urlQuery}`;
 
         const busqueda = axios

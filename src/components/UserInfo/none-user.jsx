@@ -84,7 +84,7 @@ const NoneUser = () => {
               className="text-xs flex -mt-0.5 py-1 w-full flex-row pl-1"
               href="/alquiler"
             >
-              Alquiler
+              Alquileres
             </a>
           </div>
           <hr />

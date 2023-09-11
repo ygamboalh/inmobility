@@ -28,14 +28,12 @@ const AlquileraLocalesComerciales = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
-    initialValues: {
-      provincia: "",
-      canton: "",
-    },
+    initialValues: {},
     onSubmit: (values) => {
       setIsLoading(true);
       const urlPortion = makeQueries(values);
       let urlFinal = "";
+
       urlPortion.map((value) => {
         urlFinal += value.name;
       });

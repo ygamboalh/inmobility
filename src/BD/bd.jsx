@@ -77,7 +77,10 @@ export const Bodega = [
 export const UsoSuelo = [
   { value: "Comercial", label: "Comercial" },
   { value: "Habitacional", label: "Habitacional" },
-  { value: "Mixto", label: "Mixto (Comercial y habitacional)" },
+  {
+    value: "Mixto (Comercial y habitacional)",
+    label: "Mixto (Comercial y habitacional)",
+  },
   { value: "Habitacional unifamiliar", label: "Habitacional unifamiliar" },
   { value: "Industrial", label: "Industrial" },
 ];
@@ -273,7 +276,6 @@ export const DetallesInternos = [
   { value: "Jacuzzi", label: "Jacuzzi" },
   { value: "Sauna", label: "Sauna" },
   { value: "Suelo de cerámica / mármol", label: "Suelo de cerámica / mármol" },
-  { value: "Trastero", label: "Trastero" },
   { value: "Turco", label: "Turco" },
   { value: "Vista panorámica", label: "Vista panorámica" },
   { value: "Zona de lavandería", label: "Zona de lavandería" },

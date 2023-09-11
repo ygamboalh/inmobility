@@ -55,10 +55,7 @@ const AlquilerCasaApartamento = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
-    initialValues: {
-      provincia: "",
-      canton: "",
-    },
+    initialValues: {},
     onSubmit: (values) => {
       setIsLoading(true);
       const urlPortion = makeQueries(values);

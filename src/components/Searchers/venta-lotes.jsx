@@ -23,17 +23,14 @@ import { getToken } from "../../utils/helpers";
 import MySpinner from "../Spinner/spinner";
 import { QueriesByFilters } from "../../utils/QueriesByFilters";
 import MetaData from "../Metadata/metadata";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const AlquilerLotes = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
-    initialValues: {
-      provincia: "",
-      canton: "",
-    },
+    initialValues: {},
     onSubmit: (values) => {
+      console.log(values);
       setIsLoading(true);
       const urlPortion = makeQueries(values);
       let urlFinal = "";
