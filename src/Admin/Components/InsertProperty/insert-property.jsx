@@ -1017,7 +1017,13 @@ const InsertProperty = () => {
               </div>
             </div>
           )}
-          {selectedOption === "" ? null : (
+          {selectedOption === "Alquiler de Casas y Apartamentos" ||
+          selectedOption === "Alquiler de Edificios" ||
+          selectedOption === "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+          selectedOption === "Alquiler de Locales Comerciales" ||
+          selectedOption === "Alquiler de Bodegas o Similares" ||
+          selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
+          selectedOption === "" ? null : (
             <div class="flex input-admin-property ml-1 mr-1 py-2">
               <select
                 name="avaluoMoneda"
@@ -1129,19 +1135,14 @@ const InsertProperty = () => {
           <select
             hidden={
               selectedOption === "" ||
-              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Alquiler de Edificios" ||
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
               selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
               selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Casas y Apartamentos"
+              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
             }
             name="duenoFinanciaCompra"
             defaultValue={property?.duenoFinanciaCompra}
@@ -1162,19 +1163,14 @@ const InsertProperty = () => {
           <select
             hidden={
               selectedOption === "" ||
-              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Alquiler de Edificios" ||
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
               selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
               selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Casas y Apartamentos"
+              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
             }
             name="duenoRecibeVehiculo"
             defaultValue={property?.duenoRecibeVehiculo}

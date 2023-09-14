@@ -64,7 +64,7 @@ const Map = ({ address, exclusividad }) => {
   if (loadError || !key)
     return (
       <div className="flex justify-center">
-        No he podido cargar la ubicación en el mapa
+        No se ha podido cargar la ubicación en el mapa
       </div>
     );
 
@@ -99,7 +99,7 @@ const Map = ({ address, exclusividad }) => {
     </GoogleMap>
   ) : (
     <div className="flex justify-center font-semibold text-red-600">
-      No he podido cargar la ubicación en el mapa
+      No se ha podido cargar la ubicación en el mapa
     </div>
   );
 };

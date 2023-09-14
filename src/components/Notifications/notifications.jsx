@@ -162,7 +162,7 @@ const Notifications = () => {
         console.log("respuesta", res);
       })
       .catch((error) => {
-        console.log("el error", error);
+        console.log(error);
       });
   };
   if (!notifications) {
@@ -181,13 +181,16 @@ const Notifications = () => {
       {notifications?.map((notification) => {
         return (
           <div className="flex flex-col mx-8 bg-gray-200 rounded-md p-4 align-middle mb-1">
-            <div className="flex flex-row">
+            <div className="flex flex-row mb-2">
               <div className="align-middle ml-1 mr-1">
                 <BiBell size={20} />
               </div>
-              <div>
-                <span className="font-semibold">
+              <div className="flex flex-row">
+                <span className="font-semibold mr-4">
                   {notification.attributes.type}
+                </span>
+                <span className="bg-gray-300 text-xs rounded-md py-[5px] px-2">
+                  {notification?.attributes?.createdAt?.slice(0, 10)}
                 </span>
               </div>
               <hr />
@@ -201,7 +204,11 @@ const Notifications = () => {
                 <div className="ml-4 my-2">
                   <button
                     type="button"
-                    onClick={() => navegar(notification?.attributes?.reference)}
+                    onClick={() =>
+                      navigate(
+                        `/home/shared-property/${notification?.attributes?.reference}`
+                      )
+                    }
                     className="bg-green-400 hover:bg-green-500 px-2 py-1 text-white rounded-md cursor-pointer"
                   >
                     Revisar

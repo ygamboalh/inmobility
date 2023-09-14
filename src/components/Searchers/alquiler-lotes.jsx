@@ -336,28 +336,7 @@ const AlquilerLotes = () => {
               </label>
             </div>
           </div>
-          <div class="flex input-admin-property ml-1 mr-1 py-2">
-            <select
-              name="avaluoMoneda"
-              id="avaluoMoneda"
-              onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
-            >
-              <option value="">$</option>
-              <option value="$">USD</option>
-              <option value="₡">CRC</option>
-            </select>
-            <div class="relative w-full">
-              <input
-                type="number"
-                onChange={handleChange}
-                min={0}
-                name="avaluo"
-                placeholder="Valor según avalúo"
-                className="block max-[450px]:w-[243px] text-gray-500 min-[500px]:w-[243px] max-[640px]:w-[243px] min-[641px]:w-[200px] p-2.5 w-[243px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-          </div>
+
           <select
             name="tieneCuotaMantenimiento"
             onChange={handleChange}

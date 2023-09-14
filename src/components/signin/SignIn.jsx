@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { useSignIn, useSignOut } from "react-auth-kit";
 
@@ -25,6 +25,7 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { data: userData } = useQuery("profile", authUserData);
   const signOut = useSignOut();
+  const navigate = useNavigate();
 
   const {
     mutate: loginMutation,
@@ -65,6 +66,7 @@ const SignIn = () => {
       });
     },
   });
+
   const forcedLogOut = () => {
     const token = getUserTokenDate();
     const currentDate = new Date();
@@ -94,6 +96,7 @@ const SignIn = () => {
   useEffect(() => {
     forcedLogOut();
   });
+
   if (isLoading) {
     return <MySpinner />;
   }
