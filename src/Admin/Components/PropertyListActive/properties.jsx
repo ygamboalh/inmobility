@@ -54,7 +54,7 @@ const PropertiesList = () => {
     }
   );
   useEffect(() => {
-    setVisibleRecords(records.slice(0, loadCount));
+    setVisibleRecords(records?.slice(0, loadCount));
   }, [records, loadCount]);
 
   const handleScroll = () => {
@@ -97,7 +97,8 @@ const PropertiesList = () => {
           createNotification(
             "Eliminación",
             `Se ha eliminado la propiedad ${result.data.data.attributes.uniqueId}`,
-            id
+            null,
+            null
           );
           const body = `El siguiente inmueble ha sido eliminado por el usuario: ${userData.email}`;
           enviarCorreoPersonalizado("infosistemacic@gmail.com", property, body);
@@ -130,7 +131,7 @@ const PropertiesList = () => {
   return (
     <div className="w-full">
       <MetaData title="Propiedades" description="Propiedades activas" />
-      <div className={visibleRecords?.length ? "w-full px-1 my-1" : "hidden"}>
+      <div className="w-full px-1 my-1">
         <div className="relative w-full flex justify-center">
           <div className="absolute max-[500px]:hidden inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <BiSearch size={25} />
@@ -146,7 +147,7 @@ const PropertiesList = () => {
       {visibleRecords?.length ? (
         <div className="flex w-full justify-center flex-wrap mb-4">
           {visibleRecords.map((row) => (
-            <div className="w-[340px] my-2 p-4 mx-1 bg-white border border-gray-300 rounded-lg shadow">
+            <div className="w-[340px] flex flex-col justify-between my-2 p-4 mx-1 bg-white border border-gray-300 rounded-lg shadow">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-lg font-bold leading-none text-gray-900 ">
                   Detalles del inmueble
@@ -238,38 +239,36 @@ const PropertiesList = () => {
                         <hr />
                       </div>
                     </div>
-                    <div className="flex items-center justify-center mt-2 -mb-4 space-x-4">
-                      <div className="mt-2 flex justify-center flex-row">
-                        <button
-                          className="detailButton"
-                          onClick={() =>
-                            navigate(
-                              `/admin/shared-property/${row.attributes.uniqueId}`
-                            )
-                          }
-                        >
-                          Detalles
-                        </button>
-                        <button
-                          className="editButton mx-2"
-                          onClick={() =>
-                            navigate(
-                              `/admin/properties/insert-property/${row.id}`
-                            )
-                          }
-                        >
-                          Editar
-                        </button>
-                        <button
-                          className="deleteButton"
-                          onClick={() => DeleteProperty(row.id)}
-                        >
-                          Eliminar
-                        </button>
-                      </div>
-                    </div>
                   </li>
                 </ul>
+              </div>
+              <div className="flex items-center justify-center mt-2 space-x-4">
+                <div className="mt-2 flex justify-center flex-row">
+                  <button
+                    className="detailButton"
+                    onClick={() =>
+                      navigate(
+                        `/admin/shared-property/${row.attributes.uniqueId}`
+                      )
+                    }
+                  >
+                    Detalles
+                  </button>
+                  <button
+                    className="editButton mx-2"
+                    onClick={() =>
+                      navigate(`/admin/properties/insert-property/${row.id}`)
+                    }
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="deleteButton"
+                    onClick={() => DeleteProperty(row.id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </div>
             </div>
           ))}

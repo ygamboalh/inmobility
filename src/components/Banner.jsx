@@ -89,7 +89,7 @@ const Banner = () => {
         userData?.active === "Asesor verificado inactivo" ||
         userData?.active === "Freelancer" ? (
           <Link
-            to="https://sites.google.com/view/sicic/portal-solo-asesores-inmobiliarios/ubicar-asesores-inmobiliarios-por-zona"
+            to="https://sites.google.com/view/directoriocr/ubicar-asesores-inmobiliarios-por-zona"
             className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary"
           >
             <div className="px-2">

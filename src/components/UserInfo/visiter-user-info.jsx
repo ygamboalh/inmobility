@@ -1,10 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSignOut } from "react-auth-kit";
-import { BiLogOut, BiHomeAlt, BiLockOpenAlt } from "react-icons/bi";
+import {
+  BiLogOut,
+  BiHomeAlt,
+  BiLockOpenAlt,
+  BiMailSend,
+  BiMessageDetail,
+} from "react-icons/bi";
 import { deleteZero, getUserTokenDate } from "../../utils/helpers";
 import AxiosInstance from "../../api/AxiosInstance";
 import { useQuery } from "react-query";
 import { authUserData } from "../../api/usersApi";
+import { FaWarehouse } from "react-icons/fa";
+import { SiHomeassistantcommunitystore } from "react-icons/si";
 const VisiterUserInfo = () => {
   const signOut = useSignOut();
   const [isOpen, setIsOpen] = useState(false);
@@ -17,15 +25,15 @@ const VisiterUserInfo = () => {
   const forcedLogOut = () => {
     const token = getUserTokenDate();
     const currentDate = new Date();
-    const currentDateString = currentDate.toISOString().split("T")[0];
+    const currentDateString = currentDate?.toISOString().split("T")[0];
     const currentTimeString = currentDate
       .toISOString()
       .split("T")[1]
       .split(".")[0];
-    const fecha = token.slice(0, 10);
-    const hora = token.slice(11, 16);
-    const horaCreado = deleteZero(hora.slice(0, 2));
-    const horaActual = deleteZero(currentTimeString.slice(0, 2));
+    const fecha = token?.slice(0, 10);
+    const hora = token?.slice(11, 16);
+    const horaCreado = deleteZero(hora?.slice(0, 2));
+    const horaActual = deleteZero(currentTimeString?.slice(0, 2));
     const result = horaActual - horaCreado;
     if (currentDateString === fecha && horaActual >= horaCreado) {
       const response = AxiosInstance.put(`/users/${id}`, {
@@ -87,15 +95,74 @@ const VisiterUserInfo = () => {
       {isOpen && (
         <div
           ref={menuRef}
-          className="absolute top-20 right-1 z-10 w-[170px] h-[125px] mt-2 py-2 bg-white rounded-lg shadow-lg"
+          className="absolute top-20 right-1 z-10 w-[170px] h-fit mt-2 py-2 bg-white rounded-lg shadow-lg"
         >
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiHomeAlt size={20} />
             <a className="text-xs flex flex-row pt-1 pl-1" href="/home/banner">
               Opciones
             </a>
           </div>
-          <div className="flex flex-row px-2 align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <hr />
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <SiHomeassistantcommunitystore
+              style={{
+                fontSize: 18,
+              }}
+            />
+            <a
+              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
+              href="/ventas"
+            >
+              Ventas
+            </a>
+          </div>
+          <hr />
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <FaWarehouse
+              style={{
+                fontSize: 18,
+              }}
+            />
+            <a
+              className="text-xs flex -mt-0.5 py-1 w-full flex-row pl-1"
+              href="/alquiler"
+            >
+              Alquileres
+            </a>
+          </div>
+          <hr />
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <BiMailSend
+              style={{
+                fontSize: 22,
+                marginLeft: -2,
+              }}
+            />
+            <a
+              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
+              href="/home/visiter-contact"
+            >
+              Contactar
+            </a>
+          </div>
+          <hr />
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <BiMessageDetail
+              style={{
+                fontSize: 22,
+                marginLeft: -2,
+              }}
+            />
+            <a
+              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
+              href="https://sites.google.com/view/buzonvirtualsistemacic/buz%C3%B3n-virtual-de-sugerencias"
+            >
+              Buzón virual
+            </a>
+          </div>
+          <hr />
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiLockOpenAlt size={20} />
             <a
               className="text-xs flex flex-row pt-1 pl-1"
@@ -104,7 +171,8 @@ const VisiterUserInfo = () => {
               Cambiar clave
             </a>
           </div>
-          <div className="px-2 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <hr />
+          <div className="px-2 py-2 text-gray-800 hover:bg-blue-500 rounded-lg hover:text-white">
             <button
               onClick={() => {
                 loginOut();
@@ -112,8 +180,10 @@ const VisiterUserInfo = () => {
               }}
               className="text-xs flex flex-row"
             >
-              <BiLogOut size={20} />{" "}
-              <label className="pt-0.5 pl-0.5">Salir</label>
+              <div className="flex flex-row">
+                <BiLogOut size={20} className="-ml-0.5" />{" "}
+                <label className="pt-0.5 pl-1 cursor-pointer">Salir</label>
+              </div>
             </button>
           </div>
         </div>

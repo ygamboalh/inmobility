@@ -220,7 +220,7 @@ const PdfViewShared = () => {
                       }
                     >
                       <Text>
-                        <Text>Área de la propiedad: </Text>
+                        <Text>Área perimetral del inmueble: </Text>
                         {property.areaPropiedad} m²
                       </Text>
                     </View>
@@ -434,7 +434,7 @@ const PdfViewShared = () => {
                       <View className="flex flex-row">
                         <Text>
                           <Text className="font-semibold mr-1">
-                            Área del terreno:
+                            Área total del terreno:
                           </Text>
                           {property.areaTerreno}m²
                         </Text>

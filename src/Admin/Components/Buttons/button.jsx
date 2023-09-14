@@ -86,6 +86,8 @@ const Button = () => {
       }
     },
   });
+  const defaultValue = () => {};
+  console.log(selectedRows[0]?.id);
   if (loadingButtons || isLoading) {
     return <MySpinner />;
   }
@@ -117,21 +119,6 @@ const Button = () => {
     setIsLoading(false);
   };
   const column = [
-    /*  {
-      name: "Descripción",
-      id: "description",
-      selector: (row) => row.attributes.description,
-      sortable: true,
-      width: "250px",
-    },
-    {
-      name: "URL",
-      id: "url",
-      selector: (row) => row.attributes.url,
-      sortable: true,
-      width: "500px",
-    }, */
-
     {
       cell: (row) => (
         <div className="w-full flex flex-col mb-4 my-2 ml-2 p-2 justify-start">
@@ -202,12 +189,12 @@ const Button = () => {
                         : null
                     }
                   />
+                  {errors.description && touched.description ? (
+                    <div className=" text-red-500 mt-3 text-xs">
+                      {errors.description}
+                    </div>
+                  ) : null}
                 </div>
-                {errors.description && touched.description ? (
-                  <div className="-ml-1.5 text-red-500 mt-3 text-xs">
-                    {errors.description}
-                  </div>
-                ) : null}
 
                 <div className="flex w-full max-[800px]:mb-2">
                   <input
@@ -222,14 +209,14 @@ const Button = () => {
                     }
                     name="url"
                   />
+                  {errors.url && touched.url ? (
+                    <div className=" text-red-500 mt-3 text-xs">
+                      {errors.url}
+                    </div>
+                  ) : null}
                 </div>
-                {errors.url && touched.url ? (
-                  <div className="-ml-1.5 text-red-500 mt-3 text-xs">
-                    {errors.url}
-                  </div>
-                ) : null}
                 {selectedRows.length === 0 ? (
-                  <div className="mx-2">
+                  <div className="mx-2 max-[800px]:flex max-[800px]:justify-center">
                     <button
                       className="px-4 py-2 bg-green-400 rounded-md text-white hover:bg-green-500"
                       type="submit"
@@ -238,7 +225,7 @@ const Button = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="mx-2">
+                  <div className="mx-2 max-[800px]:flex max-[800px]:justify-center">
                     <button
                       className="px-4 py-2 bg-blue-700 rounded-md text-white hover:bg-blue-500"
                       type="submit"

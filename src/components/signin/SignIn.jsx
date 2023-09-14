@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useMutation } from "react-query";
-import { useSignIn } from "react-auth-kit";
+import { useMutation, useQuery } from "react-query";
+import { useSignIn, useSignOut } from "react-auth-kit";
 
 import { message } from "antd";
 import { useFormik } from "formik";
@@ -14,14 +14,17 @@ import {
   BiLogInCircle,
 } from "react-icons/bi";
 
-import { authUser } from "../../api/usersApi";
+import { authUser, authUserData } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
 import MetaData from "../Metadata/metadata";
 import AxiosInstance from "../../api/AxiosInstance";
+import { deleteZero, getUserTokenDate } from "../../utils/helpers";
 
 const SignIn = () => {
   const signIn = useSignIn();
   const [showPassword, setShowPassword] = useState(false);
+  const { data: userData } = useQuery("profile", authUserData);
+  const signOut = useSignOut();
 
   const {
     mutate: loginMutation,
@@ -62,7 +65,35 @@ const SignIn = () => {
       });
     },
   });
+  const forcedLogOut = () => {
+    const token = getUserTokenDate();
+    const currentDate = new Date();
+    const currentDateString = currentDate.toISOString().split("T")[0];
+    const currentTimeString = currentDate
+      .toISOString()
+      .split("T")[1]
+      .split(".")[0];
+    const fecha = token?.slice(0, 10);
+    const hora = token?.slice(11, 16);
+    const horaCreado = deleteZero(hora?.slice(0, 2));
+    const horaActual = deleteZero(currentTimeString?.slice(0, 2));
 
+    if (currentDateString === fecha && horaActual >= horaCreado) {
+      const response = AxiosInstance.put(`/users/${userData.id}`, {
+        isLoggedIn: false,
+      })
+        .then((res) => {
+          signOut();
+          window.location.reload(true);
+        })
+        .catch((err) => {
+          return err;
+        });
+    }
+  };
+  useEffect(() => {
+    forcedLogOut();
+  });
   if (isLoading) {
     return <MySpinner />;
   }

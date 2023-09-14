@@ -53,18 +53,7 @@ const ProfileSchema = Yup.object().shape({
 const Profile = () => {
   const { data: userData } = useQuery("profile", authUserData);
 
-  const ref = "plugin::users-permissions.user";
-  const refid = userData?.id;
-  const field = "photo";
-
   const [image, setImage] = useState();
-
-  const renameFile = (file) => {
-    const renamedFile = new File([file], `u-${userData?.id}`, {
-      type: file.type,
-    });
-    return renamedFile;
-  };
 
   const [initialData, setinitialData] = useState({
     username: userData?.username,
@@ -80,7 +69,6 @@ const Profile = () => {
     certifications: userData?.certifications,
   });
 
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const onFinish = async (values) => {
@@ -116,9 +104,8 @@ const Profile = () => {
           },
           body: JSON.stringify(value),
         });
-
-        navigate("/user/logout");
         message.success("¡Datos actualizados correctamente!");
+        window.location.reload(true);
       } else {
         message.error("¡Ocurrió un error. Inténtelo de nuevo!");
       }
@@ -156,6 +143,7 @@ const Profile = () => {
             address: userData?.address,
             mobile: userData?.mobile,
             personalId: userData?.personalId,
+            type: userData?.type,
             photo: userData?.photo,
           }}
           validationSchema={ProfileSchema}
@@ -205,13 +193,13 @@ const Profile = () => {
                 ) : null}
               </div>
               <Field
+                as="textarea"
                 defaultValue={userData?.certifications}
-                placeholder="Certificaciones"
+                className="peer m-0 text-sm block h-[80px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-2  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                id="certifications"
                 name="certifications"
-                type="text"
-                className="common-input"
+                placeholder="Anote aquí sus licencias o certificaciones"
               />
-
               <div className="space">
                 {errors.certifications && touched.certifications ? (
                   <div className="errordivp text-xs">

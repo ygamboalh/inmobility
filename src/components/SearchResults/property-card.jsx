@@ -31,6 +31,7 @@ import ShareAdviser from "../Share/share-adviser";
 import AudioPlayer from "../AudioPlayer/audio-player";
 import videoImage from "../../assets/images/video.png";
 import Map from "../Map/map";
+import ShareLink from "../Share/share-link";
 
 const SearchCard = ({ propiedad, onDataReceived }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +39,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
   const [audio, setAudio] = useState(null);
   const [idProperty, setIdProperty] = useState();
   const [address, setAddress] = useState();
+  const [adviserId, setAdviserId] = useState();
 
   const { data: userData } = useQuery("profile", authUserData);
   const navigate = useNavigate();
@@ -53,11 +55,12 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
 
   let propertyType = null;
   let created = null;
-  let adviserId = null;
+  //let adviserId = null;
   if (!id) {
     propertyType = propiedad[0]?.attributes?.tipoPropiedad;
     created = propiedad[1];
-    adviserId = propiedad[0]?.attributes.creadoPor;
+    //adviserId = propiedad[0]?.attributes?.creadoPor;
+    //setAdviserId(propiedad[0]?.attributes?.creadoPor);
   }
   //Busca la propiedad cuando paso el uniqueId por parametro
   const getPropertyByIniqueId = (uniqueId) => {
@@ -80,7 +83,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             setPdfUrl(
               `https://siccic.com/home/shared-property/${propertyFound?.uniqueId?.toLowerCase()}`
             );
-            //getAdviser();
+            getAdviser(propertyFound.creadoPor);
             setProperty(propertyFound);
             propertyFound?.tomadaExclusividad
               ? setAddress(propertyFound.ubicacionDetallada)
@@ -137,7 +140,8 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         );
         const audio = propertyFound?.audio?.data?.attributes?.url;
         setAudio(`https://backend.siccic.com${audio}`);
-        getAdviser();
+        setAdviserId(propertyFound.creadoPor);
+        getAdviser(propertyFound.creadoPor);
         propertyFound?.tomadaExclusividad
           ? setAddress(propertyFound.ubicacionDetallada)
           : setAddress(propertyFound.ubicacionCercana);
@@ -153,8 +157,9 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         console.log(error);
       });
   };
-  const getAdviser = async () => {
-    const response = await AxiosInstance.get(`${API}users/${adviserId}`)
+  const getAdviser = async (id) => {
+    console.log("adiviser id", id);
+    const response = await AxiosInstance.get(`${API}users/${id}`)
       .then((response) => {
         const adviser = response.data;
         setAdviser(adviser);
@@ -199,7 +204,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           createNotification(
             "Eliminación",
             `Se ha eliminado la propiedad ${result.data.data.attributes.uniqueId}`,
-            id,
+            result.data.data.attributes.uniqueId,
             null
           );
           const body = `El siguiente inmueble ha sido eliminado por el usuario: ${userData.email}`;
@@ -223,7 +228,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         title="Detalles de la propiedad"
         content="Detalles de la propiedad"
       />
-      <div className="container mx-auto pt-4 pb-2 bg-gray-300 rounded-xl">
+      <div className="container mx-auto pt-4 pb-2 bg-gray-200 rounded-xl">
         <div className="flex justify-between">
           {/* <div>
             <button
@@ -1010,7 +1015,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                       </svg>
                       <label className="font-semibold mr-1">
-                        Área de la propiedad:{" "}
+                        Área perimetral del inmueble:{" "}
                       </label>
                       <div className="flex flex-row">
                         <label>{property.areaPropiedad}</label>
@@ -1082,7 +1087,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                       </svg>
                       <label className="font-semibold mr-1">
-                        Área del terreno:
+                        Área total del terreno:
                       </label>
                       <div className="flex flex-row">
                         <label>{property.areaTerreno}</label>
@@ -1734,8 +1739,18 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           </div>
           <span className="text-xs">{property?.descripcion}</span>
         </div>
-        {!userData?.id ? (
-          <Share pdfUrl={pdfUrl} adviser={adviser} />
+        {!userData?.id ||
+        userData?.active === "Asesor verificado activo" ||
+        userData?.active === "Super Administrador" ||
+        userData?.active === "Supervisor" ? (
+          <div className="flex flex-row max-[768px]:flex-col">
+            <div>
+              <Share pdfUrl={pdfUrl} adviser={adviser} />
+            </div>
+            <div className="pt-[6px] align-middle">
+              <ShareLink pdfUrl={pdfUrl} />
+            </div>
+          </div>
         ) : (
           <ShareAdviser pdfUrl={pdfUrl} />
         )}

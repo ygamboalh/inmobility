@@ -14,7 +14,7 @@ import {
 } from "react-share";
 
 import { useNavigate } from "react-router-dom";
-import MySpinner from "../Spinner/spinner";
+
 const Share = (url) => {
   const pdfUrl = url.pdfUrl;
   const adviser = url.adviser;

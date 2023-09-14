@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSignOut } from "react-auth-kit";
 import {
   BiHomeAlt,
-  BiLogOut,
   BiMailSend,
+  BiMessageDetail,
   BiSearch,
-  BiUserCheck,
   BiUserCircle,
 } from "react-icons/bi";
 import { FaWarehouse } from "react-icons/fa";
@@ -31,19 +30,23 @@ const NoneUser = () => {
     };
   }, []);
 
-  const buttonStyle = {
-    backgroundImage: `url("https://backend.siccic.com/uploads/small_userinfo_dac703068b.png")`,
-    backgroundSize: "cover",
-    width: "40px",
-    height: "40px",
-  };
   return (
     <div className="">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="h-[45px] w-[45px] absolute top-8 right-8 rounded-full"
-        style={buttonStyle}
-      ></button>
+        className="h-[45px] w-[45px] absolute top-6 right-8 rounded-full"
+        //style={buttonStyle}
+      >
+        <svg
+          className="w-8 h-8 text-white border shadow bg-gray-600 hover:bg-gray-300 hover:text-black rounded-md p-1 m-3 "
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 17 14"
+        >
+          <path d="M16 2H1a1 1 0 0 1 0-2h15a1 1 0 1 1 0 2Zm0 6H1a1 1 0 0 1 0-2h15a1 1 0 1 1 0 2Zm0 6H1a1 1 0 0 1 0-2h15a1 1 0 0 1 0 2Z" />
+        </svg>
+      </button>
       {isOpen && (
         <div
           ref={menuRef}
@@ -97,10 +100,10 @@ const NoneUser = () => {
               }}
             />
             <a
-              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
+              className="text-xs mt-1 flex py-1 w-full flex-row pl-1"
               href="/home/visiter-search"
             >
-              Buscar por identificador
+              Buscar por código
             </a>
           </div>
           <hr />
@@ -116,6 +119,21 @@ const NoneUser = () => {
               href="/home/visiter-contact"
             >
               Contactar
+            </a>
+          </div>
+          <hr />
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <BiMessageDetail
+              style={{
+                fontSize: 22,
+                marginLeft: -2,
+              }}
+            />
+            <a
+              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
+              href="https://sites.google.com/view/buzonvirtualsistemacic/buz%C3%B3n-virtual-de-sugerencias"
+            >
+              Buzón virual
             </a>
           </div>
           <hr />

@@ -46,7 +46,7 @@ const VisiterSearch = () => {
             setIsLoading(false);
           });
       } else {
-        message.error(`Debe introducir al menos un criterio de búsqueda`);
+        message.error(`Debe introducir algún criterio de búsqueda`);
         setIsLoading(false);
         return;
       }

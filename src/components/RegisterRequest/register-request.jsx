@@ -157,8 +157,8 @@ const RegisterRequest = () => {
         <div className="mb-0 mt-0 sm:my-2 flex flex-col">
           <label className="loginh my-2">Solicitud de Registro</label>
           <label className="loginh5 w-72 mb-1">
-            Para ser un asesor inmobiliario verificado, debes rellenar este
-            formulario y esperar la comprobación de los datos.
+            Para ingresar como un Asesor Inmobiliario Verificado, debes rellenar
+            este formulario y esperar la comprobación de los datos.
           </label>
         </div>
         <div className="flex mx-4 mb-2 flex-col -mt-6 justify-center items-center">
@@ -243,18 +243,12 @@ const RegisterRequest = () => {
               </div>
               <div className="relative mb-1">
                 <Field
-                  type="text"
-                  className="peer m-0 text-sm block h-[58px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-4  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear placeholder:text-transparent focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
+                  as="textarea"
+                  className="peer m-0 text-sm block h-[80px] w-full rounded-xl border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-2  font-normal leading-tight text-neutral-700 transition duration-200 ease-linear focus:border-primary pt-[1.4rem] focus:pt-[1.4rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary"
                   id="certifications"
                   name="certifications"
-                  placeholder="Certificaciones"
+                  placeholder="Anote aquí sus licencias o certificaciones"
                 />
-                <label
-                  for="certifications"
-                  className="pointer-events-none absolute text-xs left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-5 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none"
-                >
-                  Certificaciones
-                </label>
               </div>
               <div className="space">
                 {errors.certifications && touched.certifications ? (
@@ -263,7 +257,6 @@ const RegisterRequest = () => {
                   </div>
                 ) : null}
               </div>
-
               <div className="relative w-full -mt-5 -ml-5 -mb-1">
                 <PhoneInput
                   placeholder="Teléfono de la oficina"

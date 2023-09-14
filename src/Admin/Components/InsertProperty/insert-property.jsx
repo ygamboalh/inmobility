@@ -328,7 +328,7 @@ const InsertProperty = () => {
               createNotification(
                 "Creación",
                 `Se ha creado la propiedad ${respons.data.data.attributes.uniqueId}`,
-                propertyId,
+                respons.data.data.attributes.uniqueId,
                 null
               );
               if (userRole === "SuperAdmin") {
@@ -431,7 +431,7 @@ const InsertProperty = () => {
               createNotification(
                 "Actualización",
                 `Se ha actualizado la propiedad ${response.data.data.attributes.uniqueId}`,
-                id,
+                response.data.data.attributes.uniqueId,
                 null
               );
               const property = response.data.data.attributes;
@@ -527,14 +527,14 @@ const InsertProperty = () => {
         </div>
       )}
       <form onSubmit={handleSubmit} autoComplete="off">
-        <div className="flex justify-center  flex-row content-center items-center">
+        <div className="flex flex-wrap justify-center items-center">
           <select
             name="categories"
             value={selectedOption}
             disabled={category}
             defaultValue={category}
             onChange={handleOptionSelectChange}
-            className="categories m-2 w-full text-gray-500  md:w-fit lg:mx-80"
+            className="mt-2 input-admin-property text-gray-500 flex w-80 sm:w-1/2 md:w-80 lg:w-80"
           >
             <option value="" label="">
               {"Seleccione la categoría"}
@@ -553,6 +553,7 @@ const InsertProperty = () => {
             ) : null}
           </div>
         </div>
+
         <div className="flex flex-wrap justify-center m-3">
           <input
             type="text"
@@ -561,14 +562,222 @@ const InsertProperty = () => {
             onChange={handleChange}
             hidden={selectedOption === ""}
             name="uniqueId"
-            placeholder="Identificador único"
-            className="input-admin-property text-gray-500 ml-1 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            placeholder="Código de propiedad"
+            className="input-admin-property uniqueId-input text-gray-500 max-[400px]:ml-2 ml-1 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.uniqueId && touched.uniqueId ? (
               <div className="errordiv text-xs">{errors.uniqueId}</div>
             ) : null}
           </div>
+          <select
+            hidden={
+              selectedOption === "" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
+            }
+            name="tipoPropiedad"
+            onChange={handleHouseProperty}
+            defaultValue={property?.tipoPropiedad}
+            placeholder="Tipo de propiedad"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble"}
+            </option>
+            {TipoInmueble.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="tipoVivienda"
+            onChange={handleChange}
+            hidden={
+              selectedOption === "" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
+            }
+            defaultValue={property?.tipoVivienda}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de vivienda"}
+            </option>
+            {TipoVivienda.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            hidden={
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
+            }
+            onChange={handleBodegasProperty}
+            name="tipoBodega"
+            defaultValue={property?.tipoPropiedad}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble ( Bodega )"}
+            </option>
+            {Bodega.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            hidden={
+              selectedOption === "" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
+            }
+            onChange={handleFincaProperty}
+            name="tipoLote"
+            defaultValue={property?.tipoPropiedad}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble ( Lotes )"}
+            </option>
+            {TipoLote.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            hidden={
+              selectedOption === "" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Bodegas o Similares"
+            }
+            onChange={handleOficinasProperty}
+            name="tipoOficina"
+            defaultValue={property?.tipoPropiedad}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble ( Oficina )"}
+            </option>
+            {Oficina.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="tipoLocal"
+            onChange={handleLocalesProperty}
+            required={
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales"
+            }
+            hidden={
+              selectedOption === "" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
+            }
+            defaultValue={property?.tipoPropiedad}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble ( Locales Comerciales )"}
+            </option>
+            {Locales.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="tipoEdificio"
+            hidden={
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Bodegas o Similares"
+            }
+            onChange={handleEdificioProperty}
+            defaultValue={property?.tipoPropiedad}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble ( Edificio )"}
+            </option>
+            {Edificio.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
           <select
             defaultValue={property?.provincia}
             hidden={selectedOption === ""}
@@ -620,107 +829,6 @@ const InsertProperty = () => {
               <div className="errordiv text-xs">{errors.distrito}</div>
             ) : null}
           </div>
-
-          <select
-            name="tomadaExclusividad"
-            id="tomadaExclusividad"
-            hidden={selectedOption === ""}
-            defaultValue={property?.tomadaExclusividad}
-            onChange={handleChange}
-            placeholder="Tomada con exclusividad"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"¿Tomada con exclusividad?"}
-            </option>
-            <option value={true} label="Si">
-              Si
-            </option>
-            <option value={false} label="No">
-              No
-            </option>
-          </select>
-          <select
-            name="vistaPanoramica"
-            id="vistaPanoramica"
-            hidden={selectedOption === ""}
-            defaultValue={property?.vistaPanoramica}
-            onChange={handleChange}
-            placeholder="Vista Panorámica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"¿Tiene vista panorámica?"}
-            </option>
-            <option value={true} label="Si">
-              Si
-            </option>
-            <option value={false} label="No">
-              No
-            </option>
-          </select>
-          <select
-            hidden={
-              selectedOption === "" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
-            }
-            name="duenoFinanciaCompra"
-            defaultValue={property?.duenoFinanciaCompra}
-            onChange={handleChange}
-            placeholder="Dueño financia compra"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"¿Dueño financia compra?"}
-            </option>
-            <option value={true} label="Si">
-              Si
-            </option>
-            <option value={false} label="No">
-              No
-            </option>
-          </select>
-          <select
-            hidden={
-              selectedOption === "" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
-            }
-            name="duenoRecibeVehiculo"
-            defaultValue={property?.duenoRecibeVehiculo}
-            onChange={handleChange}
-            placeholder="Dueño recibe vehiculo"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"¿Dueño recibe vehiculo como parte del pago?"}
-            </option>
-            <option value={true} label="Si">
-              Si
-            </option>
-            <option value={false} label="No">
-              No
-            </option>
-          </select>
           <select
             name="ubicacionCastral"
             id="ubicacionCastral"
@@ -758,13 +866,7 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          {/* <div className="space mb-2.5">
-            {errors.ubicacionDemografica && touched.ubicacionDemografica ? (
-              <div className="errordiv text-xs">
-                {errors.ubicacionDemografica}
-              </div>
-            ) : null}
-          </div> */}
+
           <select
             name="ubicacionGeografica"
             hidden={selectedOption === ""}
@@ -778,6 +880,22 @@ const InsertProperty = () => {
               {"Ubicación geográfica"}
             </option>
             {UbicacionGeografica.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="usoDeSuelo"
+            defaultValue={property?.usoDeSuelo}
+            onChange={handleChange}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            hidden={selectedOption === ""}
+          >
+            <option value="" label="">
+              {"Uso del suelo"}
+            </option>
+            {UsoSuelo.map((item) => (
               <option value={item.value} label={item.label}>
                 {item.value}
               </option>
@@ -899,6 +1017,32 @@ const InsertProperty = () => {
               </div>
             </div>
           )}
+          {selectedOption === "" ? null : (
+            <div class="flex input-admin-property ml-1 mr-1 py-2">
+              <select
+                name="avaluoMoneda"
+                id="avaluoMoneda"
+                onChange={handleChange}
+                defaultValue={property?.avaluoMoneda}
+                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              >
+                <option value="">$</option>
+                <option value="$">USD</option>
+                <option value="₡">CRC</option>
+              </select>
+              <div class="relative w-full">
+                <input
+                  type="number"
+                  onChange={handleChange}
+                  min={0}
+                  name="avaluo"
+                  defaultValue={property?.avaluo}
+                  placeholder="Valor según avalúo"
+                  className="block max-[450px]:w-[243px] text-gray-500 min-[500px]:w-[243px] max-[640px]:w-[243px] min-[641px]:w-[200px] p-2.5 w-[243px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+          )}
           <select
             name="tieneCuotaMantenimiento"
             hidden={selectedOption === ""}
@@ -944,131 +1088,110 @@ const InsertProperty = () => {
               </div>
             </div>
           )}
-          {selectedOption === "" ? null : (
-            <div class="flex input-admin-property ml-1 mr-1 py-2">
-              <select
-                name="avaluoMoneda"
-                id="avaluoMoneda"
-                onChange={handleChange}
-                defaultValue={property?.avaluoMoneda}
-                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
-              >
-                <option value="">$</option>
-                <option value="$">USD</option>
-                <option value="₡">CRC</option>
-              </select>
-              <div class="relative w-full">
-                <input
-                  type="number"
-                  onChange={handleChange}
-                  min={0}
-                  name="avaluo"
-                  defaultValue={property?.avaluo}
-                  placeholder="Valor según avalúo"
-                  className="block max-[450px]:w-[243px] text-gray-500 min-[500px]:w-[243px] max-[640px]:w-[243px] min-[641px]:w-[200px] p-2.5 w-[243px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-          )}
-          <div
-            className={
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === ""
-                ? "hidden"
-                : "space mb-2.5"
-            }
-          >
-            {errors.ubicacionGeografica && touched.ubicacionGeografica ? (
-              <div className="errordiv text-xs">
-                {errors.ubicacionGeografica}
-              </div>
-            ) : null}
-          </div>
-
           <select
-            name="active"
-            defaultValue={property?.active}
-            onChange={handleChange}
-            id="active"
+            name="tomadaExclusividad"
+            id="tomadaExclusividad"
             hidden={selectedOption === ""}
-            placeholder="Activa"
+            defaultValue={property?.tomadaExclusividad}
+            onChange={handleChange}
+            placeholder="Tomada con exclusividad"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           >
             <option value="" label="">
-              {"Estado"}
+              {"¿Tomada con exclusividad?"}
             </option>
-            {PropertyEstado.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
+            <option value={true} label="Si">
+              Si
+            </option>
+            <option value={false} label="No">
+              No
+            </option>
           </select>
-          <input
-            type="number"
-            name="areaMesanini"
-            max={6000}
+          <select
+            name="vistaPanoramica"
+            id="vistaPanoramica"
+            hidden={selectedOption === ""}
+            defaultValue={property?.vistaPanoramica}
+            onChange={handleChange}
+            placeholder="Vista Panorámica"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"¿Tiene vista panorámica?"}
+            </option>
+            <option value={true} label="Si">
+              Si
+            </option>
+            <option value={false} label="No">
+              No
+            </option>
+          </select>
+          <select
             hidden={
+              selectedOption === "" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
               selectedOption ===
                 "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === ""
+              selectedOption === "Alquiler de Casas y Apartamentos"
             }
-            defaultValue={property?.areaMesanini}
+            name="duenoFinanciaCompra"
+            defaultValue={property?.duenoFinanciaCompra}
             onChange={handleChange}
-            placeholder="Área mezanine"
+            placeholder="Dueño financia compra"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          {/*  <div className="space mb-2.5">
-            {errors.areaMesanini && touched.areaMesanini ? (
-              <div className="errordiv text-xs">{errors.areaMesanini}</div>
-            ) : null}
-          </div> */}
-          <input
-            type="number"
-            name="areaSotano"
-            max={6000}
+          >
+            <option value="" label="">
+              {"¿Dueño financia compra?"}
+            </option>
+            <option value={true} label="Si">
+              Si
+            </option>
+            <option value={false} label="No">
+              No
+            </option>
+          </select>
+          <select
             hidden={
+              selectedOption === "" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
               selectedOption ===
                 "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === ""
+              selectedOption === "Alquiler de Casas y Apartamentos"
             }
-            defaultValue={property?.areaSotano}
+            name="duenoRecibeVehiculo"
+            defaultValue={property?.duenoRecibeVehiculo}
             onChange={handleChange}
-            placeholder="Área sótano"
+            placeholder="Dueño recibe vehiculo"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          {/* <div className="space mb-2.5">
-            {errors.areaSotano && touched.areaSotano ? (
-              <div className="errordiv text-xs">{errors.areaSotano}</div>
-            ) : null}
-          </div> */}
+          >
+            <option value="" label="">
+              {"¿Dueño recibe vehiculo como parte del pago?"}
+            </option>
+            <option value={true} label="Si">
+              Si
+            </option>
+            <option value={false} label="No">
+              No
+            </option>
+          </select>
 
           <select
             name="tipoDensidad"
@@ -1098,72 +1221,11 @@ const InsertProperty = () => {
             ))}
           </select>
           <select
-            name="usoDeSuelo"
-            defaultValue={property?.usoDeSuelo}
-            onChange={handleChange}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-            hidden={selectedOption === ""}
-          >
-            <option value="" label="">
-              {"Uso del suelo"}
-            </option>
-            {UsoSuelo.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-          {/* <div className="space mb-2.5">
-            {errors.usoDeSuelo && touched.usoDeSuelo ? (
-              <div className="errordiv text-xs">{errors.usoDeSuelo}</div>
-            ) : null}
-          </div> */}
-          <input
-            type="number"
-            hidden={selectedOption === ""}
-            name="areaTerreno"
-            onChange={handleChange}
-            defaultValue={property?.areaTerreno}
-            placeholder="Área del terreno"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
-            {errors.areaTerreno && touched.areaTerreno ? (
-              <div className="errordiv text-xs">{errors.areaTerreno}</div>
-            ) : null}
-          </div>
-          <select
             hidden={
               selectedOption === "" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Alquiler de Fincas, Lotes, Predios o Terrenos"
             }
-            name="tipoPropiedad"
-            onChange={handleHouseProperty}
-            defaultValue={property?.tipoPropiedad}
-            placeholder="Tipo de propiedad"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de inmueble"}
-            </option>
-            {TipoInmueble.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-          <select
-            hidden={selectedOption === ""}
             name="tipoPiso"
             onChange={handleChange}
             defaultValue={property?.tipoPiso}
@@ -1179,218 +1241,189 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <select
-            hidden={
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
-            }
-            onChange={handleBodegasProperty}
-            name="tipoBodega"
-            defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de inmueble ( Bodega )"}
-            </option>
-            {Bodega.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-          <select
-            hidden={
-              selectedOption === "" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
-            }
-            onChange={handleFincaProperty}
-            name="tipoLote"
-            defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de inmueble ( Lotes )"}
-            </option>
-            {TipoLote.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
+
           {/*  <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.tipoLote && touched.tipoLote ? (
               <div className="errordiv text-xs">{errors.tipoLote}</div>
             ) : null}
           </div> */}
-          <select
-            hidden={
-              selectedOption === "" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Bodegas o Similares"
-            }
-            onChange={handleOficinasProperty}
-            name="tipoOficina"
-            defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de inmueble ( Oficina )"}
-            </option>
-            {Oficina.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
+
           <input
             type="number"
             name="areaPropiedad"
             defaultValue={property?.areaPropiedad}
             onChange={handleChange}
             max={10000}
-            placeholder="Área de la propiedad"
+            placeholder="Área perimetral del inmueble"
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === "Alquiler de Casas y Apartamentos" ||
               selectedOption === "Venta de Casas y Apartamentos" ||
               selectedOption === ""
             }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          {/*  <div className="space mb-2.5">
-            {errors.areaPropiedad && touched.areaPropiedad ? (
-              <div className="errordiv text-xs">{errors.areaPropiedad}</div>
-            ) : null}
-          </div> */}
-
-          <select
-            name="tipoEdificio"
-            hidden={
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Bodegas o Similares"
-            }
-            onChange={handleEdificioProperty}
-            defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de inmueble ( Edificio )"}
-            </option>
-            {Edificio.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-          <select
-            name="tipoLocal"
-            onChange={handleLocalesProperty}
-            required={
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Locales Comerciales"
-            }
-            hidden={
-              selectedOption === "" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
-            }
-            defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de inmueble ( Locales Comerciales )"}
-            </option>
-            {Locales.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-          {/* <div className="space mb-2.5">
-            {errors.tipoLocal && touched.tipoLocal ? (
-              <div className="errordiv text-xs">{errors.tipoLocal}</div>
-            ) : null}
-          </div> */}
-          <select
-            name="tipoVivienda"
+          <input
+            type="number"
+            hidden={selectedOption === ""}
+            name="areaTerreno"
             onChange={handleChange}
+            defaultValue={property?.areaTerreno}
+            placeholder="Área total del terreno"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
+            {errors.areaTerreno && touched.areaTerreno ? (
+              <div className="errordiv text-xs">{errors.areaTerreno}</div>
+            ) : null}
+          </div>
+          <input
+            type="number"
             hidden={
-              selectedOption === "" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
               selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === ""
             }
-            defaultValue={property?.tipoVivienda}
+            name="areaContruccion"
+            defaultValue={property?.areaContruccion}
+            placeholder="Metros cuadrados construidosión"
+            onChange={handleChange}
+            max={100000}
+            className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          {/* <div className="space mb-2.5">
+            {errors.areaContruccion && touched.areaContruccion ? (
+              <div className="errordiv text-xs">{errors.areaContruccion}</div>
+            ) : null}
+          </div> */}
+          <input
+            type="number"
+            name="areaPlantas"
+            max={100000}
+            hidden={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === ""
+            }
+            defaultValue={property?.areaPlantas}
+            onChange={handleChange}
+            placeholder="Área por plantas"
+            className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          {/*  <div className="space mb-2.5">
+            {errors.areaPlantas && touched.areaPlantas ? (
+              <div className="errordiv text-xs">{errors.areaPlantas}</div>
+            ) : null}
+          </div> */}
+          <input
+            type="number"
+            name="areaBodega"
+            defaultValue={property?.areaBodega}
+            max={10000000}
+            onChange={handleChange}
+            placeholder="Área bodega en m³"
+            hidden={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === ""
+            }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de vivienda"}
-            </option>
-            {TipoVivienda.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
+          />
+          {/* <div className="space mb-2.5">
+            {errors.areaBodega && touched.areaBodega ? (
+              <div className="errordiv text-xs">{errors.areaBodega}</div>
+            ) : null}
+          </div> */}
+          <input
+            type="number"
+            name="areaMesanini"
+            max={6000}
+            hidden={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === ""
+            }
+            defaultValue={property?.areaMesanini}
+            onChange={handleChange}
+            placeholder="Área mezanine"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          {/*  <div className="space mb-2.5">
+            {errors.areaMesanini && touched.areaMesanini ? (
+              <div className="errordiv text-xs">{errors.areaMesanini}</div>
+            ) : null}
+          </div> */}
+          <input
+            type="number"
+            name="areaSotano"
+            max={6000}
+            hidden={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === "Alquiler de Casas y Apartamentos" ||
+              selectedOption === "Venta de Casas y Apartamentos" ||
+              selectedOption === ""
+            }
+            defaultValue={property?.areaSotano}
+            onChange={handleChange}
+            placeholder="Área sótano"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          {/* <div className="space mb-2.5">
+            {errors.areaSotano && touched.areaSotano ? (
+              <div className="errordiv text-xs">{errors.areaSotano}</div>
+            ) : null}
+          </div> */}
           <select
             hidden={
               selectedOption === "Alquiler de Edificios" ||
@@ -1405,7 +1438,7 @@ const InsertProperty = () => {
               selectedOption === "Venta de Edificios" ||
               selectedOption === "Alquiler de Locales Comerciales" ||
               selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === ""
             }
             name="cochera"
@@ -1427,31 +1460,7 @@ const InsertProperty = () => {
               <div className="errordiv text-xs">{errors.cochera}</div>
             ) : null}
           </div> */}
-          <input
-            type="number"
-            hidden={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === ""
-            }
-            name="areaContruccion"
-            defaultValue={property?.areaContruccion}
-            placeholder="Área construcción"
-            onChange={handleChange}
-            max={100000}
-            className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          {/* <div className="space mb-2.5">
-            {errors.areaContruccion && touched.areaContruccion ? (
-              <div className="errordiv text-xs">{errors.areaContruccion}</div>
-            ) : null}
-          </div> */}
+
           <input
             type="number"
             name="habitaciones"
@@ -1471,7 +1480,7 @@ const InsertProperty = () => {
               selectedOption === "Venta de Edificios" ||
               selectedOption === "Alquiler de Locales Comerciales" ||
               selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === ""
             }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -1500,7 +1509,7 @@ const InsertProperty = () => {
               selectedOption === "Venta de Edificios" ||
               selectedOption === "Alquiler de Locales Comerciales" ||
               selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === ""
             }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -1543,7 +1552,7 @@ const InsertProperty = () => {
               selectedOption === "Alquiler de Edificios" ||
               selectedOption === "" ||
               selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === "Venta de Locales Comerciales" ||
@@ -1576,7 +1585,7 @@ const InsertProperty = () => {
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === "Alquiler de Casas y Apartamentos" ||
               selectedOption === "Venta de Casas y Apartamentos" ||
               selectedOption === ""
@@ -1605,7 +1614,7 @@ const InsertProperty = () => {
               selectedOption === "Alquiler de Edificios" ||
               selectedOption === "Venta de Casas y Apartamentos" ||
               selectedOption === "" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === "Venta de Locales Comerciales" ||
@@ -1637,37 +1646,7 @@ const InsertProperty = () => {
               <div className="errordiv text-xs">{errors.aptoMascotas}</div>
             ) : null}
           </div>
-          <input
-            type="number"
-            name="areaBodega"
-            defaultValue={property?.areaBodega}
-            max={10000000}
-            onChange={handleChange}
-            placeholder="Área bodega en m³"
-            hidden={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === ""
-            }
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          {/* <div className="space mb-2.5">
-            {errors.areaBodega && touched.areaBodega ? (
-              <div className="errordiv text-xs">{errors.areaBodega}</div>
-            ) : null}
-          </div> */}
+
           <input
             type="number"
             name="altura"
@@ -1682,7 +1661,7 @@ const InsertProperty = () => {
               selectedOption === "Venta de Edificios" ||
               selectedOption === "Alquiler de Locales Comerciales" ||
               selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === "Alquiler de Casas y Apartamentos" ||
               selectedOption === "Venta de Casas y Apartamentos" ||
               selectedOption === ""
@@ -1702,7 +1681,7 @@ const InsertProperty = () => {
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === "Alquiler de Casas y Apartamentos" ||
               selectedOption === "Venta de Casas y Apartamentos" ||
               selectedOption === ""
@@ -1729,36 +1708,7 @@ const InsertProperty = () => {
               </div>
             ) : null}
           </div> */}
-          <input
-            type="number"
-            name="areaPlantas"
-            max={100000}
-            hidden={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === ""
-            }
-            defaultValue={property?.areaPlantas}
-            onChange={handleChange}
-            placeholder="Área por plantas"
-            className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          {/*  <div className="space mb-2.5">
-            {errors.areaPlantas && touched.areaPlantas ? (
-              <div className="errordiv text-xs">{errors.areaPlantas}</div>
-            ) : null}
-          </div> */}
+
           <input
             type="number"
             name="numeroPlantas"
@@ -1773,7 +1723,7 @@ const InsertProperty = () => {
               selectedOption === "Venta de Bodegas o Similares" ||
               selectedOption === "Alquiler de Locales Comerciales" ||
               selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
               selectedOption === "Alquiler de Casas y Apartamentos" ||
               selectedOption === "Venta de Casas y Apartamentos" ||
               selectedOption === ""
@@ -1807,6 +1757,24 @@ const InsertProperty = () => {
               {"Servicios"}
             </option>
             {Servicios.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="active"
+            defaultValue={property?.active}
+            onChange={handleChange}
+            id="active"
+            hidden={selectedOption === ""}
+            placeholder="Subir a la lista de:"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Estado"}
+            </option>
+            {PropertyEstado.map((item) => (
               <option value={item.value} label={item.label}>
                 {item.value}
               </option>
@@ -1850,7 +1818,7 @@ const InsertProperty = () => {
                 selectedOption === "Alquiler de Locales Comerciales" ||
                 selectedOption === "Venta de Locales Comerciales" ||
                 selectedOption ===
-                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                  "Venta de Fincas, Lotes, Predios o Terrenos" ||
                 selectedOption === "Alquiler de Casas y Apartamentos" ||
                 selectedOption === ""
                   ? "hidden"
@@ -1885,7 +1853,7 @@ const InsertProperty = () => {
                 selectedOption === "Alquiler de Locales Comerciales" ||
                 selectedOption === "Venta de Locales Comerciales" ||
                 selectedOption ===
-                  "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                  "Venta de Fincas, Lotes, Predios o Terrenos" ||
                 selectedOption === "Alquiler de Casas y Apartamentos" ||
                 selectedOption === ""
                   ? "hidden"
@@ -1911,7 +1879,7 @@ const InsertProperty = () => {
                     selectedOption === "Alquiler de Locales Comerciales" ||
                     selectedOption === "Venta de Locales Comerciales" ||
                     selectedOption ===
-                      "Venta de Lotes, Fincas,Terrenos y Predios" ||
+                      "Venta de Fincas, Lotes, Predios o Terrenos" ||
                     selectedOption === "Alquiler de Casas y Apartamentos" ||
                     selectedOption === ""
                   }
@@ -1926,179 +1894,179 @@ const InsertProperty = () => {
             </div>
           </div>
         </div>
-
-        <div
-          className={
-            selectedOption ===
-              "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-            selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
-            selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-            selectedOption === "Alquiler de Bodegas o Similares" ||
-            selectedOption === "Venta de Bodegas o Similares" ||
-            selectedOption === "Alquiler de Edificios" ||
-            selectedOption === "Venta de Edificios" ||
-            selectedOption === "Alquiler de Locales Comerciales" ||
-            selectedOption === "Venta de Locales Comerciales" ||
-            selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-            selectedOption === ""
-              ? "hidden"
-              : null
-          }
-        >
-          <Select
-            name="amenidades"
-            noOptionsMessage={() => null}
-            closeMenuOnSelect={false}
-            defaultValue={property?.amenidades}
-            options={Amenidades}
-            placeholder={"Amenidades"}
-            isMulti
-            className="categories lg:mx-80 mb-2 my-1"
-            onChange={handleChangeAmenidades}
-          />
-          {/* <div className="space mb-2.5">
-            {errors.amenidades && touched.amenidades ? (
-              <div className="errordiv text-xs">{errors.amenidades}</div>
-            ) : null}
-          </div> */}
-        </div>
-        <div
-          className={
-            selectedOption ===
-              "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-            selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
-            selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-            selectedOption === "Alquiler de Bodegas o Similares" ||
-            selectedOption === "Venta de Bodegas o Similares" ||
-            selectedOption === "Alquiler de Edificios" ||
-            selectedOption === "Venta de Edificios" ||
-            selectedOption === "Alquiler de Locales Comerciales" ||
-            selectedOption === "Venta de Locales Comerciales" ||
-            selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-            selectedOption === ""
-              ? "hidden"
-              : null
-          }
-        >
-          <Select
-            noOptionsMessage={() => null}
-            closeMenuOnSelect={false}
-            className="categories lg:mx-80 mb-2 my-1"
-            name="jardinPatio"
-            defaultValue={property?.jardinPatio}
-            options={PatioJardin}
-            placeholder={"Patio"}
-            isMulti
-            onChange={handleChangePatioJardin}
-          />
-          {/* <div className="space mb-2.5">
+        <div className="flex justify-center"></div>
+        <div className="">
+          <div
+            className={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === ""
+                ? "hidden"
+                : ""
+            }
+          >
+            <Select
+              name="amenidades"
+              noOptionsMessage={() => null}
+              closeMenuOnSelect={false}
+              defaultValue={property?.amenidades}
+              options={Amenidades}
+              placeholder={"Amenidades"}
+              isMulti
+              className="categories lg:mx-80 mb-2 mt-1"
+              onChange={handleChangeAmenidades}
+            />
+          </div>
+          <div
+            className={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === ""
+                ? "hidden"
+                : null
+            }
+          >
+            <Select
+              noOptionsMessage={() => null}
+              closeMenuOnSelect={false}
+              className="categories lg:mx-80 mb-2 my-1"
+              name="jardinPatio"
+              defaultValue={property?.jardinPatio}
+              options={PatioJardin}
+              placeholder={"Patio"}
+              isMulti
+              onChange={handleChangePatioJardin}
+            />
+            {/* <div className="space mb-2.5">
             {errors.jardinPatio && touched.jardinPatio ? (
               <div className="errordiv text-xs">{errors.jardinPatio}</div>
             ) : null}
           </div> */}
-        </div>
-        <div
-          className={
-            selectedOption ===
-              "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-            selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
-            selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-            selectedOption === "Alquiler de Bodegas o Similares" ||
-            selectedOption === "Venta de Bodegas o Similares" ||
-            selectedOption === "Alquiler de Edificios" ||
-            selectedOption === "Venta de Edificios" ||
-            selectedOption === "Alquiler de Locales Comerciales" ||
-            selectedOption === "Venta de Locales Comerciales" ||
-            selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-            selectedOption === ""
-              ? "hidden"
-              : null
-          }
-        >
-          <Select
-            className="categories lg:mx-80 mb-2 mt-1"
-            name="detallesInternos"
-            noOptionsMessage={() => null}
-            closeMenuOnSelect={false}
-            defaultValue={property?.detallesInternos}
-            options={DetallesInternos}
-            placeholder={"Detalles internos"}
-            isMulti
-            onChange={handleChangeDetallesInternos}
-          />
-          {/* <div className="space mb-2.5">
+          </div>
+          <div
+            className={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === ""
+                ? "hidden"
+                : null
+            }
+          >
+            <Select
+              className="categories lg:mx-80 mb-2 mt-1"
+              name="detallesInternos"
+              noOptionsMessage={() => null}
+              closeMenuOnSelect={false}
+              defaultValue={property?.detallesInternos}
+              options={DetallesInternos}
+              placeholder={"Detalles internos"}
+              isMulti
+              onChange={handleChangeDetallesInternos}
+            />
+            {/* <div className="space mb-2.5">
             {errors.detallesInternos && touched.detallesInternos ? (
               <div className="errordiv text-xs">{errors.detallesInternos}</div>
             ) : null}
           </div> */}
-        </div>
-        <div
-          className={
-            selectedOption ===
-              "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-            selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
-            selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-            selectedOption === "Alquiler de Bodegas o Similares" ||
-            selectedOption === "Venta de Bodegas o Similares" ||
-            selectedOption === "Alquiler de Edificios" ||
-            selectedOption === "Venta de Edificios" ||
-            selectedOption === "Alquiler de Locales Comerciales" ||
-            selectedOption === "Venta de Locales Comerciales" ||
-            selectedOption === "Venta de Lotes, Fincas,Terrenos y Predios" ||
-            selectedOption === ""
-              ? "hidden"
-              : null
-          }
-        >
-          <Select
-            className="categories lg:mx-80 mb-2 mt-1"
-            name="detallesExternos"
-            noOptionsMessage={() => null}
-            closeMenuOnSelect={false}
-            defaultValue={property?.detallesExternos}
-            options={DetallesExternos}
-            placeholder={"Detalles externos"}
-            isMulti
-            onChange={handleChangeDetallesExternos}
-          />
-          {/* <div className="space mb-2.5">
+          </div>
+          <div
+            className={
+              selectedOption ===
+                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption ===
+                "Alquiler de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+              selectedOption === "Alquiler de Bodegas o Similares" ||
+              selectedOption === "Venta de Bodegas o Similares" ||
+              selectedOption === "Alquiler de Edificios" ||
+              selectedOption === "Venta de Edificios" ||
+              selectedOption === "Alquiler de Locales Comerciales" ||
+              selectedOption === "Venta de Locales Comerciales" ||
+              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+              selectedOption === ""
+                ? "hidden"
+                : null
+            }
+          >
+            <Select
+              className="categories lg:mx-80 mb-2 mt-1"
+              name="detallesExternos"
+              noOptionsMessage={() => null}
+              closeMenuOnSelect={false}
+              defaultValue={property?.detallesExternos}
+              options={DetallesExternos}
+              placeholder={"Detalles externos"}
+              isMulti
+              onChange={handleChangeDetallesExternos}
+            />
+            {/* <div className="space mb-2.5">
             {errors.detallesExternos && touched.detallesExternos ? (
               <div className="errordiv text-xs">{errors.detallesExternos}</div>
             ) : null}
           </div> */}
-        </div>
-        <div className="flex justify-center w-full mb-0">
-          <textarea
-            hidden={selectedOption === ""}
-            name="ubicacionDetallada"
-            defaultValue={property?.ubicacionDetallada}
-            onChange={handleChange}
-            placeholder="Ubicación exacta"
-            className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
-          />
-        </div>
-        <div className="flex justify-center w-full mb-0">
-          <textarea
-            hidden={selectedOption === ""}
-            name="ubicacionCercana"
-            defaultValue={property?.ubicacionCercana}
-            onChange={handleChange}
-            placeholder="Ubicación cercana"
-            className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
-          />
-        </div>
-        <div className="flex justify-center w-full mb-2">
-          <textarea
-            hidden={selectedOption === ""}
-            name="descripcion"
-            defaultValue={property?.descripcion}
-            onChange={handleChange}
-            placeholder="Descripción de la propiedad"
-            className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
-          />
-        </div>
+          </div>
+          <div className="flex justify-center w-full mb-0">
+            <textarea
+              hidden={selectedOption === ""}
+              name="ubicacionDetallada"
+              defaultValue={property?.ubicacionDetallada}
+              onChange={handleChange}
+              placeholder="Ubicación exacta"
+              className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
+            />
+          </div>
+          <div className="flex justify-center w-full mb-0">
+            <textarea
+              hidden={selectedOption === ""}
+              name="ubicacionCercana"
+              defaultValue={property?.ubicacionCercana}
+              onChange={handleChange}
+              placeholder="Ubicación cercana"
+              className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
+            />
+          </div>
+          <div className="flex justify-center w-full mb-2">
+            <textarea
+              hidden={selectedOption === ""}
+              name="descripcion"
+              defaultValue={property?.descripcion}
+              onChange={handleChange}
+              placeholder="Descripción de la propiedad"
+              className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
+            />
+          </div>
 
-        {/* <input
+          {/* <input
           type="text"
           name="ubicacionDetallada"
           defaultValue={property?.ubicacionDetallada}
@@ -2111,6 +2079,8 @@ const InsertProperty = () => {
             <div className="errordiv text-xs">{errors.ubicacionDetallada}</div>
           ) : null}
         </div> */}
+        </div>
+
         <div
           className={
             selectedOption === undefined || selectedOption === ""

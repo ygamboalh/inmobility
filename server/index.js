@@ -423,11 +423,11 @@ app.get('/home/search/selling-lots', (req, res, next) => {
                 }
                 htmlData = htmlData.replace(
                         "__META_TITLE__",
-                        "Venta de Lotes Fincas y Terrenos"
+                        "Venta de Fincas, Lotes, Predios o Terrenos"
                 )
                         .replace('Sistema CIC', "Sistema CIC")
-                        .replace('Venta y Alquiler de inmuebles y propiedades', "Venta de Lotes Fincas y Terrenos")
-                        .replace('__META_DESCRIPTION__', "Venta de Lotes Fincas y Terrenos")
+                        .replace('Venta y Alquiler de inmuebles y propiedades', "Venta de Fincas, Lotes, Predios o Terrenos")
+                        .replace('__META_DESCRIPTION__', "Venta de Fincas, Lotes, Predios o Terrenos")
                 .replace('https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.siccic.com/uploads/blue_logo_d00dd4ed3a.png")
                 return res.send(htmlData);
         })

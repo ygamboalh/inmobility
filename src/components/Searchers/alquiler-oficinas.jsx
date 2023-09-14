@@ -105,14 +105,29 @@ const AlquilerOficinas = () => {
             value={values.uniqueId}
             onChange={handleChange}
             name="uniqueId"
-            placeholder="Identificador único"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            placeholder="Código de propiedad"
+            className="input-admin-property uniqueId-input text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.uniqueId && touched.uniqueId ? (
               <div className="errordiv text-xs">{errors.uniqueId}</div>
             ) : null}
           </div>
+          <select
+            value={values.tipoPropiedad}
+            onChange={handleChange}
+            name="tipoOficina"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble ( Oficina )"}
+            </option>
+            {Oficina.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
           <select
             name="provincia"
             value={values.provincia}
@@ -221,23 +236,6 @@ const AlquilerOficinas = () => {
                 {item.value}
               </option>
             ))}
-          </select>
-          <select
-            name="vistaPanoramica"
-            id="vistaPanoramica"
-            onChange={handleChange}
-            placeholder="Vista Panorámica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"¿Tiene vista panorámica?"}
-            </option>
-            <option value={true} label="Si">
-              Si
-            </option>
-            <option value={false} label="No">
-              No
-            </option>
           </select>
           <div class="flex flex-row w-fit max-[500px]:pt-0 input-admin-property ml-1 mr-1 py-2">
             <select
@@ -401,6 +399,23 @@ const AlquilerOficinas = () => {
               />
             </div>
           </div>
+          <select
+            name="vistaPanoramica"
+            id="vistaPanoramica"
+            onChange={handleChange}
+            placeholder="Vista Panorámica"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"¿Tiene vista panorámica?"}
+            </option>
+            <option value={true} label="Si">
+              Si
+            </option>
+            <option value={false} label="No">
+              No
+            </option>
+          </select>
 
           <select
             onChange={handleChange}
@@ -421,7 +436,7 @@ const AlquilerOficinas = () => {
             value={values.areaTerreno}
             onChange={handleChange}
             name="areaTerreno"
-            placeholder="Área del terreno"
+            placeholder="Área total del terreno"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
@@ -429,27 +444,13 @@ const AlquilerOficinas = () => {
               <div className="errordiv text-xs">{errors.areaTerreno}</div>
             ) : null}
           </div>
-          <select
-            value={values.tipoPropiedad}
-            onChange={handleChange}
-            name="tipoOficina"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de inmueble ( Oficina )"}
-            </option>
-            {Oficina.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
+
           <input
             type="number"
             value={values.areaPropiedad}
             onChange={handleChange}
             name="areaPropiedad"
-            placeholder="Área de la propiedad"
+            placeholder="Área perimetral del inmueble"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">

@@ -430,3 +430,10 @@ html {
   border: none;
   padding: 2px;
 }
+.uniqueId-input {
+  border-color: #1863e4;
+  border-width: 2px;
+  background-color: rgb(225, 224, 224);
+  box-shadow: 12px;
+  box-sizing: 45px;
+}

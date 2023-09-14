@@ -401,7 +401,7 @@ const PropertyDetailsSearch = () => {
               {property.areaPropiedad ? (
                 <div className="flex flex-row">
                   <label className="font-semibold mr-1">
-                    Área de la propiedad:{" "}
+                    Área perimetral del inmueble:{" "}
                   </label>
                   <div className="flex flex-row">
                     <label>{property.areaPropiedad}</label>
@@ -443,7 +443,7 @@ const PropertyDetailsSearch = () => {
               {property.areaTerreno ? (
                 <div className="flex flex-row">
                   <label className="font-semibold mr-1">
-                    Área del terreno:
+                    Área total del terreno:
                   </label>
                   <div className="flex flex-row">
                     <label>{property.areaTerreno}</label>

@@ -9,6 +9,8 @@ import {
   BiUserCheck,
   BiBook,
   BiBell,
+  BiMailSend,
+  BiMessageDetail,
 } from "react-icons/bi";
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
@@ -209,6 +211,34 @@ const UserInfo = () => {
               Cambiar clave
             </a>
           </div>
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <BiMailSend
+              style={{
+                fontSize: 22,
+                marginLeft: -2,
+              }}
+            />
+            <a
+              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
+              href="/home/visiter-contact"
+            >
+              Contactar
+            </a>
+          </div>
+          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <BiMessageDetail
+              style={{
+                fontSize: 22,
+                marginLeft: -2,
+              }}
+            />
+            <a
+              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
+              href="https://sites.google.com/view/buzonvirtualsistemacic/buz%C3%B3n-virtual-de-sugerencias"
+            >
+              Buzón virual
+            </a>
+          </div>
           <div className="px-2 py-2 text-gray-800 hover:bg-blue-500 rounded-lg hover:text-white">
             <button
               onClick={() => {
@@ -217,8 +247,10 @@ const UserInfo = () => {
               }}
               className="text-xs flex flex-row"
             >
-              <BiLogOut size={20} />{" "}
-              <label className="pt-0.5 pl-0.5 cursor-pointer">Salir</label>
+              <div className="-ml-1 flex flex-row">
+                <BiLogOut size={20} />{" "}
+                <label className="pt-0.5 pl-1 cursor-pointer">Salir</label>
+              </div>
             </button>
           </div>
         </div>

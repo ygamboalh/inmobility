@@ -9,6 +9,7 @@ import {
   BiChild,
   BiConfused,
   BiDislike,
+  BiEraser,
   BiHotel,
   BiLike,
   BiSolidDog,
@@ -30,6 +31,7 @@ import MetaData from "../Metadata/metadata";
 import ShareAdviser from "../Share/share-adviser";
 import AudioPlayer from "../AudioPlayer/audio-player";
 import Map from "../Map/map";
+import ShareLink from "../Share/share-link";
 
 const PortafolioCard = ({ propiedad }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -218,18 +220,7 @@ const PortafolioCard = ({ propiedad }) => {
         title="Detalles de la propiedad"
         content="Detalles de la propiedad"
       />
-      <div className="container mx-auto pt-4 pb-2 bg-gray-300 rounded-xl">
-        <div className="flex justify-end">
-          <form>
-            <button
-              onClick={removeProperty}
-              type="button"
-              className="bg-blue-400 p-2 rounded-full"
-            >
-              <BiWindowClose size={30} fill="red" />
-            </button>
-          </form>
-        </div>
+      <div className="container mx-auto pt-4 pb-2 bg-gray-200 rounded-xl">
         <div className="text-[14px] w-full font-semibold flex flex-row">
           <div>{property.categories.data[0].attributes.nombre}</div>
         </div>
@@ -444,35 +435,53 @@ const PortafolioCard = ({ propiedad }) => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-row max-[400px]:flex-col">
-              <div className="justify-center mb-4 mx-1">
-                <button
-                  onClick={() => {
-                    handleLikeClick();
-                  }}
-                  style={{ backgroundColor: likeColor }}
-                  className="rounded-full p-2"
-                >
-                  <BiLike fill="white" size={30} />
-                </button>
+            <div className="flex flex-col">
+              <div className="flex max-[500px]:justify-center mb-2">
+                <span>¿Cuál es su opinión de este inmueble?</span>
               </div>
-              <div className="justify-center mb-4 mx-1">
-                <button
-                  onClick={handleConfusedClick}
-                  style={{ backgroundColor: confusedColor }}
-                  className="rounded-full p-2"
-                >
-                  <BiConfused fill="white" size={30} />
-                </button>
-              </div>
-              <div className="justify-center mb-4 mx-1">
-                <button
-                  onClick={handleDislikeClick}
-                  style={{ backgroundColor: dislikeColor }}
-                  className="rounded-full p-2"
-                >
-                  <BiDislike fill="white" size={30} />
-                </button>
+              <div className="flex justify-between">
+                <div className="flex max-[500px]:justify-center flex-row">
+                  <div className="justify-center mb-4 mx-1">
+                    <button
+                      onClick={() => {
+                        handleLikeClick();
+                      }}
+                      style={{ backgroundColor: likeColor }}
+                      className="rounded-full p-2"
+                    >
+                      <BiLike fill="white" size={30} />
+                    </button>
+                  </div>
+                  <div className="justify-center mb-4 mx-1">
+                    <button
+                      onClick={handleConfusedClick}
+                      style={{ backgroundColor: confusedColor }}
+                      className="rounded-full p-2"
+                    >
+                      <BiConfused fill="white" size={30} />
+                    </button>
+                  </div>
+                  <div className="justify-center mb-4 mx-1">
+                    <button
+                      onClick={handleDislikeClick}
+                      style={{ backgroundColor: dislikeColor }}
+                      className="rounded-full p-2"
+                    >
+                      <BiDislike fill="white" size={30} />
+                    </button>
+                  </div>
+                </div>
+                <div className="flex justify-end">
+                  <form>
+                    <button
+                      onClick={removeProperty}
+                      type="button"
+                      className="bg-blue-500 p-2 rounded-full"
+                    >
+                      <BiEraser size={30} fill="red" />
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -967,7 +976,7 @@ const PortafolioCard = ({ propiedad }) => {
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                       </svg>
                       <label className="font-semibold mr-1">
-                        Área de la propiedad:{" "}
+                        Área perimetral del inmueble:{" "}
                       </label>
                       <div className="flex flex-row">
                         <label>{property.areaPropiedad}</label>
@@ -1039,7 +1048,7 @@ const PortafolioCard = ({ propiedad }) => {
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                       </svg>
                       <label className="font-semibold mr-1">
-                        Área del terreno:
+                        Área total del terreno:
                       </label>
                       <div className="flex flex-row">
                         <label>{property.areaTerreno}</label>
@@ -1693,7 +1702,11 @@ const PortafolioCard = ({ propiedad }) => {
         {!userData?.id ? (
           <Share pdfUrl={pdfUrl} adviser={adviser} />
         ) : (
-          <ShareAdviser pdfUrl={pdfUrl} />
+          <div className="flex flex-row max-[768px]:flex-col">
+            <div className="pt-[6px] align-middle">
+              <ShareAdviser pdfUrl={pdfUrl} />
+            </div>
+          </div>
         )}
       </div>
       {/*  {visible && property ? (

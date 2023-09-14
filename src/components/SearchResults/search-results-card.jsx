@@ -13,8 +13,6 @@ import { getAllPortafolios } from "../../api/propertiesApi";
 import { getToken } from "../../utils/helpers";
 import axios from "axios";
 import { Select, message } from "antd";
-import Swal from "sweetalert2";
-import MetaData from "../Metadata/metadata";
 import CreatePortfolioModal from "../Modals/create-portfolio-modal";
 
 const SearchResultsCard = () => {

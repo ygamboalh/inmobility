@@ -22,6 +22,10 @@ export const getAllProperties = async () => {
   })
   return { data:data };
 }
+export const getMyProperties = async (userId) => {
+  const { data } = await AxiosInstance.get(`properties?filters[creadoPor][$eq]=${userId}&populate=*`);
+  return data;
+}
 export const getAllPropertiesRQ = async () => {
   //const { data } = await AxiosInstance.get('/properties?populate=*');
   //return data

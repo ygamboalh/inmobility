@@ -67,7 +67,7 @@ const CreatePortfolioModal = ({ isVisible, onDataReceived }) => {
               onClick={sendDataToParent}
               className="bg-blue-700 px-3 py-1 my-3 rounded-md text-white text-lg"
             >
-              Aceptar
+              Iniciar
             </button>
           </div>
         </div>

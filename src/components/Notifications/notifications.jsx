@@ -156,6 +156,15 @@ const Notifications = () => {
       });
     }
   };
+  const navegar = (id) => {
+    const response = AxiosInstance.get(`/home/shared-property/${id}`)
+      .then((res) => {
+        console.log("respuesta", res);
+      })
+      .catch((error) => {
+        console.log("el error", error);
+      });
+  };
   if (!notifications) {
     return <MySpinner />;
   }
@@ -192,12 +201,8 @@ const Notifications = () => {
                 <div className="ml-4 my-2">
                   <button
                     type="button"
-                    onClick={() =>
-                      navigate(
-                        `/home/shared-property/${notification.attributes.reference}`
-                      )
-                    }
-                    className="bg-green-400 hover:bg-green-500 px-2 py-1 rounded-md cursor-pointer"
+                    onClick={() => navegar(notification?.attributes?.reference)}
+                    className="bg-green-400 hover:bg-green-500 px-2 py-1 text-white rounded-md cursor-pointer"
                   >
                     Revisar
                   </button>
@@ -206,7 +211,7 @@ const Notifications = () => {
               <div className="ml-4 my-2">
                 <button
                   onClick={() => DeleteNotification(notification.id)}
-                  className="bg-red-600 hover:bg-red-700 px-2 py-1 rounded-md cursor-pointer"
+                  className="bg-red-600 hover:bg-red-700 px-2 py-1 text-white rounded-md cursor-pointer"
                 >
                   Eliminar
                 </button>

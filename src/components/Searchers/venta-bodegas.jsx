@@ -108,14 +108,29 @@ const AlquilerBodegas = () => {
             value={values.uniqueId}
             onChange={handleChange}
             name="uniqueId"
-            placeholder="Identificador único"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            placeholder="Código de propiedad"
+            className="input-admin-property uniqueId-input text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.uniqueId && touched.uniqueId ? (
               <div className="errordiv text-xs">{errors.uniqueId}</div>
             ) : null}
           </div>
+          <select
+            value={values.tipoPropiedad}
+            onChange={handleChange}
+            name="tipoBodega"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble ( Bodega )"}
+            </option>
+            {Bodega.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
           <select
             value={values.provincia}
             onChange={handleChange}
@@ -225,23 +240,6 @@ const AlquilerBodegas = () => {
               </option>
             ))}
           </select>
-          <select
-            name="vistaPanoramica"
-            id="vistaPanoramica"
-            onChange={handleChange}
-            placeholder="Vista Panorámica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"¿Tiene vista panorámica?"}
-            </option>
-            <option value="Si" label="Si">
-              Si
-            </option>
-            <option value="No" label="No">
-              No
-            </option>
-          </select>
           <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               id="dropdown-button"
@@ -348,6 +346,23 @@ const AlquilerBodegas = () => {
               />
             </div>
           </div>
+          <select
+            name="vistaPanoramica"
+            id="vistaPanoramica"
+            onChange={handleChange}
+            placeholder="Vista Panorámica"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"¿Tiene vista panorámica?"}
+            </option>
+            <option value="Si" label="Si">
+              Si
+            </option>
+            <option value="No" label="No">
+              No
+            </option>
+          </select>
 
           <select
             onChange={handleChange}
@@ -368,7 +383,7 @@ const AlquilerBodegas = () => {
             value={values.areaTerreno}
             onChange={handleChange}
             name="areaTerreno"
-            placeholder="Área del terreno"
+            placeholder="Área total del terreno"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
@@ -376,28 +391,13 @@ const AlquilerBodegas = () => {
               <div className="errordiv text-xs">{errors.areaTerreno}</div>
             ) : null}
           </div>
-          <select
-            value={values.tipoPropiedad}
-            onChange={handleChange}
-            name="tipoBodega"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de inmueble ( Bodega )"}
-            </option>
-            {Bodega.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
 
           <input
             type="number"
             value={values.areaPropiedad}
             onChange={handleChange}
             name="areaPropiedad"
-            placeholder="Área de la propiedad"
+            placeholder="Área perimetral del inmueble"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
@@ -410,7 +410,7 @@ const AlquilerBodegas = () => {
             value={values.areaContruccion}
             onChange={handleChange}
             name="areaContruccion"
-            placeholder="Área construcción"
+            placeholder="Metros cuadrados construidosión"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">

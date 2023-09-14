@@ -92,6 +92,7 @@ const App = () => {
             <Route path="/user/logout" element={<Logout />} />
             <Route exact path="/home/shared-property/:id" element={<SearchCard />} />
             
+            
             </Route>
           <Route element={<PublicRoutes />}>
                 <Route path="/home/banner/visiter" element={<Banner />} />
@@ -112,6 +113,7 @@ const App = () => {
               <Route exact path="/admin/properties/property-detail/:id" element={<PropertyDetailsAdmin />} />
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
               <Route exact path="/admin/properties/insert-property/:id" element={<InsertProperty />} />
+              
               <Route exact path="/admin/shared-property/:id" element={<SearchCard />} />
               <Route exact path='/admin/properties' element={<Properties />} />
               <Route exact path="/admin/users" element={<Users />} />

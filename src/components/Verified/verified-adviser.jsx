@@ -166,7 +166,7 @@ const VerifiedAdviser = () => {
                 <span className="mr-1">Por año: </span>
                 <span> ₡30.000 (Treinta mil colones exactos)</span>
               </div>
-              <hr />
+
               <span className="text-gray-700">
                 No se cobrará por inmueble sino por tiempo.
               </span>

@@ -73,7 +73,7 @@ const LinkListAdviser = () => {
     return <MySpinner />;
   }
   return (
-    <div className="flex justify-start flex-col items-center w-full">
+    <div className="flex justify-start px-4 flex-col items-center w-full">
       <DataTable
         columns={column}
         data={records}
@@ -85,11 +85,11 @@ const LinkListAdviser = () => {
         progressComponent={<MySpinner />}
         subHeader
         subHeaderComponent={
-          <div className="relative w-full -mt-8 my-1 px-2">
+          <div className="w-full justify-center flex -mt-8 my-1 ">
             <input
               type="text"
               onChange={handleFilter}
-              className="w-full px-4 border border-gray-300 rounded-md"
+              className="w-full border -ml-4 flex border-gray-300 rounded-md"
               placeholder="Filtrar por descripción"
             />
           </div>

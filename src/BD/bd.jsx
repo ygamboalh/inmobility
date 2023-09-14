@@ -49,13 +49,13 @@ export const Oficina = [
     value: "Consultorio Médico",
     label: "Consultorio Médico",
   },
+  {
+    value: "Consultorio con torre médica",
+    label: "Consultorio torre médica",
+  },
 ];
 
 export const Bodega = [
-  {
-    value: "Mega Bodega ( Mayor de 3 mil m2)",
-    label: "Mega Bodega ( Mayor de 3 mil m2)",
-  },
   {
     value: "Bodega Industrial ( Mayor de mil m2 y menor de 3mil m2)",
     label: "Bodega Industrial ( Mayor de mil m2 y menor de 3mil m2)",
@@ -63,6 +63,11 @@ export const Bodega = [
   {
     value: "Bodega ( De 50m2 a mil m2)",
     label: "Bodega ( De 50m2 a mil m2)",
+  },
+  { key: "Galpón", value: "Galpón" },
+  {
+    value: "Mega Bodega ( Mayor de 3 mil m2)",
+    label: "Mega Bodega ( Mayor de 3 mil m2)",
   },
   {
     value: "Mini Bodega (Inferiores a 50m2)",
@@ -76,13 +81,29 @@ export const Bodega = [
 
 export const UsoSuelo = [
   { value: "Comercial", label: "Comercial" },
+  {
+    value: "Dentro de área de conservación",
+    label: "Dentro de área de conservación",
+  },
   { value: "Habitacional", label: "Habitacional" },
   {
     value: "Mixto (Comercial y habitacional)",
     label: "Mixto (Comercial y habitacional)",
   },
+  {
+    value: "Mixto (Industrial y Comercial)",
+    label: "Mixto (Industrial y Comercial)",
+  },
   { value: "Habitacional unifamiliar", label: "Habitacional unifamiliar" },
   { value: "Industrial", label: "Industrial" },
+  { value: "Residencial unifamiliar", label: "Residencial unifamiliar" },
+  { value: "Residencial multifamiliar", label: "Residencial multifamiliar" },
+  { value: "Agrícola", label: "Agrícola" },
+  { value: "Recreativo", label: "Recreativo" },
+  { value: "Zona H8", label: "Zona H8" },
+  { value: "Zona H6", label: "Zona H6" },
+  { value: "Tipo C", label: "Tipo C" },
+  { value: "Otro", label: "Otro" },
 ];
 export const Servicios = [
   { value: "Tiene todos los servicios", label: "Tiene todos los servicios" },
@@ -159,7 +180,6 @@ export const TipoInmueble = [
   { key: "Casa 2 niveles", value: "Casa 2 niveles" },
   { key: "Casa 3 niveles", value: "Casa 3 niveles" },
   { key: "Casa 4 niveles", value: "Casa 4 niveles" },
-  { key: "Casa en Condominio", value: "Casa en Condominio" },
   { key: "Apartamento", value: "Apartamento" },
   { key: "Apartamento en 2do Piso", value: "Apartamento en 2do Piso" },
   { key: "Apartamento en 3er Piso", value: "Apartamento en 3er Piso" },
@@ -169,10 +189,6 @@ export const TipoInmueble = [
   { key: "Apartamento de 3 niveles", value: "Apartamento de 3 niveles" },
   { key: "Chalet", value: "Chalet" },
   { key: "Loft", value: "Loft" },
-  { key: "Galpón", value: "Galpón" },
-  { key: "Torre médica", value: "Torre médica" },
-  { key: "Finca maderera", value: "Finca maderera" },
-  { key: "Finca agrícola", value: "Finca agrícola" },
   { key: "Casas Rural", value: "Casas Rural" },
   { key: "Casa de Playa", value: "Casa de Playa" },
   { key: "Casa Antigua pequeña", value: "Casa Antigua pequeña" },
@@ -213,22 +229,22 @@ export const TipoPiso = [
   },
 ];
 export const Amenidades = [
-  { value: "Casa club", label: "Casa club" },
-  { value: "Gimnasio", label: "Gimnasio" },
-  { value: "Piscina", label: "Piscina" },
-  { value: "Canchas Deportivas", label: "Canchas Deportivas" },
   {
     value: "Área de recreación infantil",
     label: "Área de recreación infantil",
   },
+  { value: "Canchas Deportivas", label: "Canchas Deportivas" },
+  { value: "Casa club", label: "Casa club" },
   { value: "Ciclo vía", label: "Ciclo vía" },
-  { value: "Parque de mascotas", label: "Parque de mascotas" },
-  { value: "Senderos", label: "Senderos" },
-  { value: "Sala de Cine", label: "Sala de Cine" },
-  { value: "Ranchos para BBQ", label: "Ranchos para BBQ" },
-  { value: "Sala de internet", label: "Sala de internet" },
+  { value: "Gimnasio", label: "Gimnasio" },
   { value: "Oficina de negocios", label: "Oficina de negocios" },
+  { value: "Parque de mascotas", label: "Parque de mascotas" },
+  { value: "Piscina", label: "Piscina" },
+  { value: "Ranchos para BBQ", label: "Ranchos para BBQ" },
+  { value: "Sala de Cine", label: "Sala de Cine" },
+  { value: "Sala de internet", label: "Sala de internet" },
   { value: "Sala de reuniones", label: "Sala de reuniones" },
+  { value: "Senderos", label: "Senderos" },
 ];
 
 export const PatioJardin = [
@@ -243,8 +259,8 @@ export const PatioJardin = [
 ];
 
 export const DetallesInternos = [
-  { value: "Alarma", label: "Alarma" },
   { value: "Adosado", label: "Adosado" },
+  { value: "Alarma", label: "Alarma" },
   { value: "Armarios Empotrados", label: "Armarios Empotrados" },
   { value: "Balcón", label: "Balcón" },
   { value: "Baño auxiliar", label: "Baño auxiliar" },
@@ -255,6 +271,7 @@ export const DetallesInternos = [
   { value: "Barra estilo americano", label: "Barra estilo americano" },
   { value: "Biblioteca/Estudio", label: "Biblioteca/Estudio" },
   { value: "Bodega", label: "Bodega" },
+  { value: "Cableado subterráneo", label: "Cableado subterráneo" },
   { value: "Calentador", label: "Calentador" },
   { value: "Chimenea", label: "Chimenea" },
   {
@@ -268,29 +285,31 @@ export const DetallesInternos = [
   { value: "Comedor auxiliar", label: "Comedor auxiliar" },
   { value: "Despensa", label: "Despensa" },
   { value: "Doble Ventana", label: "Doble Ventana" },
+  { value: "Extractor de grasa", label: "Extractor de grasa" },
   { value: "Gas domiciliario", label: "Gas domiciliario" },
   { value: "Habitación conductores", label: "Habitación conductores" },
   { value: "Habitación servicio", label: "Habitación servicio" },
   { value: "Hall de alcobas", label: "Hall de alcobas" },
   { value: "Hospedaje Turismo", label: "Hospedaje Turismo" },
+  { value: "Incluye lavadora de ropa", label: "Incluye lavadora de ropa" },
+  { value: "Incluye secadora de ropa", label: "Incluye secadora de ropa" },
   { value: "Jacuzzi", label: "Jacuzzi" },
+  { value: "Pet friendly", label: "Pet friendly" },
   { value: "Sauna", label: "Sauna" },
   { value: "Suelo de cerámica / mármol", label: "Suelo de cerámica / mármol" },
+  { value: "Trastero", label: "Trastero" },
   { value: "Turco", label: "Turco" },
   { value: "Vista panorámica", label: "Vista panorámica" },
   { value: "Zona de lavandería", label: "Zona de lavandería" },
-  { value: "Trastero", label: "Trastero" },
-  { value: "Cableado subterráneo", label: "Cableado subterráneo" },
-  { value: "Extractor de grasa", label: "Extractor de grasa" },
-  { value: "Incluye lavadora de ropa", label: "Incluye lavadora de ropa" },
-  { value: "Incluye secadora de ropa", label: "Incluye secadora de ropa" },
 ];
 
 export const DetallesExternos = [
   { value: "Acceso pavimentado", label: "Acceso pavimentado" },
+  { value: "Acceso Electrónico", label: "Acceso Electrónico" },
   { value: "Árboles frutales", label: "Árboles frutales" },
   { value: "Ascensor", label: "Ascensor" },
   { value: "Bungalow / pareado", label: "Bungalow / pareado" },
+  { value: "Calles Adoquinadas", label: "Calles Adoquinadas" },
   { value: "Calles de Tosca", label: "Calles de Tosca" },
   { value: "Establo", label: "Establo" },
   { value: "Galpón", label: "Galpón" },
@@ -300,31 +319,28 @@ export const DetallesExternos = [
   { value: "Lago", label: "Lago" },
   { value: "Laguna", label: "Laguna" },
   { value: "Montaña", label: "Montaña" },
+  { value: "Muro Perimetral", label: "Muro Perimetral" },
+  { value: "Parque canino", label: "Parque canino" },
   { value: "Parqueadero visitantes", label: "Parqueadero visitantes" },
   { value: "Parques cercanos", label: "Parques cercanos" },
   { value: "Pesebrera", label: "Pesebrera" },
+  { value: "Piscina para Adultos", label: "Piscina para Adultos" },
+  { value: "Piscina para niños", label: "Piscina para niños" },
   { value: "Planta eléctrica", label: "Planta eléctrica" },
+  { value: "Playground", label: "Playground" },
   { value: "Playas", label: "Playas" },
   { value: "Portería / Recepción", label: "Portería / Recepción" },
   { value: "Pozo de agua natural", label: "Pozo de agua natural" },
   { value: "Río/Quebrada cercano", label: "Río/Quebrada cercano" },
   { value: "Sistema de riego", label: "Sistema de riego" },
+  { value: "Sistema médicos cercanos", label: "Sistema médicos cercanos" },
   { value: "Sobre vía principal", label: "Sobre vía principal" },
   { value: "Trans. público cercano", label: "Trans. público cercano" },
-  { value: "Muro Perimetral", label: "Muro Perimetral" },
+  { value: "Vídeo Vigilancia", label: "Vídeo Vigilancia" },
   { value: "Vigilancia", label: "Vigilancia" },
   { value: "Zona campestre", label: "Zona campestre" },
   { value: "Zona camping", label: "Zona camping" },
   { value: "Zonas verdes", label: "Zonas verdes" },
-  { value: "Pet friendly", label: "Pet friendly" },
-  { value: "Acceso Electrónico", label: "Acceso Electrónico" },
-  { value: "Calles Adoquinadas", label: "Calles Adoquinadas" },
-  { value: "Parque canino", label: "Parque canino" },
-  { value: "Piscina para Adultos", label: "Piscina para Adultos" },
-  { value: "Piscina para niños", label: "Piscina para niños" },
-  { value: "Playground", label: "Playground" },
-  { value: "Vídeo Vigilancia", label: "Vídeo Vigilancia" },
-  { value: "Vídeo Vigilancia", label: "Vídeo Vigilancia" },
 ];
 
 export const DetallesExternosMulti = [
@@ -478,22 +494,6 @@ export const Locales = [
     value: "Todo un piso dentro de un edificio",
     label: "Todo un piso dentro de un edificio",
   },
-  {
-    value: "Galpón",
-    label: "Galpón",
-  },
-  {
-    value: "Torre médica",
-    label: "Torre médica",
-  },
-  {
-    value: "Finca maderera",
-    label: "Finca maderera",
-  },
-  {
-    value: "Finca agrícola",
-    label: "Finca agrícola",
-  },
 ];
 
 export const TipoLote = [
@@ -545,8 +545,12 @@ export const categories = [
     label: "Alquiler de Casas y Apartamentos",
   },
   {
-    value: "Venta de Lotes, Fincas,Terrenos y Predios",
-    label: "Venta de Lotes, Fincas,Terrenos y Predios",
+    value: "Venta de Fincas, Lotes, Predios o Terrenos",
+    label: "Venta de Fincas, Lotes, Predios o Terrenos",
+  },
+  {
+    value: "Alquiler de Fincas, Lotes, Predios o Terrenos",
+    label: "Alquiler de Fincas, Lotes, Predios o Terrenos",
   },
   {
     value: "Venta de Locales Comerciales",
@@ -573,10 +577,6 @@ export const categories = [
   {
     value: "Alquiler de Oficinas o Consultorios Médicos",
     label: "Alquiler de Oficinas o Consultorios Médicos",
-  },
-  {
-    value: "Alquiler de Fincas, Lotes, Predios o Terrenos",
-    label: "Alquiler de Fincas, Lotes, Predios o Terrenos",
   },
 ];
 
@@ -606,7 +606,10 @@ export const UbicacionDemografica = [
   { key: "En Condominio", value: "En Condominio" },
   { key: "En residencial", value: "En residencial" },
   { key: "En Caserío", value: "En Caserío" },
-  { key: "Aislado", value: "Aislado" },
+  { key: "En Zona Agraria", value: "En Zona Agraria" },
+  { key: "En Zona Industrial", value: "En Zona Industrial" },
+  { key: "Aislado (Distante)", value: "Aislado (Distante)" },
+  { key: "Estilo Ermitaño", value: "Estilo Ermitaño" },
 ];
 
 export const UbicacionGeografica = [

@@ -165,6 +165,17 @@ const Dropdown = ({ ubicacion }) => {
               Opciones
             </a>
           </div>
+          {userData?.active === "Supervisor" ? (
+            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              <BiSitemap size={20} />
+              <a
+                className="text-xs flex flex-row pt-1 pl-1"
+                href="/user/verified-adviser"
+              >
+                Portal verificados
+              </a>
+            </div>
+          ) : null}
           {notificaciones?.length > 0 ? (
             <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
               <BiBell size={20} />
@@ -205,7 +216,7 @@ const Dropdown = ({ ubicacion }) => {
               <BiBuildingHouse size={20} />
               <a
                 className="text-xs flex flex-row pt-1 pl-1"
-                href="/auth/change-password"
+                href="/admin/properties"
               >
                 Propiedades
               </a>
@@ -214,7 +225,7 @@ const Dropdown = ({ ubicacion }) => {
               <BiUser size={20} />
               <a
                 className="text-xs flex flex-row pt-1 pl-1"
-                href="/auth/change-password"
+                href="/admin/users"
               >
                 Usuarios
               </a>
@@ -223,7 +234,7 @@ const Dropdown = ({ ubicacion }) => {
               <BiChevronDownCircle size={20} />
               <a
                 className="text-xs flex flex-row pt-1 pl-1"
-                href="/auth/change-password"
+                href="/admin/buttons"
               >
                 Botones
               </a>
@@ -232,7 +243,7 @@ const Dropdown = ({ ubicacion }) => {
               <BiSitemap size={20} />
               <a
                 className="text-xs flex flex-row pt-1 pl-1"
-                href="/auth/change-password"
+                href="/user/verified-adviser"
               >
                 Portal verificados
               </a>
@@ -241,7 +252,7 @@ const Dropdown = ({ ubicacion }) => {
               <BiLink size={20} />
               <a
                 className="text-xs flex flex-row pt-1 pl-1"
-                href="/auth/change-password"
+                href="/admin/links"
               >
                 Enlaces
               </a>

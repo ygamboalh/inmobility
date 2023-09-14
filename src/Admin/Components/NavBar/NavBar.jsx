@@ -19,7 +19,7 @@ const Navbar = () => {
         <div className="max-[1100px]:mt-3">
           <a href="/" className="flex items-center">
             <div className="logo-admin -mt-1 fixed left-4"></div>
-            <span className="fixed left-16 self-center text-2xl font-semibold whitespace-nowrap">
+            <span className="fixed left-16 self-center text-2xl text-white font-semibold whitespace-nowrap">
               Sistema CIC
             </span>
           </a>

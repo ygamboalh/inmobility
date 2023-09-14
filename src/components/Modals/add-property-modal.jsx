@@ -49,7 +49,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
         return 1;
       case "Alquiler de Casas y Apartamentos":
         return 2;
-      case "Venta de Lotes, Fincas,Terrenos y Predios":
+      case "Venta de Fincas, Lotes, Predios o Terrenos":
         return 4;
       case "Venta de Locales Comerciales":
         return 5;
@@ -237,7 +237,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                     value={values.areaTerreno}
                     onChange={handleChange}
                     name="areaTerreno"
-                    placeholder="Área del terreno"
+                    placeholder="Área total del terreno"
                     className="input-admin-property  m-2 w-80 p-2"
                   />
                   <select
@@ -524,7 +524,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                     type="number"
                     name="areaTerreno"
                     onChange={handleChange}
-                    placeholder="Área del terreno"
+                    placeholder="Área total del terreno"
                     className="input-admin-property text-gray-500 m-2 w-80 p-2"
                   />
                   <select

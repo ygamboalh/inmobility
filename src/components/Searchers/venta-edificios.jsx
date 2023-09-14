@@ -105,14 +105,29 @@ const AlquilerEdificios = () => {
             value={values.uniqueId}
             onChange={handleChange}
             name="uniqueId"
-            placeholder="Identificador único"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            placeholder="Código de propiedad"
+            className="input-admin-property uniqueId-input text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
             {errors.uniqueId && touched.uniqueId ? (
               <div className="errordiv text-xs">{errors.uniqueId}</div>
             ) : null}
           </div>
+          <select
+            name="tipoEdificio"
+            value={values.tipoPropiedad}
+            onChange={handleChange}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Tipo de inmueble ( Edificio )"}
+            </option>
+            {Edificio.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
           <select
             value={values.provincia}
             onChange={handleChange}
@@ -156,21 +171,71 @@ const AlquilerEdificios = () => {
             ) : null}
           </div>
           <select
-            name="vistaPanoramica"
-            id="vistaPanoramica"
+            name="ubicacionCastral"
+            value={values.ubicacionCastral}
             onChange={handleChange}
-            placeholder="Vista Panorámica"
+            id="ubicacionCastral"
+            placeholder="Ubicación castral"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           >
             <option value="" label="">
-              {"¿Tiene vista panorámica?"}
+              {"Ubicación catastral"}
             </option>
-            <option value={true} label="Si">
-              Si
+            {UbicacionCatastral.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="ubicacionDemografica"
+            value={values.ubicacionDemografica}
+            onChange={handleChange}
+            id="ubicacionDemografica"
+            placeholder="Ubicación demográfica"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Ubicación demográfica"}
             </option>
-            <option value={false} label="No">
-              No
+            {UbicacionDemografica.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="ubicacionGeografica"
+            value={values.ubicacionGeografica}
+            onChange={handleChange}
+            id="ubicacionGeografica"
+            placeholder="Ubicación geográfica"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Ubicación geográfica"}
             </option>
+            {UbicacionGeografica.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            name="usoDeSuelo"
+            value={values.usoDeSuelo}
+            onChange={handleChange}
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"Uso del suelo"}
+            </option>
+            {UsoSuelo.map((item) => (
+              <option value={item.value} label={item.label}>
+                {item.value}
+              </option>
+            ))}
           </select>
           <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
@@ -278,6 +343,23 @@ const AlquilerEdificios = () => {
               />
             </div>
           </div>
+          <select
+            name="vistaPanoramica"
+            id="vistaPanoramica"
+            onChange={handleChange}
+            placeholder="Vista Panorámica"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          >
+            <option value="" label="">
+              {"¿Tiene vista panorámica?"}
+            </option>
+            <option value={true} label="Si">
+              Si
+            </option>
+            <option value={false} label="No">
+              No
+            </option>
+          </select>
 
           <select
             onChange={handleChange}
@@ -298,7 +380,7 @@ const AlquilerEdificios = () => {
             value={values.areaTerreno}
             onChange={handleChange}
             name="areaTerreno"
-            placeholder="Área del terreno"
+            placeholder="Área total del terreno"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
@@ -311,7 +393,7 @@ const AlquilerEdificios = () => {
             value={values.areaPropiedad}
             onChange={handleChange}
             name="areaPropiedad"
-            placeholder="Área de la propiedad"
+            placeholder="Área perimetral del inmueble"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
@@ -319,28 +401,13 @@ const AlquilerEdificios = () => {
               <div className="errordiv text-xs">{errors.areaPropiedad}</div>
             ) : null}
           </div>
-          <select
-            name="tipoEdificio"
-            value={values.tipoPropiedad}
-            onChange={handleChange}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Tipo de inmueble ( Edificio )"}
-            </option>
-            {Edificio.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
 
           <input
             type="number"
             value={values.areaContruccion}
             onChange={handleChange}
             name="areaContruccion"
-            placeholder="Área construcción"
+            placeholder="Metros cuadrados construidosión"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className="space -mt-4">
@@ -395,73 +462,6 @@ const AlquilerEdificios = () => {
               <div className="errordiv text-xs">{errors.numeroPlantas}</div>
             ) : null}
           </div>
-          <select
-            name="ubicacionCastral"
-            value={values.ubicacionCastral}
-            onChange={handleChange}
-            id="ubicacionCastral"
-            placeholder="Ubicación castral"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Ubicación catastral"}
-            </option>
-            {UbicacionCatastral.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-
-          <select
-            name="ubicacionDemografica"
-            value={values.ubicacionDemografica}
-            onChange={handleChange}
-            id="ubicacionDemografica"
-            placeholder="Ubicación demográfica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Ubicación demográfica"}
-            </option>
-            {UbicacionDemografica.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-          <select
-            name="ubicacionGeografica"
-            value={values.ubicacionGeografica}
-            onChange={handleChange}
-            id="ubicacionGeografica"
-            placeholder="Ubicación geográfica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Ubicación geográfica"}
-            </option>
-            {UbicacionGeografica.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-          <select
-            name="usoDeSuelo"
-            value={values.usoDeSuelo}
-            onChange={handleChange}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Uso del suelo"}
-            </option>
-            {UsoSuelo.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
         </div>
         <div className="flex m-4 content-center items-center justify-center ">
           <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
