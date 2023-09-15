@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
 import { useSignOut } from "react-auth-kit";
+
 import {
   BiLogOut,
   BiHomeAlt,
@@ -7,21 +9,20 @@ import {
   BiMailSend,
   BiMessageDetail,
 } from "react-icons/bi";
+import { SiHomeassistantcommunitystore } from "react-icons/si";
+import { FaWarehouse } from "react-icons/fa";
+
 import { deleteZero, getUserTokenDate } from "../../utils/helpers";
 import AxiosInstance from "../../api/AxiosInstance";
-import { useQuery } from "react-query";
 import { authUserData } from "../../api/usersApi";
-import { FaWarehouse } from "react-icons/fa";
-import { SiHomeassistantcommunitystore } from "react-icons/si";
+
 const VisiterUserInfo = () => {
   const signOut = useSignOut();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { data: userData } = useQuery("profile", authUserData);
   const id = userData?.id;
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+
   const forcedLogOut = () => {
     const token = getUserTokenDate();
     const currentDate = new Date();

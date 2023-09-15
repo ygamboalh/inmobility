@@ -463,21 +463,24 @@ const InsertProperty = () => {
       }
     },
   });
+
   useEffect(() => {
-    if (!id) {
+    if (!id || selectedOption !== "") {
       handleSubmit();
+    } else {
+      const response = AxiosInstance.get(`properties/${id}?populate=*`)
+        .then((property) => {
+          setProperty(property?.data?.data?.attributes);
+          const category =
+            property?.data?.data?.attributes.categories.data[0].attributes
+              .nombre;
+          setCategory(category);
+          setSelectedOption(category);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-    const response = AxiosInstance.get(`properties/${id}?populate=*`)
-      .then((property) => {
-        setProperty(property?.data?.data?.attributes);
-        const category =
-          property?.data?.data?.attributes.categories.data[0].attributes.nombre;
-        setCategory(category);
-        setSelectedOption(category);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }, []);
 
   useEffect(() => {
@@ -902,19 +905,19 @@ const InsertProperty = () => {
             ))}
           </select>
           {selectedOption === "" ? null : (
-            <div class="flex flex-row w-fit  input-admin-property ml-1 mr-1 py-2">
+            <div className="flex flex-row w-fit  input-admin-property ml-1 mr-1 py-2">
               <select
                 id="dropdown-button"
                 name="moneda"
                 onChange={handleChange}
                 defaultValue={property?.moneda}
-                class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                className="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="">$</option>
                 <option value="$">USD</option>
                 <option value="₡">CRC</option>
               </select>
-              <div class="relative w-full">
+              <div className="relative w-full">
                 <input
                   type="number"
                   min={0}
@@ -929,19 +932,19 @@ const InsertProperty = () => {
             </div>
           )}
           {selectedOption === "" ? null : (
-            <div class="flex flex-row w-fit border rounded-lg pl-1 max-[500px]:mb-2 border-gray-300 input-admin-property ml-1 mr-1 py-2">
+            <div className="flex flex-row w-fit border rounded-lg pl-1 max-[500px]:mb-2 border-gray-300 input-admin-property ml-1 mr-1 py-2">
               <select
                 id="dropdown-button"
                 name="monedaAlquiler"
                 onChange={handleChange}
                 defaultValue={property?.monedaAlquiler}
-                class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                className="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="">$</option>
                 <option value="$">USD</option>
                 <option value="₡">CRC</option>
               </select>
-              <div class="relative w-full">
+              <div className="relative w-full">
                 <input
                   type="number"
                   min={0}
@@ -975,18 +978,18 @@ const InsertProperty = () => {
           )}
 
           {selectedOption === "" ? null : (
-            <div class="flex flex-row w-fit border rounded-lg pl-1 border-gray-300 input-admin-property ml-1 mr-1 py-2">
+            <div className="flex flex-row w-fit border rounded-lg pl-1 border-gray-300 input-admin-property ml-1 mr-1 py-2">
               <select
                 name="monedaAlquilerVenta"
                 onChange={handleChange}
                 defaultValue={property?.monedaAlquilerVenta}
-                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                className="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="">$</option>
                 <option value="$">USD</option>
                 <option value="₡">CRC</option>
               </select>
-              <div class="relative w-full">
+              <div className="relative w-full">
                 <input
                   type="number"
                   onChange={handleChange}
@@ -1024,19 +1027,19 @@ const InsertProperty = () => {
           selectedOption === "Alquiler de Bodegas o Similares" ||
           selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
           selectedOption === "" ? null : (
-            <div class="flex input-admin-property ml-1 mr-1 py-2">
+            <div className="flex input-admin-property ml-1 mr-1 py-2">
               <select
                 name="avaluoMoneda"
                 id="avaluoMoneda"
                 onChange={handleChange}
                 defaultValue={property?.avaluoMoneda}
-                class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                className="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="">$</option>
                 <option value="$">USD</option>
                 <option value="₡">CRC</option>
               </select>
-              <div class="relative w-full">
+              <div className="relative w-full">
                 <input
                   type="number"
                   onChange={handleChange}
@@ -1068,19 +1071,19 @@ const InsertProperty = () => {
             </option>
           </select>
           {selectedOption === "" ? null : (
-            <div class="flex flex-row input-admin-property ml-1 mr-1 py-2">
+            <div className="flex flex-row input-admin-property ml-1 mr-1 py-2">
               <select
                 id="dropdown-button"
                 name="monedaCuotaMantenimiento"
                 defaultValue={property?.monedaCuotaMantenimiento}
                 onChange={handleChange}
-                class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                className="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
               >
                 <option value="">$</option>
                 <option value="$">USD</option>
                 <option value="₡">CRC</option>
               </select>
-              <div class="relative w-full">
+              <div className="relative w-full">
                 <input
                   type="number"
                   min={0}
@@ -1488,11 +1491,13 @@ const InsertProperty = () => {
           </div> */}
           <input
             type="number"
+            step="0.5"
+            min={0.5}
+            max={10}
             name="banos"
             onChange={handleChange}
             defaultValue={property?.banos}
             placeholder="Baños"
-            max={10}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1783,7 +1788,7 @@ const InsertProperty = () => {
               className={
                 selectedOption === ""
                   ? "hidden"
-                  : "m-1 flex justify-center items-center content-center self-start"
+                  : "m-1 flex justify-center mr-3 items-center content-center self-start"
               }
             >
               <label className="relative inline-flex items-center cursor-pointer">
@@ -1798,7 +1803,7 @@ const InsertProperty = () => {
                   className="sr-only peer"
                 />
                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
+                <span className="ml-1 text-sm font-medium text-gray-500 dark:text-gray-300">
                   Ley 7600
                 </span>
               </label>
@@ -1818,7 +1823,7 @@ const InsertProperty = () => {
                 selectedOption === "Alquiler de Casas y Apartamentos" ||
                 selectedOption === ""
                   ? "hidden"
-                  : "m-1 justify-center items-center content-center flex self-start"
+                  : "m-1 justify-center items-center content-center mr-3 flex self-start"
               }
             >
               <label className="relative inline-flex items-center cursor-pointer">
@@ -1833,7 +1838,7 @@ const InsertProperty = () => {
                   className="sr-only peer"
                 />
                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
+                <span className="ml-1 text-sm font-medium text-gray-500 dark:text-gray-300">
                   Servicios médicos
                 </span>
               </label>
@@ -1883,7 +1888,7 @@ const InsertProperty = () => {
                   className="sr-only peer"
                 />
                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span className="ml-3 text-sm font-medium text-gray-500 dark:text-gray-300">
+                <span className="ml-1 text-sm font-medium text-gray-500 dark:text-gray-300">
                   Área carga
                 </span>
               </label>

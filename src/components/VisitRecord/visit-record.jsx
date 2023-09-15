@@ -7,16 +7,15 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { BiTask } from "react-icons/bi";
 
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
 import enviarCorreo from "../../utils/email/send-email";
 import enviarCorreoPersonalizadoOrigen from "../../utils/email/send-personalized-email-origin";
 import MetaData from "../Metadata/metadata";
-import { BiTask } from "react-icons/bi";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-const phoneRegex = /^(\d{2,}\s?)+$/;
 const VisitSchema = Yup.object().shape({
   fullname: Yup.string().required("¡El nombre es requerido!"),
   email: Yup.string()

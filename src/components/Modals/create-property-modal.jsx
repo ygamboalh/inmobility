@@ -2,7 +2,6 @@ import { useState } from "react";
 import { categories } from "../../BD/bd";
 
 const CreatePropertyModal = ({ isVisible, onDataReceived }) => {
-  const [close, setClose] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
 
   const closeModal = () => {

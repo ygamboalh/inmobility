@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
+
+import { useFormik } from "formik";
+import axios from "axios";
+import { message } from "antd";
+
+import { API, BEARER } from "../../constant";
+import MySpinner from "../Spinner/spinner";
+import { getToken } from "../../utils/helpers";
+import { QueriesByFilters } from "../../utils/QueriesByFilters";
+import SearchCard from "../SearchResults/property-card";
 import {
   Amenidades,
   Amueblado,
@@ -12,26 +22,12 @@ import {
   PatioJardin,
   Provincia,
   Servicios,
-  TipoInmueble,
   TipoPiso,
   UbicacionCatastral,
   UbicacionDemografica,
   UbicacionGeografica,
-  categories,
 } from "../../BD/bd";
-
-import { useFormik } from "formik";
-import axios from "axios";
-
-import { API, BEARER } from "../../constant";
-import MySpinner from "../Spinner/spinner";
-import { getToken } from "../../utils/helpers";
-import { message } from "antd";
-import { QueriesByFilters } from "../../utils/QueriesByFilters";
-import SearchCard from "../SearchResults/property-card";
-
 const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
-  const [close, setClose] = useState(false);
   const [selectedOption, setSelectedOption] = useState([]);
   const [records, setRecords] = useState([]);
   const [dataToSend, setDataToSend] = useState();
@@ -305,18 +301,18 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                       </option>
                     ))}
                   </select>
-                  <div class="flex flex-row w-fit ml-2 input-admin-property py-2">
+                  <div className="flex flex-row w-fit ml-2 input-admin-property py-2">
                     <select
                       id="dropdown-button"
                       name="moneda"
                       onChange={handleChange}
-                      class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                      className="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
                     >
                       <option value="">$</option>
                       <option value="$">USD</option>
                       <option value="₡">CRC</option>
                     </select>
-                    <div class="relative w-full">
+                    <div className="relative w-full">
                       <input
                         type="number"
                         min={0}
@@ -329,18 +325,18 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                     </div>
                   </div>
                   <span className="ml-2 text-gray-500">Precio de alquiler</span>
-                  <div class="flex flex-row w-fit mb-2 pl-1 max-[500px]:mb-2 input-admin-property ml-1 mr-1 py-2">
+                  <div className="flex flex-row w-fit mb-2 pl-1 max-[500px]:mb-2 input-admin-property ml-1 mr-1 py-2">
                     <select
                       id="dropdown-button"
                       name="monedaAlquiler"
                       onChange={handleChange}
-                      class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                      className="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
                     >
                       <option value="">$</option>
                       <option value="$">USD</option>
                       <option value="₡">CRC</option>
                     </select>
-                    <div class="relative w-full">
+                    <div className="relative w-full">
                       <input
                         type="number"
                         min={0}
@@ -372,17 +368,17 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                   <span className="ml-2 text-gray-500">
                     Precio de alquiler con opción de compra
                   </span>
-                  <div class="flex flex-row w-fit pl-1 input-admin-property ml-1 mr-1 py-2">
+                  <div className="flex flex-row w-fit pl-1 input-admin-property ml-1 mr-1 py-2">
                     <select
                       name="monedaAlquilerVenta"
                       onChange={handleChange}
-                      class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                      className="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
                     >
                       <option value="">$</option>
                       <option value="$">USD</option>
                       <option value="₡">CRC</option>
                     </select>
-                    <div class="relative w-full">
+                    <div className="relative w-full">
                       <input
                         type="number"
                         onChange={handleChange}
@@ -425,18 +421,18 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                       No
                     </option>
                   </select>
-                  <div class="flex flex-row ml-2 input-admin-property py-2">
+                  <div className="flex flex-row ml-2 input-admin-property py-2">
                     <select
                       id="dropdown-button"
                       name="monedaCuotaMantenimiento"
                       onChange={handleChange}
-                      class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                      className="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
                     >
                       <option value="">$</option>
                       <option value="$">USD</option>
                       <option value="₡">CRC</option>
                     </select>
-                    <div class="relative w-full">
+                    <div className="relative w-full">
                       <input
                         type="number"
                         min={0}
@@ -449,18 +445,18 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                     </div>
                   </div>
 
-                  <div class="flex input-admin-property ml-2 mr-1 py-2">
+                  <div className="flex input-admin-property ml-2 mr-1 py-2">
                     <select
                       name="avaluoMoneda"
                       id="avaluoMoneda"
                       onChange={handleChange}
-                      class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+                      className="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
                     >
                       <option value="">$</option>
                       <option value="$">USD</option>
                       <option value="₡">CRC</option>
                     </select>
-                    <div class="relative w-full">
+                    <div className="relative w-full">
                       <input
                         type="number"
                         onChange={handleChange}
@@ -553,10 +549,12 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                   />
                   <input
                     type="number"
+                    step="0.5"
+                    min={0.5}
+                    max={10}
                     name="banos"
                     onChange={handleChange}
                     placeholder="Baños"
-                    max={10}
                     className="input-admin-property text-gray-500 m-2 w-80 p-2"
                   />
                   <select

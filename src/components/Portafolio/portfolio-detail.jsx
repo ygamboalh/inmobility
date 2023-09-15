@@ -5,13 +5,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import withReactContent from "sweetalert2-react-content";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-
-import MySpinner from "../Spinner/spinner";
 import Swal from "sweetalert2";
-import { API } from "../../constant";
-import { getToken } from "../../utils/helpers";
-import { authUserData } from "../../api/usersApi";
 import {
   BiArea,
   BiBuildingHouse,
@@ -23,10 +17,13 @@ import {
   BiMap,
 } from "react-icons/bi";
 import { message } from "antd";
+
+import MySpinner from "../Spinner/spinner";
+import { API } from "../../constant";
+import { getToken } from "../../utils/helpers";
+import { authUserData } from "../../api/usersApi";
 import AddPropertyModal from "../Modals/add-property-modal";
 import MetaData from "../Metadata/metadata";
-
-const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 export const PortafolioDetail = () => {
   const { data: userData } = useQuery("profile", authUserData);
@@ -75,15 +72,6 @@ export const PortafolioDetail = () => {
       clienteComprador: portafolio?.attributes.clienteComprador,
       correoCliente: portafolio?.attributes.correoCliente,
     },
-    /* validationSchema: Yup.object({
-      clienteComprador: Yup.string()
-        .required("¡El nombre es requerido!")
-        .min(6, "¡Muy corto!")
-        .max(50, "¡Muy largo!"),
-      correoCliente: Yup.string()
-        .matches(emailRegex, "¡Correo inválido!")
-        .required("¡El correo es requerido!"),
-    }), */
     onSubmit: async (values) => {
       setIsLoading(true);
       const id = userData?.id;

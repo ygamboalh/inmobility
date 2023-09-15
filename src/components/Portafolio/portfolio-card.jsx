@@ -13,12 +13,12 @@ import {
   BiHotel,
   BiLike,
   BiSolidDog,
-  BiWindowClose,
 } from "react-icons/bi";
 import { message } from "antd";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import AudioPlayer from "../AudioPlayer/audio-player";
 
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
@@ -29,9 +29,7 @@ import Share from "../Share/share";
 import { authUserData } from "../../api/usersApi";
 import MetaData from "../Metadata/metadata";
 import ShareAdviser from "../Share/share-adviser";
-import AudioPlayer from "../AudioPlayer/audio-player";
 import Map from "../Map/map";
-import ShareLink from "../Share/share-link";
 
 const PortafolioCard = ({ propiedad }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -101,13 +99,9 @@ const PortafolioCard = ({ propiedad }) => {
 
   const [property, setProperty] = useState();
   const [images, setImages] = useState([]);
-  const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
   const [address, setAddress] = useState();
 
-  const seePdfDocument = () => {
-    window.location.assign(pdfUrl);
-  };
   const getProperty = async () => {
     setIsLoading(true);
     let propertyFound = null;
@@ -205,14 +199,6 @@ const PortafolioCard = ({ propiedad }) => {
   if (isLoading || !property) {
     return <MySpinner />;
   }
-  const divStyle = {
-    display: "flex",
-    padding: "4px",
-    overflow: " auto",
-
-    alignItems: "left",
-    justifyContent: "left",
-  };
 
   return (
     <section className="pt-16 -mb-4">
@@ -500,9 +486,9 @@ const PortafolioCard = ({ propiedad }) => {
           <div className="max-[500px]:text-[14px] bg-blue-400 text-black px-3 mt-1 mb-1 font-semibold text-lg">
             Otros detalles de la propiedad
           </div>
-          <div class="flex flex-wrap">
+          <div className="flex flex-wrap">
             <div className="w-full md:w-1/3 px-4 py-1">
-              <div class="text-left">
+              <div className="text-left">
                 <div className="text-black rounded-sm">
                   <div className="flex flex-row align-middle">
                     <svg
@@ -528,7 +514,7 @@ const PortafolioCard = ({ propiedad }) => {
               </div>
             </div>
             <div className="w-full md:w-1/3 px-4 py-1">
-              <div class="text-left">
+              <div className="text-left">
                 <div className="text-black rounded-sm">
                   <div className="flex flex-row align-middle">
                     <svg
@@ -560,7 +546,7 @@ const PortafolioCard = ({ propiedad }) => {
                   : "hidden"
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div className="text-black rounded-sm">
                   <div className="flex flex-row align-middle">
                     <svg
@@ -592,7 +578,7 @@ const PortafolioCard = ({ propiedad }) => {
                   : "hidden"
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div className="text-black rounded-sm">
                   <div className="flex flex-row align-middle">
                     <svg
@@ -650,7 +636,7 @@ const PortafolioCard = ({ propiedad }) => {
             <div
               className={property.altura ? "w-full md:w-1/3 px-4 py-1" : null}
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.altura ? "text-black rounded-sm" : "hidden"
@@ -679,7 +665,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.amueblado ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.amueblado ? "text-black rounded-sm" : "hidden"
@@ -709,7 +695,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.aptoHijos ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 {" "}
                 <div
                   className={
@@ -743,7 +729,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.aptoMascotas ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.aptoMascotas ? "text-black rounded-sm" : "hidden"
@@ -777,7 +763,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.areaBodega ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.areaBodega ? " text-black rounded-sm" : "hidden"
@@ -813,7 +799,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.areaCarga ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.areaCarga ? " text-black rounded-sm" : "hidden"
@@ -847,7 +833,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.areaContruccion ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.areaContruccion
@@ -885,7 +871,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.areaMesanini ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.areaMesanini ? " text-black rounded-sm" : "hidden"
@@ -921,7 +907,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.areaPlantas ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 {" "}
                 <div
                   className={
@@ -958,7 +944,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.areaPropiedad ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.areaPropiedad ? "text-black rounded-sm" : "hidden"
@@ -994,7 +980,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.areaSotano ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.areaSotano ? "text-black rounded-sm" : "hidden"
@@ -1030,7 +1016,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.areaTerreno ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.areaTerreno ? " text-black rounded-sm" : "hidden"
@@ -1064,7 +1050,7 @@ const PortafolioCard = ({ propiedad }) => {
             <div
               className={property.cochera ? "w-full md:w-1/3 px-4 py-1" : null}
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.cochera ? " text-black rounded-sm" : "hidden"
@@ -1097,7 +1083,7 @@ const PortafolioCard = ({ propiedad }) => {
                   : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.concepcionElectrica
@@ -1132,7 +1118,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.cuotaMantenimiento ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.cuotaMantenimiento
@@ -1163,7 +1149,7 @@ const PortafolioCard = ({ propiedad }) => {
             <div
               className={property.ley7600 ? "w-full md:w-1/3 px-4 py-1" : null}
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.ley7600 ? "text-black rounded-sm" : "hidden"
@@ -1197,7 +1183,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.numeroPlantas ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.numeroPlantas ? " text-black rounded-sm" : "hidden"
@@ -1226,7 +1212,7 @@ const PortafolioCard = ({ propiedad }) => {
             <div
               className={property.parqueo ? "w-full md:w-1/3 px-4 py-1" : null}
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.parqueo ? "text-black rounded-sm" : "hidden"
@@ -1257,7 +1243,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.servicios ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.servicios ? "text-black rounded-sm" : "hidden"
@@ -1288,7 +1274,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.serviciosMedicos ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.serviciosMedicos
@@ -1324,7 +1310,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property?.tipoVivienda ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property?.tipoVivienda ? " text-black rounded-sm" : "hidden"
@@ -1357,7 +1343,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.ubicacionCastral ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.ubicacionCastral
@@ -1394,7 +1380,7 @@ const PortafolioCard = ({ propiedad }) => {
                   : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.ubicacionDemografica
@@ -1431,7 +1417,7 @@ const PortafolioCard = ({ propiedad }) => {
                   : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.ubicacionGeografica
@@ -1466,7 +1452,7 @@ const PortafolioCard = ({ propiedad }) => {
                 property.usoDeSuelo ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property.usoDeSuelo ? " text-black rounded-sm" : "hidden"
@@ -1499,7 +1485,7 @@ const PortafolioCard = ({ propiedad }) => {
                   : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property?.ubicacionDetallada
@@ -1540,7 +1526,7 @@ const PortafolioCard = ({ propiedad }) => {
           >
             Opciones de Patio-Jardín
           </div>
-          <div class="flex flex-wrap w-full">
+          <div className="flex flex-wrap w-full">
             {!property?.jardinPatio ||
             Object.keys(property?.jardinPatio)?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
@@ -1579,7 +1565,7 @@ const PortafolioCard = ({ propiedad }) => {
           >
             Amenidades
           </div>
-          <div class="flex flex-wrap w-full">
+          <div className="flex flex-wrap w-full">
             {!property?.amenidades ||
             Object.keys(property?.amenidades)?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
@@ -1617,7 +1603,7 @@ const PortafolioCard = ({ propiedad }) => {
           >
             Detalles internos
           </div>
-          <div class="flex flex-wrap w-full">
+          <div className="flex flex-wrap w-full">
             {!property?.detallesInternos ||
             Object.keys(property?.detallesInternos)?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
@@ -1655,7 +1641,7 @@ const PortafolioCard = ({ propiedad }) => {
           >
             Detalles externos
           </div>
-          <div class="flex flex-wrap w-full">
+          <div className="flex flex-wrap w-full">
             {!property?.detallesExternos ||
             Object.keys(property?.detallesExternos)?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">

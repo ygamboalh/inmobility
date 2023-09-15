@@ -13,15 +13,12 @@ import {
   WhatsappShareButton,
 } from "react-share";
 
-import { useNavigate } from "react-router-dom";
 import { BiCopyAlt } from "react-icons/bi";
-import MySpinner from "../Spinner/spinner";
+
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
 const ShareAdviser = (url) => {
   const pdfUrl = url.pdfUrl;
-  const adviser = url.adviser;
-  const navigate = useNavigate();
   const { data: userData } = useQuery("profile", authUserData);
   function copyToPaper(text) {
     navigator.clipboard.writeText(text);
@@ -60,7 +57,7 @@ const ShareAdviser = (url) => {
               copyToPaper(pdfUrl);
             }}
             type="button"
-            class="px-3 py-1 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-2xl hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+            className="px-3 py-1 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-2xl hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
           >
             <BiCopyAlt size={25} />
             <span className="">Enlace para compartir</span>
@@ -73,10 +70,10 @@ const ShareAdviser = (url) => {
                 navigate("/home/contact", { state: adviser });
               }}
               type="button"
-              class="px-3 py-1 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-2xl hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              className="px-3 py-1 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-2xl hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
             >
               <svg
-                class="w-4 h-4 text-white mr-2"
+                className="w-4 h-4 text-white mr-2"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"

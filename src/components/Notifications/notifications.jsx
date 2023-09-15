@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useQuery, useQueryClient } from "react-query";
+
+import { BiBell } from "react-icons/bi";
+import Swal from "sweetalert2";
+
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
-import { BiBell } from "react-icons/bi";
-
-import { useNavigate } from "react-router-dom";
 import MetaData from "../Metadata/metadata";
 import { authUserData } from "../../api/usersApi";
-import { useQuery, useQueryClient } from "react-query";
 import withReactContent from "sweetalert2-react-content";
-import Swal from "sweetalert2";
-import { getToken } from "../../utils/helpers";
-import axios from "axios";
 import { getAllNotifications } from "../../api/propertiesApi";
-import { message } from "antd";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -185,13 +183,17 @@ const Notifications = () => {
               <div className="align-middle ml-1 mr-1">
                 <BiBell size={20} />
               </div>
-              <div className="flex flex-row">
-                <span className="font-semibold mr-4">
-                  {notification.attributes.type}
-                </span>
-                <span className="bg-gray-300 text-xs rounded-md py-[5px] px-2">
-                  {notification?.attributes?.createdAt?.slice(0, 10)}
-                </span>
+              <div className="flex justify-between w-full flex-row">
+                <div>
+                  <span className="font-semibold mr-4">
+                    {notification.attributes.type}
+                  </span>
+                </div>
+                <div className="flex justify-end">
+                  <span className="bg-gray-300 text-xs rounded-md py-[5px] px-2">
+                    {notification?.attributes?.createdAt?.slice(0, 10)}
+                  </span>
+                </div>
               </div>
               <hr />
             </div>

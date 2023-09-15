@@ -2,14 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
-import { API } from "../../../constant";
-import { findAndDeletePortfolios, getToken } from "../../../utils/helpers";
-import MySpinner from "../../../components/Spinner/spinner";
-import { getAllUsers } from "../../../api/usersApi";
 import {
   BiBuilding,
   BiMailSend,
@@ -18,6 +12,11 @@ import {
   BiSearch,
   BiUser,
 } from "react-icons/bi";
+
+import { API } from "../../../constant";
+import { findAndDeletePortfolios, getToken } from "../../../utils/helpers";
+import MySpinner from "../../../components/Spinner/spinner";
+import { getAllUsers } from "../../../api/usersApi";
 import MetaData from "../../../components/Metadata/metadata";
 
 const UsersPending = () => {
@@ -134,7 +133,7 @@ const UsersPending = () => {
                 </span>
                 {row.active === "Asesor verificado activo" ? (
                   <svg
-                    class="flex-shrink-0 w-8 h-8 text-blue-600"
+                    className="flex-shrink-0 w-8 h-8 text-blue-600"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -144,7 +143,7 @@ const UsersPending = () => {
                   </svg>
                 ) : (
                   <svg
-                    class="flex-shrink-0 w-8 h-8 text-gray-400 "
+                    className="flex-shrink-0 w-8 h-8 text-gray-400 "
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"

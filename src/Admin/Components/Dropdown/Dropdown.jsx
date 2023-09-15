@@ -19,7 +19,6 @@ import {
 import { authUserData } from "../../../api/usersApi";
 import { useQuery } from "react-query";
 import AxiosInstance from "../../../api/AxiosInstance";
-import { API } from "../../../constant";
 
 import {
   deleteNotification,

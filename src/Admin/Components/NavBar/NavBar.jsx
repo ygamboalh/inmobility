@@ -1,14 +1,8 @@
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import Dropdown from "../Dropdown/Dropdown";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   const inactiveClass =
     "block py-2 pl-3 pr-4 md:p-0 rounded md:bg-transparent text-white";
   const activeClass = "block py-2 pl-3 pr-4 md:p-0 rounded  text-black ";

@@ -2,15 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
-import { API } from "../../../constant";
-import { findAndDeletePortfolios, getToken } from "../../../utils/helpers";
-import MySpinner from "../../../components/Spinner/spinner";
-import { getAllUsers } from "../../../api/usersApi";
-import MetaData from "../../../components/Metadata/metadata";
 import {
   BiAward,
   BiBuilding,
@@ -20,6 +13,12 @@ import {
   BiSearch,
   BiUser,
 } from "react-icons/bi";
+
+import { API } from "../../../constant";
+import { findAndDeletePortfolios, getToken } from "../../../utils/helpers";
+import MySpinner from "../../../components/Spinner/spinner";
+import { getAllUsers } from "../../../api/usersApi";
+import MetaData from "../../../components/Metadata/metadata";
 
 const UsersList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,11 +34,7 @@ const UsersList = () => {
     onSuccess: (data) => {
       const foundedUsers = [];
       data.forEach((user) => {
-        if (
-          user.active === "Asesor verificado activo" ||
-          user.active === "Asesor verificado inactivo" ||
-          user.active === "Asesor verificado"
-        ) {
+        if (user.active === "Asesor verificado activo") {
           foundedUsers.push(user);
         }
       });
@@ -118,8 +113,8 @@ const UsersList = () => {
         title="Asesor verificado activo"
         description="Asesor verificado activo"
       />
-      <div className={visibleRecords?.length ? "w-full px-1 my-1" : "hidden"}>
-        <div className={visibleRecords?.length ? "w-full px-1 my-1" : "hidden"}>
+      <div className="w-full px-1 my-1">
+        <div className="w-full px-1 my-1">
           <div className="relative w-full flex justify-center">
             <div className="absolute max-[500px]:hidden inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <BiSearch size={25} />
@@ -143,7 +138,7 @@ const UsersList = () => {
                 </span>
                 {row.active === "Asesor verificado activo" ? (
                   <svg
-                    class="flex-shrink-0 w-8 h-8 text-blue-600"
+                    className="flex-shrink-0 w-8 h-8 text-blue-600"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -153,7 +148,7 @@ const UsersList = () => {
                   </svg>
                 ) : (
                   <svg
-                    class="flex-shrink-0 w-8 h-8 text-gray-400 "
+                    className="flex-shrink-0 w-8 h-8 text-gray-400 "
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -169,7 +164,13 @@ const UsersList = () => {
                   <li className="py-3 sm:py-4">
                     <div className="flex items-center space-x-4">
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center mb-2 -mt-4 bg-blue-300 w-fit px-2 py-0.5 rounded-md flex-row">
+                        <div
+                          className={
+                            row?.active === "Asesor verificado inactivo"
+                              ? "flex items-center mb-2 -mt-4 bg-red-400 w-fit px-2 py-0.5 rounded-md flex-row"
+                              : "flex items-center mb-2 -mt-4 bg-blue-300 w-fit px-2 py-0.5 rounded-md flex-row"
+                          }
+                        >
                           <p className="text-sm font-medium  text-gray-900 truncate">
                             {row?.active}
                           </p>

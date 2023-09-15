@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import {
+  BiAward,
   BiBuilding,
   BiMailSend,
   BiMap,
@@ -17,10 +17,10 @@ import {
 import { API } from "../../../constant";
 import { findAndDeletePortfolios, getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
-import { authUserData, getAllUsers } from "../../../api/usersApi";
+import { getAllUsers } from "../../../api/usersApi";
 import MetaData from "../../../components/Metadata/metadata";
 
-const UsersDesact = () => {
+const UserListFreelancer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
@@ -30,32 +30,40 @@ const UsersDesact = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: userData } = useQuery("profile", authUserData);
-  const id = userData.id;
-
   const { data, isLoading: loadingUsers } = useQuery("users", getAllUsers, {
     onSuccess: (data) => {
       const foundedUsers = [];
-      if (userData?.active === "Super Administrador") {
-        data.forEach((user) => {
-          if (user.active === "Supervisor") {
-            foundedUsers.push(user);
-          }
-        });
-      } else {
-        data.forEach((user) => {
-          if (user.active === "Supervisor") {
-            if (user.id === id) {
-              foundedUsers.push(user);
-            }
-          }
-        });
-      }
+      data.forEach((user) => {
+        if (user.active === "Freelancer") {
+          foundedUsers.push(user);
+        }
+      });
       setRecords(foundedUsers);
       setFilterRecords(foundedUsers);
       setPending(false);
     },
   });
+  useEffect(() => {
+    setVisibleRecords(records.slice(0, loadCount));
+  }, [records, loadCount]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight
+    ) {
+      setLoadCount((prevCount) => prevCount + 10);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  if (loadingUsers || isLoading) {
+    return <MySpinner />;
+  }
 
   const DeleteUser = async (id) => {
     const MySwal = withReactContent(Swal);
@@ -75,9 +83,7 @@ const UsersDesact = () => {
             Authorization: `Bearer ${getToken()}`,
           },
         }).then((result) => {
-          queryClient
-            .invalidateQueries(["users"])
-            .then((resultado) => console.log(resultado));
+          queryClient.invalidateQueries(["users"]).then((resultado) => {});
           findAndDeletePortfolios(id);
         });
         if (result) {
@@ -87,6 +93,7 @@ const UsersDesact = () => {
         }
       }
     });
+
     setIsLoading(false);
   };
 
@@ -96,31 +103,13 @@ const UsersDesact = () => {
     );
     setRecords(searchData);
   };
-  useEffect(() => {
-    setVisibleRecords(records.slice(0, loadCount));
-  }, [records, loadCount]);
-
-  const handleScroll = () => {
-    if (
-      window.innerHeight + window.scrollY >=
-      document.documentElement.scrollHeight
-    ) {
-      setLoadCount((prevCount) => prevCount + 10);
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   if (isLoading || !records) {
     return <MySpinner />;
   }
 
   return (
     <div className="w-full">
-      <MetaData title="Supervisores" description="Supervisores" />
+      <MetaData title="Freelancer" description="Freelancer" />
       <div className="w-full px-1 my-1">
         <div className="w-full px-1 my-1">
           <div className="relative w-full flex justify-center">
@@ -172,7 +161,13 @@ const UsersDesact = () => {
                   <li className="py-3 sm:py-4">
                     <div className="flex items-center space-x-4">
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center mb-2 -mt-4 bg-blue-300 w-fit px-2 py-0.5 rounded-md flex-row">
+                        <div
+                          className={
+                            row?.active === "Asesor verificado inactivo"
+                              ? "flex items-center mb-2 -mt-4 bg-red-400 w-fit px-2 py-0.5 rounded-md flex-row"
+                              : "flex items-center mb-2 -mt-4 bg-blue-300 w-fit px-2 py-0.5 rounded-md flex-row"
+                          }
+                        >
                           <p className="text-sm font-medium  text-gray-900 truncate">
                             {row?.active}
                           </p>
@@ -240,6 +235,17 @@ const UsersDesact = () => {
                           </p>
                         </div>
                         <hr />
+                        {row?.certifications ? (
+                          <div className="flex my-2 flex-row">
+                            <span className="ml-[2px]">
+                              <BiAward size={20} />
+                            </span>
+                            <p className="text-sm text-gray-500 truncate">
+                              {row?.certifications}
+                            </p>
+                          </div>
+                        ) : null}
+                        <hr />
                         <div className="flex my-2 flex-row">
                           <span className="ml-[2px]">
                             <BiPhone size={20} />
@@ -276,10 +282,12 @@ const UsersDesact = () => {
           ))}
         </div>
       ) : (
-        <span className="flex justify-center mt-4">No hay supervidores</span>
+        <span className="flex justify-center mt-4">
+          No hay usuarios freelancers
+        </span>
       )}
     </div>
   );
 };
 
-export default UsersDesact;
+export default UserListFreelancer;

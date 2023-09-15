@@ -7,14 +7,14 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { BiHide, BiShow, BiUserPlus } from "react-icons/bi";
 
 import { API } from "../../constant";
 import { userIntser } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
 import enviarCorreo from "../../utils/email/send-email";
 import MetaData from "../Metadata/metadata";
-import { BiHide, BiLock, BiShow, BiUserPlus } from "react-icons/bi";
-import { AsesorTypes, TipoAsesor, types } from "../../BD/bd";
+import { TipoAsesor } from "../../BD/bd";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const phoneRegex = /^(\d{2,}\s?)+$/;

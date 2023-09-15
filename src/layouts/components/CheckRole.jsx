@@ -37,7 +37,7 @@ const CheckRole = ({ roles }) => {
   return isAuthenticated() && roles?.includes(active) ? (
     <Outlet />
   ) : (
-    message.error("Aún no está autorizado para estas opciones") && (
+    message.error("No está autorizado para ver estas opciones") && (
       <Navigate to="/home/banner" state={{ from: location }} replace />
     )
   );

@@ -28,7 +28,6 @@ const PropertyDetailsSearch = () => {
   const [visible, setVisible] = useState(false);
   const [pdfUrl, setPdfUrl] = useState();
   const [adviser, setAdviser] = useState();
-  const navigate = useNavigate();
 
   const getProperty = async () => {
     setIsLoading(true);

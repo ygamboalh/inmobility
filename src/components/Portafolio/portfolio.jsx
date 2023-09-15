@@ -5,13 +5,13 @@ import { useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { BiCopyAlt, BiHomeAlt, BiMailSend, BiUserCircle } from "react-icons/bi";
 
 import { authUserData } from "../../api/usersApi";
 import { API } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import { getAllPortafolios } from "../../api/propertiesApi";
 import MySpinner from "../Spinner/spinner";
-import { BiCopyAlt, BiHomeAlt, BiMailSend, BiUserCircle } from "react-icons/bi";
 import MetaData from "../Metadata/metadata";
 
 const Portafolio = () => {
@@ -43,7 +43,6 @@ const Portafolio = () => {
 
   const DeletePortfolio = async (id) => {
     const MySwal = withReactContent(Swal);
-    //setIsLoading(true);
     MySwal.fire({
       title: "¿Desea eliminar el portafolio?",
       showDenyButton: true,

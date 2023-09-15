@@ -5,6 +5,7 @@ import {
   Circle,
   useLoadScript,
 } from "@react-google-maps/api";
+
 import AxiosInstance from "../../api/AxiosInstance";
 
 const Map = ({ address, exclusividad }) => {
@@ -40,10 +41,10 @@ const Map = ({ address, exclusividad }) => {
         setLatitud(lat);
         setLongitud(lng);
       } else {
-        console.log("No se encontraron resultados");
+        console.log("No map");
       }
     } catch (error) {
-      console.error("Error al obtener las coordenadas:", error);
+      console.error("no coords", error);
     }
   };
 

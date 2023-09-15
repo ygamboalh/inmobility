@@ -1,6 +1,6 @@
 import React from 'react';
 // import routes andd route
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 // Import Components
 import SignIn from './components/signin/SignIn';
 import RegisterRequest from './components/RegisterRequest/register-request';

@@ -1,18 +1,17 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+
+import { message } from "antd";
+import axios from "axios";
 
 import MySpinner from "../Spinner/spinner";
-import { BiMailSend, BiPhoneCall } from "react-icons/bi";
-import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
-import PortafolioCard from "../Portafolio/portfolio-card";
+
 import SearchCard from "./property-card";
 import { authUserData } from "../../api/usersApi";
-import { useQuery } from "react-query";
 import { getAllPortafolios } from "../../api/propertiesApi";
 import { getToken } from "../../utils/helpers";
-import axios from "axios";
-import { Select, message } from "antd";
 import CreatePortfolioModal from "../Modals/create-portfolio-modal";
 
 const SearchResultsCard = () => {
@@ -29,7 +28,6 @@ const SearchResultsCard = () => {
   const propertyList = location.state.propertyList;
   let portafolioProperties = [];
 
-  //setProperties(location.state.propertyList);
   const { data, isLoading: loadingPortfolios } = useQuery(
     "portafolios",
     getAllPortafolios,

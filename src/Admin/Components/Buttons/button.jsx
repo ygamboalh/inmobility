@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import { message } from "antd";
@@ -11,7 +10,6 @@ import withReactContent from "sweetalert2-react-content";
 import * as Yup from "yup";
 
 import MetaData from "../../../components/Metadata/metadata";
-import { authUserData } from "../../../api/usersApi";
 import { getAllButtons } from "../../../api/propertiesApi";
 import MySpinner from "../../../components/Spinner/spinner";
 import { API } from "../../../constant";
@@ -138,7 +136,7 @@ const Button = () => {
       ),
       accessor: "id",
       id: "detail",
-      name: <span className="text-lg">Seleccione un boton para editarlo</span>,
+      name: <span className="text-lg">Seleccione un botón para editarlo</span>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,

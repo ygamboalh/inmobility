@@ -7,13 +7,13 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { message } from "antd";
 
 import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
 import MySpinner from "../../../components/Spinner/spinner";
 import { getAllLinks } from "../../../api/propertiesApi";
 import AxiosInstance from "../../../api/AxiosInstance";
-import { message } from "antd";
 import MetaData from "../../../components/Metadata/metadata";
 
 const LinkList = () => {

@@ -1,9 +1,10 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+
+import { BiMailSend, BiPhoneCall } from "react-icons/bi";
 
 import PortafolioCard from "./portfolio-card";
 import MySpinner from "../Spinner/spinner";
-import { BiMailSend, BiPhoneCall } from "react-icons/bi";
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 import MetaData from "../Metadata/metadata";
@@ -14,7 +15,7 @@ const PortafolioShare = () => {
   const [portafolio, setPortafolio] = useState("");
 
   let ids = [];
-  const location = useLocation();
+
   useEffect(() => {
     const response = AxiosInstance.get(`${API}portafolios/${id}?populate=*`)
       .then((response) => {

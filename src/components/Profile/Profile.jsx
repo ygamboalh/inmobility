@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import { message } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import { BiHide, BiShow } from "react-icons/bi";
 
 import { API, BEARER } from "../../constant";
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 import { TipoAsesor } from "../../BD/bd";
 import LoadImage from "../UploadImage/my-upload-image";
-import axios from "axios";
 import Thumbnail from "../Thumbnail/thumbnail";
 import MySpinner from "../Spinner/spinner";
-import { BiHide, BiLock, BiShow } from "react-icons/bi";
 import MetaData from "../Metadata/metadata";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;

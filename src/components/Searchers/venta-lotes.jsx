@@ -15,7 +15,6 @@ import {
   TipoLote,
   UsoSuelo,
   Provincia,
-  TipoPiso,
 } from "../../BD/bd";
 
 import { API, BEARER } from "../../constant";
@@ -24,7 +23,7 @@ import MySpinner from "../Spinner/spinner";
 import { QueriesByFilters } from "../../utils/QueriesByFilters";
 import MetaData from "../Metadata/metadata";
 
-const AlquilerLotes = () => {
+const VentaLotes = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
@@ -92,33 +91,35 @@ const AlquilerLotes = () => {
     <div className="flex flex-col justify-center items-center h-fit">
       <MetaData title="Buscar" description="Buscar" />
       <div className="inset-y-0 mb-4 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
-      <div className="flex mt-3 justify-center align-middle items-center w-full">
-        <div className="font-semibold max-[450px]:text-xs text-xl text-center flex flex-col">
-          <span>Búsqueda por características específicas</span>
-          <span>Venta de Fincas, Lotes, Predios o Terrenos</span>
-        </div>
-      </div>
-
       <form onSubmit={handleSubmit} autoComplete="off">
-        <div className="flex flex-wrap justify-center m-3">
+        <div className="flex justify-center">
           <input
             type="text"
             value={values.uniqueId}
             onChange={handleChange}
             name="uniqueId"
-            placeholder="Código de propiedad"
-            className="input-admin-property uniqueId-input text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            placeholder="Buscar por código de inmueble"
+            className="input-admin-property uniqueId-input justify-center text-gray-500  m-2 w-[323px] p-2"
           />
           <div className="space -mt-4">
             {errors.uniqueId && touched.uniqueId ? (
               <div className="errordiv text-xs">{errors.uniqueId}</div>
             ) : null}
           </div>
+        </div>
+        <div className="flex mt-3 justify-center align-middle items-center w-full">
+          <div className="font-semibold max-[450px]:text-xs text-xl text-center flex flex-col">
+            <span>Búsqueda por características específicas</span>
+            <span>Venta de Fincas, Lotes, Predios o Terrenos</span>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap justify-center m-3">
           <select
             value={values.tipoPropiedad}
             onChange={handleChange}
             name="tipoLote"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
           >
             <option value="" label="">
               {"Tipo de inmueble ( Lotes )"}
@@ -193,7 +194,7 @@ const AlquilerLotes = () => {
             value={values.ubicacionDemografica}
             onChange={handleChange}
             id="ubicacionDemografica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
           >
             <option value="" label="">
               {"Ubicación demográfica"}
@@ -210,7 +211,7 @@ const AlquilerLotes = () => {
             value={values.ubicacionGeografica}
             onChange={handleChange}
             id="ubicacionGeografica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
           >
             <option value="" label="">
               {"Ubicación geográfica"}
@@ -236,18 +237,18 @@ const AlquilerLotes = () => {
               </option>
             ))}
           </select>
-          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
+          <div className="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               id="dropdown-button"
               name="moneda"
               onChange={handleChange}
-              class="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              className="flex-shrink-0 inline-flex text-gray-500 items-center pl-2 text-sm h-[42px] w-18 font-medium text-center bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
               <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
-            <div class="relative w-full">
+            <div className="relative w-full">
               <input
                 type="number"
                 min={0}
@@ -260,17 +261,17 @@ const AlquilerLotes = () => {
             </div>
           </div>
 
-          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
+          {/* <div className="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               name="monedaAlquiler"
               onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              className="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
               <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
-            <div class="relative w-full">
+            <div className="relative w-full">
               <input
                 type="number"
                 min={0}
@@ -280,19 +281,19 @@ const AlquilerLotes = () => {
                 className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-          </div>
+          </div> */}
 
-          <div class="flex flex-row w-fit input-admin-property mx-2 py-2">
+          <div className="flex flex-row w-fit input-admin-property mx-2 py-2">
             <select
               name="monedaAlquilerVenta"
               onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              className="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
               <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
-            <div class="relative w-full">
+            <div className="relative w-full">
               <input
                 type="number"
                 onChange={handleChange}
@@ -308,7 +309,7 @@ const AlquilerLotes = () => {
             name="tieneCuotaMantenimiento"
             onChange={handleChange}
             placeholder="Tiene cuota mantenimiento"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
           >
             <option value="" label="">
               {"¿Tiene cuota de mantenimiento?"}
@@ -321,17 +322,17 @@ const AlquilerLotes = () => {
             </option>
           </select>
 
-          <div class="flex flex-row w-fit input-admin-property py-2">
+          <div className="flex flex-row w-fit input-admin-property py-2">
             <select
               name="monedaCuotaMantenimiento"
               onChange={handleChange}
-              class="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+              className="flex-shrink-0 inline-flex items-center pl-2 text-sm h-[42px] w-18 font-medium text-center text-gray-500 bg-gray-100 border rounded-l-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
             >
               <option value="">$</option>
               <option value="$">USD</option>
               <option value="₡">CRC</option>
             </select>
-            <div class="relative w-full">
+            <div className="relative w-full">
               <input
                 type="number"
                 onChange={handleChange}
@@ -347,7 +348,7 @@ const AlquilerLotes = () => {
             id="vistaPanoramica"
             onChange={handleChange}
             placeholder="Vista Panorámica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
           >
             <option value="" label="">
               {"¿Tiene vista panorámica?"}
@@ -366,24 +367,11 @@ const AlquilerLotes = () => {
             value={values.areaPropiedad}
             name="areaPropiedad"
             placeholder="Área perimetral del inmueble"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
           />
           <div className="space -mt-4">
             {errors.areaPropiedad && touched.areaPropiedad ? (
               <div className="errordiv text-xs">{errors.areaPropiedad}</div>
-            ) : null}
-          </div>
-          <input
-            type="number"
-            onChange={handleChange}
-            value={values.areaContruccion}
-            name="areaContruccion"
-            placeholder="Metros cuadrados construidosión"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaContruccion && touched.areaContruccion ? (
-              <div className="errordiv text-xs">{errors.areaContruccion}</div>
             ) : null}
           </div>
           <input
@@ -397,6 +385,19 @@ const AlquilerLotes = () => {
           <div className="space -mt-4">
             {errors.areaTerreno && touched.areaTerreno ? (
               <div className="errordiv text-xs">{errors.areaTerreno}</div>
+            ) : null}
+          </div>
+          <input
+            type="number"
+            onChange={handleChange}
+            value={values.areaContruccion}
+            name="areaContruccion"
+            placeholder="Metros cuadrados construcción"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaContruccion && touched.areaContruccion ? (
+              <div className="errordiv text-xs">{errors.areaContruccion}</div>
             ) : null}
           </div>
 
@@ -468,4 +469,4 @@ const AlquilerLotes = () => {
   );
 };
 
-export default AlquilerLotes;
+export default VentaLotes;

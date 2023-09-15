@@ -1,13 +1,14 @@
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { useFormik } from "formik";
-import enviarCorreoComunOrigen from "../../utils/email/send-common-email-origin";
-import Thumbnail from "../Thumbnail/thumbnail";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import * as Yup from "yup";
-import React, { useEffect, useState } from "react";
 import { message } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
 import { BiMailSend, BiPhone, BiUserCircle } from "react-icons/bi";
+
+import enviarCorreoComunOrigen from "../../utils/email/send-common-email-origin";
 import AxiosInstance from "../../api/AxiosInstance";
 import MySpinner from "../Spinner/spinner";
 import MetaData from "../Metadata/metadata";

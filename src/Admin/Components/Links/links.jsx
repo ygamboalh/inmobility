@@ -1,5 +1,4 @@
 import MetaData from "../../../components/Metadata/metadata";
-import Navbar from "../NavBar/NavBar";
 import LinkListActive from "./link-list-active";
 
 const Links = () => {

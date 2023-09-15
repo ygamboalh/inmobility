@@ -15,7 +15,6 @@ import {
 import { authUserData } from "../../api/usersApi";
 import { useQuery } from "react-query";
 import AxiosInstance from "../../api/AxiosInstance";
-import { ACCESS_TOKEN_STORAGE, API } from "../../constant";
 import {
   deleteNotification,
   deleteZero,
@@ -82,8 +81,11 @@ const UserInfo = () => {
     const hora = token?.slice(11, 16);
     const horaCreado = deleteZero(hora?.slice(0, 2));
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
-    /* const result = horaActual - horaCreado; */
-
+    const result = horaActual - horaCreado;
+    /* console.log("dia", result);
+    console.log("fecha", fecha);
+    console.log("hora actual", horaActual);
+    console.log("hora creado", horaCreado); */
     if (currentDateString === fecha && horaActual >= horaCreado) {
       const response = AxiosInstance.put(`/users/${id}`, {
         isLoggedIn: false,

@@ -1,10 +1,56 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MetaData from "./Metadata/metadata";
+import { authUserData } from "../api/usersApi";
+import { useQuery } from "react-query";
+import { deleteZero, getUserTokenDate } from "../utils/helpers";
+import AxiosInstance from "../api/AxiosInstance";
+import { useSignOut } from "react-auth-kit";
 
 const Welcome = () => {
   const navigate = useNavigate();
+  const signOut = useSignOut();
+  const { data: userData } = useQuery("profile", authUserData);
+  useEffect(() => {
+    //Cuando se cierra la app y se abre nuevamente,
+    //si hay sesion abierta intentara entrar al login.
+    //En login si hay usuario loggeado lo envia automaticamente a / home / banner
+    const active = userData?.active;
+    if (active) {
+      navigate("/auth/signin");
+    }
+  }, [userData]);
 
+  const forcedLogOut = () => {
+    const token = getUserTokenDate();
+    const currentDate = new Date();
+    const currentDateString = currentDate.toISOString().split("T")[0];
+    const currentTimeString = currentDate
+      .toISOString()
+      .split("T")[1]
+      .split(".")[0];
+    const fecha = token?.slice(0, 10);
+    const hora = token?.slice(11, 16);
+    const horaCreado = deleteZero(hora?.slice(0, 2));
+    const horaActual = deleteZero(currentTimeString?.slice(0, 2));
+
+    if (currentDateString === fecha && horaActual >= horaCreado) {
+      const response = AxiosInstance.put(`/users/${userData?.id}`, {
+        isLoggedIn: false,
+      })
+        .then((res) => {
+          signOut();
+          window.location.reload(true);
+        })
+        .catch((err) => {
+          return err;
+        });
+    }
+  };
+
+  useEffect(() => {
+    forcedLogOut();
+  });
   return (
     <div className="flex flex-col h-screen px-12 div-welcome text-center sm:px-10 md:px-6 justify-center items-center">
       <div className="p-4 flex flex-col items-center justify-center border rounded-lg shadow border-gray-500 mt-2">

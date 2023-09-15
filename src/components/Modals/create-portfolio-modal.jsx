@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { categories } from "../../BD/bd";
 
 const CreatePortfolioModal = ({ isVisible, onDataReceived }) => {
-  const [close, setClose] = useState(false);
   const [clienteComprador, setClienteComprador] = useState("");
   const [correoCliente, setCorreoCliente] = useState("");
 

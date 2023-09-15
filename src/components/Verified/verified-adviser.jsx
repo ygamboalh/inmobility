@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { AdviserCard } from "../AdviserCard/adviser-card";
 import { useQuery } from "react-query";
@@ -6,7 +7,6 @@ import { authUserData } from "../../api/usersApi";
 import Thumbnail from "../Thumbnail/thumbnail";
 import MetaData from "../Metadata/metadata";
 import { getAllButtons } from "../../api/propertiesApi";
-import { useNavigate } from "react-router-dom";
 
 const VerifiedAdviser = () => {
   const { data: userData } = useQuery("profile", authUserData);

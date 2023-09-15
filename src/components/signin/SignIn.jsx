@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { useSignIn, useSignOut } from "react-auth-kit";
 
@@ -25,7 +25,6 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { data: userData } = useQuery("profile", authUserData);
   const signOut = useSignOut();
-  const navigate = useNavigate();
 
   const {
     mutate: loginMutation,
@@ -59,10 +58,6 @@ const SignIn = () => {
             `¡Bienvenido(a) al Sistema Costarricense de Consultas Inmobiliarias Centralizadas.!`
           );
         },
-        /* onError: (error) => {
-          message.error(`¡Ocurrió un error. Vuelva a intentarlo!`);
-          console.log(error);
-        }, */
       });
     },
   });
@@ -81,7 +76,7 @@ const SignIn = () => {
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
 
     if (currentDateString === fecha && horaActual >= horaCreado) {
-      const response = AxiosInstance.put(`/users/${userData.id}`, {
+      const response = AxiosInstance.put(`/users/${userData?.id}`, {
         isLoggedIn: false,
       })
         .then((res) => {
@@ -93,6 +88,7 @@ const SignIn = () => {
         });
     }
   };
+
   useEffect(() => {
     forcedLogOut();
   });

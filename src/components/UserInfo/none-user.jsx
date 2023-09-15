@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSignOut } from "react-auth-kit";
+
 import {
   BiHomeAlt,
   BiMailSend,
@@ -11,13 +11,9 @@ import { FaWarehouse } from "react-icons/fa";
 import { SiHomeassistantcommunitystore } from "react-icons/si";
 
 const NoneUser = () => {
-  const signOut = useSignOut();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setIsOpen(false);
@@ -35,7 +31,6 @@ const NoneUser = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="h-[45px] w-[45px] absolute top-6 right-8 rounded-full"
-        //style={buttonStyle}
       >
         <svg
           className="w-8 h-8 text-white border shadow bg-gray-600 hover:bg-gray-300 hover:text-black rounded-md p-1 m-3 "

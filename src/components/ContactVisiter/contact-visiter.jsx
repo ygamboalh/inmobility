@@ -1,19 +1,17 @@
+import React, { useState } from "react";
+
 import { useFormik } from "formik";
-import enviarCorreoComunOrigen from "../../utils/email/send-common-email-origin";
-import Thumbnail from "../Thumbnail/thumbnail";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import * as Yup from "yup";
-import React, { useEffect, useState } from "react";
 import { message } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
-import { BiMailSend, BiPhone, BiUserCircle } from "react-icons/bi";
-import AxiosInstance from "../../api/AxiosInstance";
+import { BiMailSend } from "react-icons/bi";
+
+import enviarCorreoComunOrigen from "../../utils/email/send-common-email-origin";
 import MySpinner from "../Spinner/spinner";
 import MetaData from "../Metadata/metadata";
 import { createNotification } from "../../utils/helpers";
 import { TipoContacto } from "../../BD/bd";
-import { create } from "zustand";
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const ContactVisiter = () => {

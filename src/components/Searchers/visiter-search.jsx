@@ -1,10 +1,12 @@
-import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API, BEARER } from "../../constant";
+
+import { useFormik } from "formik";
 import axios from "axios";
 import { message } from "antd";
 import * as Yup from "yup";
+
+import { API } from "../../constant";
 import { QueriesByFilters } from "../../utils/QueriesByFilters";
 import MySpinner from "../Spinner/spinner";
 import MetaData from "../Metadata/metadata";
@@ -72,7 +74,7 @@ const VisiterSearch = () => {
       />
       <div className="flex justify-center mt-4">
         <span className="font-semibold">
-          Realizar búsqueda por identificador único
+          Realizar búsqueda por código de propiedad
         </span>
       </div>
       <div className="flex justify-center flex-col mt-4">
@@ -85,7 +87,7 @@ const VisiterSearch = () => {
                 onChange={handleChange}
                 name="uniqueId"
                 id="uniqueId"
-                placeholder="Identificador único"
+                placeholder="Código de propiedad"
                 className="w-80 border shadow rounded-md border-gray-300 mb-2"
               />
 

@@ -8,7 +8,7 @@ import { message } from "antd";
 import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 
-import { API, BEARER } from "../../constant";
+import { API } from "../../constant";
 import MySpinner from "../Spinner/spinner";
 import MetaData from "../Metadata/metadata";
 

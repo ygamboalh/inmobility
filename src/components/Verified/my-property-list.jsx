@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
-
-import * as Yup from "yup";
-import MySpinner from "../Spinner/spinner";
-import { authUserData } from "../../api/usersApi";
+import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
-import SearchCard from "../SearchResults/property-card";
 
-import AxiosInstance from "../../api/AxiosInstance";
 import {
   BiArea,
   BiBuildingHouse,
@@ -17,16 +12,15 @@ import {
   BiMap,
   BiSearch,
 } from "react-icons/bi";
-import MetaData from "../Metadata/metadata";
-import { useFormik } from "formik";
-import { API } from "../../constant";
-import { message } from "antd";
-import { QueriesByFilters } from "../../utils/QueriesByFilters";
-import { getMyProperties } from "../../api/propertiesApi";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+
+import MetaData from "../Metadata/metadata";
+import { API } from "../../constant";
+import MySpinner from "../Spinner/spinner";
+import { authUserData } from "../../api/usersApi";
+import { getMyProperties } from "../../api/propertiesApi";
 import { createNotification, getToken } from "../../utils/helpers";
 import enviarCorreoPersonalizado from "../../utils/email/send-personalized-email";
 
@@ -125,46 +119,6 @@ const MyPropertyList = () => {
     return <MySpinner />;
   }
 
-  /* return (
-    <div>
-      <MetaData title="Mis propiedades" description="Mis propiedades" />
-      <div className="">
-        <div className="mx-8 mb-3 flex flex-col justify-center text-center mt-4">
-          <span className="font-semibold text-xl">Mi lista de propiedades</span>
-        </div>
-        <div id="data" className="text-semibold text-sm ml-[110px]"></div>
-      </div>
-
-      <div className="w-full flex flex-row max-[600px]:flex-col align-middle px-3 my-1">
-        <div className="relative w-full flex justify-center">
-          <input
-            onChange={handleFilter}
-            placeholder="Escriba el código"
-            type="text"
-            name="uniqueId"
-            id="uniqueId"
-            className="block  max-[500px]:-pl-4 w-full pr-10 p-4 pl-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-      </div>
-
-      {visibleRecords?.length !== 0 ? (
-        visibleRecords?.map((property) => {
-          return (
-            <div className="mb-3 mx-2">
-              <SearchCard propiedad={[property]} />
-            </div>
-          );
-        })
-      ) : (
-        <div className="mb-3 flex justify-center text-center mt-4">
-          <span className="font-semibold flex justify-center text-lg">
-            No hay propiedades para mostrar
-          </span>
-        </div>
-      )}
-    </div>
-  );*/
   return (
     <div className="w-full">
       <MetaData title="Mis propiedades" description="Mis propiedades" />

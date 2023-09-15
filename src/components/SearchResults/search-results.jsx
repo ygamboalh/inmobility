@@ -120,8 +120,8 @@ const SearchResults = () => {
       confirmButtonText: "Guardar",
       confirmButtonColor: "#1863e4",
       html:
-        `<input id="name" required class="swal2-input" autoComplete="off" placeholder="Nombre del cliente">` +
-        '<input id="email" required autoComplete="off" class="swal2-input" placeholder="Correo del cliente">',
+        `<input id="name" required className="swal2-input" autoComplete="off" placeholder="Nombre del cliente">` +
+        '<input id="email" required autoComplete="off" className="swal2-input" placeholder="Correo del cliente">',
       focusConfirm: false,
       preConfirm: () => {
         return [

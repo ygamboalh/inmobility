@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 
 import { BiArea, BiBath, BiBed, BiCar, BiSolidFilePdf } from "react-icons/bi";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -10,7 +9,6 @@ import AxiosInstance from "../../../api/AxiosInstance";
 import { API } from "../../../constant";
 import MySpinner from "../../../components/Spinner/spinner";
 import MyNewCarousel from "../../../components/Carrusel/carrusel";
-import { authUserData } from "../../../api/usersApi";
 import Share from "../../../components/Share/share";
 import MetaData from "../../../components/Metadata/metadata";
 import AudioPlayer from "../../../components/AudioPlayer/audio-player";
@@ -590,7 +588,7 @@ const PropertyDetailsSearch = () => {
                 property?.tipoVivienda ? "w-full md:w-1/3 px-4 py-1" : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property?.tipoVivienda ? " text-black rounded-sm" : "hidden"
@@ -687,7 +685,7 @@ const PropertyDetailsSearch = () => {
                   : null
               }
             >
-              <div class="text-left">
+              <div className="text-left">
                 <div
                   className={
                     property?.ubicacionDetallada

@@ -6,6 +6,8 @@ import UserListDesact from "../UserListDesact/user-list-desact";
 import UserListActive from "../UserListActive/user-list-active";
 import Navbar from "../NavBar/NavBar";
 import MetaData from "../../../components/Metadata/metadata";
+import UserListFreelancer from "../UserFreelancer/freelancer-user-list";
+import UserListInactive from "../UserListInactive/inactive-user-list";
 
 const Users = () => {
   const [activeButton, setActiveButton] = useState(1);
@@ -16,7 +18,7 @@ const Users = () => {
   const handleStateChange = (event) => {
     const selectedOption = event.target.value;
     switch (selectedOption) {
-      case "Asesores verificados":
+      case "Asesores verificados activos":
         handleButtonClick(1);
         break;
       case "Solicitantes":
@@ -24,6 +26,12 @@ const Users = () => {
         break;
       case "Supervisores":
         handleButtonClick(3);
+        break;
+      case "Freelancers":
+        handleButtonClick(4);
+        break;
+      case "Asesores verificados inactivos":
+        handleButtonClick(5);
         break;
       default:
         break;
@@ -38,7 +46,7 @@ const Users = () => {
       <div>
         <hr />
         <div className="mt-20 mx-4 mb-2 flex justify-center">
-          <div className="min-[730px]:hidden flex justify-center">
+          <div className="min-[1200px]:hidden flex justify-center">
             <select
               name="state"
               onChange={handleStateChange}
@@ -48,8 +56,11 @@ const Users = () => {
               <option className="" value="">
                 Seleccione una opción
               </option>
-              <option className="" value="Asesores verificados">
-                Asesores verificados
+              <option className="" value="Asesores verificados activos">
+                Asesores verificados activos
+              </option>
+              <option className="" value="Asesores verificados inactivos">
+                Asesores verificados inactivos
               </option>
               <option className="" value="Solicitantes">
                 Solicitantes
@@ -57,9 +68,12 @@ const Users = () => {
               <option className="" value="Supervisores">
                 Supervisores
               </option>
+              <option className="" value="Freelancer">
+                Freelancer
+              </option>
             </select>
           </div>
-          <div className="inset-y-0 max-[750px]:hidden left-0 flex justify-center items-center pl-3">
+          <div className="inset-y-0 max-[1200px]:hidden left-0 flex justify-center items-center pl-3">
             <div>
               <button
                 onClick={() => handleButtonClick(1)}
@@ -68,7 +82,18 @@ const Users = () => {
                   activeButton === 1 ? "bg-blue-500 text-white" : "bg-gray-300"
                 }`}
               >
-                Asesores verificados
+                Asesores verificados activos
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={() => handleButtonClick(5)}
+                type="button"
+                className={`mr-2 py-2 px-4 rounded ${
+                  activeButton === 5 ? "bg-blue-500 text-white" : "bg-gray-300"
+                }`}
+              >
+                Asesores verificados inactivos
               </button>
             </div>
             <div>
@@ -93,6 +118,17 @@ const Users = () => {
                 Supervisores
               </button>
             </div>
+            <div>
+              <button
+                onClick={() => handleButtonClick(4)}
+                type="button"
+                className={`mr-2 py-2 px-4 rounded ${
+                  activeButton === 4 ? "bg-blue-500 text-white" : "bg-gray-300"
+                }`}
+              >
+                Freelancers
+              </button>
+            </div>
             <div className="ml-auto">
               <button
                 onClick={() => navigate("/admin/users/insert-user")}
@@ -107,6 +143,8 @@ const Users = () => {
         {activeButton === 1 && <UserListActive />}
         {activeButton === 2 && <UserListPending />}
         {activeButton === 3 && <UserListDesact />}
+        {activeButton === 4 && <UserListFreelancer />}
+        {activeButton === 5 && <UserListInactive />}
       </div>
     </div>
   );

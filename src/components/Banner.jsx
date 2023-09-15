@@ -14,42 +14,17 @@ const Banner = () => {
 
   const SelectLink = async () => {
     //setIsLoading(true);
-
-    if (userData?.active === "Super Administrador") {
-      navigate("/home/insert-property", { replace: true });
-    }
     if (
+      userData?.active === "Super Administrador" ||
       userData?.active === "Supervisor" ||
       userData?.active === "Asesor verificado activo"
     ) {
       navigate("/home/insert-property", { replace: true });
-    } else if (userData.active === "Solicitante") {
+    } else if (userData?.active === "Solicitante") {
       navigate("/user/evaluating", { replace: true });
     } else {
       navigate("/user/access-denied", { replace: true });
     }
-
-    /*  const token = getToken();
-    const response = await axios
-      .get(`${API}/users/me?populate=role`, {
-        headers: { Authorization: `${BEARER} ${token}` },
-      })
-      .then((response) => {
-        const role = response?.data.role.name;
-        const active = response.data?.active;
-        if (role === "SuperAdmin" || active === "Super Administrador") {
-          navigate("/home/insert-property", { replace: true });
-        }
-        if (active === "Supervisor" || active === "Asesor verificado activo") {
-          navigate("/home/insert-property", { replace: true });
-        } else if (active === "Solicitante") {
-          navigate("/user/evaluating", { replace: true });
-        } else {
-          navigate("/user/access-denied", { replace: true });
-        }
-      })
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false)); */
   };
   if (isLoading) {
     return <MySpinner />;

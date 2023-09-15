@@ -1,24 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
 
 import DataTable from "react-data-table-component";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 
-import { useQuery, useQueryClient } from "react-query";
 import { getAllLinks } from "../../api/usersApi";
 import MySpinner from "../Spinner/spinner";
-import { API } from "../../constant";
-import { getToken } from "../../utils/helpers";
 
 const LinkListAdviser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [pending, setPending] = React.useState(true);
   const [filterRecords, setFilterRecords] = useState([]);
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
   const { data, isLoading: loadingLinks } = useQuery("links", getAllLinks, {
     onSuccess: (data) => {
       const foundedLinks = [];

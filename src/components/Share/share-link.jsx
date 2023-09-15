@@ -1,27 +1,10 @@
-import {
-  EmailIcon,
-  EmailShareButton,
-  FacebookIcon,
-  FacebookMessengerIcon,
-  FacebookMessengerShareButton,
-  FacebookShareButton,
-  TelegramIcon,
-  TelegramShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton,
-} from "react-share";
+import { useQuery } from "react-query";
 
-import { useNavigate } from "react-router-dom";
 import { BiCopyAlt } from "react-icons/bi";
 
 import { authUserData } from "../../api/usersApi";
-import { useQuery } from "react-query";
 const ShareLink = (url) => {
   const pdfUrl = url.pdfUrl;
-  const adviser = url.adviser;
-  const navigate = useNavigate();
   const { data: userData } = useQuery("profile", authUserData);
   function copyToPaper(text) {
     navigator.clipboard.writeText(text);
@@ -36,7 +19,7 @@ const ShareLink = (url) => {
               copyToPaper(pdfUrl);
             }}
             type="button"
-            class="px-3 py-1 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-2xl hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+            className="px-3 py-1 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-2xl hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
           >
             <BiCopyAlt size={20} />
             <span className="">Enlace para compartir</span>
