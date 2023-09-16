@@ -85,7 +85,7 @@ const PdfViewShared = () => {
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
                   <Image
-                    src={`https://backend.siccic.com/uploads/biglogo_8b9bf26113.png`}
+                    src={`https://backend.sistemacic.com/uploads/biglogo_8b9bf26113.png`}
                     style={{}}
                   ></Image>
                 </View>
@@ -139,11 +139,13 @@ const PdfViewShared = () => {
                 <View className="mb-8">
                   {!images?.length ? (
                     <Image
-                      src={`https://backend.siccic.com/uploads/no_image_default_0e6727a941.jpg`}
+                      src={`https://backend.sistemacic.com/uploads/no_image_default_0e6727a941.jpg`}
                     />
                   ) : (
                     images.map((elemento, index) => (
-                      <Image src={`https://backend.siccic.com${elemento}`} />
+                      <Image
+                        src={`https://backend.sistemacic.com${elemento}`}
+                      />
                     ))
                   )}
                 </View>

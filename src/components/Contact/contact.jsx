@@ -21,7 +21,7 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(
-    "https://backend.siccic.com/uploads/userinfo_dac703068b.png"
+    "https://backend.sistemacic.com/uploads/userinfo_dac703068b.png"
   );
   const [phoneNumber, setPhoneNumber] = useState();
   const handlePhoneNumberChange = (value) => {
@@ -34,7 +34,7 @@ const Contact = () => {
     const user = AxiosInstance.get(`users/${adviser?.id}?populate=photo`).then(
       (data) => {
         const image = data?.data?.photo?.url;
-        const url = `https://backend.siccic.com${image}`;
+        const url = `https://backend.sistemacic.com${image}`;
         setImageUrl(url);
       }
     );

@@ -81,7 +81,7 @@ const VisiterUserInfo = () => {
     };
   }, []);
   const buttonStyle = {
-    backgroundImage: `url("https://backend.siccic.com/uploads/small_userinfo_dac703068b.png")`,
+    backgroundImage: `url("https://backend.sistemacic.com/uploads/small_userinfo_dac703068b.png")`,
     backgroundSize: "cover",
     width: "40px",
     height: "40px",

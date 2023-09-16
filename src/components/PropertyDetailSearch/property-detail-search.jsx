@@ -39,7 +39,9 @@ const PropertyDetailsSearch = () => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
 
-      setPdfUrl(`https://siccic.com/home/search/pdf/${response.data.data.id}`);
+      setPdfUrl(
+        `https://sistemacic.com/home/search/pdf/${response.data.data.id}`
+      );
     });
 
     setProperty(propertyFound);

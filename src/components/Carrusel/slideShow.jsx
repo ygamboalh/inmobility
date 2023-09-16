@@ -18,7 +18,7 @@ const Slideshow = ({ slideImages }) => {
             <div
               style={{
                 ...divStyle,
-                backgroundImage: `url('https://backend.siccic.com${slideImages[index]}')`,
+                backgroundImage: `url('https://backend.sistemacic.com${slideImages[index]}')`,
               }}
             ></div>
           </div>

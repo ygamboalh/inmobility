@@ -151,8 +151,12 @@ const PropertiesPending = () => {
                   Detalles del inmueble
                 </span>
                 <span className="font-semibold text-blue-700 text-xs">
-                  {row.attributes.moneda}
-                  {row.attributes.precio}
+                  {row.attributes.moneda
+                    ? row.attributes.moneda
+                    : row.attributes.monedaAlquiler}
+                  {row.attributes.precio
+                    ? row.attributes.precio
+                    : row.attributes.precioAlquiler}
                 </span>
               </div>
               <hr />

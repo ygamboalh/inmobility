@@ -80,7 +80,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             propertyFound = response.data.data.attributes;
             imagesCount = response.data.data.attributes.photos;
             setPdfUrl(
-              `https://siccic.com/home/shared-property/${propertyFound?.uniqueId?.toLowerCase()}`
+              `https://sistemacic.com/home/shared-property/${propertyFound?.uniqueId?.toLowerCase()}`
             );
             getAdviser(propertyFound.creadoPor);
             setProperty(propertyFound);
@@ -93,7 +93,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             });
             setImages(imagesUrl);
             const audio = propertyFound?.audio?.data?.attributes?.url;
-            setAudio(`https://backend.siccic.com${audio}`);
+            setAudio(`https://backend.sistemacic.com${audio}`);
           })
           .catch((error) => {
             console.log(error);
@@ -135,10 +135,10 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         propertyFound = response.data.data.attributes;
         imagesCount = response.data.data.attributes.photos;
         setPdfUrl(
-          `https://siccic.com/home/shared-property/${propertyFound?.uniqueId?.toLowerCase()}`
+          `https://sistemacic.com/home/shared-property/${propertyFound?.uniqueId?.toLowerCase()}`
         );
         const audio = propertyFound?.audio?.data?.attributes?.url;
-        setAudio(`https://backend.siccic.com${audio}`);
+        setAudio(`https://backend.sistemacic.com${audio}`);
         setAdviserId(propertyFound.creadoPor);
         getAdviser(propertyFound.creadoPor);
         propertyFound?.tomadaExclusividad
@@ -211,7 +211,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
           window.location.reload(true);
         });
         if (result) {
-          Swal.fire("Inmueble eliminado!", "", "success");
+          Swal.fire("Inmueble eliminado", "", "success");
         } else {
           Swal.fire("El Inmueble no fue eliminado", "", "error");
         }

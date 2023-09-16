@@ -81,7 +81,7 @@ const Portafolio = () => {
     setRecords(searchData);
   };
   function copyToPaper(text) {
-    navigator.clipboard.writeText(`https://siccic.com${text}`);
+    navigator.clipboard.writeText(`https://sistemacic.com${text}`);
   }
   if (!records) {
     return <MySpinner />;

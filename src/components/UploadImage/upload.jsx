@@ -18,13 +18,13 @@ const Upload = () => {
   return (
     <div className="flex flex-col justify-center align-middle items-center">
       <MetaData title="Cargar datos" description="Cargar datos" />
-      <div className="mb-24 mt-20">
+      <div className="mb-24 mt-6">
         <button
           type="button"
           className="text-l mr-2 py-2 px-4 rounded bg-blue-700 text-white"
           onClick={() => Navigate()}
         >
-          Volver
+          Volver al inicio
         </button>
       </div>
       <div>

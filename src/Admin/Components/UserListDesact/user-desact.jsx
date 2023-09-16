@@ -185,13 +185,13 @@ const UsersDesact = () => {
                                 width: "100px",
                                 borderRadius: "100px",
                                 backgroundSize: "cover",
-                                backgroundImage: `url(https://backend.siccic.com${row.photo?.url})`,
+                                backgroundImage: `url(https://backend.sistemacic.com${row.photo?.url})`,
                               }}
                             />
                           </div>
                         ) : (
                           <img
-                            src={`https://backend.siccic.com/uploads/small_userinfo_dac703068b.png`}
+                            src={`https://backend.sistemacic.com/uploads/small_userinfo_dac703068b.png`}
                             alt=""
                             width="100px"
                             height="100px"

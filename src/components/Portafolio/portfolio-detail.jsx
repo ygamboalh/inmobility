@@ -227,8 +227,12 @@ export const PortafolioDetail = () => {
                     Detalles del inmueble
                   </span>
                   <span className="font-semibold text-blue-700 text-xs">
-                    {record.attributes.moneda}
-                    {record.attributes.precio}
+                    {record.attributes.moneda
+                      ? record.attributes.moneda
+                      : record.attributes.monedaAlquiler}
+                    {record.attributes.precio
+                      ? record.attributes.precio
+                      : record.attributes.precioAlquiler}
                   </span>
                 </div>
                 <hr />

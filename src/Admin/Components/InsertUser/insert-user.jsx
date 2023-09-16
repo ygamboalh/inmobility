@@ -180,7 +180,7 @@ const InsertUser = () => {
                         <div
                           className="w-32 h-32 rounded-full"
                           style={{
-                            backgroundImage: `url('https://backend.siccic.com${userImg}')`,
+                            backgroundImage: `url('https://backend.sistemacic.com${userImg}')`,
                             backgroundPosition: "center",
                             backgroundSize: "100%",
                             backgroundRepeat: "no-repeat",
@@ -191,7 +191,7 @@ const InsertUser = () => {
                           alt="perfil"
                           className="w-32 h-32 rounded-full"
                           style={{
-                            backgroundImage: `url(https://backend.siccic.com/uploads/small_userinfo_dac703068b.png)`,
+                            backgroundImage: `url(https://backend.sistemacic.com/uploads/small_userinfo_dac703068b.png)`,
                             backgroundPosition: "cover",
                             backgroundSize: "100%",
                             backgroundRepeat: "no-repeat",

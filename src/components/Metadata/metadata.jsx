@@ -15,7 +15,7 @@ const MetaData = ({ title, description, imageURL, imageAlt }) => {
       <meta
         property="og:url"
         content={
-          "https://siccic.com" +
+          "https://sistemacic.com" +
           window.location.pathname +
           window.location.search
         }
@@ -23,7 +23,7 @@ const MetaData = ({ title, description, imageURL, imageAlt }) => {
       <meta
         property="twitter:url"
         content={
-          "https://siccic.com" +
+          "https://sistemacic.com" +
           window.location.pathname +
           window.location.search
         }

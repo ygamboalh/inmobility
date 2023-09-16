@@ -26,7 +26,7 @@ const PropertyDetailsSearch = () => {
       propertyFound = response.data.data.attributes;
       imagesCount = response.data.data.attributes.photos;
       setPdfUrl(
-        `https://siccic.com/home/shared-property/${propertyFound.uniqueId}`
+        `https://sistemacic.com/home/shared-property/${propertyFound.uniqueId}`
       );
     });
     setProperty(propertyFound);
@@ -38,7 +38,7 @@ const PropertyDetailsSearch = () => {
     });
     setImages(imagesUrl);
     const audio = propertyFound?.audio?.data?.attributes?.url;
-    setAudio(`https://backend.siccic.com${audio}`);
+    setAudio(`https://backend.sistemacic.com${audio}`);
   };
   useEffect(() => {
     getProperty();

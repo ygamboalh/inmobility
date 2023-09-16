@@ -207,9 +207,9 @@ const InsertProperty = () => {
     validationSchema: Yup.object({
       provincia: Yup.string().required("*"),
       canton: Yup.string().required("*").min(6, "*").max(150, "*"),
-      descripcion: Yup.string().min(10, "*").max(1000, "*"),
+      //descripcion: Yup.string().min(10, "*").max(1000, "*"),
       distrito: Yup.string().required("*").min(6, "*").max(150, "*"),
-      precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
+      //precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
       areaTerreno: Yup.number().required("*").min(0, "*").max(500000, "*"),
 
       uniqueId: Yup.string()

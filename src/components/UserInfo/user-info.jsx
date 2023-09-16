@@ -30,14 +30,14 @@ const UserInfo = () => {
   const [isOpenM, setIsOpenM] = useState(false);
   const menuRef = useRef(null);
   const [imageUrl, setImageUrl] = useState(
-    "https://backend.siccic.com/uploads/small_userinfo_dac703068b.png"
+    "https://backend.sistemacic.com/uploads/small_userinfo_dac703068b.png"
   );
   const [notificaciones, setNotificaciones] = useState();
   const { data: userData } = useQuery("profile", authUserData);
   const id = userData?.id;
   const user = AxiosInstance.get(`users/${id}?populate=photo`).then((data) => {
     const image = data?.data?.photo?.url;
-    const url = `https://backend.siccic.com${image}`;
+    const url = `https://backend.sistemacic.com${image}`;
 
     setImageUrl(url);
   });

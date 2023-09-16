@@ -113,7 +113,7 @@ const PortafolioCard = ({ propiedad }) => {
       imagesCount = response.data.data.attributes.photos;
       const id = response.data.data.id;
       setPdfUrl(
-        `https://siccic.com/home/shared-property/${propertyFound?.uniqueId}`
+        `https://sistemacic.com/home/shared-property/${propertyFound?.uniqueId}`
       );
       propertyFound?.tomadaExclusividad
         ? setAddress(propertyFound.ubicacionDetallada)
@@ -129,7 +129,7 @@ const PortafolioCard = ({ propiedad }) => {
     });
     setImages(imagesUrl);
     const audio = propertyFound.audio?.data?.attributes?.url;
-    setAudio(`https://backend.siccic.com${audio}`);
+    setAudio(`https://backend.sistemacic.com${audio}`);
   };
 
   const updatePortfolio = (reaction) => {

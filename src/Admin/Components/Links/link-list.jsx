@@ -145,7 +145,9 @@ const LinkList = () => {
       accessor: "id",
       id: "descripcion",
       name: (
-        <span className="text-xl font-semibold">Seleccione para editarlo</span>
+        <span className="text-xl font-semibold">
+          Seleccione el enlace para editarlo
+        </span>
       ),
       ignoreRowClick: true,
       allowOverflow: true,

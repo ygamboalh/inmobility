@@ -158,10 +158,10 @@ const LoadPropertyImage = ({ creadoPor }) => {
   return (
     <div className="profile-photo flex -mt-20 items-center justify-center">
       <MetaData title="Cargar imagen" description="Cargar imagen" />
-      <div className="flex flex-col">
-        <div>
+      <div className="flex flex-col w-full mx-4">
+        <div className="border shadow border-gray-300 rounded-md p-2">
           <form onSubmit={handleSubmit}>
-            <label className="flex">
+            <label className="flex justify-center text-center">
               Seleccione las imágenes para la propiedad: {id?.id}
             </label>
             <div className="flex flex-col items-center justify-center w-full ">
@@ -186,11 +186,15 @@ const LoadPropertyImage = ({ creadoPor }) => {
                     ></path>
                   </svg>
                   <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Agregar imagen</span>
+                    <span className="font-semibold text-blue-600">
+                      Presionar aquí para agregar imágenes
+                    </span>
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {image?.length === 0 || !image ? (
-                      <span className="px-6">No hay imágenes</span>
+                      <span className="px-6">
+                        No hay imágenes seleccionadas
+                      </span>
                     ) : (
                       <span className="font-semibold px-6">
                         Ya seleccionó imágenes: {`${image?.length}`}
@@ -209,15 +213,15 @@ const LoadPropertyImage = ({ creadoPor }) => {
                   multiple
                 />
               </label>
-              <button className="mt-4 text-l mr-2 py-2 px-4 rounded bg-green-400 text-white">
-                Subir las imágenes
+              <button className="mt-4 flex justify-center text-center text-l mb-2 mr-2 py-2 px-4 rounded bg-green-400 text-white">
+                Presione aquí para subir las imágenes
               </button>
             </div>
           </form>
         </div>
-        <div>
+        <div className="border shadow border-gray-300 rounded-md mt-4 p-2">
           <form onSubmit={handleSubmitAudio}>
-            <label className="flex">
+            <label className="flex justify-center text-center">
               Seleccione un archivo audio para la propiedad: {id?.id}
             </label>
             <div className="flex flex-col items-center justify-center w-full ">
@@ -241,12 +245,14 @@ const LoadPropertyImage = ({ creadoPor }) => {
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     ></path>
                   </svg>
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Agregar audio</span>
+                  <p className="mb-2 text-sm text-gray-500 ">
+                    <span className="font-semibold flex justify-center text-center text-blue-600">
+                      Presione aquí para agregar un archivo de audio
+                    </span>
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {audio?.length === 0 || !audio ? (
-                      <span className="px-6">No hay audio</span>
+                      <span className="px-6">No hay audio seleccionado</span>
                     ) : (
                       <span className="font-semibold px-6">
                         Ya seleccionó un audio:{" "}
@@ -265,15 +271,15 @@ const LoadPropertyImage = ({ creadoPor }) => {
                   onChange={handleChangeAudio}
                 />
               </label>
-              <button className="mt-4 text-l mr-2 py-2 px-4 rounded bg-green-400 text-white">
-                Subir el audio
+              <button className="mt-4 text-l mb-2 justify-center text-center mr-2 py-2 px-4 rounded bg-green-400 text-white">
+                Presione aquí para subir el archivo de audio
               </button>
             </div>
           </form>
         </div>
-        <div>
+        <div className="border shadow border-gray-300 rounded-md mt-4 p-2">
           <form onSubmit={handleSubmitVideo}>
-            <label className="flex">
+            <label className="flex justify-center text-center">
               Seleccione un archivo video para la propiedad: {id?.id}
             </label>
             <div className="flex flex-col items-center justify-center w-full ">
@@ -297,12 +303,14 @@ const LoadPropertyImage = ({ creadoPor }) => {
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     ></path>
                   </svg>
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Agregar video</span>
+                  <p className="mb-2 text-sm text-blue-600 ">
+                    <span className="font-semibold flex justify-center text-center">
+                      Presione aquí para agregar archivo de video
+                    </span>
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {video?.length === 0 || !video ? (
-                      <span className="px-6">No hay video</span>
+                      <span className="px-6">No hay video seleccionado</span>
                     ) : (
                       <span className="font-semibold px-6">
                         Ya seleccionó un video:{" "}
@@ -321,8 +329,8 @@ const LoadPropertyImage = ({ creadoPor }) => {
                   onChange={handleChangeVideo}
                 />
               </label>
-              <button className="mt-4 text-l mr-2 py-2 px-4 rounded bg-green-400 text-white">
-                Subir el video
+              <button className="mt-4 text-l mr-2 py-2 justify-center flex text-center px-4 rounded bg-green-400 text-white">
+                Presione aquí para subir el archivo de video
               </button>
             </div>
           </form>

@@ -12,6 +12,7 @@ import MetaData from "../Metadata/metadata";
 import { authUserData } from "../../api/usersApi";
 import withReactContent from "sweetalert2-react-content";
 import { getAllNotifications } from "../../api/propertiesApi";
+import { message } from "antd";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -108,9 +109,13 @@ const Notifications = () => {
             })
             .catch((error) => {
               console.log(error);
+            })
+            .finally(() => {
+              setIsLoading(false);
             });
         });
       }
+      setIsLoading(false);
     });
 
     setIsLoading(false);
@@ -151,6 +156,7 @@ const Notifications = () => {
               setIsLoading(false);
             });
         }
+        setIsLoading(false);
       });
     }
   };
@@ -163,7 +169,26 @@ const Notifications = () => {
         console.log(error);
       });
   };
-  if (!notifications) {
+  const viewProperty = (propertyId) => {
+    setIsLoading(true);
+    const response = AxiosInstance.get(
+      `/properties?filters[uniqueId][$eq]=${propertyId}`
+    )
+      .then((res) => {
+        if (res.data.data.length !== 0) {
+          navigate(`/home/shared-property/${propertyId}`);
+        } else {
+          message.error(`Los datos que está intentando revisar ya no existen`);
+        }
+      })
+      .catch((error) => {
+        message.error(`Ha ocurrido un error. Intente nuevamente`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+  if (!notifications || loading) {
     return <MySpinner />;
   }
   return (
@@ -206,10 +231,11 @@ const Notifications = () => {
                 <div className="ml-4 my-2">
                   <button
                     type="button"
-                    onClick={() =>
-                      navigate(
+                    onClick={
+                      () => viewProperty(notification.attributes.reference)
+                      /* navigate(
                         `/home/shared-property/${notification?.attributes?.reference}`
-                      )
+                      ) */
                     }
                     className="bg-green-400 hover:bg-green-500 px-2 py-1 text-white rounded-md cursor-pointer"
                   >

@@ -10,7 +10,7 @@ const MyNewCarousel = ({ images }) => (
       <div key={index}>
         <img
           alt=""
-          src={`https://backend.siccic.com${images[index]}`}
+          src={`https://backend.sistemacic.com${images[index]}`}
           style={{}}
         ></img>
       </div>
