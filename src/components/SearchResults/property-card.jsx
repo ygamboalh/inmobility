@@ -157,7 +157,6 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
       });
   };
   const getAdviser = async (id) => {
-    console.log("adiviser id", id);
     const response = await AxiosInstance.get(`${API}users/${id}`)
       .then((response) => {
         const adviser = response.data;

@@ -338,7 +338,6 @@ const InsertProperty = () => {
               }
             })
             .catch((error) => {
-              console.log(error);
               message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
             });
         } else {
@@ -451,12 +450,10 @@ const InsertProperty = () => {
               }
             })
             .catch((error) => {
-              console.log(error);
               message.error("¡Ocurrió un error inesperado!");
             });
         }
       } catch (error) {
-        console.log(error);
         message.error("¡Ocurrió un error inesperado!");
       } finally {
         setIsLoading(false);

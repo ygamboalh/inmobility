@@ -85,7 +85,7 @@ const Button = () => {
     },
   });
   const defaultValue = () => {};
-  console.log(selectedRows[0]?.id);
+
   if (loadingButtons || isLoading) {
     return <MySpinner />;
   }

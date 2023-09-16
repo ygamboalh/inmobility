@@ -29,7 +29,6 @@ const VentaLotes = () => {
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
     initialValues: {},
     onSubmit: (values) => {
-      console.log(values);
       setIsLoading(true);
       const urlPortion = makeQueries(values);
       let urlFinal = "";

@@ -163,7 +163,7 @@ const Notifications = () => {
   const navegar = (id) => {
     const response = AxiosInstance.get(`/home/shared-property/${id}`)
       .then((res) => {
-        console.log("respuesta", res);
+        console.log(res);
       })
       .catch((error) => {
         console.log(error);

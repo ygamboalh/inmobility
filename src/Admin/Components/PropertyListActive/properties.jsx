@@ -104,7 +104,7 @@ const PropertiesList = () => {
           enviarCorreoPersonalizado("infosistemacic@gmail.com", property, body);
           queryClient
             .invalidateQueries(["properties"])
-            .then((resultado) => console.log(resultado));
+            .then((resultado) => console.log("ok"));
         });
         if (result) {
           Swal.fire("Inmueble eliminado!", "", "success");
