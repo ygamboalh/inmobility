@@ -82,10 +82,7 @@ const UserInfo = () => {
     const horaCreado = deleteZero(hora?.slice(0, 2));
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
     const result = horaActual - horaCreado;
-    /* console.log("dia", result);
-    console.log("fecha", fecha);
-    console.log("hora actual", horaActual);
-    console.log("hora creado", horaCreado); */
+
     if (currentDateString === fecha && horaActual >= horaCreado) {
       const response = AxiosInstance.put(`/users/${id}`, {
         isLoggedIn: false,
@@ -98,12 +95,12 @@ const UserInfo = () => {
         .catch((err) => {
           return err;
         });
-    } /* else {
-      if (horaActual <= horaCreado) {
+    } else {
+      if (currentDateString !== fecha && (result <= -4 || result >= 4)) {
         signOut();
         window.location.reload(true);
       }
-    } */
+    }
   };
   useEffect(() => {
     forcedLogOut();

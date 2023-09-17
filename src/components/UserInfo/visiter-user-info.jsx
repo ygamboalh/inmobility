@@ -48,11 +48,13 @@ const VisiterUserInfo = () => {
         .catch((err) => {
           return err;
         });
+    } else {
+      if (currentDateString !== fecha && (result <= -4 || result >= 4)) {
+        signOut();
+        window.location.reload(true);
+      }
     }
   };
-  useEffect(() => {
-    forcedLogOut();
-  });
   useEffect(() => {
     forcedLogOut();
   });

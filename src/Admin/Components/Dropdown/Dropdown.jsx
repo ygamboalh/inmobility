@@ -105,6 +105,11 @@ const Dropdown = ({ ubicacion }) => {
         .catch((err) => {
           return err;
         });
+    } else {
+      if (currentDateString !== fecha && (result <= -4 || result >= 4)) {
+        signOut();
+        window.location.reload(true);
+      }
     }
   };
   const loginOut = () => {
