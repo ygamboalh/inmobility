@@ -320,7 +320,7 @@ const PdfView = ({ property }) => {
                   <View className="flex flex-row">
                     <Text>
                       <Text className="font-semibold mr-1">
-                        Área de la construcción:{" "}
+                        Metros cuadrados construidos:{" "}
                       </Text>
                       {property.areaContruccion}m²
                     </Text>

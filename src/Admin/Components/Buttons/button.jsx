@@ -176,7 +176,7 @@ const Button = () => {
                 <div className="w-full max-[800px]:mb-2 flex min-[800px]:mr-2">
                   <input
                     type="text"
-                    className="border w-full shadow flex border-gray-300 text-xs rounded-md"
+                    className="border w-full shadow flex h-10 border-gray-300 text-xs rounded-md"
                     placeholder="Descripción del botón"
                     name="description"
                     maxLength={40}
@@ -197,7 +197,7 @@ const Button = () => {
                 <div className="flex w-full max-[800px]:mb-2">
                   <input
                     type="text"
-                    className="border shadow border-gray-300 text-xs rounded-md w-full"
+                    className="border shadow border-gray-300 h-10 text-xs rounded-md w-full"
                     placeholder="Dirección del enlace"
                     onChange={handleChange}
                     defaultValue={

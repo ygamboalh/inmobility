@@ -123,7 +123,7 @@ app.get('/home/banner', (req, res, next) => {
 
         })
 });
-app.get('/ventas', (req, res, next) => { 
+app.get('/selling', (req, res, next) => { 
         fs.readFile(indexPath, 'utf8', (err, htmlData) => {
                 if (err) {
                         console.error('Error leyendo el archivo index', err);
@@ -585,7 +585,7 @@ app.get('/home/search/rent-office', (req, res, next) => {
                 return res.send(htmlData);
         })
 });
-app.get('/alquiler', (req, res, next) => {
+app.get('/renting', (req, res, next) => {
         fs.readFile(indexPath, 'utf8', (err, htmlData) => {
                 if (err) {
                         console.error('Error leyendo el archivo index', err);

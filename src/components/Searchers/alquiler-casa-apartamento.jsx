@@ -191,7 +191,7 @@ const AlquilerCasaApartamento = () => {
             onChange={handleChange}
             name="uniqueId"
             placeholder="Buscar por código de inmueble"
-            className="input-admin-property uniqueId-input justify-center text-gray-500  m-2 w-[323px] p-2"
+            className="input-admin-property border-1  placeholder:text-gray-300  text-white bg-blue-700 justify-center  m-2 w-[323px] p-2"
           />
           <div className="space -mt-4">
             {errors.uniqueId && touched.uniqueId ? (
@@ -538,7 +538,7 @@ const AlquilerCasaApartamento = () => {
             onChange={handleChange}
             value={values.areaContruccion}
             name="areaContruccion"
-            placeholder="Metros cuadrados construcción"
+            placeholder="Metros cuadrados construidos"
             className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
           />
           <div className="space -mt-4">

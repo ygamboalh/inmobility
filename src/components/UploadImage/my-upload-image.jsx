@@ -28,6 +28,7 @@ const LoadImage = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     const renamedImageFile = renameFile(image);
     const data = new FormData();
     data.append("files", renamedImageFile);

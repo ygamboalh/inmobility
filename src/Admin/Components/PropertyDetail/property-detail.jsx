@@ -338,7 +338,7 @@ const PropertyDetailsSearch = () => {
               {property.areaContruccion ? (
                 <div className="flex flex-row">
                   <label className="font-semibold mr-1">
-                    Área de la construcción:{" "}
+                    Metros cuadrados construidos:{" "}
                   </label>
                   <div className="flex flex-row">
                     <label>{property.areaContruccion}</label>

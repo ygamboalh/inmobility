@@ -46,6 +46,9 @@ const LoadPropertyImage = ({ creadoPor }) => {
       for (let i = 0; i < image.length; i++) {
         data.append("files", image[i]);
       }
+    } else if (image?.length === 0) {
+      message.error("¡No ha seleccionado ninguna imagen!");
+      return;
     } else {
       message.error("¡Sólo puede seleccionar hasta 25 imágenes!");
       return;
@@ -157,7 +160,7 @@ const LoadPropertyImage = ({ creadoPor }) => {
 
   return (
     <div className="profile-photo flex -mt-20 items-center justify-center">
-      <MetaData title="Cargar imagen" description="Cargar imagen" />
+      <MetaData title="Cargar datos" description="Cargar datos" />
       <div className="flex flex-col w-full mx-4">
         <div className="border shadow border-gray-300 rounded-md p-2">
           <form onSubmit={handleSubmit}>
@@ -213,7 +216,13 @@ const LoadPropertyImage = ({ creadoPor }) => {
                   multiple
                 />
               </label>
-              <button className="mt-4 flex justify-center text-center text-l mb-2 mr-2 py-2 px-4 rounded bg-green-400 text-white">
+              <button
+                className={
+                  image?.length > 0
+                    ? "mt-4 flex justify-center text-center text-l mb-2 mr-2 py-2 px-4 rounded bg-green-400 text-white"
+                    : "hidden"
+                }
+              >
                 Presione aquí para subir las imágenes
               </button>
             </div>
@@ -271,7 +280,13 @@ const LoadPropertyImage = ({ creadoPor }) => {
                   onChange={handleChangeAudio}
                 />
               </label>
-              <button className="mt-4 text-l mb-2 justify-center text-center mr-2 py-2 px-4 rounded bg-green-400 text-white">
+              <button
+                className={
+                  audio?.length > 0
+                    ? "mt-4 text-l mb-2 justify-center text-center mr-2 py-2 px-4 rounded bg-green-400 text-white"
+                    : "hidden"
+                }
+              >
                 Presione aquí para subir el archivo de audio
               </button>
             </div>
@@ -329,7 +344,13 @@ const LoadPropertyImage = ({ creadoPor }) => {
                   onChange={handleChangeVideo}
                 />
               </label>
-              <button className="mt-4 text-l mr-2 py-2 justify-center flex text-center px-4 rounded bg-green-400 text-white">
+              <button
+                className={
+                  video?.length > 0
+                    ? "mt-4 text-l mr-2 py-2 justify-center flex text-center px-4 rounded bg-green-400 text-white"
+                    : "hidden"
+                }
+              >
                 Presione aquí para subir el archivo de video
               </button>
             </div>

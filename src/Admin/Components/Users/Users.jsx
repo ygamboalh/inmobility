@@ -45,7 +45,16 @@ const Users = () => {
       <MetaData title="Usuarios" description="Usuarios" />
       <div>
         <hr />
-        <div className="mt-20 mx-4 mb-2 flex justify-center">
+        <div className="mt-20 mx-4 mb-2 flex flex-col justify-center">
+          <div className="min-[1200px]:hidden flex justify-center mb-2 items-center">
+            <button
+              onClick={() => navigate("/admin/users/insert-user")}
+              type="button"
+              className="mr-2 py-2 px-4 rounded bg-green-400 text-white"
+            >
+              Crear Usuario
+            </button>
+          </div>
           <div className="min-[1200px]:hidden flex justify-center">
             <select
               name="state"
@@ -73,6 +82,7 @@ const Users = () => {
               </option>
             </select>
           </div>
+
           <div className="inset-y-0 max-[1200px]:hidden left-0 flex justify-center items-center pl-3">
             <div>
               <button

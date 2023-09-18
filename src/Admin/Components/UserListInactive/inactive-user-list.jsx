@@ -7,6 +7,7 @@ import withReactContent from "sweetalert2-react-content";
 import {
   BiAward,
   BiBuilding,
+  BiCheckboxChecked,
   BiMailSend,
   BiMap,
   BiPhone,
@@ -131,7 +132,7 @@ const UserListInactive = () => {
       {visibleRecords?.length ? (
         <div className="flex w-full justify-center flex-wrap mb-4">
           {visibleRecords?.map((row) => (
-            <div className="w-[340px] my-2 p-4 mx-1 bg-white border border-gray-300 rounded-lg shadow">
+            <div className="w-[340px] flex flex-col justify-between my-2 p-4 mx-1 bg-white border border-gray-300 rounded-lg shadow">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-lg font-bold leading-none text-gray-900 ">
                   Detalles del usuario
@@ -205,6 +206,13 @@ const UserListInactive = () => {
                           </p>
                         </div>
                         <hr />
+                        <div className="flex items-center ml-0.5 mt-1 mb-2 flex-row">
+                          <BiCheckboxChecked size={20} />
+                          <p className="text-sm mt-0 text-gray-900 truncate">
+                            {row?.type}
+                          </p>
+                        </div>
+                        <hr />
                         <div className="flex my-2 flex-row">
                           <span className="ml-[2px]">
                             <BiBuilding size={20} />
@@ -254,26 +262,26 @@ const UserListInactive = () => {
                         <hr />
                       </div>
                     </div>
-                    <div className="flex items-center justify-center mt-2 -mb-4 space-x-4">
-                      <div className="mt-2 flex justify-center flex-row">
-                        <button
-                          className="editButton mx-2"
-                          onClick={() =>
-                            navigate(`/admin/users/insert-user/${row.id}`)
-                          }
-                        >
-                          Editar
-                        </button>
-                        <button
-                          className="deleteButton"
-                          onClick={() => DeleteUser(row.id)}
-                        >
-                          Eliminar
-                        </button>
-                      </div>
-                    </div>
                   </li>
                 </ul>
+              </div>
+              <div className="flex items-center justify-center mt-2 space-x-4">
+                <div className="mt-2 flex justify-center flex-row">
+                  <button
+                    className="editButton mx-2"
+                    onClick={() =>
+                      navigate(`/admin/users/insert-user/${row.id}`)
+                    }
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="deleteButton"
+                    onClick={() => DeleteUser(row.id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </div>
             </div>
           ))}

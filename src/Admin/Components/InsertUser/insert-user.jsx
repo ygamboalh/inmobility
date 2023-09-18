@@ -85,8 +85,8 @@ const InsertUser = () => {
 
   const onFinish = async (values) => {
     setIsLoading(true);
-    let activo = undefined;
-
+    //let activo = undefined;
+    console.log(values);
     try {
       const value = {
         username: values.username,
@@ -98,7 +98,7 @@ const InsertUser = () => {
         address: values.address,
         mobile: values.mobile,
         personalId: values.personalId,
-        active: activo,
+        active: values.active,
         photo: values.photo,
         role: values.role,
         certifications: values.certifications,
@@ -106,8 +106,13 @@ const InsertUser = () => {
 
       //si trae un id modificar, sino crear un nuevo registro
       if (pasedUser) {
-        const response = await AxiosInstance.put(`users/${pasedUser.id}`, value)
+        console.log(value);
+        const response = await AxiosInstance.put(
+          `users/${pasedUser?.id}`,
+          value
+        )
           .then((response) => {
+            console.log(response);
             //Si el usuario es cambiado a Asesor verificado activo se envia un correo al usuario con la notificacion
             if (value.active === "Asesor verificado activo") {
               enviarCorreoComunOrigen(
@@ -131,7 +136,16 @@ const InsertUser = () => {
             navigate("/admin/users");
           },
           onError: (error) => {
-            message.error("Ocurrió un error inesperado.Intente de nuevo");
+            const err = error.response.data.error.message;
+            if (err === "Email or Username are already taken") {
+              message.error(
+                "El usuario con ese nombre o correo electrónico ya existe"
+              );
+            } else {
+              message.error(
+                "Ocurrió un error y el usuario no se pudo actualizar"
+              );
+            }
           },
         });
       }

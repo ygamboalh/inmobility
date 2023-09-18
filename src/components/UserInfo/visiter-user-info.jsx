@@ -115,7 +115,7 @@ const VisiterUserInfo = () => {
             />
             <a
               className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
-              href="/ventas"
+              href="/selling"
             >
               Ventas
             </a>
@@ -129,7 +129,7 @@ const VisiterUserInfo = () => {
             />
             <a
               className="text-xs flex -mt-0.5 py-1 w-full flex-row pl-1"
-              href="/alquiler"
+              href="/renting"
             >
               Alquileres
             </a>

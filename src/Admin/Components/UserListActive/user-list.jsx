@@ -7,6 +7,7 @@ import withReactContent from "sweetalert2-react-content";
 import {
   BiAward,
   BiBuilding,
+  BiCheckboxChecked,
   BiMailSend,
   BiMap,
   BiPhone,
@@ -208,6 +209,13 @@ const UsersList = () => {
                           <BiMailSend size={20} />
                           <p className="text-sm mt-0 text-gray-900 truncate">
                             {row?.email}
+                          </p>
+                        </div>
+                        <hr />
+                        <div className="flex items-center ml-0.5 mt-1 mb-2 flex-row">
+                          <BiCheckboxChecked size={20} />
+                          <p className="text-sm mt-0 text-gray-900 truncate">
+                            {row?.type}
                           </p>
                         </div>
                         <hr />

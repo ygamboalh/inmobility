@@ -35,7 +35,7 @@ const Banner = () => {
       <MetaData title="Opciones" description="Opciones" />
       <div className="grid grid-cols-3 p-5 gap-10 lg:py-16  max-[1000px]:grid-cols-1 max-md:grid-cols-1 text-center text-white font-medium">
         <Link
-          to="/ventas"
+          to="/selling"
           className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary"
         >
           <div className="px-2">
@@ -48,7 +48,7 @@ const Banner = () => {
           </div>
         </Link>
         <Link
-          to="/alquiler"
+          to="/renting"
           className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary"
         >
           <div className="px-2">

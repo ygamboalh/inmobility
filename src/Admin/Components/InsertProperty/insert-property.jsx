@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import axios from "axios";
@@ -52,6 +52,7 @@ const InsertProperty = () => {
   const idregex = /^[a-zA-Z0-9-]+$/;
 
   const [selectedOption, setSelectedOption] = useState("");
+  const location = useLocation();
 
   const [category, setCategory] = useState();
   const [categoriesDB, setCategoriesDB] = useState({});
@@ -557,14 +558,20 @@ const InsertProperty = () => {
   if (isLoading || (id && !property)) {
     return <MySpinner />;
   }
-  //console.log("internos", detallesInternos);
+
   return (
     <div className="flex flex-col justify-center items-center h-fit">
       <MetaData
         title="Insertar o editar propiedad"
         description="Insertar o editar propiedad"
       />
-      <div className="inset-y-0 mb-20 left-0 flex h-fit justify-center align-middle items-center pl-3"></div>
+      <div
+        className={
+          location?.pathname !== "/admin/properties/insert-property"
+            ? "inset-y-0 mb-4 left-0 flex h-fit justify-center align-middle items-center pl-3"
+            : "inset-y-0 mb-20 left-0 flex h-fit justify-center align-middle items-center pl-3"
+        }
+      ></div>
       {id ? (
         <div className="flex mt-3 justify-center align-middle items-center w-full">
           <label className="font-semibold text-xl">
@@ -978,7 +985,7 @@ const InsertProperty = () => {
               </div>
             </div>
           )}
-          {selectedOption === "" ? null : (
+          {selectedOption === "" || selectedOption?.includes("Venta") ? null : (
             <div className="flex flex-row w-fit border rounded-lg pl-1 max-[500px]:mb-2 border-gray-300 input-admin-property ml-1 mr-1 py-2">
               <select
                 id="dropdown-button"
@@ -1301,17 +1308,10 @@ const InsertProperty = () => {
             onChange={handleChange}
             max={10000}
             placeholder="Área perimetral del inmueble"
-            hidden={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === "Alquiler de Casas y Apartamentos" ||
-              selectedOption === "Venta de Casas y Apartamentos" ||
-              selectedOption === ""
-            }
+            hidden={selectedOption === ""}
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
+
           <input
             type="number"
             hidden={selectedOption === ""}
@@ -1341,7 +1341,7 @@ const InsertProperty = () => {
             }
             name="areaContruccion"
             defaultValue={property?.areaContruccion}
-            placeholder="Metros cuadrados construidosión"
+            placeholder="Metros cuadrados construidos"
             onChange={handleChange}
             max={100000}
             className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
@@ -1810,24 +1810,6 @@ const InsertProperty = () => {
               </option>
             ))}
           </select>
-          <select
-            name="active"
-            defaultValue={property?.active}
-            onChange={handleChange}
-            id="active"
-            hidden={selectedOption === ""}
-            placeholder="Subir a la lista de:"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          >
-            <option value="" label="">
-              {"Estado"}
-            </option>
-            {PropertyEstado.map((item) => (
-              <option value={item.value} label={item.label}>
-                {item.value}
-              </option>
-            ))}
-          </select>
         </div>
         <div className="flex m-4 content-center items-center justify-center ">
           <div className="flex flex-col w-fit sm:flex-col lg:flex-row content-center items-center justify-center">
@@ -2113,7 +2095,26 @@ const InsertProperty = () => {
               className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
             />
           </div>
-
+          <div className="flex justify-center items-center w-full">
+            <select
+              name="active"
+              defaultValue={property?.active}
+              onChange={handleChange}
+              id="active"
+              hidden={selectedOption === ""}
+              placeholder="Subir a la lista de:"
+              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            >
+              <option value="" label="">
+                {"Estado"}
+              </option>
+              {PropertyEstado.map((item) => (
+                <option value={item.value} label={item.label}>
+                  {item.value}
+                </option>
+              ))}
+            </select>
+          </div>
           {/* <input
           type="text"
           name="ubicacionDetallada"

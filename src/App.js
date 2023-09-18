@@ -135,7 +135,7 @@ const App = () => {
           </Route>
         <Route exact path='/' element={<Home />} />
             <Route element={<Layout />}>
-              <Route path='/ventas' element={<Ventas />} /> 
+              <Route path='/selling' element={<Ventas />} /> 
               <Route path="/home/search/search-results" element={<SearchResultsCard />} />
               <Route path="/home/verified-adviser/my-property-list" element={<MyPropertyList />} />
               <Route path="/home/search/selling-house-apartment" element={<VentaCasaApartamento />} />
@@ -151,7 +151,7 @@ const App = () => {
               <Route path="/home/search/selling-office" element={<VentaOficinas />} />
               <Route path="/home/search/rent-office" element={<AlquilerOficinas />} />
               <Route path="/home/portfolio/share-portfolio/:id" element={<PortafolioShare />} />
-              <Route path='/alquiler' element={<Alquileres />} />
+              <Route path='/renting' element={<Alquileres />} />
               <Route path="/user/evaluating" element={<Evaluating />} />
               <Route path="/user/sent-request" element={<SentRequest />} />
               <Route path="/user/access-denied" element={<AccessDenied />} />
