@@ -146,103 +146,105 @@ const PropertiesPending = () => {
         <div className="flex w-full justify-center flex-wrap mb-4">
           {visibleRecords.map((row) => (
             <div className="w-[340px] flex flex-col justify-between my-2 p-4 mx-1 bg-white border border-gray-300 rounded-lg shadow">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-lg font-bold leading-none text-gray-900 ">
-                  Detalles del inmueble
-                </span>
-                <span className="font-semibold text-blue-700 text-xs">
-                  {row.attributes.moneda
-                    ? row.attributes.moneda
-                    : row.attributes.monedaAlquiler}
-                  {row.attributes.precio
-                    ? row.attributes.precio
-                    : row.attributes.precioAlquiler}
-                </span>
-              </div>
-              <hr />
-              <div className="flow-root w-full flex-wrap">
-                <ul className="divide-y divide-gray-200">
-                  <li className="py-3 sm:py-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center mb-2 -mt-4 bg-blue-300 w-fit px-2 py-0.5 rounded-md flex-row">
-                          <p className="text-sm font-medium  text-gray-900 truncate">
-                            {row.attributes.uniqueId}
-                          </p>
-                        </div>
-                        <div className="flex items-center mb-4 flex-row">
-                          <BiCategory size={25} />
-                          <p className="text-sm font-medium  text-gray-900 truncate">
-                            {
-                              row.attributes.categories.data[0]?.attributes
-                                .nombre
-                            }
-                          </p>
-                        </div>
-                        <hr />
-                        <div className="flex items-center mt-1 mb-2 flex-row">
-                          <BiHomeAlt size={20} />
-                          <p className="text-sm mt-1 text-gray-900 truncate">
-                            {row.attributes.tipoPropiedad}
-                          </p>
-                        </div>
-                        <hr />
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-lg font-bold leading-none text-gray-900 ">
+                    Detalles del inmueble
+                  </span>
+                  <span className="font-semibold text-blue-700 text-xs">
+                    {row.attributes.moneda
+                      ? row.attributes.moneda
+                      : row.attributes.monedaAlquiler}
+                    {row.attributes.precio
+                      ? row.attributes.precio
+                      : row.attributes.precioAlquiler}
+                  </span>
+                </div>
+                <hr />
+                <div className="flow-root w-full flex-wrap">
+                  <ul className="divide-y divide-gray-200">
+                    <li className="py-3 sm:py-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center mb-2 -mt-4 bg-blue-300 w-fit px-2 py-0.5 rounded-md flex-row">
+                            <p className="text-sm font-medium  text-gray-900 truncate">
+                              {row.attributes.uniqueId}
+                            </p>
+                          </div>
+                          <div className="flex items-center mb-4 flex-row">
+                            <BiCategory size={25} />
+                            <p className="text-sm font-medium  text-gray-900 truncate">
+                              {
+                                row.attributes.categories.data[0]?.attributes
+                                  .nombre
+                              }
+                            </p>
+                          </div>
+                          <hr />
+                          <div className="flex items-center mt-1 mb-2 flex-row">
+                            <BiHomeAlt size={20} />
+                            <p className="text-sm mt-1 text-gray-900 truncate">
+                              {row.attributes.tipoPropiedad}
+                            </p>
+                          </div>
+                          <hr />
 
-                        <div className="flex my-2 flex-row">
-                          <span className="ml-[2px]">
-                            <BiCurrentLocation size={20} />
-                          </span>
-                          <p className="text-sm text-gray-500 truncate">
-                            {row.attributes.provincia}
-                          </p>
+                          <div className="flex my-2 flex-row">
+                            <span className="ml-[2px]">
+                              <BiCurrentLocation size={20} />
+                            </span>
+                            <p className="text-sm text-gray-500 truncate">
+                              {row.attributes.provincia}
+                            </p>
+                          </div>
+                          <hr />
+                          <div className="flex my-2 flex-row">
+                            <span className="ml-[2px]">
+                              <BiMap size={20} />
+                            </span>
+                            <p className="text-sm text-gray-500 truncate">
+                              {row.attributes.canton}
+                            </p>
+                          </div>
+                          <hr />
+                          <div className="flex my-2 flex-row">
+                            <span className="ml-[2px]">
+                              <BiBuildingHouse size={20} />
+                            </span>
+                            <p className="text-sm text-gray-500 truncate">
+                              {row.attributes.distrito}
+                            </p>
+                          </div>
+                          <hr />
+                          <div
+                            className={
+                              row.attributes.habitaciones
+                                ? "flex my-2 flex-row"
+                                : "hidden"
+                            }
+                          >
+                            <span className="ml-[2px]">
+                              <BiHotel size={20} />
+                            </span>
+                            <p className="text-sm text-gray-500 truncate">
+                              {row.attributes?.habitaciones} habitaciones
+                            </p>
+                          </div>
+                          <hr />
+                          <div className="flex my-2 flex-row">
+                            <span className="ml-[2px]">
+                              <BiArea size={20} />
+                            </span>
+                            <p className="text-sm text-gray-500 truncate">
+                              {row.attributes.areaTerreno} m<sup>2</sup>
+                            </p>
+                          </div>
+                          <hr />
                         </div>
-                        <hr />
-                        <div className="flex my-2 flex-row">
-                          <span className="ml-[2px]">
-                            <BiMap size={20} />
-                          </span>
-                          <p className="text-sm text-gray-500 truncate">
-                            {row.attributes.canton}
-                          </p>
-                        </div>
-                        <hr />
-                        <div className="flex my-2 flex-row">
-                          <span className="ml-[2px]">
-                            <BiBuildingHouse size={20} />
-                          </span>
-                          <p className="text-sm text-gray-500 truncate">
-                            {row.attributes.distrito}
-                          </p>
-                        </div>
-                        <hr />
-                        <div
-                          className={
-                            row.attributes.habitaciones
-                              ? "flex my-2 flex-row"
-                              : "hidden"
-                          }
-                        >
-                          <span className="ml-[2px]">
-                            <BiHotel size={20} />
-                          </span>
-                          <p className="text-sm text-gray-500 truncate">
-                            {row.attributes?.habitaciones} habitaciones
-                          </p>
-                        </div>
-                        <hr />
-                        <div className="flex my-2 flex-row">
-                          <span className="ml-[2px]">
-                            <BiArea size={20} />
-                          </span>
-                          <p className="text-sm text-gray-500 truncate">
-                            {row.attributes.areaTerreno} m<sup>2</sup>
-                          </p>
-                        </div>
-                        <hr />
                       </div>
-                    </div>
-                  </li>
-                </ul>
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div className="flex items-center justify-center mt-2 space-x-4">
                 <div className="mt-2 flex justify-center flex-row">
