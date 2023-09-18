@@ -620,7 +620,7 @@ const InsertProperty = () => {
             hidden={selectedOption === ""}
             name="uniqueId"
             placeholder="Código de propiedad"
-            className="input-admin-property uniqueId-input text-gray-500 max-[400px]:ml-2 ml-1 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property border-1 bg-blue-700 text-white placeholder:text-gray-300 max-[400px]:ml-2 ml-1 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
           <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.uniqueId && touched.uniqueId ? (
