@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import {
+  BiAward,
   BiBuilding,
   BiCheckboxChecked,
   BiMailSend,
@@ -247,6 +248,17 @@ const UsersDesact = () => {
                             {row?.mobile}
                           </p>
                         </div>
+                        <hr />
+                        {row?.certifications ? (
+                          <div className="flex my-2 flex-row">
+                            <span className="ml-[2px]">
+                              <BiAward size={20} />
+                            </span>
+                            <p className="text-sm text-gray-500 truncate">
+                              {row?.certifications}
+                            </p>
+                          </div>
+                        ) : null}
                         <hr />
                         <div className="flex my-2 flex-row">
                           <span className="ml-[2px]">

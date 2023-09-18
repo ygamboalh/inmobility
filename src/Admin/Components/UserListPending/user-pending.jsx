@@ -12,6 +12,7 @@ import {
   BiPhone,
   BiSearch,
   BiUser,
+  BiAward,
 } from "react-icons/bi";
 
 import { API } from "../../../constant";
@@ -234,6 +235,17 @@ const UsersPending = () => {
                             {row?.mobile}
                           </p>
                         </div>
+                        <hr />
+                        {row?.certifications ? (
+                          <div className="flex my-2 flex-row">
+                            <span className="ml-[2px]">
+                              <BiAward size={20} />
+                            </span>
+                            <p className="text-sm text-gray-500 truncate">
+                              {row?.certifications}
+                            </p>
+                          </div>
+                        ) : null}
                         <hr />
                         <div className="flex my-2 flex-row">
                           <span className="ml-[2px]">
