@@ -28,7 +28,6 @@ import {
   UbicacionGeografica,
 } from "../../BD/bd";
 const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
-  console.log(onDataReceived);
   const [selectedOption, setSelectedOption] = useState([]);
   const [records, setRecords] = useState([]);
   const [dataToSend, setDataToSend] = useState();
@@ -133,7 +132,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
       if (urlFinal.length !== 0) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[categories][id][$eq]=${categoria}${urlQuery}`;
-
+        console.log(url);
         const busqueda = axios
           .get(url, {
             headers: {
@@ -170,10 +169,11 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
     return <MySpinner />;
   }
 
+  console.log(selectedOption);
   if (!isVisible) return null;
   return (
     <div className="fixed z-10 inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
-      {!categoria ? (
+      {!category ? (
         <MySpinner />
       ) : (
         <div className="flex flex-col mx-4">
