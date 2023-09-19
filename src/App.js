@@ -90,8 +90,6 @@ const App = () => {
             <Route exact path="/properties/edit-property/:id" element={<InsertProperty />} />
             <Route path="/home/portfolio/:id" element={<Portafolio />} />
             <Route path="/user/logout" element={<Logout />} />
-            <Route exact path="/home/shared-property/:id" element={<SearchCard />} />
-            
             
             </Route>
           <Route element={<PublicRoutes />}>

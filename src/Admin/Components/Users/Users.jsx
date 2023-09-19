@@ -77,7 +77,7 @@ const Users = () => {
               <option className="" value="Supervisores">
                 Supervisores
               </option>
-              <option className="" value="Freelancer">
+              <option className="" value="Freelancers">
                 Freelancer
               </option>
             </select>

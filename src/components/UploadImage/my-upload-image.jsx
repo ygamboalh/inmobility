@@ -7,6 +7,7 @@ import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 import { API } from "../../constant";
 import MetaData from "../Metadata/metadata";
+import { message } from "antd";
 
 const LoadImage = () => {
   const { data: userData } = useQuery("profile", authUserData);
@@ -43,7 +44,15 @@ const LoadImage = () => {
         Authorization: `Bearer ${getToken()}`,
       },
       data,
-    });
+    })
+      .then((res) => {
+        message.success("La imagen de perfil fue actualizada");
+      })
+      .catch((error) => {
+        message.error(
+          "Ocurrió un error y la imagen de perfil no fue actualizada"
+        );
+      });
   };
 
   return (
@@ -94,7 +103,13 @@ const LoadImage = () => {
               onChange={handleChange}
             />
           </label>
-          <button className="mt-4 text-l mr-2 py-2 px-4 rounded bg-green-400 text-white">
+          <button
+            className={
+              image
+                ? "mt-4 text-l mr-2 py-2 px-4 rounded bg-green-400 text-white"
+                : "hidden"
+            }
+          >
             Actualizar
           </button>
         </div>

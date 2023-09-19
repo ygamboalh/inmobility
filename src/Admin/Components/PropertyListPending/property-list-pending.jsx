@@ -3,7 +3,7 @@ import PropertiesPending from "./properties-pending";
 
 const PropertyListPending = () => {
   return (
-    <div className="overflow-x-auto mx-10 shadow-md sm:rounded-lg">
+    <div className="z-0 overflow-x-auto mx-2 shadow-md sm:rounded-lg">
       <MetaData
         title="Propiedades pendientes"
         description="Propiedades pendientes"

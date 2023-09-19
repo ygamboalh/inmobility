@@ -31,7 +31,6 @@ const AlquilerBodegas = () => {
     initialValues: {},
     onSubmit: (values) => {
       setIsLoading(true);
-
       const urlPortion = makeQueries(values);
 
       let urlFinal = "";
@@ -124,7 +123,7 @@ const AlquilerBodegas = () => {
           <select
             value={values.tipoPropiedad}
             onChange={handleChange}
-            name="tipoBodega"
+            name="tipoPropiedad"
             className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
           >
             <option value="" label="">

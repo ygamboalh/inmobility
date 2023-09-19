@@ -646,7 +646,7 @@ const InsertProperty = () => {
             onChange={handleHouseProperty}
             defaultValue={property?.tipoPropiedad}
             placeholder="Tipo de propiedad"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Tipo de inmueble"}
@@ -675,7 +675,7 @@ const InsertProperty = () => {
               selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
             }
             defaultValue={property?.tipoVivienda}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Tipo de vivienda"}
@@ -704,7 +704,7 @@ const InsertProperty = () => {
             onChange={handleBodegasProperty}
             name="tipoBodega"
             defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Tipo de inmueble ( Bodega )"}
@@ -732,7 +732,7 @@ const InsertProperty = () => {
             onChange={handleFincaProperty}
             name="tipoLote"
             defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Tipo de inmueble ( Lotes )"}
@@ -761,7 +761,7 @@ const InsertProperty = () => {
             onChange={handleOficinasProperty}
             name="tipoOficina"
             defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Tipo de inmueble ( Oficina )"}
@@ -794,7 +794,7 @@ const InsertProperty = () => {
               selectedOption === "Alquiler de Oficinas o Consultorios Médicos"
             }
             defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Tipo de inmueble ( Locales Comerciales )"}
@@ -824,7 +824,7 @@ const InsertProperty = () => {
             }
             onChange={handleEdificioProperty}
             defaultValue={property?.tipoPropiedad}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Tipo de inmueble ( Edificio )"}
@@ -841,7 +841,7 @@ const InsertProperty = () => {
             name="provincia"
             onChange={handleChange}
             selectedOption={property?.provincia}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Provincia"}
@@ -865,7 +865,7 @@ const InsertProperty = () => {
             hidden={selectedOption === ""}
             name="canton"
             placeholder="Cantón"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
           <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.canton && touched.canton ? (
@@ -879,7 +879,7 @@ const InsertProperty = () => {
             name="distrito"
             defaultValue={property?.distrito}
             placeholder="Distrito"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
           <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.distrito && touched.distrito ? (
@@ -893,7 +893,7 @@ const InsertProperty = () => {
             defaultValue={property?.ubicacionCastral}
             onChange={handleChange}
             placeholder="Ubicación castral"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Ubicación catastral"}
@@ -912,7 +912,7 @@ const InsertProperty = () => {
             defaultValue={property?.ubicacionDemografica}
             onChange={handleChange}
             placeholder="Ubicación demográfica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Ubicación demográfica"}
@@ -931,7 +931,7 @@ const InsertProperty = () => {
             onChange={handleChange}
             id="ubicacionGeografica"
             placeholder="Ubicación geográfica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Ubicación geográfica"}
@@ -946,7 +946,7 @@ const InsertProperty = () => {
             name="usoDeSuelo"
             defaultValue={property?.usoDeSuelo}
             onChange={handleChange}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
             hidden={selectedOption === ""}
           >
             <option value="" label="">
@@ -1112,7 +1112,7 @@ const InsertProperty = () => {
             defaultValue={property?.tieneCuotaMantenimiento}
             onChange={handleChange}
             placeholder="¿Tiene cuota mantenimiento?"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"¿Tiene cuota de mantenimiento?"}
@@ -1158,7 +1158,7 @@ const InsertProperty = () => {
             defaultValue={property?.tomadaExclusividad}
             onChange={handleChange}
             placeholder="Tomada con exclusividad"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"¿Tomada con exclusividad?"}
@@ -1177,7 +1177,7 @@ const InsertProperty = () => {
             defaultValue={property?.vistaPanoramica}
             onChange={handleChange}
             placeholder="Vista Panorámica"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 "
           >
             <option value="" label="">
               {"¿Tiene vista panorámica?"}
@@ -1205,7 +1205,7 @@ const InsertProperty = () => {
             defaultValue={property?.duenoFinanciaCompra}
             onChange={handleChange}
             placeholder="Dueño financia compra"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"¿Dueño financia compra?"}
@@ -1233,7 +1233,7 @@ const InsertProperty = () => {
             defaultValue={property?.duenoRecibeVehiculo}
             onChange={handleChange}
             placeholder="Dueño recibe vehiculo"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"¿Dueño recibe vehiculo como parte del pago?"}
@@ -1262,7 +1262,7 @@ const InsertProperty = () => {
               selectedOption === "Venta de Casas y Apartamentos" ||
               selectedOption === ""
             }
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Tipo de densidad"}
@@ -1283,7 +1283,7 @@ const InsertProperty = () => {
             onChange={handleChange}
             defaultValue={property?.tipoPiso}
             placeholder="Tipo de piso"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Tipo de piso"}
@@ -1309,7 +1309,7 @@ const InsertProperty = () => {
             max={10000}
             placeholder="Área perimetral del inmueble"
             hidden={selectedOption === ""}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
 
           <input
@@ -1319,7 +1319,7 @@ const InsertProperty = () => {
             onChange={handleChange}
             defaultValue={property?.areaTerreno}
             placeholder="Área total del terreno"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
           <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
             {errors.areaTerreno && touched.areaTerreno ? (
@@ -1344,7 +1344,7 @@ const InsertProperty = () => {
             placeholder="Metros cuadrados construidos"
             onChange={handleChange}
             max={100000}
-            className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500  m-2 w-80 p-2"
           />
           {/* <div className="space mb-2.5">
             {errors.areaContruccion && touched.areaContruccion ? (
@@ -1374,7 +1374,7 @@ const InsertProperty = () => {
             defaultValue={property?.areaPlantas}
             onChange={handleChange}
             placeholder="Área por plantas"
-            className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500  m-2 w-80 p-2"
           />
           {/*  <div className="space mb-2.5">
             {errors.areaPlantas && touched.areaPlantas ? (
@@ -1405,7 +1405,7 @@ const InsertProperty = () => {
               selectedOption === "Venta de Casas y Apartamentos" ||
               selectedOption === ""
             }
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
           {/* <div className="space mb-2.5">
             {errors.areaBodega && touched.areaBodega ? (
@@ -1434,7 +1434,7 @@ const InsertProperty = () => {
             defaultValue={property?.areaMesanini}
             onChange={handleChange}
             placeholder="Área mezanine"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
           {/*  <div className="space mb-2.5">
             {errors.areaMesanini && touched.areaMesanini ? (
@@ -1463,7 +1463,7 @@ const InsertProperty = () => {
             defaultValue={property?.areaSotano}
             onChange={handleChange}
             placeholder="Área sótano"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
           {/* <div className="space mb-2.5">
             {errors.areaSotano && touched.areaSotano ? (
@@ -1490,7 +1490,7 @@ const InsertProperty = () => {
             name="cochera"
             defaultValue={property?.cochera}
             onChange={handleChange}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Cochera"}
@@ -1575,7 +1575,7 @@ const InsertProperty = () => {
             onChange={handleChange}
             placeholder="Amueblado"
             hidden={selectedOption !== "Alquiler de Casas y Apartamentos"}
-            className="input-admin-property text-gray-500  m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500  m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Amueblado"}
@@ -1612,7 +1612,7 @@ const InsertProperty = () => {
             onChange={handleChange}
             id="aptoHijos"
             placeholder="Apto hijos"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Apto hijos"}
@@ -1641,7 +1641,7 @@ const InsertProperty = () => {
             defaultValue={property?.parqueo}
             id="parqueo"
             onChange={handleChange}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Parqueo"}
@@ -1678,7 +1678,7 @@ const InsertProperty = () => {
             onChange={handleChange}
             id="aptoMascotas"
             placeholder="Apto mascotas"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Apto mascotas"}
@@ -1799,7 +1799,7 @@ const InsertProperty = () => {
             onChange={handleChange}
             name="servicios"
             hidden={selectedOption === ""}
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
           >
             <option value="" label="">
               {"Servicios"}
@@ -1953,7 +1953,7 @@ const InsertProperty = () => {
               options={Amenidades}
               placeholder={"Amenidades"}
               isMulti
-              className="categories lg:mx-80 mb-2 mt-1"
+              className="categories lg:mx-80 mb-3.5 max-[450px]:w-[323px] max-[450px]:mx-auto mt-1"
               onChange={handleChangeAmenidades}
             />
           </div>
@@ -1979,7 +1979,7 @@ const InsertProperty = () => {
             <Select
               noOptionsMessage={() => null}
               closeMenuOnSelect={false}
-              className="categories lg:mx-80 mb-2 my-1"
+              className="categories lg:mx-80 mb-3.5 max-[450px]:w-[323px] max-[450px]:mx-auto my-2 mt-1"
               name="jardinPatio"
               defaultValue={property?.jardinPatio}
               options={PatioJardin}
@@ -2013,7 +2013,7 @@ const InsertProperty = () => {
             }
           >
             <Select
-              className="categories lg:mx-80 mb-2 mt-1"
+              className="categories lg:mx-80 mb-3.5 max-[450px]:w-[323px] max-[450px]:mx-auto mt-1"
               name="detallesInternos"
               noOptionsMessage={() => null}
               closeMenuOnSelect={false}
@@ -2049,7 +2049,7 @@ const InsertProperty = () => {
             }
           >
             <Select
-              className="categories lg:mx-80 mb-2 mt-1"
+              className="categories lg:mx-80 mb-2 max-[450px]:w-[323px] max-[450px]:mx-auto mt-1"
               name="detallesExternos"
               noOptionsMessage={() => null}
               closeMenuOnSelect={false}
@@ -2072,7 +2072,7 @@ const InsertProperty = () => {
               defaultValue={property?.ubicacionDetallada}
               onChange={handleChange}
               placeholder="Ubicación exacta"
-              className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
+              className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full m-2 p-2"
             />
           </div>
           <div className="flex justify-center w-full mb-0">
@@ -2082,7 +2082,7 @@ const InsertProperty = () => {
               defaultValue={property?.ubicacionCercana}
               onChange={handleChange}
               placeholder="Ubicación cercana"
-              className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
+              className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full m-2 p-2"
             />
           </div>
           <div className="flex justify-center w-full mb-2">
@@ -2092,7 +2092,7 @@ const InsertProperty = () => {
               defaultValue={property?.descripcion}
               onChange={handleChange}
               placeholder="Descripción de la propiedad"
-              className="input-admin-property mx-12 m-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2"
+              className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full m-2 p-2"
             />
           </div>
           <div className="flex justify-center items-center w-full">
@@ -2103,7 +2103,7 @@ const InsertProperty = () => {
               id="active"
               hidden={selectedOption === ""}
               placeholder="Subir a la lista de:"
-              className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+              className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full p-2"
             >
               <option value="" label="">
                 {"Estado"}

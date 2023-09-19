@@ -28,6 +28,7 @@ import {
   UbicacionGeografica,
 } from "../../BD/bd";
 const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
+  console.log(onDataReceived);
   const [selectedOption, setSelectedOption] = useState([]);
   const [records, setRecords] = useState([]);
   const [dataToSend, setDataToSend] = useState();
@@ -123,7 +124,6 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
        Se tiene que realizar la busqueda y luego filtrar por esos valores si se pasaron, fijarse en el archivo de busqueda
         venta-casa-apartamento
        */
-
       setIsLoading(true);
       const urlPortion = makeQueries(values);
       let urlFinal = "";

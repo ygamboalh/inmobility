@@ -26,7 +26,7 @@ const VisiterUserInfo = () => {
   const forcedLogOut = () => {
     const token = getUserTokenDate();
     const currentDate = new Date();
-    const currentDateString = currentDate?.toISOString().split("T")[0];
+    const currentDateString = currentDate.toISOString().split("T")[0];
     const currentTimeString = currentDate
       .toISOString()
       .split("T")[1]
@@ -42,7 +42,6 @@ const VisiterUserInfo = () => {
       })
         .then((res) => {
           signOut();
-          //return res;
           window.location.reload(true);
         })
         .catch((err) => {
@@ -50,8 +49,16 @@ const VisiterUserInfo = () => {
         });
     } else {
       if (currentDateString !== fecha && (result <= -4 || result >= 4)) {
-        signOut();
-        window.location.reload(true);
+        const response = AxiosInstance.put(`/users/${id}`, {
+          isLoggedIn: false,
+        })
+          .then((res) => {
+            signOut();
+            window.location.reload(true);
+          })
+          .catch((err) => {
+            return err;
+          });
       }
     }
   };

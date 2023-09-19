@@ -28,6 +28,7 @@ import MetaData from "../Metadata/metadata";
 export const PortafolioDetail = () => {
   const { data: userData } = useQuery("profile", authUserData);
   const location = useLocation();
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [pending, setPending] = useState(true);

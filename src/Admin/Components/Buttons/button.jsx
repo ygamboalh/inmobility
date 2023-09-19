@@ -216,7 +216,7 @@ const Button = () => {
                 {selectedRows.length === 0 ? (
                   <div className="mx-2 max-[800px]:flex max-[800px]:justify-center">
                     <button
-                      className="px-4 py-2 bg-green-400 rounded-md text-white hover:bg-green-500"
+                      className="px-6 py-3 bg-green-400 rounded-md text-white hover:bg-green-500"
                       type="submit"
                     >
                       Crear

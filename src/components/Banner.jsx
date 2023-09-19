@@ -52,7 +52,7 @@ const Banner = () => {
           className="border flex flex-col py-14 justify-center align-middle lg:p-20 lg:w-full shadow-1 hover:shadow-2xl rounded-lg bg-primary"
         >
           <div className="px-2">
-            <h1>Alquileres de Inmuebles</h1>
+            <h1>Buscar Alquileres de Inmuebles</h1>
           </div>
           <div>
             <label className="font-thin">

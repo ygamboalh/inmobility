@@ -119,7 +119,7 @@ const AlquilerOficinas = () => {
           <select
             value={values.tipoPropiedad}
             onChange={handleChange}
-            name="tipoOficina"
+            name="tipoPropiedad"
             className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
           >
             <option value="" label="">

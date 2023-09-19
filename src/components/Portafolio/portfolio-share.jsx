@@ -39,13 +39,13 @@ const PortafolioShare = () => {
         title="Compartir portafolio"
         description="Compartir portafolio"
       />
-      <div className="mx-8">
-        <span className="font-semibold">
+      <div className="mx-8 my-4">
+        <span className="font-semibold ">
           ¡Saludos! Estimado {portafolio.attributes.clienteComprador}
         </span>
       </div>
       <div className="mx-8 mb-3">
-        <span>
+        <span className="leading-loose">
           Los inmuebles que le presento a continuación son aquellos que con base
           en sus requerimientos y presupuesto; considero que podrían
           interesarle. Le sugerimos ver cada uno de ellos y clasificar aquellos

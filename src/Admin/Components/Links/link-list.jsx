@@ -228,7 +228,7 @@ const LinkList = () => {
                     <div className="w-full max-[800px]:mb-2 flex min-[800px]:mr-2">
                       <input
                         type="text"
-                        className="border w-full shadow flex border-gray-300 text-xs rounded-md"
+                        className="border w-full h-10 shadow flex border-gray-300 text-xs rounded-md"
                         placeholder="Descripción del botón"
                         name="descripcion"
                         maxLength={40}
@@ -249,7 +249,7 @@ const LinkList = () => {
                     <div className="flex w-full max-[800px]:mb-2">
                       <input
                         type="text"
-                        className="border shadow border-gray-300 text-xs rounded-md w-full"
+                        className="border shadow h-10 border-gray-300 text-xs rounded-md w-full"
                         placeholder="Dirección del enlace"
                         onChange={handleChange}
                         defaultValue={

@@ -119,7 +119,7 @@ const AlquileraLocalesComerciales = () => {
 
         <div className="flex flex-wrap justify-center m-3">
           <select
-            name="tipoLocal"
+            name="tipoPropiedad"
             value={values.tipoPropiedad}
             onChange={handleChange}
             className="input-admin-property text-gray-500 m-2 w-[323px] p-2"

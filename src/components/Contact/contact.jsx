@@ -73,7 +73,7 @@ const Contact = () => {
         enviarCorreoComunOrigen(adviser.email, body, "Cliente interesado");
         createNotification(
           "Correo electrónico recibido",
-          `Se ha enviado un nuevo correo electrónico a través de ficha de contacto.`,
+          `Se ha enviado un nuevo correo electrónico a través de la ficha de contacto.Remitente: ${values.email}`,
           null,
           adviser.email
         );

@@ -47,8 +47,16 @@ const Welcome = () => {
         });
     } else {
       if (currentDateString !== fecha && (result <= -4 || result >= 4)) {
-        signOut();
-        window.location.reload(true);
+        const response = AxiosInstance.put(`/users/${userData?.id}`, {
+          isLoggedIn: false,
+        })
+          .then((res) => {
+            signOut();
+            window.location.reload(true);
+          })
+          .catch((err) => {
+            return err;
+          });
       }
     }
   };

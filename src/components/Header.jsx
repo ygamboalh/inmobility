@@ -96,8 +96,8 @@ const Header = () => {
             {link === "None" && <NoneUser />}
           </div>
         ) : (
-          <div>
-            <div className="flex flex-row justify-end items-end">
+          <div className="transition-opacity duration-900 ease-in-out">
+            <div className="flex flex-row justify-end items-end transition-opacity duration-900 ease-in-out ">
               {link === "Asesor verificado" && <UserInfo />}
               {link === "Solicitante" && <VisiterUserInfo />}
               {link === "Super Administrador" && (
