@@ -80,13 +80,11 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             propertyFound = response.data.data.attributes;
             imagesCount = response.data.data.attributes.photos;
             setPdfUrl(
-              `https://sistemacic.com/home/shared-property/${propertyFound?.uniqueId?.toLowerCase()}`
+              `https://sistemacic.com/home/shared-property/${propertyFound?.uniqueId}`
             );
             getAdviser(propertyFound.creadoPor);
             setProperty(propertyFound);
-            propertyFound?.tomadaExclusividad
-              ? setAddress(propertyFound.ubicacionDetallada)
-              : setAddress(propertyFound.ubicacionCercana);
+            setAddress(propertyFound.ubicacionDetallada);
             const imagesUrl = [];
             imagesCount?.data?.forEach((image) => {
               imagesUrl.push(image.attributes.url);
@@ -135,15 +133,13 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
         propertyFound = response.data.data.attributes;
         imagesCount = response.data.data.attributes.photos;
         setPdfUrl(
-          `https://sistemacic.com/home/shared-property/${propertyFound?.uniqueId?.toLowerCase()}`
+          `https://sistemacic.com/home/shared-property/${propertyFound?.uniqueId}`
         );
         const audio = propertyFound?.audio?.data?.attributes?.url;
         setAudio(`https://backend.sistemacic.com${audio}`);
         setAdviserId(propertyFound.creadoPor);
         getAdviser(propertyFound.creadoPor);
-        propertyFound?.tomadaExclusividad
-          ? setAddress(propertyFound.ubicacionDetallada)
-          : setAddress(propertyFound.ubicacionCercana);
+        setAddress(propertyFound.ubicacionDetallada);
         setProperty(propertyFound);
         setIsLoading(false);
         const imagesUrl = [];

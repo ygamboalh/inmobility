@@ -36,8 +36,8 @@ const VisiterUserInfo = () => {
     const horaCreado = deleteZero(hora?.slice(0, 2));
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
     const result = horaActual - horaCreado;
-    if (currentDateString === fecha && horaActual >= horaCreado) {
-      const response = AxiosInstance.put(`/users/${id}`, {
+    if (currentDateString === fecha && result >= 3) {
+      const response = AxiosInstance.put(`/users/${userData?.id}`, {
         isLoggedIn: false,
       })
         .then((res) => {
@@ -63,7 +63,10 @@ const VisiterUserInfo = () => {
     }
   };
   useEffect(() => {
-    forcedLogOut();
+    const id = userData?.id;
+    if (id) {
+      forcedLogOut();
+    }
   });
 
   const loginOut = () => {

@@ -61,7 +61,12 @@ const SignIn = () => {
       });
     },
   });
-
+  useEffect(() => {
+    const id = userData?.id;
+    if (id) {
+      forcedLogOut();
+    }
+  }, []);
   const forcedLogOut = () => {
     const token = getUserTokenDate();
     const currentDate = new Date();
@@ -75,7 +80,7 @@ const SignIn = () => {
     const horaCreado = deleteZero(hora?.slice(0, 2));
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
     const result = horaActual - horaCreado;
-    if (currentDateString === fecha && horaActual >= horaCreado) {
+    if (currentDateString === fecha && result >= 3) {
       const response = AxiosInstance.put(`/users/${userData?.id}`, {
         isLoggedIn: false,
       })
@@ -87,7 +92,7 @@ const SignIn = () => {
           return err;
         });
     } else {
-      if (currentDateString !== fecha && (result <= -4 || result >= 4)) {
+      if (currentDateString !== fecha && (result <= -3 || result >= 3)) {
         const response = AxiosInstance.put(`/users/${userData?.id}`, {
           isLoggedIn: false,
         })
@@ -101,10 +106,6 @@ const SignIn = () => {
       }
     }
   };
-
-  useEffect(() => {
-    forcedLogOut();
-  });
 
   if (isLoading) {
     return <MySpinner />;

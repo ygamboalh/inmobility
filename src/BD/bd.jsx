@@ -1,9 +1,9 @@
 export const CategoriaInmueble = [
-  { key: "Casas y Apartamentos", value: "Casas y Apartamentos" },
-  { key: "Lotes Fincas y Terrenos", value: "Lotes Fincas y Terrenos" },
-  { key: "Locales Comerciales", value: "Locales Comerciales" },
-  { key: "Edificios", value: "Edificios" },
   { key: "Bodegas y similares", value: "Bodegas y similares" },
+  { key: "Casas y Apartamentos", value: "Casas y Apartamentos" },
+  { key: "Edificios", value: "Edificios" },
+  { key: "Locales Comerciales", value: "Locales Comerciales" },
+  { key: "Lotes Fincas y Terrenos", value: "Lotes Fincas y Terrenos" },
   {
     key: "Oficinas y Consultorios médicos",
     value: "Oficinas y Consultorios médicos",
@@ -30,28 +30,28 @@ export const Provincia = [
     label: "Alajuela",
   },
   { value: "Cartago", label: "Cartago" },
+  { value: "Guanacaste", label: "Guanacaste" },
   { value: "Heredia", label: "Heredia" },
   { value: "Limón", label: "Limón" },
-  { value: "San José", label: "San José" },
-  { value: "Guanacaste", label: "Guanacaste" },
   { value: "Puntarenas", label: "Puntarenas" },
+  { value: "San José", label: "San José" },
 ];
 export const Oficina = [
   {
-    value: "Oficina independiente",
-    label: "Oficina independiente",
-  },
-  {
-    value: "Oficina en edificio de oficinas (Oficentro)",
-    label: "Oficina en edificio de oficinas (Oficentro)",
+    value: "Consultorio con torre médica",
+    label: "Consultorio torre médica",
   },
   {
     value: "Consultorio Médico",
     label: "Consultorio Médico",
   },
   {
-    value: "Consultorio con torre médica",
-    label: "Consultorio torre médica",
+    value: "Oficina en edificio de oficinas (Oficentro)",
+    label: "Oficina en edificio de oficinas (Oficentro)",
+  },
+  {
+    value: "Oficina independiente",
+    label: "Oficina independiente",
   },
 ];
 
@@ -80,12 +80,15 @@ export const Bodega = [
 ];
 
 export const UsoSuelo = [
+  { value: "Agrícola", label: "Agrícola" },
   { value: "Comercial", label: "Comercial" },
   {
     value: "Dentro de área de conservación",
     label: "Dentro de área de conservación",
   },
   { value: "Habitacional", label: "Habitacional" },
+  { value: "Habitacional unifamiliar", label: "Habitacional unifamiliar" },
+  { value: "Industrial", label: "Industrial" },
   {
     value: "Mixto (Comercial y habitacional)",
     label: "Mixto (Comercial y habitacional)",
@@ -94,16 +97,13 @@ export const UsoSuelo = [
     value: "Mixto (Industrial y Comercial)",
     label: "Mixto (Industrial y Comercial)",
   },
-  { value: "Habitacional unifamiliar", label: "Habitacional unifamiliar" },
-  { value: "Industrial", label: "Industrial" },
-  { value: "Residencial unifamiliar", label: "Residencial unifamiliar" },
-  { value: "Residencial multifamiliar", label: "Residencial multifamiliar" },
-  { value: "Agrícola", label: "Agrícola" },
+  { value: "Otro", label: "Otro" },
   { value: "Recreativo", label: "Recreativo" },
+  { value: "Residencial multifamiliar", label: "Residencial multifamiliar" },
+  { value: "Residencial unifamiliar", label: "Residencial unifamiliar" },
+  { value: "Tipo C", label: "Tipo C" },
   { value: "Zona H8", label: "Zona H8" },
   { value: "Zona H6", label: "Zona H6" },
-  { value: "Tipo C", label: "Tipo C" },
-  { value: "Otro", label: "Otro" },
 ];
 export const Servicios = [
   { value: "Tiene todos los servicios", label: "Tiene todos los servicios" },
@@ -118,12 +118,12 @@ export const Servicios = [
   { value: "Únicamente alcantarillado", label: "Únicamente alcantarillado" },
 ];
 export const Edificio = [
+  { value: "Edificio", label: "Edificio" },
   { value: "Edificio de apartamentos", label: "Edificio de apartamentos" },
   {
     value: "Edificio de oficinas y locales comerciales",
     label: "Edificio de oficinas y locales comerciales",
   },
-  { value: "Edificio", label: "Edificio" },
 ];
 
 export const CuotaMantenimiento = [
@@ -141,20 +141,13 @@ export const CuotaMantenimiento = [
   },
 ];
 export const Densidad = [
-  { value: "No aplica", label: "No aplica" },
-  { value: "Sin especificar", label: "Sin especificar" },
+  { value: "Alta densidad", label: "Alta densidad" },
   { value: "Baja densidad", label: "Baja densidad" },
   { value: "Mediana densidad", label: "Mediana densidad" },
-  { value: "Alta densidad", label: "Alta densidad" },
+  { value: "No aplica", label: "No aplica" },
+  { value: "Sin especificar", label: "Sin especificar" },
 ];
 export const Cochera = [
-  { value: "Parqueo solo para 1 moto", label: "Parqueo solo para 1 moto" },
-  { value: "Parqueo solo para 2 motos", label: "Parqueo solo para 2 motos" },
-  { value: "1 Parqueo destechado", label: "1 Parqueo destechado" },
-  { value: "2 Parqueos destechados", label: "2 Parqueos destechados" },
-  { value: "Parqueos destechados", label: "3 Parqueos destechados" },
-  { value: "4 Parqueos destechados", label: "4 Parqueos destechados" },
-  { value: "5 Parqueos destechados", label: "5 Parqueos destechados" },
   { value: "1 Espacio en Cochera", label: "1 Espacio en Cochera" },
   { value: "2 Espacios en Cochera", label: "2 Espacios en Cochera" },
   { value: "3 Espacios en Cochera", label: "3 Espacios en Cochera" },
@@ -170,16 +163,19 @@ export const Cochera = [
   { value: "13 Espacios en Cochera", label: "13 Espacios en Cochera" },
   { value: "14 Espacios en Cochera", label: "14 Espacios en Cochera" },
   { value: "15 Espacios en Cochera", label: "15 Espacios en Cochera" },
+  { value: "1 Parqueo destechado", label: "1 Parqueo destechado" },
+  { value: "2 Parqueos destechados", label: "2 Parqueos destechados" },
+  { value: "Parqueos destechados", label: "3 Parqueos destechados" },
+  { value: "4 Parqueos destechados", label: "4 Parqueos destechados" },
+  { value: "5 Parqueos destechados", label: "5 Parqueos destechados" },
   {
     value: "No tiene cochera ni parqueos destechados",
     label: "No tiene cochera ni parqueos destechados",
   },
+  { value: "Parqueo solo para 1 moto", label: "Parqueo solo para 1 moto" },
+  { value: "Parqueo solo para 2 motos", label: "Parqueo solo para 2 motos" },
 ];
 export const TipoInmueble = [
-  { key: "Casa", value: "Casa" },
-  { key: "Casa 2 niveles", value: "Casa 2 niveles" },
-  { key: "Casa 3 niveles", value: "Casa 3 niveles" },
-  { key: "Casa 4 niveles", value: "Casa 4 niveles" },
   { key: "Apartamento", value: "Apartamento" },
   { key: "Apartamento en 2do Piso", value: "Apartamento en 2do Piso" },
   { key: "Apartamento en 3er Piso", value: "Apartamento en 3er Piso" },
@@ -187,34 +183,23 @@ export const TipoInmueble = [
   { key: "Apartamento en 5to Piso", value: "Apartamento en 5to Piso" },
   { key: "Apartamento de 2 niveles", value: "Apartamento de 2 niveles" },
   { key: "Apartamento de 3 niveles", value: "Apartamento de 3 niveles" },
+  { key: "Casa", value: "Casa" },
+  { key: "Casa 2 niveles", value: "Casa 2 niveles" },
+  { key: "Casa 3 niveles", value: "Casa 3 niveles" },
+  { key: "Casa 4 niveles", value: "Casa 4 niveles" },
+  { key: "Casa Antigua Grande", value: "Casa Antigua Grande" },
+  { key: "Casa Antigua Pequeña", value: "Casa Antigua Pequeña" },
+  { key: "Casa de Playa", value: "Casa de Playa" },
+  { key: "Casas Rural", value: "Casas Rural" },
   { key: "Chalet", value: "Chalet" },
   { key: "Loft", value: "Loft" },
-  { key: "Casas Rural", value: "Casas Rural" },
-  { key: "Casa de Playa", value: "Casa de Playa" },
-  { key: "Casa Antigua pequeña", value: "Casa Antigua pequeña" },
-  { key: "Casa Antigua Grande", value: "Casa Antigua Grande" },
+  { key: "Penthouse", value: "Penthouse" },
 ];
 
 export const TipoPiso = [
-  { value: "Piso Laminado", label: "Piso Laminado" },
-  { value: "Piso de Baldosas", label: "Piso de Baldosas" },
-  { value: "Piso de Mármol", label: "Piso de Mármol" },
-  {
-    value: "Piso de Flotante o Laminado",
-    label: "Piso de Flotante o Laminado",
-  },
-  { value: "Piso de Mosaicos", label: "Piso de Mosaicos" },
   { value: "Piso Antideslizante", label: "Piso Antideslizante" },
-  { value: "Piso de Piedra Natural", label: "Piso de Piedra Natural" },
-  {
-    value: "Piso de Porcelanato Técnico",
-    label: "Piso de Porcelanato Técnico",
-  },
-  { value: "Piso de Porcelanato", label: "Piso de Porcelanato" },
   { value: "Piso Cerámico", label: "Piso Cerámico" },
-  { value: "Piso de Madera Natural", label: "Piso de Madera Natural" },
-  { value: "Piso de Concreto SB01", label: "Piso de Concreto SB01" },
-  { value: "Piso de Lastre Compactado", label: "Piso de Lastre Compactado" },
+  { value: "Piso de Baldosas", label: "Piso de Baldosas" },
   {
     value: "Piso de Carpeta Asfáltica SR03",
     label: "Piso de Carpeta Asfáltica SR03",
@@ -227,6 +212,23 @@ export const TipoPiso = [
     value: "Piso de Carpeta Asfáltica SR05",
     label: "Piso de Carpeta Asfáltica SR05",
   },
+  { value: "Piso de Concreto SB01", label: "Piso de Concreto SB01" },
+  {
+    value: "Piso de Flotante o Laminado",
+    label: "Piso de Flotante o Laminado",
+  },
+  { value: "Piso de Lastre Compactado", label: "Piso de Lastre Compactado" },
+  { value: "Piso de Madera Natural", label: "Piso de Madera Natural" },
+  { value: "Piso de Mármol", label: "Piso de Mármol" },
+  { value: "Piso de Mosaicos", label: "Piso de Mosaicos" },
+  { value: "Piso de Piedra Natural", label: "Piso de Piedra Natural" },
+  { value: "Piso de Porcelanato", label: "Piso de Porcelanato" },
+  {
+    value: "Piso de Porcelanato Técnico",
+    label: "Piso de Porcelanato Técnico",
+  },
+
+  { value: "Piso Laminado", label: "Piso Laminado" },
 ];
 export const Amenidades = [
   {
@@ -268,6 +270,7 @@ export const DetallesInternos = [
     value: "Baño en habitación principal",
     label: "Baño en habitación principal",
   },
+  { value: "Baño turco", label: "Baño turco" },
   { value: "Barra estilo americano", label: "Barra estilo americano" },
   { value: "Biblioteca/Estudio", label: "Biblioteca/Estudio" },
   { value: "Bodega", label: "Bodega" },
@@ -284,6 +287,7 @@ export const DetallesInternos = [
   { value: "Cocina tipo americano", label: "Cocina tipo americano" },
   { value: "Comedor auxiliar", label: "Comedor auxiliar" },
   { value: "Despensa", label: "Despensa" },
+  { value: "Desván", label: "Desván" },
   { value: "Doble Ventana", label: "Doble Ventana" },
   { value: "Extractor de grasa", label: "Extractor de grasa" },
   { value: "Gas domiciliario", label: "Gas domiciliario" },
@@ -345,16 +349,16 @@ export const DetallesExternos = [
 
 export const DetallesExternosMulti = [
   { value: "Acceso pavimentado", label: "Acceso pavimentado" },
-  { value: "Árboles frutales", label: "Árboles frutales" },
   { value: "Ascensor", label: "Ascensor" },
+  { value: "Árboles frutales", label: "Árboles frutales" },
   { value: "Bungalow / pareado", label: "Bungalow / pareado" },
   { value: "Calles de Tosca", label: "Calles de Tosca" },
 ];
 
 export const Amueblado = [
+  { key: "Full Amueblado", value: "Full Amueblado" },
   { key: "No Amueblado", value: "No Amueblado" },
   { key: "Solo Línea Blanca", value: "Solo Línea Blanca" },
-  { key: "Full Amueblado", value: "Full Amueblado" },
 ];
 
 export const AptoNinos = [
@@ -368,7 +372,6 @@ export const AptoNinos = [
 ];
 
 export const AptoMascotas = [
-  { key: "No apto con mascotas", value: "No apto con mascotas" },
   { key: "Apto con 1 Mascota pequeña", value: "Apto con 1 Mascota pequeña" },
   {
     key: "Apto con 2 Mascotas pequeñas",
@@ -393,6 +396,7 @@ export const AptoMascotas = [
   { key: "Apto con 1 mascota grande", value: "Apto con 1 mascota grande" },
   { key: "Apto con 2 mascotas grandes", value: "Apto con 2 mascotas grandes" },
   { key: "Apto con 3 mascotas grandes", value: "Apto con 3 mascotas grandes" },
+  { key: "No apto con mascotas", value: "No apto con mascotas" },
   { key: "Solo un gato", value: "Solo un gato" },
   { key: "Solo un perro pequeño", value: "Solo un perro pequeño" },
   { key: "Solo peces", value: "Solo peces" },
@@ -457,13 +461,13 @@ export const Parqueo = [
   },
 ];
 export const TipoVivienda = [
+  { value: "Vivienda bifamiliar", label: "Vivienda bifamiliar" },
+  { value: "Vivienda de interés social", label: "Vivienda de interés social" },
+  { value: "Vivienda multifamiliar", label: "Vivienda multifamiliar" },
   {
     value: "Vivienda unifamiliar",
     label: "Vivienda unifamiliar",
   },
-  { value: "Vivienda bifamiliar", label: "Vivienda bifamiliar" },
-  { value: "Vivienda multifamiliar", label: "Vivienda multifamiliar" },
-  { value: "Vivienda de interés social", label: "Vivienda de interés social" },
 ];
 export const Locales = [
   {
@@ -471,16 +475,16 @@ export const Locales = [
     label: "Local Comercial",
   },
   {
-    value: "Local Esquinero",
-    label: "Local Esquinero",
+    value: "Local Comercial en Mall",
+    label: "Local Comercial en Mall",
   },
   {
     value: "Local en Plaza Comercial",
     label: "Local en Plaza Comercial",
   },
   {
-    value: "Local Comercial en Mall",
-    label: "Local Comercial en Mall",
+    value: "Local Esquinero",
+    label: "Local Esquinero",
   },
   {
     value: "Local en Segundo piso",
@@ -498,6 +502,18 @@ export const Locales = [
 
 export const TipoLote = [
   {
+    value: "Finca",
+    label: "Finca",
+  },
+  {
+    value: "Finca Cafetalera",
+    label: "Finca Cafetalera",
+  },
+  {
+    value: "Finca Ganadera",
+    label: "Finca Ganadera",
+  },
+  {
     value: "Lote Comercial",
     label: "Lote Comercial",
   },
@@ -510,20 +526,8 @@ export const TipoLote = [
     label: "Lote habitacional",
   },
   {
-    value: "Finca",
-    label: "Finca",
-  },
-  {
     value: "Predio",
     label: "Predio",
-  },
-  {
-    value: "Finca Ganadera",
-    label: "Finca Ganadera",
-  },
-  {
-    value: "Finca Cafetalera",
-    label: "Finca Cafetalera",
   },
   {
     value: "Terreno apto para desarrollar",
@@ -588,40 +592,40 @@ export const Electrica = [
 ];
 
 export const UbicacionCatastral = [
-  { key: "Manzanero", value: "Manzanero" },
   { key: "Cabecero", value: "Cabecero" },
+  { key: "Con Callejón fondo", value: "Con Callejón fondo" },
+  { key: "Con Callejón lateral", value: "Con Callejón lateral" },
   { key: "Esquinero", value: "Esquinero" },
+  { key: "Lote en servidumbre", value: "Lote en servidumbre" },
+  { key: "Manzanero", value: "Manzanero" },
   { key: "Medianero con dos frentes", value: "Medianero con dos frentes" },
   { key: "Medianero", value: "Medianero" },
-  { key: "Con Callejón lateral", value: "Con Callejón lateral" },
-  { key: "Con Callejón fondo", value: "Con Callejón fondo" },
-  { key: "Lote en servidumbre", value: "Lote en servidumbre" },
-  { key: "Zona residencial", value: "Zona residencial" },
-  { key: "Zona industrial", value: "Zona industrial" },
-  { key: "Zona comercial", value: "Zona comercial" },
   { key: "Zona agraria", value: "Zona agraria" },
+  { key: "Zona comercial", value: "Zona comercial" },
+  { key: "Zona industrial", value: "Zona industrial" },
+  { key: "Zona residencial", value: "Zona residencial" },
 ];
 
 export const UbicacionDemografica = [
+  { key: "Aislado (Distante)", value: "Aislado (Distante)" },
+  { key: "En Caserío", value: "En Caserío" },
   { key: "En Condominio", value: "En Condominio" },
   { key: "En residencial", value: "En residencial" },
-  { key: "En Caserío", value: "En Caserío" },
   { key: "En Zona Agraria", value: "En Zona Agraria" },
   { key: "En Zona Industrial", value: "En Zona Industrial" },
-  { key: "Aislado (Distante)", value: "Aislado (Distante)" },
   { key: "Estilo Ermitaño", value: "Estilo Ermitaño" },
 ];
 
 export const UbicacionGeografica = [
-  { key: "Costa en Península", value: "Costa en Península" },
-  { key: "Costa en Cabo", value: "Costa en Cabo" },
-  { key: "Costa en Golfo", value: "Costa en Golfo" },
-  { key: "Montaña", value: "Montaña" },
-  { key: "Llanura", value: "Llanura" },
   { key: "Colinda con parque nacional", value: "Colinda con parque nacional" },
   { key: "Colinda con zona volcánica", value: "Colinda con zona volcánica" },
-  { key: "Isla", value: "Isla" },
+  { key: "Costa en Cabo", value: "Costa en Cabo" },
   { key: "Costa en Bahía", value: "Costa en Bahía" },
+  { key: "Costa en Golfo", value: "Costa en Golfo" },
+  { key: "Costa en Península", value: "Costa en Península" },
+  { key: "Isla", value: "Isla" },
+  { key: "Llanura", value: "Llanura" },
+  { key: "Montaña", value: "Montaña" },
   { key: "Valle", value: "Valle" },
 ];
 
@@ -631,85 +635,47 @@ export const TipoAsesor = [
     value: "Asesor Inmobiliario Independiente",
   },
   {
-    key: "Asesor Agremiado a una cámara, federación de Bienes",
-    value: "Asesor Agremiado a una cámara, federación de Bienes",
+    key: "Asistente de Asesor Inmobiliario",
+    value: "Asistente de Asesor Inmobiliario",
   },
   {
-    key: "Dueño de Franquicia Inmobiliaria",
-    value: "Dueño de Franquicia Inmobiliaria",
+    key: "Asesor Agremiado a una cámara, federación de Bienes",
+    value: "Asesor Agremiado a una cámara, federación de Bienes",
   },
   {
     key: "Asesor colaborador en una empresa de Bienes Raíces",
     value: "Asesor colaborador en una empresa de Bienes Raíces",
   },
   {
-    key: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-    value: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-  },
-  {
     key: "Colaborador en una Institución Financiera con Bienes Adjudicados",
     value: "Colaborador en una Institución Financiera con Bienes Adjudicados",
   },
   {
-    key: "Asistente de Asesor Inmobiliario",
-    value: "Asistente de Asesor Inmobiliario",
+    key: "Dueño de Franquicia Inmobiliaria",
+    value: "Dueño de Franquicia Inmobiliaria",
+  },
+  {
+    key: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
+    value: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
   },
 ];
 
 export const Estado = [
-  { key: "Solicitante", value: "Solicitante" },
   { key: "Asesor verificado activo", value: "Asesor verificado activo" },
   { key: "Asesor verificado inactivo", value: "Asesor verificado inactivo" },
+  { key: "Freelancer", value: "Freelancer" },
+  { key: "Solicitante", value: "Solicitante" },
   { key: "Supervisor", value: "Supervisor" },
   { key: "Super Administrador", value: "Super Administrador" },
-  { key: "Freelancer", value: "Freelancer" },
 ];
 export const EstadoRestringido = [
-  { key: "Solicitante", value: "Solicitante" },
   { key: "Asesor verificado activo", value: "Asesor verificado activo" },
   { key: "Asesor verificado inactivo", value: "Asesor verificado inactivo" },
   { key: "Freelancer", value: "Freelancer" },
+  { key: "Solicitante", value: "Solicitante" },
 ];
 export const PropertyEstado = [
   { key: "Activo", value: "Activo" },
   { key: "Pendiente", value: "Pendiente" },
   { key: "Desactivado", value: "Desactivado" },
 ];
-/* export const types = [
-  {
-    key: "Asesor Inmobiliario Independiente",
-    value: "Asesor Inmobiliario Independiente",
-    text: "Asesor Inmobiliario Independiente",
-  },
-  {
-    key: "Asesor Agremiado a una cámara, federación de Bienes",
-    value: "Asesor Agremiado a una cámara, federación de Bienes",
-    text: "Asesor Agremiado a una cámara, federación de Bienes",
-  },
-  {
-    key: "Dueño de Franquicia Inmobiliaria",
-    value: "Dueño de Franquicia Inmobiliaria",
-    text: "Dueño de Franquicia Inmobiliaria",
-  },
-  {
-    key: "Asesor colaborador en una empresa de Bienes Raíces",
-    value: "Asesor colaborador en una empresa de Bienes Raíces",
-    text: "Asesor colaborador en una empresa de Bienes Raíces",
-  },
-  {
-    key: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-    value: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-    text: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
-  },
-  {
-    key: "Colaborador en una Institución Financiera con Bienes Adjudicados",
-    value: "Colaborador en una Institución Financiera con Bienes Adjudicados",
-    text: "Colaborador en una Institución Financiera con Bienes Adjudicados",
-  },
-  {
-    key: "Asistente de Asesor Inmobiliario",
-    value: "Asistente de Asesor Inmobiliario",
-    text: "Asistente de Asesor Inmobiliario",
-  },
-];
- */

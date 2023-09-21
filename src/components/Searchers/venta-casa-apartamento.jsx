@@ -192,7 +192,7 @@ const VentaCasaApartamento = () => {
             onChange={handleChange}
             name="uniqueId"
             placeholder="Buscar por código de inmueble"
-            className="input-admin-property border-1  placeholder:text-gray-300  text-white bg-blue-700 justify-center  m-2 w-[323px] p-2"
+            className="input-admin-property border-1 placeholder:text-center text-center placeholder:text-gray-300  text-white bg-blue-700 justify-center  m-2 w-[323px] p-2"
           />
           <div className="space -mt-4">
             {errors.uniqueId && touched.uniqueId ? (

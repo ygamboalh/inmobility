@@ -11,17 +11,6 @@ import AxiosInstance from "../../api/AxiosInstance";
 const Map = ({ address, exclusividad }) => {
   const [key, setkey] = useState(null);
 
-  useEffect(() => {
-    const response = AxiosInstance(`tokens?filters[type][$eq]=map`)
-      .then((data) => {
-        const keyf = data?.data?.data[0]?.attributes?.token;
-        setkey(keyf);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    getCoordinates();
-  });
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: key,
   });
@@ -30,30 +19,43 @@ const Map = ({ address, exclusividad }) => {
   const [longitud, setLongitud] = useState();
   const getCoordinates = async () => {
     try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-          address
-        )}&key=${key}`
-      );
-      const data = await response.json();
-      if (data.results.length > 0) {
-        const { lat, lng } = data.results[0].geometry.location;
-        setLatitud(lat);
-        setLongitud(lng);
-      } else {
-        console.log("No map");
+      if (address) {
+        const response = await fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+            address
+          )}&key=${key}`
+        ).catch((error) => console.log(error));
+
+        const data = await response.json();
+        if (data.results.length > 0) {
+          const { lat, lng } = data.results[0].geometry.location;
+          setLatitud(lat);
+          setLongitud(lng);
+        } else {
+          console.log("no map");
+        }
       }
     } catch (error) {
       console.error("no coords", error);
     }
   };
 
+  useEffect(() => {
+    const response = AxiosInstance(`tokens?filters[type][$eq]=map`)
+      .then((data) => {
+        const keyf = data?.data?.data[0]?.attributes?.token;
+        setkey(keyf);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  }, [latitud, longitud]);
+  getCoordinates();
   const center = {
     lat: 0,
     lng: 0,
   };
   const onLoad = React.useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
     const bounds = new window.google.maps.LatLngBounds(center);
     map.fitBounds(bounds);
 
