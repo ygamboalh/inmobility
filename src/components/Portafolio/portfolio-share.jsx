@@ -33,6 +33,7 @@ const PortafolioShare = () => {
   if (!portafolio) {
     return <MySpinner />;
   }
+  console.log(portafolio);
   return (
     <div>
       <MetaData
@@ -41,7 +42,7 @@ const PortafolioShare = () => {
       />
       <div className="mx-8 my-4">
         <span className="font-semibold ">
-          ¡Saludos! Estimado {portafolio.attributes.clienteComprador}
+          ¡Saludos! Estimado {portafolio?.attributes?.clienteComprador}
         </span>
       </div>
       <div className="mx-8 mb-3">

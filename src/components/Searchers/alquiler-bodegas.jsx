@@ -427,6 +427,14 @@ const AlquilerBodegas = () => {
             />
             <input
               type="number"
+              value={values.areaContruccion}
+              onChange={handleChange}
+              name="areaContruccion"
+              placeholder="Metros cuadrados construidos"
+              className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
+            />
+            <input
+              type="number"
               value={values.areaPropiedad}
               onChange={handleChange}
               name="areaPropiedad"
@@ -441,14 +449,7 @@ const AlquilerBodegas = () => {
               placeholder="Área bodega"
               className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
             />
-            <input
-              type="number"
-              value={values.areaContruccion}
-              onChange={handleChange}
-              name="areaContruccion"
-              placeholder="Metros cuadrados construidos"
-              className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
-            />
+
             <select
               name="parqueo"
               value={values.parqueo}

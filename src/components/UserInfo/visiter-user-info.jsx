@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { useSignOut } from "react-auth-kit";
 
 import {
@@ -18,6 +19,7 @@ import { authUserData } from "../../api/usersApi";
 
 const VisiterUserInfo = () => {
   const signOut = useSignOut();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { data: userData } = useQuery("profile", authUserData);
@@ -42,7 +44,7 @@ const VisiterUserInfo = () => {
       })
         .then((res) => {
           signOut();
-          window.location.reload(true);
+          navigate("/");
         })
         .catch((err) => {
           return err;
@@ -54,7 +56,7 @@ const VisiterUserInfo = () => {
         })
           .then((res) => {
             signOut();
-            window.location.reload(true);
+            navigate("/");
           })
           .catch((err) => {
             return err;
@@ -74,7 +76,7 @@ const VisiterUserInfo = () => {
       isLoggedIn: false,
     })
       .then((res) => {
-        window.location.reload(true);
+        return res;
       })
       .catch((err) => {
         console.log(err);
@@ -110,12 +112,16 @@ const VisiterUserInfo = () => {
           ref={menuRef}
           className="absolute top-20 right-1 z-10 w-[170px] h-fit mt-2 py-2 bg-white rounded-lg shadow-lg"
         >
-          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <button
+            onClick={() => {
+              navigate("/home/banner");
+              setIsOpen(false);
+            }}
+            className="flex w-full flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
             <BiHomeAlt size={20} />
-            <a className="text-xs flex flex-row pt-1 pl-1" href="/home/banner">
-              Opciones
-            </a>
-          </div>
+            <span className="text-xs flex flex-row pt-1 pl-1">Opciones</span>
+          </button>
           <hr />
           <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <SiHomeassistantcommunitystore
@@ -175,23 +181,29 @@ const VisiterUserInfo = () => {
             </a>
           </div>
           <hr />
-          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <button
+            onClick={() => {
+              navigate("/auth/change-password");
+              setIsOpen(false);
+            }}
+            className="flex flex-row w-full px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
             <BiLockOpenAlt size={20} />
-            <a
-              className="text-xs flex flex-row pt-1 pl-1"
-              href="/auth/change-password"
-            >
+            <span className="text-xs flex flex-row pt-1 pl-1">
               Cambiar clave
-            </a>
-          </div>
+            </span>
+          </button>
           <hr />
           <div className="px-2 py-2 text-gray-800 hover:bg-blue-500 rounded-lg hover:text-white">
             <button
               onClick={() => {
                 loginOut();
                 signOut();
+                setIsOpen(false);
+                navigate("/");
+                window.location.reload(true);
               }}
-              className="text-xs flex flex-row"
+              className="text-xs flex flex-row w-full"
             >
               <div className="flex flex-row">
                 <BiLogOut size={20} className="-ml-0.5" />{" "}

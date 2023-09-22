@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSignOut } from "react-auth-kit";
 
 import {
@@ -30,6 +31,7 @@ import { getAllNotifications } from "../../../api/propertiesApi";
 const Dropdown = ({ ubicacion }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   const [imageUrl, setImageUrl] = useState(
     "https://backend.sistemacic.com/uploads/small_userinfo_dac703068b.png"
@@ -105,7 +107,7 @@ const Dropdown = ({ ubicacion }) => {
       })
         .then((res) => {
           signOut();
-          window.location.reload(true);
+          navigate("/");
         })
         .catch((err) => {
           return err;
@@ -117,7 +119,7 @@ const Dropdown = ({ ubicacion }) => {
         })
           .then((res) => {
             signOut();
-            window.location.reload(true);
+            navigate("/");
           })
           .catch((err) => {
             return err;
@@ -130,7 +132,7 @@ const Dropdown = ({ ubicacion }) => {
       isLoggedIn: false,
     })
       .then((res) => {
-        window.location.reload(true);
+        return res;
       })
       .catch((err) => {
         console.log(err);
@@ -165,121 +167,155 @@ const Dropdown = ({ ubicacion }) => {
           ref={menuRef}
           className="fixed border top-[70px] right-1 z-10 p-4 w-[180px] h-fit mt-2 py-2 bg-gray-300 rounded-lg shadow-lg"
         >
-          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/admin/properties");
+            }}
+            className="w-full flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
             <BiWrench size={20} />
-            <a
-              className="text-xs flex flex-row pt-1 pl-1"
-              href="/admin/properties"
-            >
+            <span className="text-xs flex flex-row pt-0.5 pl-1">
               Administrar
-            </a>
-          </div>
-          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            </span>
+          </button>
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/home/banner");
+            }}
+            className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
             <BiHomeAlt size={20} />
-            <a className="text-xs flex flex-row pt-1 pl-1" href="/home/banner">
-              Opciones
-            </a>
-          </div>
+            <span className="text-xs flex flex-row pt-1 pl-1">Opciones</span>
+          </button>
           {userData?.active === "Supervisor" ? (
-            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/user/verified-adviser");
+              }}
+              className="flex flex-row px-2 w-full align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
               <BiSitemap size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/user/verified-adviser"
-              >
+              <span className="text-xs flex flex-row pt-1 pl-1">
                 Portal verificados
-              </a>
-            </div>
+              </span>
+            </button>
           ) : null}
           {notificaciones?.length > 0 ? (
-            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/home/notifications");
+              }}
+              className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
               <BiBell size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/home/notifications"
-              >
+              <span className="text-xs flex flex-row pt-1 pl-1">
                 Notificaciones
-              </a>
-            </div>
+              </span>
+            </button>
           ) : null}
-          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/home/portfolio");
+            }}
+            className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
             <BiBook size={20} />
-            <a
-              className="text-xs flex flex-row pt-1 pl-1"
-              href="/home/portfolio"
-            >
-              Portafolios
-            </a>
-          </div>
-          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <span className="text-xs flex flex-row pt-1 pl-1">Portafolios</span>
+          </button>
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/user/profile");
+            }}
+            className="flex flex-row w-full px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
             <BiUserCircle size={20} />
-            <a className="text-xs flex flex-row pt-1 pl-1" href="/user/profile">
-              Perfil
-            </a>
-          </div>
-          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <span className="text-xs flex flex-row pt-1 pl-1">Perfil</span>
+          </button>
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/auth/change-password");
+            }}
+            className="w-full flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
             <BiLockOpenAlt size={20} />
-            <a
-              className="text-xs flex flex-row pt-1 pl-1"
-              href="/auth/change-password"
-            >
+            <span className="text-xs flex flex-row pt-1 pl-1">
               Cambiar clave
-            </a>
-          </div>
+            </span>
+          </button>
           <div className="min-[1100px]:hidden">
-            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/admin/properties");
+              }}
+              className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
               <BiBuildingHouse size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/admin/properties"
-              >
+              <span className="text-xs flex flex-row pt-1 pl-1">
                 Propiedades
-              </a>
-            </div>
-            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              </span>
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/admin/users");
+              }}
+              className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
               <BiUser size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/admin/users"
-              >
-                Usuarios
-              </a>
-            </div>
-            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              <span className="text-xs flex flex-row pt-1 pl-1">Usuarios</span>
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/admin/buttons");
+              }}
+              className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
               <BiChevronDownCircle size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/admin/buttons"
-              >
-                Botones
-              </a>
-            </div>
-            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              <span className="text-xs flex flex-row pt-1 pl-1">Botones</span>
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/user/verified-adviser");
+              }}
+              className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
               <BiSitemap size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/user/verified-adviser"
-              >
+              <span className="text-xs flex flex-row pt-1 pl-1">
                 Portal verificados
-              </a>
-            </div>
-            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+              </span>
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/admin/links");
+              }}
+              className="flex flex-row w-full px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
               <BiLink size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/admin/links"
-              >
-                Enlaces
-              </a>
-            </div>
+              <span className="text-xs flex flex-row pt-1 pl-1">Enlaces</span>
+            </button>
           </div>
+
           <div className="px-2 py-2 text-gray-800 rounded-lg hover:bg-blue-500 hover:text-white">
             <button
               onClick={() => {
+                setIsOpen(false);
                 loginOut();
                 signOut();
+                navigate("/");
+                window.location.reload(true);
               }}
-              className="text-xs flex flex-row"
+              className="text-xs flex flex-row w-full"
             >
               <BiLogOut size={20} />{" "}
               <label className="pt-0.5 pl-0.5 cursor-pointer">Salir</label>

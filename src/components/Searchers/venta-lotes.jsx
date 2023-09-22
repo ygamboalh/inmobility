@@ -362,19 +362,6 @@ const VentaLotes = () => {
 
           <input
             type="number"
-            onChange={handleChange}
-            value={values.areaPropiedad}
-            name="areaPropiedad"
-            placeholder="Área perimetral del inmueble"
-            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaPropiedad && touched.areaPropiedad ? (
-              <div className="errordiv text-xs">{errors.areaPropiedad}</div>
-            ) : null}
-          </div>
-          <input
-            type="number"
             value={values.areaTerreno}
             onChange={handleChange}
             name="areaTerreno"
@@ -399,7 +386,19 @@ const VentaLotes = () => {
               <div className="errordiv text-xs">{errors.areaContruccion}</div>
             ) : null}
           </div>
-
+          <input
+            type="number"
+            onChange={handleChange}
+            value={values.areaPropiedad}
+            name="areaPropiedad"
+            placeholder="Área perimetral del inmueble"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaPropiedad && touched.areaPropiedad ? (
+              <div className="errordiv text-xs">{errors.areaPropiedad}</div>
+            ) : null}
+          </div>
           <select
             name="tipoDensidad"
             value={values.tipoDensidad}

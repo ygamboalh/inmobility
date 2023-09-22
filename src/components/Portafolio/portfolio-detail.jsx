@@ -146,6 +146,7 @@ export const PortafolioDetail = () => {
     );
     setRecords(searchData);
   };
+  console.log(newPropertiesList);
   return (
     <div className="flex justify-center flex-wrap mx-3">
       <MetaData
@@ -219,6 +220,12 @@ export const PortafolioDetail = () => {
             placeholder="Filtrar por tipo de propiedad"
           />
         </div>
+        {newPropertiesList?.length > 0 ? (
+          <div className="flex justify-center">
+            <span className="mr-2">Nuevas propiedades para agregar:</span>
+            <span>{newPropertiesList?.length}</span>
+          </div>
+        ) : null}
         <div className="flex w-full justify-center flex-wrap mx-3">
           {records.map((record) => {
             return (

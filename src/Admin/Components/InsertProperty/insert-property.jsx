@@ -216,7 +216,7 @@ const InsertProperty = () => {
       //descripcion: Yup.string().min(10, "*").max(1000, "*"),
       distrito: Yup.string().required("*").min(6, "*").max(150, "*"),
       //precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
-      areaTerreno: Yup.number().required("*").min(0, "*").max(500000, "*"),
+      areaTerreno: Yup.number().required("*"),
 
       uniqueId: Yup.string()
         .matches(idregex, "*")
@@ -1303,17 +1303,6 @@ const InsertProperty = () => {
 
           <input
             type="number"
-            name="areaPropiedad"
-            defaultValue={property?.areaPropiedad}
-            onChange={handleChange}
-            max={10000}
-            placeholder="Área perimetral del inmueble"
-            hidden={selectedOption === ""}
-            className="input-admin-property text-gray-500 m-2 w-80 p-2"
-          />
-
-          <input
-            type="number"
             hidden={selectedOption === ""}
             name="areaTerreno"
             onChange={handleChange}
@@ -1343,7 +1332,6 @@ const InsertProperty = () => {
             defaultValue={property?.areaContruccion}
             placeholder="Metros cuadrados construidos"
             onChange={handleChange}
-            max={100000}
             className="input-admin-property text-gray-500  m-2 w-80 p-2"
           />
           {/* <div className="space mb-2.5">
@@ -1353,8 +1341,16 @@ const InsertProperty = () => {
           </div> */}
           <input
             type="number"
+            name="areaPropiedad"
+            defaultValue={property?.areaPropiedad}
+            onChange={handleChange}
+            placeholder="Área perimetral del inmueble"
+            hidden={selectedOption === ""}
+            className="input-admin-property text-gray-500 m-2 w-80 p-2"
+          />
+          <input
+            type="number"
             name="areaPlantas"
-            max={100000}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1385,7 +1381,6 @@ const InsertProperty = () => {
             type="number"
             name="areaBodega"
             defaultValue={property?.areaBodega}
-            max={10000000}
             onChange={handleChange}
             placeholder="Área bodega en m³"
             hidden={
@@ -1415,7 +1410,6 @@ const InsertProperty = () => {
           <input
             type="number"
             name="areaMesanini"
-            max={6000}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1444,7 +1438,6 @@ const InsertProperty = () => {
           <input
             type="number"
             name="areaSotano"
-            max={6000}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1513,7 +1506,6 @@ const InsertProperty = () => {
             defaultValue={property?.habitaciones}
             onChange={handleChange}
             placeholder="Habitaciones"
-            max={15}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1698,7 +1690,6 @@ const InsertProperty = () => {
           <input
             type="number"
             name="altura"
-            max={500}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
@@ -1760,7 +1751,6 @@ const InsertProperty = () => {
           <input
             type="number"
             name="numeroPlantas"
-            max={100}
             hidden={
               selectedOption ===
                 "Alquiler de Fincas, Lotes, Predios o Terrenos" ||

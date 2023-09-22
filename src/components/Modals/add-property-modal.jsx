@@ -85,7 +85,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
     const cat = selectCategory(category);
     setCategoria(cat);
   }, []);
-
+  console.log(categoria);
   const closeModal = () => {
     setRecords([]);
     setFilterRecords([]);
@@ -125,13 +125,14 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
        */
       setIsLoading(true);
       const urlPortion = makeQueries(values);
+      const newCat = selectCategory(category);
       let urlFinal = "";
       urlPortion.map((value) => {
         urlFinal += value.name;
       });
       if (urlFinal.length !== 0) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
-        const url = `${API}properties?filters[categories][id][$eq]=${categoria}${urlQuery}`;
+        const url = `${API}properties?filters[categories][id][$eq]=${newCat}${urlQuery}`;
         console.log(url);
         const busqueda = axios
           .get(url, {
@@ -169,7 +170,6 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
     return <MySpinner />;
   }
 
-  console.log(selectedOption);
   if (!isVisible) return null;
   return (
     <div className="fixed z-10 inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
@@ -192,7 +192,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
                     value={values.uniqueId}
                     onChange={handleChange}
                     name="uniqueId"
-                    placeholder="Identificador único"
+                    placeholder="Código del inmueble"
                     className="input-admin-property  m-2 w-80 p-2"
                   />
                   <select

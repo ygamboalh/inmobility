@@ -407,20 +407,6 @@ const VentaLocalesComerciales = () => {
               <div className="errordiv text-xs">{errors.areaContruccion}</div>
             ) : null}
           </div>
-
-          <input
-            type="number"
-            value={values.areaMesanini}
-            onChange={handleChange}
-            name="areaMesanini"
-            placeholder="Área mezanine"
-            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaMesanini && touched.areaMesanini ? (
-              <div className="errordiv text-xs">{errors.areaMesanini}</div>
-            ) : null}
-          </div>
           <input
             type="number"
             onChange={handleChange}
@@ -434,6 +420,20 @@ const VentaLocalesComerciales = () => {
               <div className="errordiv text-xs">{errors.areaPropiedad}</div>
             ) : null}
           </div>
+          <input
+            type="number"
+            value={values.areaMesanini}
+            onChange={handleChange}
+            name="areaMesanini"
+            placeholder="Área mezanine"
+            className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaMesanini && touched.areaMesanini ? (
+              <div className="errordiv text-xs">{errors.areaMesanini}</div>
+            ) : null}
+          </div>
+
           <input
             type="number"
             value={values.areaSotano}

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import {
   BiHomeAlt,
@@ -12,7 +13,9 @@ import { SiHomeassistantcommunitystore } from "react-icons/si";
 
 const NoneUser = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isInRoute, setIsInRoute] = useState();
   const menuRef = useRef(null);
+  const location = useLocation();
 
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -26,8 +29,19 @@ const NoneUser = () => {
     };
   }, []);
 
+  const isInRoutePortafolio = () => {
+    const path = location.pathname;
+    path.includes("/home/portfolio/share-portfolio/")
+      ? setIsInRoute(true)
+      : setIsInRoute(false);
+  };
+
+  useEffect(() => {
+    isInRoutePortafolio();
+  }, [location]);
+
   return (
-    <div className="">
+    <div className={isInRoute ? "hidden" : null}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="h-[45px] w-[45px] absolute top-6 right-8 rounded-full"

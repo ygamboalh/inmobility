@@ -393,7 +393,19 @@ const VentaBodegas = () => {
               <div className="errordiv text-xs">{errors.areaTerreno}</div>
             ) : null}
           </div>
-
+          <input
+            type="number"
+            value={values.areaContruccion}
+            onChange={handleChange}
+            name="areaContruccion"
+            placeholder="Metros cuadrados construidos"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
+          />
+          <div className="space -mt-4">
+            {errors.areaContruccion && touched.areaContruccion ? (
+              <div className="errordiv text-xs">{errors.areaContruccion}</div>
+            ) : null}
+          </div>
           <input
             type="number"
             value={values.areaPropiedad}
@@ -420,19 +432,7 @@ const VentaBodegas = () => {
               <div className="errordiv text-xs">{errors.areaBodega}</div>
             ) : null}
           </div>
-          <input
-            type="number"
-            value={values.areaContruccion}
-            onChange={handleChange}
-            name="areaContruccion"
-            placeholder="Metros cuadrados construidos"
-            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
-          />
-          <div className="space -mt-4">
-            {errors.areaContruccion && touched.areaContruccion ? (
-              <div className="errordiv text-xs">{errors.areaContruccion}</div>
-            ) : null}
-          </div>
+
           <select
             name="parqueo"
             value={values.parqueo}

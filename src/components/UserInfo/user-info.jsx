@@ -89,7 +89,7 @@ const UserInfo = () => {
       })
         .then((res) => {
           signOut();
-          window.location.reload(true);
+          navigate("/");
         })
         .catch((err) => {
           return err;
@@ -101,7 +101,7 @@ const UserInfo = () => {
         })
           .then((res) => {
             signOut();
-            window.location.reload(true);
+            navigate("/");
           })
           .catch((err) => {
             return err;
@@ -121,7 +121,7 @@ const UserInfo = () => {
       isLoggedIn: false,
     })
       .then((res) => {
-        window.location.reload(true);
+        return res;
       })
       .catch((err) => {
         console.log(err);
@@ -167,73 +167,98 @@ const UserInfo = () => {
           className="fixed right-1 top-20 z-10 w-[200px] h-fit bg-white p-4 border rounded-lg shadow-lg"
         >
           {userData?.active === "Freelancer" ? null : (
-            <div className="flex flex-row px-2 rounded-lg align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            <button
+              onClick={() => {
+                setIsOpenM(false);
+                navigate("/user/verified-adviser");
+              }}
+              className="flex w-full flex-row px-2 rounded-lg align-middle pb-2 pt-2 mt-1 text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
               <BiUserCheck size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/user/verified-adviser"
-              >
+              <span className="text-xs flex flex-row pt-[3px] pl-1">
                 Verificado
-              </a>
-            </div>
+              </span>
+            </button>
           )}
-          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+          <button
+            onClick={() => {
+              setIsOpenM(false);
+              navigate("/home/banner");
+            }}
+            className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
             <BiHomeAlt size={20} />
-            <a className="text-xs flex flex-row pt-1 pl-1" href="/home/banner">
-              Opciones
-            </a>
-          </div>
+            <span className="text-xs flex flex-row pt-1 pl-1">Opciones</span>
+          </button>
           {userData?.active === "Freelancer" ? null : (
-            <div className="flex flex-row px-2 align-middle py-2 rounded-lg text-gray-800 hover:bg-blue-500 hover:text-white">
+            <button
+              onClick={() => {
+                setIsOpenM(false);
+                navigate("/home/portfolio");
+              }}
+              className="flex w-full flex-row px-2 align-middle py-2 rounded-lg text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
               <BiBook size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/home/portfolio"
-              >
+              <span className="text-xs flex flex-row pt-0.5 pl-1">
                 Portafolios
-              </a>
-            </div>
+              </span>
+            </button>
           )}
           {userData?.active === "Asesor verificado activo" ? (
-            <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
-              <BiBell size={20} />
-              <a
-                className="text-xs flex flex-row pt-1 pl-1"
-                href="/home/notifications"
-              >
-                Notificaciones
-              </a>
-            </div>
-          ) : null}
-          <div className="flex flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
-            <BiUserCircle size={20} />
-            <a className="text-xs flex flex-row pt-1 pl-1" href="/user/profile">
-              Perfil
-            </a>
-          </div>
-          <div className="flex flex-row px-2 align-middle py-2 rounded-lg text-gray-800 hover:bg-blue-500 hover:text-white">
-            <BiLockOpenAlt size={20} />
-            <a
-              className="text-xs flex flex-row pt-1 pl-1"
-              href="/auth/change-password"
+            <button
+              onClick={() => {
+                setIsOpenM(false);
+                navigate("/home/notifications");
+              }}
+              className="flex flex-row px-2 w-full align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
             >
+              <BiBell size={20} />
+              <span className="text-xs flex flex-row pt-[3px] pl-1">
+                Notificaciones
+              </span>
+            </button>
+          ) : null}
+          <button
+            onClick={() => {
+              setIsOpenM(false);
+              navigate("/user/profile");
+            }}
+            className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
+            <BiUserCircle size={22} />
+            <span className="text-xs w-full flex flex-row pt-[3px] pl-1">
+              Perfil
+            </span>
+          </button>
+          <button
+            onClick={() => {
+              setIsOpenM(false);
+              navigate("/auth/change-password");
+            }}
+            className="flex w-full flex-row px-2 align-middle py-2 rounded-lg text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
+            <BiLockOpenAlt size={22} />
+            <span className="text-xs flex flex-row w-full pt-[4px] pl-0.5">
               Cambiar clave
-            </a>
-          </div>
-          <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+            </span>
+          </button>
+          <button
+            onClick={() => {
+              setIsOpenM(false);
+              navigate("/home/visiter-contact");
+            }}
+            className="flex flex-row w-full px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
             <BiMailSend
               style={{
                 fontSize: 22,
                 marginLeft: -2,
               }}
             />
-            <a
-              className="text-xs -mt-0.5 flex py-1 w-full flex-row pl-1"
-              href="/home/visiter-contact"
-            >
+            <span className="text-xs -mt-[1px] flex pt-[3px] w-full flex-row pl-1">
               Contactar
-            </a>
-          </div>
+            </span>
+          </button>
           <div className="flex flex-row px-2 rounded-md align-middle py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
             <BiMessageDetail
               style={{
@@ -251,14 +276,17 @@ const UserInfo = () => {
           <div className="px-2 py-2 text-gray-800 hover:bg-blue-500 rounded-lg hover:text-white">
             <button
               onClick={() => {
+                setIsOpenM(false);
                 loginOut();
                 signOut();
+                navigate("/");
+                window.location.reload(true);
               }}
-              className="text-xs flex flex-row"
+              className="text-xs flex w-full flex-row"
             >
               <div className="-ml-1 flex flex-row">
                 <BiLogOut size={20} />{" "}
-                <label className="pt-0.5 pl-1 cursor-pointer">Salir</label>
+                <label className="pt-0.5 pl-1 cursor-pointer ">Salir</label>
               </div>
             </button>
           </div>

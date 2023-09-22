@@ -398,8 +398,9 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
             </div>
           </div>
         </div>
-        <div className="text-xl font-semibold text-blue-600">
-          {property.uniqueId}
+        <div className="text-xl font-semibold ">
+          <span>ID: </span>{" "}
+          <span className="text-green-400">{property.uniqueId}</span>
         </div>
         <div className="mb-3">
           {images.length !== 0 ? (

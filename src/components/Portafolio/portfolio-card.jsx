@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useLocation } from "react-router-dom";
 
 import {
   BiArea,
@@ -39,6 +40,7 @@ const PortafolioCard = ({ propiedad }) => {
   const [reaction, setReaction] = useState([]);
   const [adviser, setAdviser] = useState();
   const [audio, setAudio] = useState(null);
+  const location = useLocation();
   const { data: userData } = useQuery("profile", authUserData);
 
   const adviserId = propiedad?.portafolio?.attributes.creadoPor;
@@ -324,8 +326,9 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
         </div>
 
-        <div className="text-xl font-semibold text-blue-600">
-          {property.uniqueId}
+        <div className="text-xl flex flex-row font-semibold ">
+          <span>ID: </span>{" "}
+          <span className="text-green-400">{property.uniqueId}</span>
         </div>
         <div className="mb-3">
           {images.length !== 0 ? (
@@ -1685,7 +1688,8 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
           <span className="text-xs">{property?.descripcion}</span>
         </div>
-        {!userData?.id ? (
+        {!userData?.id &&
+        !location.pathname.includes("/home/portfolio/share-portfolio/") ? (
           <Share pdfUrl={pdfUrl} adviser={adviser} />
         ) : (
           <div className="flex flex-row max-[768px]:flex-col">

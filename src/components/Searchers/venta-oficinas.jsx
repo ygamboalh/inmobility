@@ -393,14 +393,6 @@ const VentaOficinas = () => {
 
           <input
             type="number"
-            value={values.areaPropiedad}
-            onChange={handleChange}
-            name="areaPropiedad"
-            placeholder="Área perimetral del inmueble"
-            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
-          />
-          <input
-            type="number"
             onChange={handleChange}
             value={values.areaContruccion}
             name="areaContruccion"
@@ -412,6 +404,14 @@ const VentaOficinas = () => {
               <div className="errordiv text-xs">{errors.areaContruccion}</div>
             ) : null}
           </div>
+          <input
+            type="number"
+            value={values.areaPropiedad}
+            onChange={handleChange}
+            name="areaPropiedad"
+            placeholder="Área perimetral del inmueble"
+            className="input-admin-property text-gray-500 m-2 w-[323px] p-2"
+          />
           <select
             name="parqueo"
             value={values.parqueo}
