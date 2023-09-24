@@ -301,8 +301,8 @@ const VentaEdificios = () => {
                 onChange={handleChange}
                 min={0}
                 name="precioAlquilerCompra"
-                placeholder="Precio de alquiler compra"
-                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[145px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Precio Alq. con Opc. de Venta"
+                className="block text-gray-500 max-[650px]:w-[241px] p-2.5 w-[241px] bg-transparent z-20 text-sm rounded-r-md border-l-transparent border focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>

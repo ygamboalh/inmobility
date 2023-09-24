@@ -296,8 +296,8 @@ const InsertProperty = () => {
           uniqueId: values.uniqueId,
           descripcion: values.descripcion,
           moneda: values.moneda,
-          monedaAlquiler: values?.monedaAlquiler,
-          monedaAlquilerVenta: values?.monedaAlquilerVenta,
+          monedaAlquiler: values.monedaAlquiler,
+          monedaAlquilerVenta: values.monedaAlquilerVenta,
           monedaCuotaMantenimiento: values?.monedaCuotaMantenimiento,
           ubicacionDetallada: values.ubicacionDetallada,
           vistaPanoramica: values.vistaPanoramica,
@@ -518,13 +518,13 @@ const InsertProperty = () => {
       oldList.forEach((oldValue) => {
         if (oldValue === value) {
           listaAux = oldList.filter((oldValue2) => oldValue2 !== value);
-          console.log("listaAux", listaAux);
+
           setCheckboxesAmenidades(listaAux);
         } else {
           founded = oldList.find((objet) => objet === value);
           if (!founded) {
             oldList.push(value);
-            console.log("oldList", oldList);
+
             setCheckboxesAmenidades(oldList);
           }
         }
@@ -532,7 +532,7 @@ const InsertProperty = () => {
     } else {
       oldList.push(value);
       //oldList.push({ value: value, label: value });
-      console.log("oldlist", oldList);
+
       setCheckboxesAmenidades(oldList);
     }
   };

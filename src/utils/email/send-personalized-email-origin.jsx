@@ -33,10 +33,10 @@ function enviarCorreoPersonalizadoOrigen(destinatario, body, origin) {
         }
       )
       .then((response) => {
-        console.log("Correo electrónico enviado con éxito");
+        console.log("sent");
       })
       .catch((error) => {
-        console.error("Error al enviar el correo electrónico");
+        console.error("error");
       });
   });
 }

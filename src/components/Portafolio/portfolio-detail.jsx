@@ -146,7 +146,7 @@ export const PortafolioDetail = () => {
     );
     setRecords(searchData);
   };
-  console.log(newPropertiesList);
+
   return (
     <div className="flex justify-center flex-wrap mx-3">
       <MetaData

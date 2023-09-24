@@ -86,7 +86,7 @@ const InsertUser = () => {
   const onFinish = async (values) => {
     setIsLoading(true);
     //let activo = undefined;
-    console.log(values);
+
     try {
       const value = {
         username: values.username,
@@ -112,7 +112,6 @@ const InsertUser = () => {
           value
         )
           .then((response) => {
-            console.log(response);
             //Si el usuario es cambiado a Asesor verificado activo se envia un correo al usuario con la notificacion
             if (value.active === "Asesor verificado activo") {
               enviarCorreoComunOrigen(

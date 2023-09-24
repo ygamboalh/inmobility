@@ -42,21 +42,27 @@ const PortafolioShare = () => {
       />
       <div className="mx-8 my-4">
         <span className="font-semibold ">
-          ¡Saludos! Estimado {portafolio?.attributes?.clienteComprador}
+          ¡Saludos! {portafolio?.attributes?.clienteComprador}
         </span>
       </div>
-      <div className="mx-8 mb-3">
+      <div className="mx-8 mb-3 flex flex-col">
         <span className="leading-loose">
           Los inmuebles que le presento a continuación son aquellos que con base
           en sus requerimientos y presupuesto; considero que podrían
-          interesarle. Le sugerimos ver cada uno de ellos y clasificar aquellos
-          que (sin compromiso alguno) desee visitar. ¡Para mí será un placer
-          mostrarle en persona, cada inmueble que Usted considere agradable o
-          interesante; hasta lograr ubicar ese inmueble perfecto¡ Una vez que
-          haya terminado de observar y clasificar los inmuebles que le agradan,
-          por favor, renvíeme el Portafolio para saber a cuales inmuebles darle
-          el debido seguimiento. ¡Quedo a sus órdenes!
+          interesarle.
         </span>
+        <span className="leading-loose">
+          Le sugerimos ver cada uno de ellos y clasificar aquellos que (sin
+          compromiso alguno) desee visitar. ¡Para mí será un placer mostrarle en
+          persona, cada inmueble que Usted considere agradable o interesante;
+          hasta lograr ubicar ese inmueble perfecto¡
+        </span>
+        <span className="leading-loose">
+          Una vez que haya terminado de observar y clasificar los inmuebles que
+          le agradan, por favor, renvíeme el Portafolio para saber a cuales
+          inmuebles darle el seguimiento.
+        </span>
+        <span className="leading-loose">¡Quedo a sus órdenes!</span>
       </div>
       <div className="mx-8 flex flex-col">
         <span className="font-semibold">Estos son mis datos de contacto:</span>

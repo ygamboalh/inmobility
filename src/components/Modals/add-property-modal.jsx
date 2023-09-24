@@ -85,7 +85,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
     const cat = selectCategory(category);
     setCategoria(cat);
   }, []);
-  console.log(categoria);
+
   const closeModal = () => {
     setRecords([]);
     setFilterRecords([]);

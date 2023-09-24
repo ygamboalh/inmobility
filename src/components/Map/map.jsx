@@ -47,7 +47,7 @@ const Map = ({ address, exclusividad }) => {
         setkey(keyf);
       })
       .catch((error) => {
-        console.log("error", error);
+        console.log(error);
       });
   }, [latitud, longitud]);
   getCoordinates();

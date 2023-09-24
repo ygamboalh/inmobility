@@ -386,7 +386,7 @@ const SearchCard = ({ propiedad, onDataReceived }) => {
                 {property.monedaAlquilerVenta}
                 {formatNumber(property.precioAlquilerCompra)}
               </span>
-              {property.monedaAlquiler === "$" ? (
+              {property.monedaAlquilerVenta === "$" ? (
                 <span className="text-[9px] truncate -my-2 text-black">
                   Dólares americanos
                 </span>

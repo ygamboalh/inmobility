@@ -5,7 +5,7 @@ export const authUser = async (userData) => {
   const { data } = await AxiosInstance.post('/auth/local', userData).catch((error) => {
     
     const err = error.response.data.error.message;
-    console.log(err);
+    
     err==="Invalid identifier or password"? message.error(`¡Sus credenciales no son correctas!`):
     message.error(`¡Ocurrió un error. Vuelva a intentarlo!`)
   });   
