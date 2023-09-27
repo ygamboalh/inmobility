@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { useSignIn, useSignOut } from "react-auth-kit";
 
@@ -25,6 +25,7 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { data: userData } = useQuery("profile", authUserData);
   const signOut = useSignOut();
+  const navigate = useNavigate();
 
   const {
     mutate: loginMutation,
@@ -79,31 +80,64 @@ const SignIn = () => {
     const hora = token?.slice(11, 16);
     const horaCreado = deleteZero(hora?.slice(0, 2));
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
+    const diaCreado = parseInt(deleteZero(fecha?.slice(5, 7)));
+    const diaActual = parseInt(deleteZero(currentDateString?.slice(5, 7)));
     const result = horaActual - horaCreado;
+    const dias = diaActual - diaCreado;
+
+    //Si es el mismo dia
     if (currentDateString === fecha && result >= 3) {
       const response = AxiosInstance.put(`/users/${userData?.id}`, {
         isLoggedIn: false,
       })
         .then((res) => {
           signOut();
-          window.location.reload(true);
+          navigate("/");
         })
         .catch((err) => {
           return err;
         });
-    } else {
-      if (currentDateString !== fecha && (result <= -3 || result >= 3)) {
-        const response = AxiosInstance.put(`/users/${userData?.id}`, {
-          isLoggedIn: false,
+    } else if (dias > 1) {
+      //Si ha pasado mas de un dia
+      const response = AxiosInstance.put(`/users/${userData?.id}`, {
+        isLoggedIn: false,
+      })
+        .then((res) => {
+          signOut();
+          navigate("/");
         })
-          .then((res) => {
-            signOut();
-            window.location.reload(true);
-          })
-          .catch((err) => {
-            return err;
-          });
-      }
+        .catch((err) => {
+          return err;
+        });
+    } else if (
+      dias === 1 &&
+      horaCreado >= 21 &&
+      horaCreado <= 23 &&
+      result > -21
+    ) {
+      //Si paso de dia e inicio sesion entre las 21 y las 23 y ademas es entre las 0 y las 2 horas del dia que inicio sesion
+      const response = AxiosInstance.put(`/users/${userData?.id}`, {
+        isLoggedIn: false,
+      })
+        .then((res) => {
+          signOut();
+          navigate("/");
+        })
+        .catch((err) => {
+          return err;
+        });
+    } else if (dias > 0) {
+      //Si no se cumplen los anteriores y paso de dia
+      const response = AxiosInstance.put(`/users/${userData?.id}`, {
+        isLoggedIn: false,
+      })
+        .then((res) => {
+          signOut();
+          navigate("/");
+        })
+        .catch((err) => {
+          return err;
+        });
     }
   };
 
