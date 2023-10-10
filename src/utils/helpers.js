@@ -73,7 +73,7 @@ export const  generateRandomCode = () => {
 export const createNotification = (type, information,reference,emailReference) => {
   const response = AxiosInstance.post(`/notifications`, {
     data: { type: type, information: information, expire:Date.now(), reference: reference,emailReference:emailReference},
-}).then((response) => console.log(response)).catch((error) => console.log(error))
+}).then((response) => console.log('ok')).catch((error) => console.log(error))
 }
 
 export function deleteZero(string) {

@@ -42,15 +42,23 @@ const LinkList = () => {
       url: "",
     },
     validationSchema: Yup.object({
-      descripcion: Yup.string().required("*").min(3, "*").max(1000, "*"),
-      url: Yup.string().matches(urlRegex, "*").required("*").max(3000, "*"),
+      descripcion: Yup.string().min(3, "*").max(1000, "*"),
+      url: Yup.string().matches(urlRegex, "*").max(3000, "*"),
     }),
     onSubmit: async (values) => {
+      let newDescripcion = null;
+      values.descripcion !== ""
+        ? (newDescripcion = values.descripcion)
+        : (newDescripcion = selectedRows[0]?.descripcion);
+      let newURL = null;
+      values.url !== ""
+        ? (newURL = values.url)
+        : (newURL = selectedRows[0]?.url);
       setIsLoading(true);
       try {
         const value = {
-          descripcion: values.descripcion,
-          url: values.url,
+          descripcion: newDescripcion,
+          url: newURL,
         };
 
         const response = await AxiosInstance.put(
@@ -209,11 +217,11 @@ const LinkList = () => {
               />
             </div>
             <div className={selectedRows?.length > 0 ? "-mx-9" : "hidden"}>
-              <div className="mx-3.5 mt-2 justify-start flex max-[500px]:flex-col -mb-5">
+              <div className="mx-3.5 mt-2 justify-start flex max-[500px]:flex-col max-[500px]:items-center -mb-5">
                 <span className="font-semibold mr-2 text-xs flex">
                   Entre los nuevos datos del enlace:{" "}
                 </span>
-                <span className="text-xs flex font-normal">
+                <span className="text-xs flex font-normal max-[500px]:text-center">
                   {selectedRows[0]?.attributes?.descripcion}
                 </span>
               </div>
@@ -231,7 +239,7 @@ const LinkList = () => {
                         className="border w-full h-10 shadow flex border-gray-300 text-xs rounded-md"
                         placeholder="Descripción del botón"
                         name="descripcion"
-                        maxLength={40}
+                        maxLength={100}
                         onChange={handleChange}
                         defaultValue={
                           selectedRows?.length > 0
@@ -239,12 +247,12 @@ const LinkList = () => {
                             : null
                         }
                       />
+                      {errors.descripcion && touched.descripcion ? (
+                        <div className="mr-1.5 max-[800px]:mr-0 text-red-500 mt-3.5 text-xs">
+                          {errors.descripcion}
+                        </div>
+                      ) : null}
                     </div>
-                    {errors.descripcion && touched.descripcion ? (
-                      <div className="-ml-1.5 text-red-500 mt-3 text-xs">
-                        {errors.descripcion}
-                      </div>
-                    ) : null}
 
                     <div className="flex w-full max-[800px]:mb-2">
                       <input
@@ -259,12 +267,12 @@ const LinkList = () => {
                         }
                         name="url"
                       />
+                      {errors.url && touched.url ? (
+                        <div className="text-red-500 mt-3.5 text-xs">
+                          {errors.url}
+                        </div>
+                      ) : null}
                     </div>
-                    {errors.url && touched.url ? (
-                      <div className="-ml-1.5 text-red-500 mt-3 text-xs">
-                        {errors.url}
-                      </div>
-                    ) : null}
                     <div className="mx-2 align-middle max-[500px]:justify-center flex">
                       <button
                         className="px-4 py-1 text-sm bg-blue-700 rounded-md text-white hover:bg-blue-500"

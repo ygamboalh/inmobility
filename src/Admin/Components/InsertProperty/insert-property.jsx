@@ -468,7 +468,7 @@ const InsertProperty = () => {
   });
 
   useEffect(() => {
-    if (!id || selectedOption !== "") {
+    if (!id) {
       handleSubmit();
     } else {
       const response = AxiosInstance.get(`properties/${id}?populate=*`)
@@ -536,7 +536,81 @@ const InsertProperty = () => {
       setCheckboxesAmenidades(oldList);
     }
   };
+  const handleCheckboxChangePatio = (value) => {
+    let oldList = [];
+    let founded = null;
+    oldList = checkboxesPatio;
+    let listaAux = [];
+    if (oldList?.length > 0) {
+      oldList.forEach((oldValue) => {
+        if (oldValue === value) {
+          listaAux = oldList.filter((oldValue2) => oldValue2 !== value);
 
+          setCheckboxesPatio(listaAux);
+        } else {
+          founded = oldList.find((objet) => objet === value);
+          if (!founded) {
+            oldList.push(value);
+
+            setCheckboxesPatio(oldList);
+          }
+        }
+      });
+    } else {
+      oldList.push(value);
+      setCheckboxesPatio(oldList);
+    }
+  };
+  const handleCheckboxChangeInternos = (value) => {
+    let oldList = [];
+    let founded = null;
+    oldList = checkboxesInternos;
+    let listaAux = [];
+    if (oldList?.length > 0) {
+      oldList.forEach((oldValue) => {
+        if (oldValue === value) {
+          listaAux = oldList.filter((oldValue2) => oldValue2 !== value);
+
+          setCheckboxesInternos(listaAux);
+        } else {
+          founded = oldList.find((objet) => objet === value);
+          if (!founded) {
+            oldList.push(value);
+
+            setCheckboxesInternos(oldList);
+          }
+        }
+      });
+    } else {
+      oldList.push(value);
+      setCheckboxesInternos(oldList);
+    }
+  };
+  const handleCheckboxChangeExternos = (value) => {
+    let oldList = [];
+    let founded = null;
+    oldList = checkboxesExternos;
+    let listaAux = [];
+    if (oldList?.length > 0) {
+      oldList.forEach((oldValue) => {
+        if (oldValue === value) {
+          listaAux = oldList.filter((oldValue2) => oldValue2 !== value);
+
+          setCheckboxesExternos(listaAux);
+        } else {
+          founded = oldList.find((objet) => objet === value);
+          if (!founded) {
+            oldList.push(value);
+
+            setCheckboxesExternos(oldList);
+          }
+        }
+      });
+    } else {
+      oldList.push(value);
+      setCheckboxesExternos(oldList);
+    }
+  };
   const showOption = (options) => {
     switch (options) {
       case "Amenidades":
@@ -555,6 +629,13 @@ const InsertProperty = () => {
         break;
     }
   };
+  function IsInArray(objet, array) {
+    let result = null;
+    const foundedObject = array.find((item) => item.value === objet.value);
+
+    foundedObject ? (result = true) : (result = false);
+    return result;
+  }
   if (isLoading || (id && !property)) {
     return <MySpinner />;
   }
@@ -573,7 +654,13 @@ const InsertProperty = () => {
         }
       ></div>
       {id ? (
-        <div className="flex mt-3 justify-center align-middle items-center w-full">
+        <div
+          className={
+            location?.pathname.includes("/admin/properties/insert-property")
+              ? "flex mt-3 justify-center align-middle items-center w-full pt-16"
+              : "flex mt-3 justify-center align-middle items-center w-full"
+          }
+        >
           <label className="font-semibold text-xl">
             Editar la propiedad {property?.uniqueId}
           </label>
@@ -2093,7 +2180,7 @@ const InsertProperty = () => {
               id="active"
               hidden={selectedOption === ""}
               placeholder="Subir a la lista de:"
-              className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full p-2"
+              className="input-admin-property mx-12 text-gray-500 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full p-2"
             >
               <option value="" label="">
                 {"Estado"}
@@ -2142,235 +2229,355 @@ const InsertProperty = () => {
       </form>
       {/* <div
         className={
-          option === "Amenidades"
-            ? "w-full flex flex-col justify-center items-center"
-            : "hidden"
+          selectedOption === "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
+          selectedOption === "Alquiler de Oficinas o Consultorios Médicos" ||
+          selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
+          selectedOption === "Alquiler de Bodegas o Similares" ||
+          selectedOption === "Venta de Bodegas o Similares" ||
+          selectedOption === "Alquiler de Edificios" ||
+          selectedOption === "Venta de Edificios" ||
+          selectedOption === "Alquiler de Locales Comerciales" ||
+          selectedOption === "Venta de Locales Comerciales" ||
+          selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
+          selectedOption === ""
+            ? "hidden"
+            : "w-full"
         }
       >
-        <div className="w-full flex justify-center">
-          <span className="font-semibold">Seleccione las amenidades</span>
-        </div>
         <div
           className={
             option === "Amenidades"
-              ? "w-fit md:w-1/2 shadow-1 border border-gray-300 rounded-md p-8 justify-center lg:w-1/3 xl:w-1/4 overflow-scroll h-[250px]"
+              ? "w-full flex flex-col justify-center items-center"
               : "hidden"
           }
         >
-          {Amenidades.map((checkbox) => (
-            <label
-              key={checkbox.value}
-              className="flex items-center justify-start space-x-2 cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
-                checked={checkbox.checked}
-                onChange={() => handleCheckboxChangeAmenidades(checkbox.value)}
-              />
-              <hr />
-              <span>{checkbox.label}</span>
-            </label>
-          ))}
-        </div>
+          <div className="w-full flex justify-center">
+            <span className="font-semibold">Seleccione las amenidades</span>
+          </div>
+          <div
+            className={
+              option === "Amenidades"
+                ? "w-fit md:w-1/2 shadow-1 border border-gray-300 rounded-md p-8 justify-center lg:w-1/3 xl:w-1/4 overflow-scroll h-[250px]"
+                : "hidden"
+            }
+          >
+            {property?.amenidades
+              ? Amenidades.map((chexboxOld) => (
+                  <label
+                    key={chexboxOld.value}
+                    className="flex items-center justify-start space-x-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
+                      checked={chexboxOld.checked}
+                      defaultChecked={IsInArray(
+                        chexboxOld,
+                        property.amenidades
+                      )}
+                      onChange={() =>
+                        handleCheckboxChangeAmenidades(chexboxOld.value)
+                      }
+                    />
+                    <hr />
+                    <span>{chexboxOld.label}</span>
+                    <span>{IsInArray(chexboxOld, property.amenidades)}</span>
+                  </label>
+                ))
+              : Amenidades.map((checkbox) => (
+                  <label
+                    key={checkbox.value}
+                    className="flex items-center justify-start space-x-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
+                      checked={checkbox.checked}
+                      onChange={() =>
+                        handleCheckboxChangeAmenidades(checkbox.value)
+                      }
+                    />
+                    <hr />
+                    <span>{checkbox.label}</span>
+                  </label>
+                ))}
+          </div>
 
-        <div className="flex flex-row gap-x-4 justify-center">
-          <div className={option !== "Amenidades" ? "hidden" : "my-2"}>
-            <button
-              onClick={() => {
-                showOption("Externos");
-              }}
-              className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
-            >
-              Detalles externos
-            </button>
+          <div className="flex flex-row gap-x-4 justify-center">
+            <div className={option !== "Amenidades" ? "hidden" : "my-2"}>
+              <button
+                onClick={() => {
+                  showOption("Externos");
+                }}
+                className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
+              >
+                Detalles externos
+              </button>
+            </div>
+            <div className={option !== "Amenidades" ? "hidden" : "my-2"}>
+              <button
+                onClick={() => {
+                  showOption("Patio");
+                }}
+                className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
+              >
+                Patio-Jardín
+              </button>
+            </div>
           </div>
-          <div className={option !== "Amenidades" ? "hidden" : "my-2"}>
-            <button
-              onClick={() => {
-                showOption("Patio");
-              }}
-              className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
-            >
-              Patio-Jardín
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        className={
-          option === "Patio"
-            ? "w-full flex flex-col justify-center items-center"
-            : "hidden"
-        }
-      >
-        <div className="w-full flex justify-center">
-          <span className="font-semibold">
-            Seleccione las opciones de patio-jardín
-          </span>
         </div>
         <div
           className={
             option === "Patio"
-              ? "w-fit md:w-1/2 shadow-1 border border-gray-300 rounded-md p-8 justify-center lg:w-1/3 xl:w-1/4 overflow-scroll h-fit"
+              ? "w-full flex flex-col justify-center items-center"
               : "hidden"
           }
         >
-          {PatioJardin.map((checkbox) => (
-            <label
-              key={checkbox.value}
-              className="flex items-center justify-start space-x-2 cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
-                checked={checkbox.checked}
-                // onChange={() => handleCheckboxChangePatio(checkbox.value)}
-              />
-              <hr />
-              <span>{checkbox.label}</span>
-            </label>
-          ))}
-        </div>
-        <div className="flex flex-row gap-x-4 justify-center">
-          <div className={option !== "Patio" ? "hidden" : "my-2"}>
-            <button
-              onClick={() => {
-                showOption("Amenidades");
-              }}
-              className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
-            >
-              Amenidades
-            </button>
+          <div className="w-full flex justify-center">
+            <span className="font-semibold">
+              Seleccione las opciones de patio-jardín
+            </span>
           </div>
-          <div className={option !== "Patio" ? "hidden" : "my-2"}>
-            <button
-              onClick={() => {
-                showOption("Internos");
-              }}
-              className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
-            >
-              Detalles internos
-            </button>
+          <div
+            className={
+              option === "Patio"
+                ? "w-fit md:w-1/2 shadow-1 border border-gray-300 rounded-md p-8 justify-center lg:w-1/3 xl:w-1/4 overflow-scroll h-fit"
+                : "hidden"
+            }
+          >
+            {property?.jardinPatio
+              ? PatioJardin.map((chexboxOld) => (
+                  <label
+                    key={chexboxOld.value}
+                    className="flex items-center justify-start space-x-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
+                      checked={chexboxOld.checked}
+                      defaultChecked={IsInArray(
+                        chexboxOld,
+                        property.jardinPatio
+                      )}
+                      onChange={() =>
+                        handleCheckboxChangePatio(chexboxOld.value)
+                      }
+                    />
+                    <hr />
+                    <span>{chexboxOld.label}</span>
+                    <span>{IsInArray(chexboxOld, property?.jardinPatio)}</span>
+                  </label>
+                ))
+              : PatioJardin.map((checkbox) => (
+                  <label
+                    key={checkbox.value}
+                    className="flex items-center justify-start space-x-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
+                      checked={checkbox.checked}
+                      onChange={() => handleCheckboxChangePatio(checkbox.value)}
+                    />
+                    <hr />
+                    <span>{checkbox.label}</span>
+                  </label>
+                ))}
           </div>
-        </div>
-      </div>
-      <div
-        className={
-          option === "Internos"
-            ? "w-full flex flex-col justify-center items-center"
-            : "hidden"
-        }
-      >
-        <div className="w-full flex justify-center">
-          <span className="font-semibold">
-            Seleccione los detalles internos
-          </span>
+          <div className="flex flex-row gap-x-4 justify-center">
+            <div className={option !== "Patio" ? "hidden" : "my-2"}>
+              <button
+                onClick={() => {
+                  showOption("Amenidades");
+                }}
+                className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
+              >
+                Amenidades
+              </button>
+            </div>
+            <div className={option !== "Patio" ? "hidden" : "my-2"}>
+              <button
+                onClick={() => {
+                  showOption("Internos");
+                }}
+                className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
+              >
+                Detalles internos
+              </button>
+            </div>
+          </div>
         </div>
         <div
           className={
             option === "Internos"
-              ? "w-fit md:w-1/2 shadow-1 border border-gray-300 rounded-md p-8 justify-center lg:w-1/3 xl:w-1/4 overflow-scroll h-[250px]"
+              ? "w-full flex flex-col justify-center items-center"
               : "hidden"
           }
         >
-          {DetallesInternos.map((checkbox) => (
-            <label
-              key={checkbox.value}
-              className="flex items-center justify-start space-x-2 cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
-                checked={checkbox.checked}
-                //onChange={() => handleCheckboxChangeInternos(checkbox.value)}
-              />
-              <hr />
-              <span>{checkbox.label}</span>
-            </label>
-          ))}
-        </div>
-        <div className="flex flex-row gap-x-4 justify-center">
-          <div className={option !== "Internos" ? "hidden" : "my-2"}>
-            <button
-              onClick={() => {
-                showOption("Patio");
-              }}
-              className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
-            >
-              Patio-Jardín
-            </button>
+          <div className="w-full flex justify-center">
+            <span className="font-semibold">
+              Seleccione los detalles internos
+            </span>
           </div>
-          <div className={option !== "Internos" ? "hidden" : "my-2"}>
-            <button
-              onClick={() => {
-                showOption("Externos");
-              }}
-              className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
-            >
-              Detalles externos
-            </button>
+          <div
+            className={
+              option === "Internos"
+                ? "w-fit md:w-1/2 shadow-1 border border-gray-300 rounded-md p-8 justify-center lg:w-1/3 xl:w-1/4 overflow-scroll h-[250px]"
+                : "hidden"
+            }
+          >
+            {property?.detallesInternos
+              ? DetallesInternos.map((chexboxOld) => (
+                  <label
+                    key={chexboxOld.value}
+                    className="flex items-center justify-start space-x-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
+                      checked={chexboxOld.checked}
+                      defaultChecked={IsInArray(
+                        chexboxOld,
+                        property.detallesInternos
+                      )}
+                      onChange={() =>
+                        handleCheckboxChangeInternos(chexboxOld.value)
+                      }
+                    />
+                    <hr />
+                    <span>{chexboxOld.label}</span>
+                    <span>
+                      {IsInArray(chexboxOld, property?.detallesInternos)}
+                    </span>
+                  </label>
+                ))
+              : DetallesInternos.map((checkbox) => (
+                  <label
+                    key={checkbox.value}
+                    className="flex items-center justify-start space-x-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
+                      checked={checkbox.checked}
+                      onChange={() =>
+                        handleCheckboxChangeInternos(checkbox.value)
+                      }
+                    />
+                    <hr />
+                    <span>{checkbox.label}</span>
+                  </label>
+                ))}
           </div>
-        </div>
-      </div>
-      <div
-        className={
-          option === "Externos"
-            ? "w-full flex flex-col justify-center items-center"
-            : "hidden"
-        }
-      >
-        <div className="w-full flex justify-center">
-          <span className="font-semibold">
-            Seleccione los detalles externos
-          </span>
+          <div className="flex flex-row gap-x-4 justify-center">
+            <div className={option !== "Internos" ? "hidden" : "my-2"}>
+              <button
+                onClick={() => {
+                  showOption("Patio");
+                }}
+                className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
+              >
+                Patio-Jardín
+              </button>
+            </div>
+            <div className={option !== "Internos" ? "hidden" : "my-2"}>
+              <button
+                onClick={() => {
+                  showOption("Externos");
+                }}
+                className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
+              >
+                Detalles externos
+              </button>
+            </div>
+          </div>
         </div>
         <div
           className={
             option === "Externos"
-              ? "w-fit md:w-1/2 shadow-1 border border-gray-300 rounded-md p-8 justify-center lg:w-1/3 xl:w-1/4 overflow-scroll h-[250px]"
+              ? "w-full flex flex-col justify-center items-center"
               : "hidden"
           }
         >
-          {DetallesExternos.map((checkbox) => (
-            <label
-              key={checkbox.value}
-              className="flex items-center justify-start space-x-2 cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                className="form-checkbox flex  rounded-full w-5 h-5 justify-start focus:ring-0 text-indigo-600"
-                checked={checkbox.checked}
-                //onChange={() => handleCheckboxChangeExternos(checkbox.value)}
-              />
-              <hr />
-              <span>{checkbox.label}</span>
-            </label>
-          ))}
+          <div className="w-full flex justify-center">
+            <span className="font-semibold">
+              Seleccione los detalles externos
+            </span>
+          </div>
+          <div
+            className={
+              option === "Externos"
+                ? "w-fit md:w-1/2 shadow-1 border border-gray-300 rounded-md p-8 justify-center lg:w-1/3 xl:w-1/4 overflow-scroll h-[250px]"
+                : "hidden"
+            }
+          >
+            {property?.detallesExternos
+              ? DetallesExternos.map((chexboxOld) => (
+                  <label
+                    key={chexboxOld.value}
+                    className="flex items-center justify-start space-x-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
+                      checked={chexboxOld.checked}
+                      defaultChecked={IsInArray(
+                        chexboxOld,
+                        property.detallesExternos
+                      )}
+                      onChange={() =>
+                        handleCheckboxChangeExternos(chexboxOld.value)
+                      }
+                    />
+                    <hr />
+                    <span>{chexboxOld.label}</span>
+                    <span>
+                      {IsInArray(chexboxOld, property?.detallesExternos)}
+                    </span>
+                  </label>
+                ))
+              : DetallesExternos.map((checkbox) => (
+                  <label
+                    key={checkbox.value}
+                    className="flex items-center justify-start space-x-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox flex focus:ring-0 rounded-full w-5 h-5 justify-start text-indigo-600"
+                      checked={checkbox.checked}
+                      onChange={() =>
+                        handleCheckboxChangeExternos(checkbox.value)
+                      }
+                    />
+                    <hr />
+                    <span>{checkbox.label}</span>
+                  </label>
+                ))}
+          </div>
+          <div className="flex flex-row gap-x-4 justify-center">
+            <div className={option !== "Externos" ? "hidden" : "my-2"}>
+              <button
+                onClick={() => {
+                  showOption("Internos");
+                }}
+                className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
+              >
+                Detalles internos
+              </button>
+            </div>
+            <div className={option !== "Externos" ? "hidden" : "my-2"}>
+              <button
+                onClick={() => {
+                  showOption("Amenidades");
+                }}
+                className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
+              >
+                Amenidades
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-row gap-x-4 justify-center">
-          <div className={option !== "Externos" ? "hidden" : "my-2"}>
-            <button
-              onClick={() => {
-                showOption("Internos");
-              }}
-              className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
-            >
-              Detalles internos
-            </button>
-          </div>
-          <div className={option !== "Externos" ? "hidden" : "my-2"}>
-            <button
-              onClick={() => {
-                showOption("Amenidades");
-              }}
-              className="bg-blue-700 rounded-md py-2 px-3 text-[13px] text-white"
-            >
-              Amenidades
-            </button>
-          </div>
-        </div> 
-      </div>*/}
+      </div> */}
     </div>
   );
 };

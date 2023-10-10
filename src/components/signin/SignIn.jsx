@@ -80,8 +80,8 @@ const SignIn = () => {
     const hora = token?.slice(11, 16);
     const horaCreado = deleteZero(hora?.slice(0, 2));
     const horaActual = deleteZero(currentTimeString?.slice(0, 2));
-    const diaCreado = parseInt(deleteZero(fecha?.slice(5, 7)));
-    const diaActual = parseInt(deleteZero(currentDateString?.slice(5, 7)));
+    const diaCreado = parseInt(deleteZero(fecha?.slice(8, 10)));
+    const diaActual = parseInt(deleteZero(currentDateString?.slice(8, 10)));
     const result = horaActual - horaCreado;
     const dias = diaActual - diaCreado;
 

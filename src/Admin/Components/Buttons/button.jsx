@@ -38,19 +38,51 @@ const Button = () => {
       url: "",
     },
     validationSchema: Yup.object({
-      description: Yup.string().required("*").min(3, "*").max(40, "*"),
-      url: Yup.string().matches(urlRegex, "*").required("*"),
+      description: Yup.string().min(3, "*").max(40, "*"),
+      url: Yup.string().matches(urlRegex, "*"),
     }),
     onSubmit: async (values) => {
-      setIsLoading(true);
+      console.log("values", values);
+      console.log("selected", selectedRows[0]);
       try {
-        const value = {
+        let newDescription = null;
+        let newURL = null;
+        //Si estoy editando
+        selectedRows[0]?.id && values.description !== ""
+          ? (newDescription = values.description)
+          : (newDescription = selectedRows[0]?.attributes.description);
+
+        selectedRows[0]?.id && values.url !== ""
+          ? (newURL = values.url)
+          : (newURL = selectedRows[0]?.attributes.url);
+
+        const editValue = {
+          description: newDescription,
+          url: newURL,
+        };
+
+        //Si estoy creando
+        const createValue = {
           description: values.description,
           url: values.url,
         };
-        if (selectedRows?.length === 0) {
+
+        if (
+          (createValue.description === "" || createValue.url === "") &&
+          (editValue.description === undefined || editValue.url === undefined)
+        ) {
+          message.info("¡Para crear debe llenar los datos que faltan!");
+          return;
+        }
+
+        setIsLoading(true);
+        if (
+          selectedRows?.length === 0 &&
+          createValue.description !== "" &&
+          createValue.url !== ""
+        ) {
           const response = await AxiosInstance.post("/buttons", {
-            data: value,
+            data: createValue,
           })
             .then((respons) => {
               message.success("¡El botón fue creado correctamente!");
@@ -64,16 +96,13 @@ const Button = () => {
           const response = await AxiosInstance.put(
             `/buttons/${selectedRows[0]?.id}`,
             {
-              data: value,
+              data: editValue,
             }
           )
             .then((respons) => {
               message.success("¡El botón fue actualizado correctamente!");
               queryClient.invalidateQueries(["buttons"]);
               window.location.reload(true);
-              /* setTimeout(() => {
-                return <MySpinner />;
-              }, 1500); */
             })
             .catch((error) => {
               console.log(error);
@@ -188,7 +217,7 @@ const Button = () => {
                     }
                   />
                   {errors.description && touched.description ? (
-                    <div className=" text-red-500 mt-3 text-xs">
+                    <div className=" text-red-500 mt-3.5 text-xs">
                       {errors.description}
                     </div>
                   ) : null}
@@ -208,7 +237,7 @@ const Button = () => {
                     name="url"
                   />
                   {errors.url && touched.url ? (
-                    <div className=" text-red-500 mt-3 text-xs">
+                    <div className=" text-red-500 mt-3.5 text-xs">
                       {errors.url}
                     </div>
                   ) : null}
@@ -225,7 +254,7 @@ const Button = () => {
                 ) : (
                   <div className="mx-2 max-[800px]:flex max-[800px]:justify-center">
                     <button
-                      className="px-4 py-2 bg-blue-700 rounded-md text-white hover:bg-blue-500"
+                      className="px-4 py-3 bg-blue-700 rounded-md text-white hover:bg-blue-500"
                       type="submit"
                     >
                       Actualizar
