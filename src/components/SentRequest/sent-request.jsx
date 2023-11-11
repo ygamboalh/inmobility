@@ -16,7 +16,7 @@ const SentRequest = () => {
         </label>
       </div>
       <div className="max-w-60 flex flex-col">
-        <Link to="/home/banner" link-to className="button-rq">
+        <Link to="/home/banner/visiter" link-to className="button-rq">
           Volver al inicio
         </Link>
       </div>

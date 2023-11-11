@@ -46,7 +46,7 @@ import { authUserData } from "../../../api/usersApi";
 import enviarCorreoPersonalizado from "../../../utils/email/send-personalized-email";
 import MetaData from "../../../components/Metadata/metadata";
 
-const InsertProperty = () => {
+const EditProperty = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const idregex = /^[a-zA-Z0-9-]+$/;
@@ -121,29 +121,6 @@ const InsertProperty = () => {
     setSelectedOption(selectedOption);
   };
 
-  const handleChangeAmenidades = (selectedOption) => {
-    setAmenidades(selectedOption);
-  };
-  const handleChangePatioJardin = (selectedOption) => {
-    setPatio(selectedOption);
-
-    if (patio?.length === 3) {
-      setMenuIsOpen(false);
-    }
-  };
-  const handleChangeDetallesInternos = (selectedOption) => {
-    setDetallesInternos(selectedOption);
-  };
-  const handleChangeDetallesExternos = (selectedOption) => {
-    setDetallesExternos(selectedOption);
-  };
-  function IsInNewArray(oldValue, oldArray, newArray) {
-    const result = newArray.map();
-    oldArray.contains(oldValue)
-      ? newArray.filter((value) => value === oldValue)
-      : newArray.push(oldValue);
-    return newArray;
-  }
   function removeElementsFromArray(arr1, arr2) {
     for (let i = 0; i < arr1.length; i++) {
       if (arr2.includes(arr1[i])) {
@@ -2642,4 +2619,4 @@ const InsertProperty = () => {
   );
 };
 
-export default InsertProperty;
+export default EditProperty;

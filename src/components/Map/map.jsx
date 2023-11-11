@@ -31,12 +31,12 @@ const Map = ({ address, exclusividad }) => {
           const { lat, lng } = data.results[0].geometry.location;
           setLatitud(lat);
           setLongitud(lng);
-        } else {
+        } /* else {
           console.log("no map");
-        }
+        } */
       }
     } catch (error) {
-      console.error("no coords", error);
+      console.error("no coords");
     }
   };
 

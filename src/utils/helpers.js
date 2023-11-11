@@ -164,3 +164,9 @@ export const deletePortfolios = async (portfolios) => {
     deletePortfolios(portfolios);
 };
   
+export const fixDate = (dateFormat) => {
+  const year = dateFormat.slice(0, 4);
+  const month = dateFormat.slice(5, 7);
+  const day = dateFormat.slice(8, 10);
+  return `${day}-${month}-${year}`;
+};

@@ -63,8 +63,15 @@ const Terms = () => {
       >
         {({ errors, touched }) => (
           <Form onFinish={onFinish} autoComplete="off">
-            <div className="max-w-3xl mb-1 px-4 pt-4 font-bold text-xl mt-5 text-center">
+            <div className="max-w-3xl mb-1 px-4 font-bold text-xl mt-3 text-center">
               Términos y condiciones
+            </div>
+            <div className="max-w-3xl mb-1 px-4 text-l mt-3 text-center">
+              Para poder solicitar ingresar como{" "}
+              <span className="mr-1.5 font-bold">
+                Asesor Inmobiliario Verificado
+              </span>
+              debe aceptar nuestros términos y condiciones
             </div>
             <div className="max-w-3xl px-4 pt-4 text-left">
               <Field

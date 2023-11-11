@@ -314,9 +314,30 @@ export const PortafolioDetail = () => {
                           {selectReaction(record.attributes.reaccion)}
                         </div>
                         <span className="text-xs ml-1 align-middle mt-3 flex">
-                          Reacción del cliente
+                          {record.attributes.reaccion ? (
+                            ""
+                          ) : (
+                            <span className="flex">No tiene reacción</span>
+                          )}
                         </span>
                       </div>
+                      <div className="mt-2 flex flex-col align-middle">
+                        <span className="text-xs font-semibold">
+                          Comentario del cliente comprador
+                        </span>
+                        <div className="flex flex-row justify-center align-middle items-center">
+                          <span>
+                            {record?.attributes?.comentario ? (
+                              <span className="flex text-xs items-start bg-gray-300 px-2 py-1 rounded-md">
+                                {record.attributes.comentario}
+                              </span>
+                            ) : (
+                              "No tiene comentario"
+                            )}
+                          </span>
+                        </div>
+                      </div>
+
                       <div className="flex items-center justify-center space-x-4">
                         <div className="mt-2 flex justify-center flex-row">
                           <button

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import {
   BiCar,
   BiChair,
   BiChild,
+  BiComment,
   BiConfused,
   BiDislike,
   BiEraser,
@@ -15,6 +16,7 @@ import {
   BiLike,
   BiSolidDog,
 } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
 import { message } from "antd";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Swal from "sweetalert2";
@@ -31,6 +33,7 @@ import { authUserData } from "../../api/usersApi";
 import MetaData from "../Metadata/metadata";
 import ShareAdviser from "../Share/share-adviser";
 import Map from "../Map/map";
+import { fixDate } from "../../utils/helpers";
 
 const PortafolioCard = ({ propiedad }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,11 +43,34 @@ const PortafolioCard = ({ propiedad }) => {
   const [reaction, setReaction] = useState([]);
   const [adviser, setAdviser] = useState();
   const [audio, setAudio] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [remainingChars, setRemainingChars] = useState(300);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const formRef = useRef(null);
+
   const location = useLocation();
   const { data: userData } = useQuery("profile", authUserData);
 
   const adviserId = propiedad?.portafolio?.attributes.creadoPor;
   const propertyId = propiedad.property;
+
+  function handleInputChange(event) {
+    const value = event.target.value;
+    setInputValue(value);
+    setRemainingChars(300 - value.length);
+  }
+  function handleResize() {
+    setWindowWidth(window.innerWidth);
+  }
+  function handleReset() {
+    formRef.current.reset();
+  }
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     getProperty();
@@ -103,6 +129,7 @@ const PortafolioCard = ({ propiedad }) => {
   const [images, setImages] = useState([]);
   const [pdfUrl, setPdfUrl] = useState();
   const [address, setAddress] = useState();
+  const [visible, setVisible] = useState(false);
 
   const getProperty = async () => {
     setIsLoading(true);
@@ -148,6 +175,34 @@ const PortafolioCard = ({ propiedad }) => {
       })
       .catch((error) => {
         message.error("No se pudo enviar la respuesta");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+  const toggleCommentVisible = () => {
+    console.log(visible);
+    setVisible(!visible);
+  };
+  const handleSubmitComment = (event) => {
+    const comentario = event.target[0].value;
+
+    event.preventDefault();
+    setIsLoading(true);
+    const values = {
+      comentario: comentario,
+    };
+    setInputValue("");
+    setRemainingChars(300);
+
+    const response = AxiosInstance.put(`${API}properties/${propertyId}`, {
+      data: { comentario },
+    })
+      .then((response) => {
+        message.success("El comentario se guardó correctamente");
+      })
+      .catch((error) => {
+        message.error("No se pudo guardar el comentario. Intente nuevamente");
       })
       .finally(() => {
         setIsLoading(false);
@@ -255,26 +310,6 @@ const PortafolioCard = ({ propiedad }) => {
             </div>
           </div>
           <div className="flex gap-x-2 max-[500px]:flex-col">
-            <div className="flex flex-col justify-center border-l-2 max-[500px]:border-l-0 max-[500px]:border-r-0 border-r-2 px-1 text-xl font-semibold text-blue-600">
-              <span className="text-xs text-black truncate">
-                Precio de venta
-              </span>
-              <span className="text-lg">
-                {property.moneda}
-                {formatNumber(property.precio)}
-              </span>
-
-              {property.moneda === "$" ? (
-                <span className="text-[9px] truncate -my-2 text-black">
-                  Dólares americanos
-                </span>
-              ) : (
-                <span className="text-[9px] truncate -my-2 text-black">
-                  Colones costarricences
-                </span>
-              )}
-            </div>
-
             <div
               className={
                 !property.precioAlquiler
@@ -323,12 +358,35 @@ const PortafolioCard = ({ propiedad }) => {
                 </span>
               )}
             </div>
+            <div className="flex flex-col justify-center border-l-2 max-[500px]:border-l-0 max-[500px]:border-r-0 border-r-2 px-1 text-xl font-semibold text-blue-600">
+              <span className="text-xs text-black truncate">
+                Precio de venta
+              </span>
+              <span className="text-lg">
+                {property.moneda}
+                {formatNumber(property.precio)}
+              </span>
+
+              {property.moneda === "$" ? (
+                <span className="text-[9px] truncate -my-2 text-black">
+                  Dólares americanos
+                </span>
+              ) : (
+                <span className="text-[9px] truncate -my-2 text-black">
+                  Colones costarricences
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="text-xl flex flex-row font-semibold ">
           <span>ID: </span>{" "}
           <span className="text-green-400">{property.uniqueId}</span>
+        </div>
+        <div className="text-xl flex flex-row font-semibold ">
+          <span className=" mr-2">{fixDate(property.createdAt)}</span>
+          <span className="text-blue-500">{property.active}</span>
         </div>
         <div className="mb-3">
           {images.length !== 0 ? (
@@ -428,20 +486,26 @@ const PortafolioCard = ({ propiedad }) => {
               <div className="flex max-[500px]:justify-center mb-2">
                 <span>¿Cuál es su opinión de este inmueble?</span>
               </div>
-              <div className="flex justify-between">
-                <div className="flex max-[500px]:justify-center flex-row">
-                  <div className="justify-center mb-4 mx-1">
+              <div className="flex justify-between max-[1000px]:flex-col">
+                <div className="flex max-[500px]:justify-center ml-4 max-[500px]:ml-0  flex-row">
+                  <div className="justify-center w-[20px] items-center align-middle flex flex-col mb-4 mx-1">
+                    <span className="text-[11px] w-20 flex flex-row justify-center">
+                      Me gusta
+                    </span>
                     <button
                       onClick={() => {
                         handleLikeClick();
                       }}
                       style={{ backgroundColor: likeColor }}
-                      className="rounded-full p-2"
+                      className="rounded-full p-2 w-fit"
                     >
                       <BiLike fill="white" size={30} />
                     </button>
                   </div>
-                  <div className="justify-center mb-4 mx-1">
+                  <div className="justify-center items-center flex flex-col align-middle mb-4 mx-1">
+                    <span className="text-[11px] w-20 flex flex-row justify-center">
+                      Indeciso
+                    </span>
                     <button
                       onClick={handleConfusedClick}
                       style={{ backgroundColor: confusedColor }}
@@ -450,7 +514,10 @@ const PortafolioCard = ({ propiedad }) => {
                       <BiConfused fill="white" size={30} />
                     </button>
                   </div>
-                  <div className="justify-center mb-4 mx-1">
+                  <div className="justify-center w-[25px] items-center align-middle flex flex-col mb-4 mx-3">
+                    <span className="text-[11px] w-20 flex flex-row justify-center">
+                      No me gusta
+                    </span>
                     <button
                       onClick={handleDislikeClick}
                       style={{ backgroundColor: dislikeColor }}
@@ -459,18 +526,118 @@ const PortafolioCard = ({ propiedad }) => {
                       <BiDislike fill="white" size={30} />
                     </button>
                   </div>
+                  <div className="justify-center items-center align-middle flex flex-col mb-4 mx-1">
+                    <span className="text-[11px] w-20 flex flex-row justify-center">
+                      Eliminar
+                    </span>
+                    <form>
+                      <button
+                        onClick={removeProperty}
+                        type="button"
+                        className="bg-red-600 p-2 rounded-full"
+                      >
+                        <AiOutlineDelete size={30} fill="white" />
+                      </button>
+                    </form>
+                  </div>
+                  <div className="justify-center w-8 items-center align-middle flex flex-col mb-4 mx-1">
+                    <span className="text-[11px] flex flex-row justify-center">
+                      Comentar
+                    </span>
+                    <form>
+                      <button
+                        onClick={toggleCommentVisible}
+                        type="button"
+                        className="p-2 rounded-full"
+                        style={{ backgroundColor: dislikeColor }}
+                      >
+                        <BiComment size={30} fill="white" />
+                      </button>
+                    </form>
+                  </div>
                 </div>
-                <div className="flex justify-end">
-                  <form>
-                    <button
-                      onClick={removeProperty}
-                      type="button"
-                      className="bg-blue-500 p-2 rounded-full"
-                    >
-                      <BiEraser size={30} fill="red" />
-                    </button>
-                  </form>
-                </div>
+                {visible === true ? (
+                  <div className="flex w-full pl-4 max-[500px]:justify-center max-[1000px]:mb-2 max-[1000px]:pl-0">
+                    <div className="w-full">
+                      <form
+                        autoComplete={false}
+                        ref={formRef}
+                        onSubmit={handleSubmitComment}
+                      >
+                        {windowWidth <= 1000 ? (
+                          <div className="relative w-full">
+                            <div className="absolute top-2 left-0 flex items-center pl-3 pointer-events-none">
+                              <BiComment fill="gray" size={25} />
+                            </div>
+
+                            <div className="">
+                              <textarea
+                                placeholder="Comente este inmueble"
+                                autoComplete="off"
+                                value={inputValue}
+                                onChange={handleInputChange}
+                                maxLength={300}
+                                type="text"
+                                name="comment"
+                                id="comment"
+                                className="block w-full p-2 pr-12 h-28 pl-[40px] text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                              />
+                            </div>
+                            <div className="flex flex-row justify-center mt-2">
+                              <div className="flex items-center pl-3">
+                                <button
+                                  type="submit"
+                                  className="text-sm cursor-pointer bg-green-400 text-white hover:bg-green-500 rounded-md px-2 py-1"
+                                >
+                                  Guardar
+                                </button>
+                              </div>
+                              <div className="flex items-center pl-2.5 pointer-events-none">
+                                <span className="text-sm bg-gray-300 rounded-md px-2 py-1">
+                                  {remainingChars} Caracteres restantes
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="relative w-full">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                              <BiComment fill="gray" size={25} />
+                            </div>
+                            <div className="absolute inset-y-0 left-7 max-[700px]:left-0 flex items-center pl-3 pointer-events-none">
+                              <span className="text-sm bg-gray-300 rounded-md px-2 py-1">
+                                {remainingChars}
+                              </span>
+                            </div>
+
+                            <div className="">
+                              <input
+                                placeholder="Comente este inmueble"
+                                autoComplete="off"
+                                value={inputValue}
+                                onChange={handleInputChange}
+                                maxLength={300}
+                                type="text"
+                                name="comment"
+                                id="comment1"
+                                className="block w-full p-4 pr-24 h-16 pl-[84px] text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                              />
+                            </div>
+
+                            <div className="absolute inset-y-0 right-3 flex items-center pl-3">
+                              <button
+                                type="submit"
+                                className="text-sm cursor-pointer bg-green-400 text-white hover:bg-green-500 rounded-md px-2 py-1"
+                              >
+                                Guardar
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </form>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -1298,9 +1465,9 @@ const PortafolioCard = ({ propiedad }) => {
                       </svg>
                       <label className="font-semibold">
                         {property.serviciosMedicos === true ? (
-                          <label>Acondicionado para servicios médicos</label>
+                          <label>Servicios médicos cercanos</label>
                         ) : (
-                          <label>NO acondicionado para servicios médicos</label>
+                          <label>Sin servicios médicos cercanos</label>
                         )}
                       </label>
                     </div>
@@ -1521,8 +1688,7 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
           <div
             className={
-              !property?.jardinPatio ||
-              Object?.keys(property?.jardinPatio)?.length === 0
+              !property?.jardinPatio || property?.jardinPatio?.length === 0
                 ? "hidden"
                 : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
             }
@@ -1531,10 +1697,10 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
           <div className="flex flex-wrap w-full">
             {!property?.jardinPatio ||
-            Object.keys(property?.jardinPatio)?.length === 0 ? null : (
+            property?.jardinPatio?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
                 {!property?.jardinPatio ||
-                Object.keys(property?.jardinPatio)?.length === 0 ||
+                property?.jardinPatio?.length === 0 ||
                 property?.jardinPatio?.length === undefined ||
                 property?.jardinPatio?.length === 0
                   ? null
@@ -1551,7 +1717,7 @@ const PortafolioCard = ({ propiedad }) => {
                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                           </svg>
 
-                          {elemento.label}
+                          {elemento}
                         </div>
                       </div>
                     ))}
@@ -1560,8 +1726,7 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
           <div
             className={
-              !property?.amenidades ||
-              Object.keys(property?.amenidades)?.length === 0
+              !property?.amenidades || property?.amenidades?.length === 0
                 ? "hidden"
                 : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
             }
@@ -1570,10 +1735,10 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
           <div className="flex flex-wrap w-full">
             {!property?.amenidades ||
-            Object.keys(property?.amenidades)?.length === 0 ? null : (
+            property?.amenidades?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
                 {!property?.amenidades ||
-                Object.keys(property.amenidades).length === 0 ||
+                property.amenidades?.length === 0 ||
                 property?.amenidades?.length === undefined ||
                 property?.amenidades?.length === 0
                   ? null
@@ -1589,7 +1754,7 @@ const PortafolioCard = ({ propiedad }) => {
                           >
                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                           </svg>
-                          {elemento.label}
+                          {elemento}
                         </div>
                       </div>
                     ))}
@@ -1599,7 +1764,7 @@ const PortafolioCard = ({ propiedad }) => {
           <div
             className={
               !property?.detallesExternos ||
-              Object.keys(property?.detallesInternos)?.length === 0
+              property?.detallesInternos?.length === 0
                 ? "hidden"
                 : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
             }
@@ -1608,10 +1773,10 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
           <div className="flex flex-wrap w-full">
             {!property?.detallesInternos ||
-            Object.keys(property?.detallesInternos)?.length === 0 ? null : (
+            property?.detallesInternos?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
                 {!property?.detallesInternos ||
-                Object.keys(property?.detallesInternos)?.length === 0 ||
+                property?.detallesInternos?.length === 0 ||
                 property?.detallesInternos?.length === undefined ||
                 property?.detallesInternos?.length === 0
                   ? null
@@ -1627,7 +1792,7 @@ const PortafolioCard = ({ propiedad }) => {
                           >
                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                           </svg>
-                          {elemento.label}
+                          {elemento}
                         </div>
                       </div>
                     ))}
@@ -1637,7 +1802,7 @@ const PortafolioCard = ({ propiedad }) => {
           <div
             className={
               !property?.detallesExternos ||
-              Object.keys(property?.detallesExternos)?.length === 0
+              property?.detallesExternos?.length === 0
                 ? "hidden"
                 : "px-3 pt-1 pb-1 text-black font-semibold text-md bg-blue-400"
             }
@@ -1646,10 +1811,10 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
           <div className="flex flex-wrap w-full">
             {!property?.detallesExternos ||
-            Object.keys(property?.detallesExternos)?.length === 0 ? null : (
+            property?.detallesExternos?.length === 0 ? null : (
               <div className="text-black rounded-sm w-full flex flex-wrap">
                 {!property?.detallesExternos ||
-                Object.keys(property.detallesExternos).length === 0 ||
+                property.detallesExternos?.length === 0 ||
                 property?.detallesExternos?.length === undefined ||
                 property?.detallesExternos?.length === 0
                   ? null
@@ -1665,7 +1830,7 @@ const PortafolioCard = ({ propiedad }) => {
                           >
                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                           </svg>
-                          {elemento.label}
+                          {elemento}
                         </div>
                       </div>
                     ))}
@@ -1699,6 +1864,7 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
         )}
       </div>
+
       {/*  {visible && property ? (
         <div className="flex justify-center min-h-screen">
           <PDFViewer

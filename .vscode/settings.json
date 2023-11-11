@@ -4,5 +4,7 @@
   "editor.cursorStyle": "line",
   "editor.autoClosingQuotes": "always",
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-  "editor.tabFocusMode": false
+  "editor.tabFocusMode": false,
+  "editor.mouseWheelZoom": true,
+  "window.zoomLevel": 0
 }

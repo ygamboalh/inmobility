@@ -33,7 +33,6 @@ const PortafolioShare = () => {
   if (!portafolio) {
     return <MySpinner />;
   }
-  console.log(portafolio);
   return (
     <div>
       <MetaData
@@ -75,15 +74,17 @@ const PortafolioShare = () => {
           <span className="pl-2">{portafolio.attributes.telefonoAsesor}</span>
         </div>
       </div>
-      {properties.length !== 0
-        ? properties?.map((property) => {
-            return (
-              <div className="mb-3 mt-3 mx-2">
-                <PortafolioCard propiedad={{ property, portafolio }} />
-              </div>
-            );
-          })
-        : "no hay datos para mostrar"}
+      {properties.length !== 0 ? (
+        properties?.map((property) => {
+          return (
+            <div className="mb-3 mt-3 mx-2">
+              <PortafolioCard propiedad={{ property, portafolio }} />
+            </div>
+          );
+        })
+      ) : (
+        <span className="ml-4">No hay datos para mostrar</span>
+      )}
     </div>
   );
 };

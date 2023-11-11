@@ -1,8 +1,12 @@
 import { NavLink } from "react-router-dom";
+import { useQuery } from "react-query";
 
 import Dropdown from "../Dropdown/Dropdown";
+import { authUserData } from "../../../api/usersApi";
 
 const Navbar = () => {
+  const { data: userData } = useQuery("profile", authUserData);
+
   const inactiveClass =
     "block py-2 pl-3 pr-4 md:p-0 rounded md:bg-transparent text-white";
   const activeClass = "block py-2 pl-3 pr-4 md:p-0 rounded  text-black ";
@@ -47,14 +51,17 @@ const Navbar = () => {
           >
             Botones
           </NavLink>
-          <NavLink
-            to="/user/verified-adviser"
-            className={({ isActive }) =>
-              isActive ? activeClass : inactiveClass
-            }
-          >
-            Portal verificados
-          </NavLink>
+          {userData?.active === "Supervisor" ? null : (
+            <NavLink
+              to="/user/verified-adviser"
+              className={({ isActive }) =>
+                isActive ? activeClass : inactiveClass
+              }
+            >
+              Portal verificados
+            </NavLink>
+          )}
+
           <NavLink
             to="/admin/links"
             className={({ isActive }) =>

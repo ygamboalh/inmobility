@@ -553,9 +553,9 @@ const PdfView = ({ property }) => {
                 <View>
                   <Text className="font-semibold">
                     {property.serviciosMedicos === true ? (
-                      <Text>Acondicionado para servicios médicos</Text>
+                      <Text>Servicios médicos cercanos</Text>
                     ) : (
-                      <Text>NO acondicionado para servicios médicos</Text>
+                      <Text>Sin servicios médicos cercanos</Text>
                     )}
                   </Text>
                 </View>
@@ -636,7 +636,7 @@ const PdfView = ({ property }) => {
               ) : null}
             </View>
             {!property.jardinPatio ||
-            Object.keys(property.jardinPatio).length === 0 ? null : (
+            property.jardinPatio.length === 0 ? null : (
               <View className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <View style={divStyle} className="flex flex-col">
                   <Text
@@ -652,7 +652,7 @@ const PdfView = ({ property }) => {
                   </Text>
                   <ul>
                     {!property.jardinPatio ||
-                    Object.keys(property.jardinPatio).length === 0 ||
+                    property.jardinPatio?.length === 0 ||
                     property.jardinPatio?.length === undefined ||
                     property.jardinPatio?.length === 0
                       ? null
@@ -665,7 +665,7 @@ const PdfView = ({ property }) => {
                             }}
                             key={index}
                           >
-                            - {elemento.label}
+                            - {elemento}
                           </Text>
                         ))}
                   </ul>
@@ -673,7 +673,7 @@ const PdfView = ({ property }) => {
               </View>
             )}
             {!property.amenidades ||
-            Object.keys(property.amenidades).length === 0 ? null : (
+            property.amenidades?.length === 0 ? null : (
               <View>
                 <View style={divStyle} className="flex flex-col">
                   <Text
@@ -687,7 +687,7 @@ const PdfView = ({ property }) => {
                   </Text>
                   <ul>
                     {!property.amenidades ||
-                    Object.keys(property.amenidades).length === 0 ||
+                    property.amenidades?.length === 0 ||
                     property.amenidades?.length === undefined ||
                     property.amenidades?.length === 0
                       ? null
@@ -699,7 +699,7 @@ const PdfView = ({ property }) => {
                             }}
                             key={index}
                           >
-                            - {elemento.label}
+                            - {elemento}
                           </Text>
                         ))}
                   </ul>
@@ -707,7 +707,7 @@ const PdfView = ({ property }) => {
               </View>
             )}
             {!property.detallesInternos ||
-            Object.keys(property.detallesInternos).length === 0 ? null : (
+            property.detallesInternos?.length === 0 ? null : (
               <View className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <View style={divStyle} className="flex flex-col">
                   <Text
@@ -722,7 +722,7 @@ const PdfView = ({ property }) => {
                   </Text>
                   <ul>
                     {!property.detallesInternos ||
-                    Object.keys(property.detallesInternos).length === 0 ||
+                    property.detallesInternos?.length === 0 ||
                     property.detallesInternos?.length === undefined ||
                     property.detallesInternos?.length === 0
                       ? null
@@ -734,7 +734,7 @@ const PdfView = ({ property }) => {
                             }}
                             key={index}
                           >
-                            - {elemento.label}
+                            - {elemento}
                           </Text>
                         ))}
                   </ul>
@@ -742,7 +742,7 @@ const PdfView = ({ property }) => {
               </View>
             )}
             {!property.detallesExternos ||
-            Object.keys(property.detallesExternos).length === 0 ? null : (
+            property.detallesExternos?.length === 0 ? null : (
               <View className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <View style={divStyle} className="flex flex-col">
                   <Text
@@ -757,7 +757,7 @@ const PdfView = ({ property }) => {
                   </Text>
                   <ul>
                     {!property.detallesExternos ||
-                    Object.keys(property.detallesExternos).length === 0 ||
+                    property.detallesExternos?.length === 0 ||
                     property.detallesExternos?.length === undefined ||
                     property.detallesExternos?.length === 0
                       ? null
@@ -769,7 +769,7 @@ const PdfView = ({ property }) => {
                             }}
                             key={index}
                           >
-                            - {elemento.label}
+                            - {elemento}
                           </Text>
                         ))}
                   </ul>

@@ -92,8 +92,11 @@ const UserInfo = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;
@@ -104,8 +107,11 @@ const UserInfo = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;
@@ -208,7 +214,7 @@ const UserInfo = () => {
             >
               <BiUserCheck size={20} />
               <span className="text-xs flex flex-row pt-[3px] pl-1">
-                Verificado
+                Portal verificados
               </span>
             </button>
           )}

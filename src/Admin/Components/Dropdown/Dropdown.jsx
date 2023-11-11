@@ -15,6 +15,8 @@ import {
   BiLink,
   BiChevronDownCircle,
   BiBuildingHouse,
+  BiGroup,
+  BiUserCheck,
 } from "react-icons/bi";
 
 import { authUserData } from "../../../api/usersApi";
@@ -215,6 +217,18 @@ const Dropdown = ({ ubicacion }) => {
           <button
             onClick={() => {
               setIsOpen(false);
+              navigate("/user/verified-adviser");
+            }}
+            className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+          >
+            <BiUserCheck size={20} />
+            <span className="text-xs flex flex-row pt-1 pl-1">
+              Portal verificados
+            </span>
+          </button>
+          <button
+            onClick={() => {
+              setIsOpen(false);
               navigate("/home/banner");
             }}
             className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
@@ -230,7 +244,7 @@ const Dropdown = ({ ubicacion }) => {
               }}
               className="flex flex-row px-2 w-full align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
             >
-              <BiSitemap size={20} />
+              <BiUserCheck size={20} />
               <span className="text-xs flex flex-row pt-1 pl-1">
                 Portal verificados
               </span>
@@ -322,7 +336,7 @@ const Dropdown = ({ ubicacion }) => {
               }}
               className="flex w-full flex-row px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
             >
-              <BiSitemap size={20} />
+              <BiUserCheck size={20} />
               <span className="text-xs flex flex-row pt-1 pl-1">
                 Portal verificados
               </span>

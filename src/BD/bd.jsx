@@ -658,6 +658,10 @@ export const TipoAsesor = [
     key: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
     value: "Dueño de una oficina de Bienes Raíces con varios colaboradores",
   },
+  {
+    key: "Freelancer Publicista del Sistema CIC",
+    value: "Freelancer Publicista del Sistema CIC",
+  },
 ];
 
 export const Estado = [

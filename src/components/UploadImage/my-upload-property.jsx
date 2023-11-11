@@ -68,7 +68,11 @@ const LoadPropertyImage = ({ creadoPor }) => {
         data,
       })
         .then((response) => {
-          message.success("¡Las imágenes fueron cargadas correctamente!");
+          const res = response.request.status;
+          if (res === 200) {
+            message.success("¡Las imágenes fueron cargadas correctamente!");
+            setImage(null);
+          }
         })
         .catch((err) =>
           message.error(
@@ -103,7 +107,11 @@ const LoadPropertyImage = ({ creadoPor }) => {
         data,
       })
         .then((response) => {
-          message.success("¡El archivo de audio se cargó correctamente!");
+          const res = response.request.status;
+          if (res === 200) {
+            message.success("¡El archivo de audio se cargó correctamente!");
+            setAudio(null);
+          }
         })
         .catch((err) => {
           message.error(
@@ -140,7 +148,11 @@ const LoadPropertyImage = ({ creadoPor }) => {
         data,
       })
         .then((response) => {
-          message.success("¡El archivo de video se cargó correctamente!");
+          const res = response.request.status;
+          if (res === 200) {
+            message.success("¡El archivo de video se cargó correctamente!");
+            setVideo(null);
+          }
         })
         .catch((err) => {
           message.error(

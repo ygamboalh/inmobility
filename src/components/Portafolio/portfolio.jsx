@@ -13,6 +13,7 @@ import { getToken } from "../../utils/helpers";
 import { getAllPortafolios } from "../../api/propertiesApi";
 import MySpinner from "../Spinner/spinner";
 import MetaData from "../Metadata/metadata";
+import { message } from "antd";
 
 const Portafolio = () => {
   const queryClient = useQueryClient();
@@ -82,6 +83,7 @@ const Portafolio = () => {
   };
   function copyToPaper(text) {
     navigator.clipboard.writeText(`https://sistemacic.com${text}`);
+    message.info("Enlace copiado");
   }
   if (!records) {
     return <MySpinner />;

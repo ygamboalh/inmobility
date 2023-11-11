@@ -16,9 +16,18 @@ import {
   BiMoney,
   BiSolidDog,
 } from "react-icons/bi";
+import { useEffect, useState } from "react";
 const VideoPlayer = () => {
+  const [video, setVideo] = useState(null);
   const location = useLocation();
   const propiedad = location.state.property;
+
+  useEffect(() => {
+    setVideo(
+      `https://backend.sistemacic.com${propiedad?.video?.data?.attributes?.url}`
+    );
+  }, []);
+  console.log(video);
   return (
     <section
       className="w-full flex-col px-1 flex justify-center items-center mt-4"
@@ -27,13 +36,13 @@ const VideoPlayer = () => {
       <MetaData title="Reproducir video" description="Reproducir video" />
       <div className="max-[600px]:border max-[600px]:border-gray-300 w-full max-[600px]:rounded-md p-4 h-fit flex flex-col justify-center">
         <div className="flex w-full justify-center h-fit">
-          {/* <ReactPlayer url={video} controls={true} width={640} height={360} /> */}
-          <ReactPlayer
+          <ReactPlayer url={video} controls={true} width={640} height={360} />
+          {/* <ReactPlayer
             url={"https://www.youtube.com/watch?v=26NOGYsTWOI"}
             controls={true}
             width={640}
             height={360}
-          />
+          /> */}
         </div>
         <div className="flex justify-center">
           <div className="flow-root w-full flex-col">

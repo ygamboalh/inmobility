@@ -130,7 +130,7 @@ const VerifiedAdviser = () => {
           </AdviserCard>
 
           {userData?.active !== "Asesor verificado inactivo" ? (
-            <div className="border flex md:grid-col-2 py-4 lg:my-0 justify-center align-middle lg:p-4 shadow-1 hover:shadow-2xl rounded-lg hover:bg-red-700 bg-red-600">
+            <div className="border bg-gradient-to-r from-red-600 to-red-500 hover:from-pink-500 hover:to-pink-700 flex md:grid-col-2 py-4 my-4 cursor-pointer justify-center align-middle lg:p-4 shadow-1 hover:shadow-2xl rounded-[25px] hover:bg-red-700 bg-red-600">
               <a href="/home/links" className="flex  w-full justify-center">
                 <div className="flex text-white text-lg font-semibold flex-col justify-center ">
                   ENLACES DE INTERÉS DEL GREMIO

@@ -575,9 +575,9 @@ const PropertyDetailsSearch = () => {
                 <div>
                   <label className="font-semibold">
                     {property.serviciosMedicos === true ? (
-                      <label>Acondicionado para servicios médicos</label>
+                      <label>Servicios médicos cercanos</label>
                     ) : (
-                      <label>NO acondicionado para servicios médicos</label>
+                      <label>Sin servicios médicos cercanos</label>
                     )}
                   </label>
                 </div>
@@ -714,7 +714,7 @@ const PropertyDetailsSearch = () => {
               </div>
             </div>
             {!property?.jardinPatio ||
-            Object.keys(property?.jardinPatio)?.length === 0 ? null : (
+            property?.jardinPatio?.length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm h-fit">
                 <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">
@@ -722,66 +722,66 @@ const PropertyDetailsSearch = () => {
                   </label>
                   <ul>
                     {!property?.jardinPatio ||
-                    Object.keys(property?.jardinPatio)?.length === 0 ||
+                    property?.jardinPatio?.length === 0 ||
                     property?.jardinPatio?.length === undefined ||
                     property?.jardinPatio?.length === 0
                       ? null
                       : property?.jardinPatio?.map((elemento, index) => (
-                          <li key={index}>{elemento.label}</li>
+                          <li key={index}>{elemento}</li>
                         ))}
                   </ul>
                 </div>
               </div>
             )}
             {!property?.amenidades ||
-            Object.keys(property?.amenidades)?.length === 0 ? null : (
+            property?.amenidades?.length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Amenidades</label>
                   <ul>
                     {!property?.amenidades ||
-                    Object.keys(property?.amenidades)?.length === 0 ||
+                    property?.amenidades?.length === 0 ||
                     property?.amenidades?.length === undefined ||
                     property?.amenidades?.length === 0
                       ? null
                       : property?.amenidades?.map((elemento, index) => (
-                          <li key={index}>{elemento.label}</li>
+                          <li key={index}>{elemento}</li>
                         ))}
                   </ul>
                 </div>
               </div>
             )}
             {!property?.detallesInternos ||
-            Object.keys(property?.detallesInternos)?.length === 0 ? null : (
+            property?.detallesInternos?.length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 rounded-sm">
                 <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Detalles Internos</label>
                   <ul>
                     {!property?.detallesInternos ||
-                    Object.keys(property?.detallesInternos)?.length === 0 ||
+                    property?.detallesInternos?.length === 0 ||
                     property?.detallesInternos?.length === undefined ||
                     property?.detallesInternos?.length === 0
                       ? null
                       : property?.detallesInternos?.map((elemento, index) => (
-                          <li key={index}>{elemento.label}</li>
+                          <li key={index}>{elemento}</li>
                         ))}
                   </ul>
                 </div>
               </div>
             )}
             {!property?.detallesExternos ||
-            Object.keys(property?.detallesExternos)?.length === 0 ? null : (
+            property?.detallesExternos?.length === 0 ? null : (
               <div className="bg-gray-200 text-black px-3 mt-3 mb-4 rounded-sm">
                 <div style={divStyle} className="flex flex-col max-h-[100px]">
                   <label className="font-semibold">Detalles Externos</label>
                   <ul>
                     {!property.detallesExternos ||
-                    Object.keys(property?.detallesExternos)?.length === 0 ||
+                    property?.detallesExternos?.length === 0 ||
                     property?.detallesExternos?.length === undefined ||
                     property?.detallesExternos?.length === 0
                       ? null
                       : property?.detallesExternos?.map((elemento, index) => (
-                          <li key={index}>{elemento.label}</li>
+                          <li key={index}>{elemento}</li>
                         ))}
                   </ul>
                 </div>

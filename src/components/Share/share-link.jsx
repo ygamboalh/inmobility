@@ -3,11 +3,13 @@ import { useQuery } from "react-query";
 import { BiCopyAlt } from "react-icons/bi";
 
 import { authUserData } from "../../api/usersApi";
+import { message } from "antd";
 const ShareLink = (url) => {
   const pdfUrl = url.pdfUrl;
   const { data: userData } = useQuery("profile", authUserData);
   function copyToPaper(text) {
     navigator.clipboard.writeText(text);
+    message.info("Enlace copiado");
   }
 
   return (

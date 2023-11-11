@@ -217,7 +217,7 @@ const SignIn = () => {
               INICIAR SESIÓN
             </button>
             <label className="text-md my-4">¿No tienes una cuenta?</label>
-            <Link to="/auth/register-request" link-to className="button-rq">
+            <Link to="/user/terms" link-to className="button-rq">
               Solicitar una cuenta
             </Link>
           </div>
