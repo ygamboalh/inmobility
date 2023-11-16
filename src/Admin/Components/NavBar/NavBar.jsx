@@ -70,6 +70,14 @@ const Navbar = () => {
           >
             Enlaces
           </NavLink>
+          <NavLink
+            to="/admin/cards"
+            className={({ isActive }) =>
+              isActive ? activeClass : inactiveClass
+            }
+          >
+            Tarjetas
+          </NavLink>
         </ul>
       </div>
     </nav>

@@ -10,64 +10,59 @@ import withReactContent from "sweetalert2-react-content";
 import * as Yup from "yup";
 
 import MetaData from "../../../components/Metadata/metadata";
-import { getAllButtons } from "../../../api/propertiesApi";
+import { getAllCards } from "../../../api/propertiesApi";
 import MySpinner from "../../../components/Spinner/spinner";
 import { API } from "../../../constant";
 import { getToken } from "../../../utils/helpers";
 import AxiosInstance from "../../../api/AxiosInstance";
 
-const urlRegex = "^(http|https|ftp)://.*";
-const Button = () => {
+const Card = () => {
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
-  const { data, isLoading: loadingButtons } = useQuery(
-    "buttons",
-    getAllButtons,
-    {
-      onSuccess: (data) => {
-        setRecords(data.data);
-      },
-    }
-  );
+  const { data, isLoading: loadingCards } = useQuery("cards", getAllCards, {
+    onSuccess: (data) => {
+      setRecords(data.data);
+    },
+  });
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
     initialValues: {
+      title: "",
       description: "",
-      url: "",
     },
     validationSchema: Yup.object({
-      description: Yup.string().min(3, "*").max(40, "*"),
-      url: Yup.string().matches(urlRegex, "*"),
+      title: Yup.string().min(5, "*").max(50, "*"),
+      description: Yup.string().min(10, "*").max(500, "*"),
     }),
     onSubmit: async (values) => {
       try {
         let newDescription = null;
-        let newURL = null;
+        let newTitle = null;
         //Si estoy editando
         selectedRows[0]?.id && values.description !== ""
           ? (newDescription = values.description)
           : (newDescription = selectedRows[0]?.attributes.description);
 
-        selectedRows[0]?.id && values.url !== ""
-          ? (newURL = values.url)
-          : (newURL = selectedRows[0]?.attributes.url);
+        selectedRows[0]?.id && values.title !== ""
+          ? (newTitle = values.title)
+          : (newTitle = selectedRows[0]?.attributes.title);
 
         const editValue = {
+          title: newTitle,
           description: newDescription,
-          url: newURL,
         };
 
         //Si estoy creando
         const createValue = {
+          title: values.title,
           description: values.description,
-          url: values.url,
         };
 
         if (
-          (createValue.description === "" || createValue.url === "") &&
-          (editValue.description === undefined || editValue.url === undefined)
+          (createValue.description === "" || createValue.title === "") &&
+          (editValue.description === undefined || editValue.title === undefined)
         ) {
           message.info("¡Para crear debe llenar los datos que faltan!");
           return;
@@ -77,14 +72,14 @@ const Button = () => {
         if (
           selectedRows?.length === 0 &&
           createValue.description !== "" &&
-          createValue.url !== ""
+          createValue.title !== ""
         ) {
-          const response = await AxiosInstance.post("/buttons", {
+          const response = await AxiosInstance.post("/cards", {
             data: createValue,
           })
             .then((respons) => {
-              message.success("¡El botón fue creado correctamente!");
-              queryClient.invalidateQueries(["buttons"]);
+              message.success("¡La tarjeta fue creada correctamente!");
+              queryClient.invalidateQueries(["cards"]);
               window.location.reload(true);
             })
             .catch((error) => {
@@ -92,14 +87,14 @@ const Button = () => {
             });
         } else {
           const response = await AxiosInstance.put(
-            `/buttons/${selectedRows[0]?.id}`,
+            `/cards/${selectedRows[0]?.id}`,
             {
               data: editValue,
             }
           )
             .then((respons) => {
-              message.success("¡El botón fue actualizado correctamente!");
-              queryClient.invalidateQueries(["buttons"]);
+              message.success("¡La tarjeta fue actualizada correctamente!");
+              queryClient.invalidateQueries(["cards"]);
               window.location.reload(true);
             })
             .catch((error) => {
@@ -111,32 +106,30 @@ const Button = () => {
       }
     },
   });
-  const defaultValue = () => {};
 
-  if (loadingButtons || isLoading) {
+  if (loadingCards || isLoading) {
     return <MySpinner />;
   }
-  const DeleteButton = async (id) => {
+  const DeleteCard = async (id) => {
     const MySwal = withReactContent(Swal);
     setIsLoading(true);
     MySwal.fire({
-      title: "¿Desea eliminar el botón?",
+      title: "¿Desea eliminar la tarjeta?",
       showDenyButton: true,
       confirmButtonText: "Sí, eliminar",
       confirmButtonColor: "#1863e4",
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {
-        const response = axios(`${API}buttons/${id}`, {
+        const response = axios(`${API}cards/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
         }).then((result) => {
-          queryClient
-            .invalidateQueries(["buttons"])
-            .then((resultado) => console.log(result));
+          queryClient.invalidateQueries(["cards"]);
+          window.location.reload(true);
         });
       }
     });
@@ -148,14 +141,11 @@ const Button = () => {
       cell: (row) => (
         <div className="w-full flex flex-col mb-4 my-2 ml-2 p-2 justify-start">
           <div className="flex flex-col">
+            <div>{row.attributes.title}</div>
             <div className="font-medium">{row.attributes.description}</div>
-            <div>{row.attributes.url}</div>
           </div>
           <div className="mt-2">
-            <button
-              className="deleteButton"
-              onClick={() => DeleteButton(row.id)}
-            >
+            <button className="deleteButton" onClick={() => DeleteCard(row.id)}>
               Eliminar
             </button>
           </div>
@@ -163,7 +153,9 @@ const Button = () => {
       ),
       accessor: "id",
       id: "detail",
-      name: <span className="text-lg">Seleccione un botón para editarlo</span>,
+      name: (
+        <span className="text-lg">Seleccione una tarjeta para editarla</span>
+      ),
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -171,7 +163,7 @@ const Button = () => {
     },
   ];
   const paginationComponentOptions = {
-    rowsPerPageText: "Botones por página",
+    rowsPerPageText: "Tarjetas por página",
     rangeSeparatorText: "de",
     selectAllRowsItem: true,
     selectAllRowsItemText: "Todos",
@@ -180,33 +172,53 @@ const Button = () => {
   return (
     <div className="z-0 overflow-x-auto mx-2 shadow-md sm:rounded-lg">
       <MetaData
-        title="Botones del portal del Asesor verificado"
-        description="Botones del portal del Asesor verificado"
+        title="Tarjetas del portal del Asesor verificado"
+        description="Tarjetas del portal del Asesor verificado"
       />
       <table className="w-full mt-16 text-sm text-left text-gray-500 ">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
           {selectedRows?.length > 0 ? (
             <div className="mx-5 mt-2 -mb-5">
               <span className="text-xs font-semibold">
-                Entre los nuevos datos del botón:{" "}
-                {selectedRows[0]?.attributes?.description}
+                Entre los nuevos datos de la tarjeta:{" "}
+                {selectedRows[0]?.attributes?.title}
               </span>
             </div>
           ) : (
             <div className="mx-5 mt-2 -mb-5">
-              <span className="text-xs font-semibold">Crear un botón</span>
+              <span className="text-xs font-semibold">Crear una tarjeta</span>
             </div>
           )}
           <div className="mt-4 rounded-md p-3 flex w-full">
             <form onSubmit={handleSubmit} autoComplete="off" className="w-full">
               <div className="flex flex-row max-[800px]:flex-col w-full">
+                <div className="flex w-full max-[800px]:mb-2">
+                  <input
+                    type="text"
+                    className="border shadow mr-2 border-gray-300 h-10 text-xs rounded-md w-full"
+                    placeholder="Título de la tarjeta"
+                    onChange={handleChange}
+                    maxLength={40}
+                    defaultValue={
+                      selectedRows?.length > 0
+                        ? selectedRows[0].attributes.title
+                        : null
+                    }
+                    name="title"
+                  />
+                  {errors.title && touched.title ? (
+                    <div className=" text-red-500 mt-3.5 -ml-1 mr-1 text-xs">
+                      {errors.title}
+                    </div>
+                  ) : null}
+                </div>
                 <div className="w-full max-[800px]:mb-2 flex min-[800px]:mr-2">
                   <input
                     type="text"
                     className="border w-full shadow flex h-10 border-gray-300 text-xs rounded-md"
-                    placeholder="Descripción del botón"
+                    placeholder="Descripción de la tarjeta"
                     name="description"
-                    maxLength={40}
+                    maxLength={500}
                     onChange={handleChange}
                     defaultValue={
                       selectedRows?.length > 0
@@ -221,25 +233,6 @@ const Button = () => {
                   ) : null}
                 </div>
 
-                <div className="flex w-full max-[800px]:mb-2">
-                  <input
-                    type="text"
-                    className="border shadow border-gray-300 h-10 text-xs rounded-md w-full"
-                    placeholder="Dirección del enlace"
-                    onChange={handleChange}
-                    defaultValue={
-                      selectedRows?.length > 0
-                        ? selectedRows[0].attributes.url
-                        : null
-                    }
-                    name="url"
-                  />
-                  {errors.url && touched.url ? (
-                    <div className=" text-red-500 mt-3.5 text-xs">
-                      {errors.url}
-                    </div>
-                  ) : null}
-                </div>
                 {selectedRows.length === 0 ? (
                   <div className="mx-2 max-[800px]:flex max-[800px]:justify-center">
                     <button
@@ -272,11 +265,11 @@ const Button = () => {
               fixedHeader
               fixedHeaderScrollHeight="550px"
               selectableRowsHighlight
-              title="Botones del portal del Asesor verificado"
+              title="Tarjetas del portal del Asesor verificado"
               highlightOnHover
               progressComponent={<MySpinner />}
               paginationComponentOptions={paginationComponentOptions}
-              noDataComponent={"No hay botones para mostrar"}
+              noDataComponent={"No hay tarjetas para mostrar"}
               selectableRows
               selectableRowsSingle
               noHeader
@@ -291,4 +284,4 @@ const Button = () => {
   );
 };
 
-export default Button;
+export default Card;

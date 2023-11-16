@@ -63,6 +63,10 @@ import ContactVisiter from './components/ContactVisiter/contact-visiter';
 import Button from './Admin/Components/Buttons/button';
 import VisiterSearch from './components/Searchers/visiter-search';
 import VideoPlayer from './components/Video/video-player';
+import EditProperty from './Admin/Components/EditProperty/edit-property';
+import SelectMap from './components/SelectMap/select-map';
+import LocationSelect from './components/LocationSelect/location-select';
+import Card from './Admin/Components/Cards/card';
 
 const App = () => {
   
@@ -77,6 +81,7 @@ const App = () => {
                 <Route path="/auth/change-password" element={<ChangePassword />} />
             <Route element={<CheckRole roles={['Super Administrador','Asesor verificado activo','Supervisor']} />}>
                 <Route path="/home/insert-property" element={<InsertProperty />} />
+                <Route path="/home/select-location" element={<LocationSelect />} />
             </Route>
             <Route element={<CheckRole roles={['Super Administrador', 'Asesor verificado activo','Supervisor']} />}>
                 <Route path="/home/notifications" element={<Notifications />} />
@@ -87,7 +92,7 @@ const App = () => {
                 <Route path="/home/search/property-detail/:id" element={<PropertyDetailsSearch />} />
                 <Route path="/home/portfolio" element={<Portafolio />} />
             <Route path="/home/portfolio/portfolio-detail" element={<PortafolioDetail />} />
-            <Route exact path="/properties/edit-property/:id" element={<InsertProperty />} />
+            <Route exact path="/properties/edit-property/:id" element={<EditProperty />} />
             <Route path="/home/portfolio/:id" element={<Portafolio />} />
             <Route path="/user/logout" element={<Logout />} />
             
@@ -110,7 +115,7 @@ const App = () => {
             <Route element={<CheckRole roles={['Super Administrador','Supervisor','Asesor verificado activo']} />}>
               <Route exact path="/admin/properties/property-detail/:id" element={<PropertyDetailsAdmin />} />
               <Route exact path="/admin/properties/insert-property" element={<InsertProperty />} />
-              <Route exact path="/admin/properties/insert-property/:id" element={<InsertProperty />} />
+              <Route exact path="/admin/properties/edit-property/:id" element={<EditProperty />} />
               
               <Route exact path="/admin/shared-property/:id" element={<SearchCard />} />
               <Route exact path='/admin/properties' element={<Properties />} />
@@ -118,6 +123,7 @@ const App = () => {
               <Route exact path="/admin/users/insert-user" element={<InsertUser />} />
               <Route path='/admin/links' element={<LinkList />} />
               <Route path='/admin/buttons' element={<Button />} />
+              <Route path='/admin/cards' element={<Card />} />
               <Route exact path="/admin/links/insert-link" element={<InsertLink />} />
               <Route exact path="/admin/links/insert-link/:id" element={<InsertLink />} />
               <Route exact path="/admin/users/insert-user/:id" element={<InsertUser />} />

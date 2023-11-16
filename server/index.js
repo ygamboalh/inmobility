@@ -202,11 +202,11 @@ app.get('/home/insert-property', (req, res, next) => {
                 }
                 htmlData = htmlData.replace(
                         "__META_TITLE__",
-                        "Nueva propiedad o editar"
+                        "Insertar propiedad"
                 )
                         .replace('Sistema CIC', "Sistema CIC")
-                        .replace('Venta y Alquiler de inmuebles y propiedades', "Nueva propiedad o editar")
-                        .replace('__META_DESCRIPTION__', "Nueva propiedad o editar")
+                        .replace('Venta y Alquiler de inmuebles y propiedades', "Insertar propiedad")
+                        .replace('__META_DESCRIPTION__', "Insertar propiedad")
                 .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
                 return res.send(htmlData);
 
@@ -784,7 +784,7 @@ app.get('/admin/properties/insert-property', (req, res, next) => {
                 return res.send(htmlData);
         })
 });
-app.get('/admin/properties/insert-property/:id', (req, res, next) => {
+app.get('/admin/properties/edit-property/:id', (req, res, next) => {
         fs.readFile(indexPath, 'utf8', (err, htmlData) => {
                 if (err) {
                         console.error('Error leyendo el archivo index', err);
@@ -808,11 +808,11 @@ app.get('/admin/properties', (req, res, next) => {
                 }
                 htmlData = htmlData.replace(
                         "__META_TITLE__",
-                        "Insertar o editar propiedad"
+                        "Propiedades"
                 )
                         .replace('Sistema CIC', "Sistema CIC")
-                        .replace('Venta y Alquiler de inmuebles y propiedades', "Insertar o editar propiedad")
-                        .replace('__META_DESCRIPTION__', "Insertar o editar propiedad")
+                        .replace('Venta y Alquiler de inmuebles y propiedades', "Propiedades")
+                        .replace('__META_DESCRIPTION__', "Propiedades")
                 return res.send(htmlData);
         })
 });
@@ -1016,7 +1016,7 @@ app.get('/properties/edit-property/:id', (req, res, next) => {
                         "Sistema CIC"
                 )
                         .replace('Sistema CIC', "Sistema CIC")
-                        .replace('Venta y Alquiler de inmuebles y propiedades', "Editar la propiedad")
+                        .replace('Venta y Alquiler de inmuebles y propiedades', "Editar propiedad")
                         .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
                 return res.send(htmlData);
         })
@@ -1082,6 +1082,22 @@ app.get('/home/video-player', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Video de la propiedad")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                return res.send(htmlData);
+        })
+});
+app.get('/home/select-location', (req, res, next) => {
+        fs.readFile(indexPath, 'utf8', (err, htmlData) => {
+                if (err) {
+                        console.error('Error leyendo el archivo index', err);
+                        return res.status(404).end()
+                }
+                htmlData = htmlData.replace(
+                        "__META_TITLE__",
+                        "Sistema CIC"
+                )
+                        .replace('Sistema CIC', "Sistema CIC")
+                        .replace('Venta y Alquiler de inmuebles y propiedades', "Seleccionar ubicación")
                         .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
                 return res.send(htmlData);
         })

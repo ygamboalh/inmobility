@@ -183,7 +183,7 @@ const AddPropertyModal = ({ isVisible, category, onDataReceived }) => {
           >
             X
           </button>
-          <div className="bg-white overflow-scroll max-w-[900px] max-h-[765px] rounded-md">
+          <div className="bg-white overflow-scroll max-w-[900px] max-h-[650px] rounded-md">
             <div className={records?.length > 0 ? "hidden" : "w-full"}>
               <form onSubmit={handleSubmit} autoComplete="off">
                 <div className="flex flex-col w-full justify-center m-3">

@@ -28,6 +28,7 @@ const UserInfo = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenM, setIsOpenM] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const menuRef = useRef(null);
   const [imageUrl, setImageUrl] = useState(
     "https://backend.sistemacic.com/uploads/small_userinfo_dac703068b.png"
@@ -85,14 +86,15 @@ const UserInfo = () => {
     const diaActual = parseInt(deleteZero(currentDateString?.slice(8, 10)));
     const result = horaActual - horaCreado;
     const dias = diaActual - diaCreado;
-
     //Si es el mismo dia
+    setIsLoading(true);
     if (currentDateString === fecha && result >= 3) {
       const response = AxiosInstance.put(`/users/${id}`, {
         isLoggedIn: false,
       })
         .then((res) => {
           const respuesta = res.status;
+          console.log("la respuesta de cerrar session para un mismo dia", res);
           if (respuesta === 200) {
             signOut();
             navigate("/");
@@ -100,7 +102,11 @@ const UserInfo = () => {
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
+      setIsLoading(false);
     } else if (dias > 1) {
       //Si ha pasado mas de un dia
       const response = AxiosInstance.put(`/users/${id}`, {
@@ -108,13 +114,18 @@ const UserInfo = () => {
       })
         .then((res) => {
           const respuesta = res.status;
+          console.log("la respuesta de cerrar session para mas de un dia", res);
           if (respuesta === 200) {
             signOut();
             navigate("/");
           }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else if (
       dias === 1 &&
@@ -127,11 +138,22 @@ const UserInfo = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          console.log(
+            "la respuesta de cerrar session cuando es medianoche",
+            res
+          );
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else if (dias > 0) {
       //Si no se cumplen los anteriores y paso de dia
@@ -139,13 +161,25 @@ const UserInfo = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          console.log(
+            "la respuesta de cerrar session, pasa de un dia para otro",
+            res
+          );
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
+    setIsLoading(false);
   };
   useEffect(() => {
     const id = userData?.id;
@@ -159,7 +193,11 @@ const UserInfo = () => {
       isLoggedIn: false,
     })
       .then((res) => {
-        return res;
+        if (res.status === 200) {
+          signOut();
+          navigate("/");
+          return res;
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -261,7 +261,7 @@ const PropertiesDesact = () => {
                   <button
                     className="editButton mx-2"
                     onClick={() =>
-                      navigate(`/admin/properties/insert-property/${row.id}`)
+                      navigate(`/admin/properties/edit-property/${row.id}`)
                     }
                   >
                     Editar

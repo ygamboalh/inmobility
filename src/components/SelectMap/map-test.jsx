@@ -9,40 +9,17 @@ import {
 import AxiosInstance from "../../api/AxiosInstance";
 import axios from "axios";
 
-const Map = ({ address, exclusividad }) => {
-  const [key, setkey] = useState(null);
+const MapTest = ({ address, exclusividad }) => {
+  const [key, setkey] = useState("AIzaSyBCpfg5dUktp1Tqzc9XEVsJlW890WJjXxY");
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: key,
   });
   const [map, setMap] = React.useState(null);
-  const [latitud, setLatitud] = useState();
-  const [longitud, setLongitud] = useState();
+  const [latitud, setLatitud] = useState(9.92829);
+  const [longitud, setLongitud] = useState(-84.05074);
 
-  const getCoordinates = async () => {
-    try {
-      if (address) {
-        const response = await axios
-          .get(
-            `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-              address
-            )}&key=${key}`
-          )
-          .then((res) => {
-            if (res.data.results.length > 0) {
-              const { lat, lng } = res.data.results[0].geometry.location;
-              setLatitud(lat);
-              setLongitud(lng);
-            }
-          })
-          .catch((error) => console.log(error));
-      }
-    } catch (error) {
-      console.error("no coords");
-    }
-  };
-
-  useEffect(() => {
+  /* useEffect(() => {
     const response = AxiosInstance(`tokens?filters[type][$eq]=map`)
       .then((data) => {
         const keyf = data?.data?.data[0]?.attributes?.token;
@@ -51,8 +28,7 @@ const Map = ({ address, exclusividad }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [latitud, longitud]);
-  getCoordinates();
+  }, [latitud, longitud]); */
 
   const center = {
     lat: 0,
@@ -67,16 +43,17 @@ const Map = ({ address, exclusividad }) => {
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
   }, []);
-  if (loadError || !key)
+  const onDragPoint = (event) => {
+    const lat = event.latLng.lat();
+    const long = event.latLng.lng();
+    setLatitud(lat);
+    setLongitud(long);
+  };
+  if (loadError)
     return (
-      <div className="flex justify-center">
-        No se ha podido cargar la ubicación en el mapa
-      </div>
+      <div className="flex justify-center">No se ha podido cargar el mapa</div>
     );
-
-  if (!isLoaded || !key)
-    return <div className="flex justify-center">Cargando el mapa...</div>;
-
+  console.log(latitud, longitud);
   return isLoaded && latitud && longitud && key ? (
     <GoogleMap
       mapContainerStyle={{ height: "500px", width: "100%" }}
@@ -88,8 +65,8 @@ const Map = ({ address, exclusividad }) => {
       {exclusividad ? (
         <Marker
           position={{ lat: latitud, lng: longitud }}
-          //draggable={true}
-          //onDragEnd={onDragPoint}
+          draggable={true}
+          onDragEnd={onDragPoint}
         />
       ) : null}
 
@@ -109,9 +86,9 @@ const Map = ({ address, exclusividad }) => {
     </GoogleMap>
   ) : (
     <div className="flex justify-center font-semibold text-red-600">
-      No se ha podido cargar la ubicación en el mapa
+      Intentando cargar el mapa...
     </div>
   );
 };
 
-export default Map;
+export default MapTest;

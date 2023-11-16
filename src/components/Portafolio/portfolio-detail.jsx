@@ -24,6 +24,7 @@ import { getToken } from "../../utils/helpers";
 import { authUserData } from "../../api/usersApi";
 import AddPropertyModal from "../Modals/add-property-modal";
 import MetaData from "../Metadata/metadata";
+import SelectMap from "../SelectMap/select-map";
 
 export const PortafolioDetail = () => {
   const { data: userData } = useQuery("profile", authUserData);

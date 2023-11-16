@@ -49,6 +49,10 @@ export const getAllButtons = async () => {
   const { data } = await AxiosInstance.get('/buttons?populate=*');
   return data
 }
+export const getAllCards = async () => {
+  const { data } = await AxiosInstance.get('/cards?populate=*');
+  return data
+}
 export const getAllNotifications = async () => {
   let allData = [];
   let data = [];

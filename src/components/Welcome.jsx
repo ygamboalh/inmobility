@@ -44,8 +44,11 @@ const Welcome = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;
@@ -56,8 +59,11 @@ const Welcome = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;
@@ -73,8 +79,11 @@ const Welcome = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;
@@ -85,8 +94,11 @@ const Welcome = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;

@@ -17,6 +17,7 @@ import {
   BiBuildingHouse,
   BiGroup,
   BiUserCheck,
+  BiCard,
 } from "react-icons/bi";
 
 import { authUserData } from "../../../api/usersApi";
@@ -32,6 +33,7 @@ import { getAllNotifications } from "../../../api/propertiesApi";
 
 const Dropdown = ({ ubicacion }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const menuRef = useRef(null);
   const navigate = useNavigate();
 
@@ -106,18 +108,25 @@ const Dropdown = ({ ubicacion }) => {
     const diaActual = parseInt(deleteZero(currentDateString?.slice(8, 10)));
     const result = horaActual - horaCreado;
     const dias = diaActual - diaCreado;
-
+    setIsLoading(true);
     //Si es el mismo dia
     if (currentDateString === fecha && result >= 3) {
       const response = AxiosInstance.put(`/users/${id}`, {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else if (dias > 1) {
       //Si ha pasado mas de un dia
@@ -125,11 +134,18 @@ const Dropdown = ({ ubicacion }) => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else if (
       dias === 1 &&
@@ -142,11 +158,18 @@ const Dropdown = ({ ubicacion }) => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else if (dias > 0) {
       //Si no se cumplen los anteriores y paso de dia
@@ -154,20 +177,32 @@ const Dropdown = ({ ubicacion }) => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
+    setIsLoading(false);
   };
   const loginOut = () => {
     const response = AxiosInstance.put(`/users/${id}`, {
       isLoggedIn: false,
     })
       .then((res) => {
-        return res;
+        if (res.status === 200) {
+          signOut();
+          navigate("/");
+          return res;
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -350,6 +385,16 @@ const Dropdown = ({ ubicacion }) => {
             >
               <BiLink size={20} />
               <span className="text-xs flex flex-row pt-1 pl-1">Enlaces</span>
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/admin/cards");
+              }}
+              className="flex flex-row w-full px-2 align-middle rounded-lg py-2 text-gray-800 hover:bg-blue-500 hover:text-white"
+            >
+              <BiCard size={20} />
+              <span className="text-xs flex flex-row pt-1 pl-1">Tarjetas</span>
             </button>
           </div>
 

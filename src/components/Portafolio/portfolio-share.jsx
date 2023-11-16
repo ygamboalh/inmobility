@@ -8,6 +8,7 @@ import MySpinner from "../Spinner/spinner";
 import AxiosInstance from "../../api/AxiosInstance";
 import { API } from "../../constant";
 import MetaData from "../Metadata/metadata";
+import SelectMap from "../SelectMap/select-map";
 
 const PortafolioShare = () => {
   const { id } = useParams();

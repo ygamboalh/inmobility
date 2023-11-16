@@ -4,7 +4,6 @@ import { useQuery } from "react-query";
 
 import axios from "axios";
 import * as Yup from "yup";
-import Select from "react-select";
 import { message } from "antd";
 import { useFormik } from "formik";
 
@@ -56,15 +55,8 @@ const EditProperty = () => {
 
   const [category, setCategory] = useState();
   const [categoriesDB, setCategoriesDB] = useState({});
-  const [amenidades, setAmenidades] = useState();
-  const [patio, setPatio] = useState();
-  const [detallesInternos, setDetallesInternos] = useState();
-  const [detallesExternos, setDetallesExternos] = useState();
   const [property, setProperty] = useState();
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [option, setOption] = useState("Amenidades");
-
-  const [createdPropertyId, setCreatedPropertyId] = useState(null);
   const [userRole, setUserRole] = useState();
   const [selectedPropertyType, setSelectedPropertyType] = useState("");
   const [checkboxesAmenidades, setCheckboxesAmenidades] = useState([]);
@@ -152,13 +144,9 @@ const EditProperty = () => {
       banos: property?.banos,
       parqueo: property?.parqueo,
       ley7600: property?.ley7600,
-      //amenidades: amenidades,
       amenidades: property?.amenidades,
-      //jardinPatio: patio,
       jardinPatio: property?.jardinPatio,
-      //detallesInternos: detallesInternos,
       detallesInternos: property?.detallesInternos,
-      //detallesExternos: detallesExternos,
       detallesExternos: property?.detallesExternos,
       amueblado: property?.amueblado,
       aptoHijos: property?.aptoHijos,
@@ -206,33 +194,17 @@ const EditProperty = () => {
       ivaVenta: property?.ivaVenta,
       ivaAlquiler: property?.ivaAlquiler,
       tipoVivienda: property?.tipoVivienda,
-      ubicacionCercana: property?.ubicacionCercana,
     },
     validationSchema: Yup.object({
       provincia: Yup.string().required("*"),
       canton: Yup.string().required("*").min(6, "*").max(150, "*"),
-      //descripcion: Yup.string().min(10, "*").max(1000, "*"),
       distrito: Yup.string().required("*").min(6, "*").max(150, "*"),
-      //precio: Yup.number().required("*").min(0, "*").max(2000000, "*"),
       areaTerreno: Yup.number().required("*"),
-
       uniqueId: Yup.string()
         .matches(idregex, "*")
         .required("*")
         .min(1, "*")
         .max(20, "*"),
-      //active: Yup.string().required("*"),
-      //habitaciones: Yup.number().min(0, "*").max(15, "*"),
-      //areaPropiedad: Yup.string().min(0, "*").max(10000, "*"),
-      //areaContruccion: Yup.number().min(0, "*").max(100000, "*"),
-      //banos: Yup.number().min(0, "*").max(10, "*"),
-      //cuotaMantenimiento: Yup.number().min(0, "*").max(500000, "*"),
-      //areaBodega: Yup.number().min(0, "*").max(10000000, "*"),
-      //altura: Yup.number().min(0, "*").max(500, "*"),
-      //areaPlantas: Yup.number().min(0, "*").max(100000, "*"),
-      //numeroPlantas: Yup.number().min(0, "*").max(100, "*"),
-      //areaMesanini: Yup.number().min(0, "*").max(6000, "*"),
-      //areaSotano: Yup.number().min(0, "*").max(6000, "*"),
     }),
     enableReinitialize: id ? true : false,
     onSubmit: async (values) => {
@@ -244,17 +216,32 @@ const EditProperty = () => {
         if (cat) {
           catFounded.push(cat.id);
         }
+        let tipo = "";
+        selectedPropertyType !== ""
+          ? (tipo = selectedPropertyType)
+          : (tipo = values?.tipoPropiedad);
+        const newAmenidades = removeElementsFromArray(
+          property?.amenidades,
+          checkboxesAmenidades
+        );
+        const newPatio = removeElementsFromArray(
+          property?.jardinPatio,
+          checkboxesPatio
+        );
+        const newDetallesInternos = removeElementsFromArray(
+          property?.detallesInternos,
+          checkboxesInternos
+        );
+        const newDetallesExternos = removeElementsFromArray(
+          property?.detallesExternos,
+          checkboxesExternos
+        );
         const value = {
           provincia: values.provincia,
           canton: values.canton,
           distrito: values.distrito,
           precio: values.precio,
-          tipoPropiedad: selectedPropertyType,
-          tipoEdificio: values.tipoEdificio,
-          tipoBodega: values.tipoBodega,
-          tipoOficina: values.tipoOficina,
-          tipoLote: values.tipoLote,
-          tipoLocal: values.tipoLocal,
+          tipoPropiedad: tipo,
           areaPropiedad: values.areaPropiedad,
           areaTerreno: values.areaTerreno,
           areaContruccion: values.areaContruccion,
@@ -264,14 +251,10 @@ const EditProperty = () => {
           banos: values.banos,
           parqueo: values.parqueo,
           ley7600: values.ley7600,
-          amenidades: checkboxesAmenidades,
-          //amenidades: amenidades,
-          //jardinPatio: patio,
-          jardinPatio: checkboxesPatio,
-          //detallesInternos: detallesInternos,
-          detallesInternos: checkboxesInternos,
-          //detallesExternos: detallesExternos,
-          detallesExternos: checkboxesExternos,
+          amenidades: newAmenidades,
+          jardinPatio: newPatio,
+          detallesInternos: newDetallesInternos,
+          detallesExternos: newDetallesExternos,
           amueblado: values.amueblado,
           aptoHijos: values.aptoHijos,
           aptoMascotas: values.aptoMascotas,
@@ -292,14 +275,14 @@ const EditProperty = () => {
           servicios: values.servicios,
           serviciosMedicos: values.serviciosMedicos,
           Anunciante: anunciante,
-          categories: catFounded,
+          categories: [property?.categories.data[0].id],
           active: values.active,
           creadoPor: userId,
           uniqueId: values.uniqueId,
           descripcion: values.descripcion,
           moneda: values.moneda,
-          monedaAlquiler: values.monedaAlquiler,
-          monedaAlquilerVenta: values.monedaAlquilerVenta,
+          monedaAlquiler: values?.monedaAlquiler,
+          monedaAlquilerVenta: values?.monedaAlquilerVenta,
           monedaCuotaMantenimiento: values?.monedaCuotaMantenimiento,
           ubicacionDetallada: values.ubicacionDetallada,
           vistaPanoramica: values.vistaPanoramica,
@@ -307,162 +290,43 @@ const EditProperty = () => {
           precioAlquiler: values.precioAlquiler,
           precioAlquilerCompra: values.precioAlquilerCompra,
           tipoPiso: values.tipoPiso,
-          duenoFinanciaCompra: values.duenoFinanciaCompra,
-          duenoRecibeVehiculo: values.duenoRecibeVehiculo,
           tieneCuotaMantenimiento: values?.tieneCuotaMantenimiento,
-          avaluo: values?.avaluo,
-          avaluoMoneda: values?.avaluoMoneda,
-          ivaVenta: values?.ivaVenta,
-          ivaAlquiler: values?.ivaAlquiler,
+          avaluo: values.avaluo,
+          avaluoMoneda: values.avaluoMoneda,
+          ivaVenta: values.ivaVenta,
+          ivaAlquiler: values.ivaAlquiler,
           tipoVivienda: values?.tipoVivienda,
-          ubicacionCercana: values.ubicacionCercana,
         };
-
-        if (!id) {
-          const response = await AxiosInstance.post("/properties", {
-            data: value,
+        const response = await AxiosInstance.put(`/properties/${id}`, {
+          data: value,
+        })
+          .then((response) => {
+            message.success("¡La propiedad fue actualizada correctamente!");
+            createNotification(
+              "Actualización",
+              `Se ha actualizado la propiedad ${response.data.data.attributes.uniqueId}`,
+              response.data.data.attributes.uniqueId,
+              null
+            );
+            const property = response.data.data.attributes;
+            const body = `El siguiente inmueble fue modificado por el usuario: ${userData.email}`;
+            enviarCorreoPersonalizado(
+              "infosistemacic@gmail.com",
+              property,
+              body
+            );
+            if (
+              userRole === "SuperAdmin" ||
+              userData.active === "Super Administrador"
+            ) {
+              navigate(`/admin/upload/${id}`, { replace: true });
+            } else {
+              navigate(`/home/upload/${id}`, { replace: true });
+            }
           })
-            .then((respons) => {
-              message.success("¡La propiedad fue creada correctamente!");
-              const property = respons.data.data.attributes;
-              const body = `El siguiente inmueble fue creado por el usuario: ${userData.email}`;
-              enviarCorreoPersonalizado(
-                "infosistemacic@gmail.com",
-                property,
-                body
-              );
-              const propertyId = respons.data.data.id;
-              setCreatedPropertyId(propertyId);
-              createNotification(
-                "Creación",
-                `Se ha creado la propiedad ${respons.data.data.attributes.uniqueId}`,
-                respons.data.data.attributes.uniqueId,
-                null
-              );
-              if (userRole === "SuperAdmin") {
-                navigate(`/admin/upload/${propertyId}`, { replace: true });
-              } else {
-                navigate(`/home/upload/${propertyId}`, { replace: true });
-              }
-            })
-            .catch((error) => {
-              message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
-            });
-        } else {
-          let tipo = "";
-          selectedPropertyType !== ""
-            ? (tipo = selectedPropertyType)
-            : (tipo = values?.tipoPropiedad);
-
-          const newAmenidades = removeElementsFromArray(
-            property?.amenidades,
-            checkboxesAmenidades
-          );
-          const newPatio = removeElementsFromArray(
-            property?.jardinPatio,
-            checkboxesPatio
-          );
-          const newDetallesInternos = removeElementsFromArray(
-            property?.detallesInternos,
-            checkboxesInternos
-          );
-          const newDetallesExternos = removeElementsFromArray(
-            property?.detallesExternos,
-            checkboxesExternos
-          );
-          const value = {
-            provincia: values.provincia,
-            canton: values.canton,
-            distrito: values.distrito,
-            precio: values.precio,
-            tipoPropiedad: tipo,
-            areaPropiedad: values.areaPropiedad,
-            areaTerreno: values.areaTerreno,
-            areaContruccion: values.areaContruccion,
-            habitaciones: values.habitaciones,
-            cochera: values.cochera,
-            usoDeSuelo: values.usoDeSuelo,
-            banos: values.banos,
-            parqueo: values.parqueo,
-            ley7600: values.ley7600,
-            amenidades: newAmenidades,
-            jardinPatio: newPatio,
-            detallesInternos: newDetallesInternos,
-            detallesExternos: newDetallesExternos,
-            amueblado: values.amueblado,
-            aptoHijos: values.aptoHijos,
-            aptoMascotas: values.aptoMascotas,
-            cuotaMantenimiento: values.cuotaMantenimiento,
-            areaBodega: values.areaBodega,
-            altura: values.altura,
-            concepcionElectrica: values.concepcionElectrica,
-            areaCarga: values.areaCarga,
-            areaPlantas: values.areaPlantas,
-            numeroPlantas: values.numeroPlantas,
-            propositoTerreno: values.propositoTerreno,
-            ubicacionCastral: values.ubicacionCastral,
-            ubicacionDemografica: values.ubicacionDemografica,
-            ubicacionGeografica: values.ubicacionGeografica,
-            areaMesanini: values.areaMesanini,
-            areaSotano: values.areaSotano,
-            tipoDensidad: values.tipoDensidad,
-            servicios: values.servicios,
-            serviciosMedicos: values.serviciosMedicos,
-            Anunciante: anunciante,
-            categories: [property?.categories.data[0].id],
-            active: values.active,
-            creadoPor: userId,
-            uniqueId: values.uniqueId,
-            descripcion: values.descripcion,
-            moneda: values.moneda,
-            monedaAlquiler: values?.monedaAlquiler,
-            monedaAlquilerVenta: values?.monedaAlquilerVenta,
-            monedaCuotaMantenimiento: values?.monedaCuotaMantenimiento,
-            ubicacionDetallada: values.ubicacionDetallada,
-            vistaPanoramica: values.vistaPanoramica,
-            tomadaExclusividad: values.tomadaExclusividad,
-            precioAlquiler: values.precioAlquiler,
-            precioAlquilerCompra: values.precioAlquilerCompra,
-            tipoPiso: values.tipoPiso,
-            tieneCuotaMantenimiento: values?.tieneCuotaMantenimiento,
-            avaluo: values.avaluo,
-            avaluoMoneda: values.avaluoMoneda,
-            ivaVenta: values.ivaVenta,
-            ivaAlquiler: values.ivaAlquiler,
-            tipoVivienda: values?.tipoVivienda,
-            ubicacionCercana: values.ubicacionCercana,
-          };
-          const response = await AxiosInstance.put(`/properties/${id}`, {
-            data: value,
-          })
-            .then((response) => {
-              message.success("¡La propiedad fue actualizada correctamente!");
-              createNotification(
-                "Actualización",
-                `Se ha actualizado la propiedad ${response.data.data.attributes.uniqueId}`,
-                response.data.data.attributes.uniqueId,
-                null
-              );
-              const property = response.data.data.attributes;
-              const body = `El siguiente inmueble fue modificado por el usuario: ${userData.email}`;
-              enviarCorreoPersonalizado(
-                "infosistemacic@gmail.com",
-                property,
-                body
-              );
-              if (
-                userRole === "SuperAdmin" ||
-                userData.active === "Super Administrador"
-              ) {
-                navigate(`/admin/upload/${id}`, { replace: true });
-              } else {
-                navigate(`/home/upload/${id}`, { replace: true });
-              }
-            })
-            .catch((error) => {
-              message.error("¡Ocurrió un error inesperado!");
-            });
-        }
+          .catch((error) => {
+            message.error("¡Ocurrió un error inesperado!");
+          });
       } catch (error) {
         message.error("¡Ocurrió un error inesperado!");
       } finally {
@@ -472,22 +336,17 @@ const EditProperty = () => {
   });
 
   useEffect(() => {
-    if (!id) {
-      handleSubmit();
-    } else {
-      const response = AxiosInstance.get(`properties/${id}?populate=*`)
-        .then((property) => {
-          setProperty(property?.data?.data?.attributes);
-          const category =
-            property?.data?.data?.attributes.categories.data[0].attributes
-              .nombre;
-          setCategory(category);
-          setSelectedOption(category);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    const response = AxiosInstance.get(`properties/${id}?populate=*`)
+      .then((property) => {
+        setProperty(property?.data?.data?.attributes);
+        const category =
+          property?.data?.data?.attributes.categories.data[0].attributes.nombre;
+        setCategory(category);
+        setSelectedOption(category);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   useEffect(() => {
@@ -535,8 +394,6 @@ const EditProperty = () => {
       });
     } else {
       oldList.push(value);
-      //oldList.push({ value: value, label: value });
-
       setCheckboxesAmenidades(oldList);
     }
   };
@@ -636,8 +493,6 @@ const EditProperty = () => {
   function IsInArray(objet, array) {
     let result = null;
     const foundedObject = array.find((item) => item === objet.value);
-    //console.log(objet);
-    //console.log(array);
     foundedObject ? (result = true) : (result = false);
     return result;
   }
@@ -645,19 +500,9 @@ const EditProperty = () => {
     return <MySpinner />;
   }
 
-  /* console.log(
-    checkboxesAmenidades,
-    checkboxesPatio,
-    checkboxesInternos,
-    checkboxesExternos
-  ); */
-
   return (
     <div className="flex flex-col justify-center items-center h-fit">
-      <MetaData
-        title="Insertar o editar propiedad"
-        description="Insertar o editar propiedad"
-      />
+      <MetaData title="Editar propiedad" description="Editar propiedad" />
       <div
         className={
           location?.pathname !== "/admin/properties/insert-property"
@@ -668,7 +513,7 @@ const EditProperty = () => {
       {id ? (
         <div
           className={
-            location?.pathname.includes("/admin/properties/insert-property")
+            location?.pathname.includes("/admin/properties/edit-property")
               ? "flex mt-3 justify-center align-middle items-center w-full pt-16"
               : "flex mt-3 justify-center align-middle items-center w-full"
           }
@@ -1394,13 +1239,6 @@ const EditProperty = () => {
               </option>
             ))}
           </select>
-
-          {/*  <div className={selectedOption === "" ? "hidden" : "space mb-2.5"}>
-            {errors.tipoLote && touched.tipoLote ? (
-              <div className="errordiv text-xs">{errors.tipoLote}</div>
-            ) : null}
-          </div> */}
-
           <input
             type="number"
             hidden={selectedOption === ""}
@@ -1434,11 +1272,6 @@ const EditProperty = () => {
             onChange={handleChange}
             className="input-admin-property text-gray-500  m-2 w-80 p-2"
           />
-          {/* <div className="space mb-2.5">
-            {errors.areaContruccion && touched.areaContruccion ? (
-              <div className="errordiv text-xs">{errors.areaContruccion}</div>
-            ) : null}
-          </div> */}
           <input
             type="number"
             name="areaPropiedad"
@@ -1477,11 +1310,6 @@ const EditProperty = () => {
             placeholder="Área por plantas"
             className="input-admin-property text-gray-500  m-2 w-80 p-2"
           />
-          {/*  <div className="space mb-2.5">
-            {errors.areaPlantas && touched.areaPlantas ? (
-              <div className="errordiv text-xs">{errors.areaPlantas}</div>
-            ) : null}
-          </div> */}
           <input
             type="number"
             name="areaBodega"
@@ -1507,11 +1335,6 @@ const EditProperty = () => {
             }
             className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
-          {/* <div className="space mb-2.5">
-            {errors.areaBodega && touched.areaBodega ? (
-              <div className="errordiv text-xs">{errors.areaBodega}</div>
-            ) : null}
-          </div> */}
           <input
             type="number"
             name="areaMesanini"
@@ -1535,11 +1358,6 @@ const EditProperty = () => {
             placeholder="Área mezanine"
             className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
-          {/*  <div className="space mb-2.5">
-            {errors.areaMesanini && touched.areaMesanini ? (
-              <div className="errordiv text-xs">{errors.areaMesanini}</div>
-            ) : null}
-          </div> */}
           <input
             type="number"
             name="areaSotano"
@@ -1563,11 +1381,6 @@ const EditProperty = () => {
             placeholder="Área sótano"
             className="input-admin-property text-gray-500 m-2 w-80 p-2"
           />
-          {/* <div className="space mb-2.5">
-            {errors.areaSotano && touched.areaSotano ? (
-              <div className="errordiv text-xs">{errors.areaSotano}</div>
-            ) : null}
-          </div> */}
           <select
             hidden={
               selectedOption === "Alquiler de Edificios" ||
@@ -1599,12 +1412,6 @@ const EditProperty = () => {
               </option>
             ))}
           </select>
-          {/* <div className="space mb-2.5">
-            {errors.cochera && touched.cochera ? (
-              <div className="errordiv text-xs">{errors.cochera}</div>
-            ) : null}
-          </div> */}
-
           <input
             type="number"
             name="habitaciones"
@@ -1628,11 +1435,6 @@ const EditProperty = () => {
             }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          {/* <div className="space mb-2.5">
-            {errors.habitaciones && touched.habitaciones ? (
-              <div className="errordiv text-xs">{errors.habitaciones}</div>
-            ) : null}
-          </div> */}
           <input
             type="number"
             step="0.5"
@@ -1659,12 +1461,6 @@ const EditProperty = () => {
             }
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          {/* <div className="space mb-2.5">
-            {errors.banos && touched.banos ? (
-              <div className="errordiv text-xs">{errors.banos}</div>
-            ) : null}
-          </div> */}
-
           <select
             name="amueblado"
             id="amueblado"
@@ -1683,11 +1479,6 @@ const EditProperty = () => {
               </option>
             ))}
           </select>
-          {/* <div className="space mb-2.5">
-            {errors.amueblado && touched.amueblado ? (
-              <div className="errordiv text-xs">{errors.amueblado}</div>
-            ) : null}
-          </div> */}
           <select
             name="aptoHijos"
             hidden={
@@ -1720,11 +1511,6 @@ const EditProperty = () => {
               </option>
             ))}
           </select>
-          {/* <div className="space mb-2.5">
-            {errors.aptoHijos && touched.aptoHijos ? (
-              <div className="errordiv text-xs">{errors.aptoHijos}</div>
-            ) : null}
-          </div> */}
           <select
             name="parqueo"
             hidden={
@@ -1749,11 +1535,6 @@ const EditProperty = () => {
               </option>
             ))}
           </select>
-          {/* <div className="space mb-2.5">
-            {errors.parqueo && touched.parqueo ? (
-              <div className="errordiv text-xs">{errors.parqueo}</div>
-            ) : null}
-          </div> */}
           <select
             hidden={
               selectedOption === "Alquiler de Edificios" ||
@@ -1815,11 +1596,6 @@ const EditProperty = () => {
             placeholder="Altura"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          {/* <div className="space mb-2.5">
-            {errors.altura && touched.altura ? (
-              <div className="errordiv text-xs">{errors.altura}</div>
-            ) : null}
-          </div> */}
           <select
             name="concepcionElectrica"
             hidden={
@@ -1845,14 +1621,6 @@ const EditProperty = () => {
               </option>
             ))}
           </select>
-          {/* <div className="space mb-2.5">
-            {errors.concepcionElectrica && touched.concepcionElectrica ? (
-              <div className="errordiv text-xs">
-                {errors.concepcionElectrica}
-              </div>
-            ) : null}
-          </div> */}
-
           <input
             type="number"
             name="numeroPlantas"
@@ -1875,11 +1643,6 @@ const EditProperty = () => {
             placeholder="Número de plantas"
             className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
           />
-          {/*  <div className="space mb-2.5">
-            {errors.numeroPlantas && touched.numeroPlantas ? (
-              <div className="errordiv text-xs">{errors.numeroPlantas}</div>
-            ) : null}
-          </div> */}
           <input
             type="text"
             name="propositoTerreno"
@@ -2024,145 +1787,6 @@ const EditProperty = () => {
         </div>
         <div className="flex justify-center"></div>
         <div className="">
-          {/*  <div
-            className={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === ""
-                ? "hidden"
-                : ""
-            }
-          >
-            <Select
-              name="amenidades"
-              noOptionsMessage={() => null}
-              closeMenuOnSelect={false}
-              defaultValue={property?.amenidades}
-              options={Amenidades}
-              placeholder={"Amenidades"}
-              isMulti
-              className="categories lg:mx-80 mb-3.5 max-[450px]:w-[323px] max-[450px]:mx-auto mt-1"
-              onChange={handleChangeAmenidades}
-            />
-          </div> */}
-          {/*  <div
-            className={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === ""
-                ? "hidden"
-                : null
-            }
-          >
-            <Select
-              noOptionsMessage={() => null}
-              closeMenuOnSelect={false}
-              className="categories lg:mx-80 mb-3.5 max-[450px]:w-[323px] max-[450px]:mx-auto my-2 mt-1"
-              name="jardinPatio"
-              defaultValue={property?.jardinPatio}
-              options={PatioJardin}
-              placeholder={"Patio"}
-              isMulti
-              onChange={handleChangePatioJardin}
-            />
-            <div className="space mb-2.5">
-            {errors.jardinPatio && touched.jardinPatio ? (
-              <div className="errordiv text-xs">{errors.jardinPatio}</div>
-            ) : null}
-          </div> 
-          </div> */}
-          {/* <div
-            className={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === ""
-                ? "hidden"
-                : null
-            }
-          >
-            <Select
-              className="categories lg:mx-80 mb-3.5 max-[450px]:w-[323px] max-[450px]:mx-auto mt-1"
-              name="detallesInternos"
-              noOptionsMessage={() => null}
-              closeMenuOnSelect={false}
-              defaultValue={property?.detallesInternos}
-              options={DetallesInternos}
-              placeholder={"Detalles internos"}
-              isMulti
-              onChange={handleChangeDetallesInternos}
-            />
-            <div className="space mb-2.5">
-            {errors.detallesInternos && touched.detallesInternos ? (
-              <div className="errordiv text-xs">{errors.detallesInternos}</div>
-            ) : null}
-          </div>
-          </div> */}
-          {/* <div
-            className={
-              selectedOption ===
-                "Alquiler de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption ===
-                "Alquiler de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Venta de Oficinas o Consultorios Médicos" ||
-              selectedOption === "Alquiler de Bodegas o Similares" ||
-              selectedOption === "Venta de Bodegas o Similares" ||
-              selectedOption === "Alquiler de Edificios" ||
-              selectedOption === "Venta de Edificios" ||
-              selectedOption === "Alquiler de Locales Comerciales" ||
-              selectedOption === "Venta de Locales Comerciales" ||
-              selectedOption === "Venta de Fincas, Lotes, Predios o Terrenos" ||
-              selectedOption === ""
-                ? "hidden"
-                : null
-            }
-          >
-            <Select
-              className="categories lg:mx-80 mb-2 max-[450px]:w-[323px] max-[450px]:mx-auto mt-1"
-              name="detallesExternos"
-              noOptionsMessage={() => null}
-              closeMenuOnSelect={false}
-              defaultValue={property?.detallesExternos}
-              options={DetallesExternos}
-              placeholder={"Detalles externos"}
-              isMulti
-              onChange={handleChangeDetallesExternos}
-            />
-            <div className="space mb-2.5">
-            {errors.detallesExternos && touched.detallesExternos ? (
-              <div className="errordiv text-xs">{errors.detallesExternos}</div>
-            ) : null}
-          </div> 
-          </div> */}
           <div
             className={
               selectedOption ===
@@ -2536,17 +2160,7 @@ const EditProperty = () => {
               name="ubicacionDetallada"
               defaultValue={property?.ubicacionDetallada}
               onChange={handleChange}
-              placeholder="Ubicación exacta"
-              className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full m-2 p-2"
-            />
-          </div>
-          <div className="flex justify-center w-full mb-0">
-            <textarea
-              hidden={selectedOption === ""}
-              name="ubicacionCercana"
-              defaultValue={property?.ubicacionCercana}
-              onChange={handleChange}
-              placeholder="Ubicación cercana"
+              placeholder="Dirección detallada"
               className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full m-2 p-2"
             />
           </div>
@@ -2580,19 +2194,6 @@ const EditProperty = () => {
               ))}
             </select>
           </div>
-          {/* <input
-          type="text"
-          name="ubicacionDetallada"
-          defaultValue={property?.ubicacionDetallada}
-          placeholder="Ubicación detallada"
-          hidden={selectedOption === ""}
-          className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-        />
-        <div className="space mb-2.5">
-          {errors.ubicacionDetallada && touched.ubicacionDetallada ? (
-            <div className="errordiv text-xs">{errors.ubicacionDetallada}</div>
-          ) : null}
-        </div> */}
         </div>
 
         <div
@@ -2602,7 +2203,7 @@ const EditProperty = () => {
               : null
           }
         >
-          <hr></hr>
+          <hr className="mt-2"></hr>
           <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
             <div className="">
               <button

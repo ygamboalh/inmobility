@@ -56,14 +56,8 @@ const InsertProperty = () => {
 
   const [category, setCategory] = useState();
   const [categoriesDB, setCategoriesDB] = useState({});
-  const [amenidades, setAmenidades] = useState();
-  const [patio, setPatio] = useState();
-  const [detallesInternos, setDetallesInternos] = useState();
-  const [detallesExternos, setDetallesExternos] = useState();
   const [property, setProperty] = useState();
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [option, setOption] = useState("Amenidades");
-
   const [createdPropertyId, setCreatedPropertyId] = useState(null);
   const [userRole, setUserRole] = useState();
   const [selectedPropertyType, setSelectedPropertyType] = useState("");
@@ -73,7 +67,6 @@ const InsertProperty = () => {
   const [checkboxesExternos, setCheckboxesExternos] = useState([]);
   const { data: userData } = useQuery("profile", authUserData);
   const userId = userData?.id;
-  const anunciante = userData?.email;
 
   const response = axios(`${API}/users/me?populate=role`, {
     method: "GET",
@@ -121,115 +114,74 @@ const InsertProperty = () => {
     setSelectedOption(selectedOption);
   };
 
-  const handleChangeAmenidades = (selectedOption) => {
-    setAmenidades(selectedOption);
-  };
-  const handleChangePatioJardin = (selectedOption) => {
-    setPatio(selectedOption);
-
-    if (patio?.length === 3) {
-      setMenuIsOpen(false);
-    }
-  };
-  const handleChangeDetallesInternos = (selectedOption) => {
-    setDetallesInternos(selectedOption);
-  };
-  const handleChangeDetallesExternos = (selectedOption) => {
-    setDetallesExternos(selectedOption);
-  };
-  function IsInNewArray(oldValue, oldArray, newArray) {
-    const result = newArray.map();
-    oldArray.contains(oldValue)
-      ? newArray.filter((value) => value === oldValue)
-      : newArray.push(oldValue);
-    return newArray;
-  }
-  function removeElementsFromArray(arr1, arr2) {
-    for (let i = 0; i < arr1.length; i++) {
-      if (arr2.includes(arr1[i])) {
-        arr2.splice(arr2.indexOf(arr1[i]), 1);
-      } else {
-        arr2.push(arr1[i]);
-      }
-    }
-    return arr2;
-  }
-
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
     initialValues: {
-      provincia: property?.provincia,
-      canton: property?.canton,
-      distrito: property?.distrito,
-      precio: property?.precio,
-      tipoPropiedad: property?.tipoPropiedad,
-      tipoEdificio: property?.tipoEdificio,
-      tipoLocal: property?.tipoLocal,
-      tipoBodega: property?.tipoBodega,
-      tipoOficina: property?.tipoOficina,
-      tipoLote: property?.tipoLote,
-      cochera: property?.cochera,
-      usoDeSuelo: property?.usoDeSuelo,
-      areaPropiedad: property?.areaPropiedad,
-      areaContruccion: property?.areaContruccion,
-      habitaciones: property?.habitaciones,
-      banos: property?.banos,
-      parqueo: property?.parqueo,
-      ley7600: property?.ley7600,
-      //amenidades: amenidades,
-      amenidades: property?.amenidades,
-      //jardinPatio: patio,
-      jardinPatio: property?.jardinPatio,
-      //detallesInternos: detallesInternos,
-      detallesInternos: property?.detallesInternos,
-      //detallesExternos: detallesExternos,
-      detallesExternos: property?.detallesExternos,
-      amueblado: property?.amueblado,
-      aptoHijos: property?.aptoHijos,
-      aptoMascotas: property?.aptoMascotas,
-      cuotaMantenimiento: property?.cuotaMantenimiento,
-      areaBodega: property?.areaBodega,
-      altura: property?.altura,
-      concepcionElectrica: property?.concepcionElectrica,
-      areaCarga: property?.areaCarga,
-      areaPlantas: property?.areaPlantas,
-      numeroPlantas: property?.numeroPlantas,
-      propositoTerreno: property?.propositoTerren,
-      ubicacionCastral: property?.ubicacionCastral,
-      ubicacionDemografica: property?.ubicacionDemografica,
-      ubicacionGeografica: property?.ubicacionGeografica,
-      areaMesanini: property?.areaMesanini,
-      areaSotano: property?.areaSotano,
-      tipoDensidad: property?.tipoDensidad,
-      servicios: property?.servicios,
-      serviciosMedicos: property?.serviciosMedicos,
-      Anunciante: property?.anunciante,
-      categories:
-        property?.data?.data?.attributes?.categories?.data[0]?.attributes
-          ?.nombre,
-
-      active: property?.active,
-      areaTerreno: property?.areaTerreno,
-      uniqueId: property?.uniqueId,
-      descripcion: property?.descripcion,
-      moneda: property?.moneda,
-      monedaAlquiler: property?.monedaAlquiler,
-      monedaAlquilerVenta: property?.monedaAlquilerVenta,
-      monedaCuotaMantenimiento: property?.monedaCuotaMantenimiento,
-      ubicacionDetallada: property?.ubicacionDetallada,
-      vistaPanoramica: property?.vistaPanoramica,
-      tomadaExclusividad: property?.tomadaExclusividad,
-      precioAlquiler: property?.precioAlquiler,
-      precioAlquilerCompra: property?.precioAlquilerCompra,
-      tipoPiso: property?.tipoPiso,
-      duenoFinanciaCompra: property?.duenoFinanciaCompra,
-      duenoRecibeVehiculo: property?.duenoRecibeVehiculo,
-      tieneCuotaMantenimiento: property?.tieneCuotaMantenimiento,
-      avaluo: property?.avaluo,
-      avaluoMoneda: property?.avaluoMoneda,
-      ivaVenta: property?.ivaVenta,
-      ivaAlquiler: property?.ivaAlquiler,
-      tipoVivienda: property?.tipoVivienda,
-      ubicacionCercana: property?.ubicacionCercana,
+      provincia: "",
+      canton: "",
+      distrito: "",
+      precio: null,
+      tipoPropiedad: null,
+      tipoEdificio: null,
+      tipoLocal: null,
+      tipoBodega: null,
+      tipoOficina: null,
+      tipoLote: null,
+      cochera: null,
+      usoDeSuelo: null,
+      areaPropiedad: null,
+      areaContruccion: null,
+      habitaciones: null,
+      banos: null,
+      parqueo: null,
+      ley7600: null,
+      amenidades: null,
+      jardinPatio: null,
+      detallesInternos: null,
+      detallesExternos: null,
+      amueblado: null,
+      aptoHijos: null,
+      aptoMascotas: null,
+      cuotaMantenimiento: null,
+      areaBodega: null,
+      altura: null,
+      concepcionElectrica: null,
+      areaCarga: null,
+      areaPlantas: null,
+      numeroPlantas: null,
+      propositoTerreno: null,
+      ubicacionCastral: null,
+      ubicacionDemografica: null,
+      ubicacionGeografica: null,
+      areaMesanini: null,
+      areaSotano: null,
+      tipoDensidad: null,
+      servicios: null,
+      serviciosMedicos: null,
+      Anunciante: null,
+      categories: null,
+      active: null,
+      areaTerreno: null,
+      uniqueId: null,
+      descripcion: null,
+      moneda: null,
+      monedaAlquiler: null,
+      monedaAlquilerVenta: null,
+      monedaCuotaMantenimiento: null,
+      ubicacionDetallada: null,
+      vistaPanoramica: null,
+      tomadaExclusividad: null,
+      precioAlquiler: null,
+      precioAlquilerCompra: null,
+      tipoPiso: null,
+      duenoFinanciaCompra: null,
+      duenoRecibeVehiculo: null,
+      tieneCuotaMantenimiento: null,
+      avaluo: null,
+      avaluoMoneda: null,
+      ivaVenta: null,
+      ivaAlquiler: null,
+      tipoVivienda: null,
+      coordenadas: null,
     },
     validationSchema: Yup.object({
       provincia: Yup.string().required("*"),
@@ -257,10 +209,9 @@ const InsertProperty = () => {
       //areaMesanini: Yup.number().min(0, "*").max(6000, "*"),
       //areaSotano: Yup.number().min(0, "*").max(6000, "*"),
     }),
-    enableReinitialize: id ? true : false,
+    //enableReinitialize: id ? true : false,
     onSubmit: async (values) => {
       setIsLoading(true);
-
       try {
         const catFounded = [];
         const cat = categoriesDB?.find((c) => c.nombre === selectedOption);
@@ -269,6 +220,7 @@ const InsertProperty = () => {
         }
         const value = {
           provincia: values.provincia,
+          Anunciante: userData.email,
           canton: values.canton,
           distrito: values.distrito,
           precio: values.precio,
@@ -288,12 +240,8 @@ const InsertProperty = () => {
           parqueo: values.parqueo,
           ley7600: values.ley7600,
           amenidades: checkboxesAmenidades,
-          //amenidades: amenidades,
-          //jardinPatio: patio,
           jardinPatio: checkboxesPatio,
-          //detallesInternos: detallesInternos,
           detallesInternos: checkboxesInternos,
-          //detallesExternos: detallesExternos,
           detallesExternos: checkboxesExternos,
           amueblado: values.amueblado,
           aptoHijos: values.aptoHijos,
@@ -314,7 +262,6 @@ const InsertProperty = () => {
           tipoDensidad: values.tipoDensidad,
           servicios: values.servicios,
           serviciosMedicos: values.serviciosMedicos,
-          Anunciante: anunciante,
           categories: catFounded,
           active: values.active,
           creadoPor: userId,
@@ -333,185 +280,51 @@ const InsertProperty = () => {
           duenoFinanciaCompra: values.duenoFinanciaCompra,
           duenoRecibeVehiculo: values.duenoRecibeVehiculo,
           tieneCuotaMantenimiento: values?.tieneCuotaMantenimiento,
-          avaluo: values?.avaluo,
-          avaluoMoneda: values?.avaluoMoneda,
-          ivaVenta: values?.ivaVenta,
-          ivaAlquiler: values?.ivaAlquiler,
-          tipoVivienda: values?.tipoVivienda,
-          ubicacionCercana: values.ubicacionCercana,
+          avaluo: values.avaluo,
+          avaluoMoneda: values.avaluoMoneda,
+          ivaVenta: values.ivaVenta,
+          ivaAlquiler: values.ivaAlquiler,
+          tipoVivienda: values.tipoVivienda,
+          coordenadas: values.coordenadas,
         };
 
-        if (!id) {
-          const response = await AxiosInstance.post("/properties", {
-            data: value,
+        const response = await AxiosInstance.post("/properties", {
+          data: value,
+        })
+          .then((respons) => {
+            message.success("¡La propiedad fue creada correctamente!");
+            const property = respons.data.data.attributes;
+            const body = `El siguiente inmueble fue creado por el usuario: ${userData.email}`;
+            enviarCorreoPersonalizado(
+              "infosistemacic@gmail.com",
+              property,
+              body
+            );
+            const propertyId = respons.data.data.id;
+            setCreatedPropertyId(propertyId);
+            createNotification(
+              "Creación",
+              `Se ha creado la propiedad ${respons.data.data.attributes.uniqueId}`,
+              respons.data.data.attributes.uniqueId,
+              null
+            );
+            if (userRole === "SuperAdmin") {
+              navigate(`/admin/upload/${propertyId}`, { replace: true });
+            } else {
+              navigate(`/home/upload/${propertyId}`, { replace: true });
+            }
           })
-            .then((respons) => {
-              message.success("¡La propiedad fue creada correctamente!");
-              const property = respons.data.data.attributes;
-              const body = `El siguiente inmueble fue creado por el usuario: ${userData.email}`;
-              enviarCorreoPersonalizado(
-                "infosistemacic@gmail.com",
-                property,
-                body
-              );
-              const propertyId = respons.data.data.id;
-              setCreatedPropertyId(propertyId);
-              createNotification(
-                "Creación",
-                `Se ha creado la propiedad ${respons.data.data.attributes.uniqueId}`,
-                respons.data.data.attributes.uniqueId,
-                null
-              );
-              if (userRole === "SuperAdmin") {
-                navigate(`/admin/upload/${propertyId}`, { replace: true });
-              } else {
-                navigate(`/home/upload/${propertyId}`, { replace: true });
-              }
-            })
-            .catch((error) => {
-              message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
-            });
-        } else {
-          let tipo = "";
-          selectedPropertyType !== ""
-            ? (tipo = selectedPropertyType)
-            : (tipo = values?.tipoPropiedad);
-
-          const newAmenidades = removeElementsFromArray(
-            property?.amenidades,
-            checkboxesAmenidades
-          );
-          const newPatio = removeElementsFromArray(
-            property?.jardinPatio,
-            checkboxesPatio
-          );
-          const newDetallesInternos = removeElementsFromArray(
-            property?.detallesInternos,
-            checkboxesInternos
-          );
-          const newDetallesExternos = removeElementsFromArray(
-            property?.detallesExternos,
-            checkboxesExternos
-          );
-          const value = {
-            provincia: values.provincia,
-            canton: values.canton,
-            distrito: values.distrito,
-            precio: values.precio,
-            tipoPropiedad: tipo,
-            areaPropiedad: values.areaPropiedad,
-            areaTerreno: values.areaTerreno,
-            areaContruccion: values.areaContruccion,
-            habitaciones: values.habitaciones,
-            cochera: values.cochera,
-            usoDeSuelo: values.usoDeSuelo,
-            banos: values.banos,
-            parqueo: values.parqueo,
-            ley7600: values.ley7600,
-            amenidades: newAmenidades,
-            jardinPatio: newPatio,
-            detallesInternos: newDetallesInternos,
-            detallesExternos: newDetallesExternos,
-            amueblado: values.amueblado,
-            aptoHijos: values.aptoHijos,
-            aptoMascotas: values.aptoMascotas,
-            cuotaMantenimiento: values.cuotaMantenimiento,
-            areaBodega: values.areaBodega,
-            altura: values.altura,
-            concepcionElectrica: values.concepcionElectrica,
-            areaCarga: values.areaCarga,
-            areaPlantas: values.areaPlantas,
-            numeroPlantas: values.numeroPlantas,
-            propositoTerreno: values.propositoTerreno,
-            ubicacionCastral: values.ubicacionCastral,
-            ubicacionDemografica: values.ubicacionDemografica,
-            ubicacionGeografica: values.ubicacionGeografica,
-            areaMesanini: values.areaMesanini,
-            areaSotano: values.areaSotano,
-            tipoDensidad: values.tipoDensidad,
-            servicios: values.servicios,
-            serviciosMedicos: values.serviciosMedicos,
-            Anunciante: anunciante,
-            categories: [property?.categories.data[0].id],
-            active: values.active,
-            creadoPor: userId,
-            uniqueId: values.uniqueId,
-            descripcion: values.descripcion,
-            moneda: values.moneda,
-            monedaAlquiler: values?.monedaAlquiler,
-            monedaAlquilerVenta: values?.monedaAlquilerVenta,
-            monedaCuotaMantenimiento: values?.monedaCuotaMantenimiento,
-            ubicacionDetallada: values.ubicacionDetallada,
-            vistaPanoramica: values.vistaPanoramica,
-            tomadaExclusividad: values.tomadaExclusividad,
-            precioAlquiler: values.precioAlquiler,
-            precioAlquilerCompra: values.precioAlquilerCompra,
-            tipoPiso: values.tipoPiso,
-            tieneCuotaMantenimiento: values?.tieneCuotaMantenimiento,
-            avaluo: values.avaluo,
-            avaluoMoneda: values.avaluoMoneda,
-            ivaVenta: values.ivaVenta,
-            ivaAlquiler: values.ivaAlquiler,
-            tipoVivienda: values?.tipoVivienda,
-            ubicacionCercana: values.ubicacionCercana,
-          };
-          const response = await AxiosInstance.put(`/properties/${id}`, {
-            data: value,
-          })
-            .then((response) => {
-              message.success("¡La propiedad fue actualizada correctamente!");
-              createNotification(
-                "Actualización",
-                `Se ha actualizado la propiedad ${response.data.data.attributes.uniqueId}`,
-                response.data.data.attributes.uniqueId,
-                null
-              );
-              const property = response.data.data.attributes;
-              const body = `El siguiente inmueble fue modificado por el usuario: ${userData.email}`;
-              enviarCorreoPersonalizado(
-                "infosistemacic@gmail.com",
-                property,
-                body
-              );
-              if (
-                userRole === "SuperAdmin" ||
-                userData.active === "Super Administrador"
-              ) {
-                navigate(`/admin/upload/${id}`, { replace: true });
-              } else {
-                navigate(`/home/upload/${id}`, { replace: true });
-              }
-            })
-            .catch((error) => {
-              message.error("¡Ocurrió un error inesperado!");
-            });
-        }
+          .catch((error) => {
+            message.error("¡Ocurrió un error inesperado. Intente de nuevo!");
+          });
       } catch (error) {
+        console.log("el error", error);
         message.error("¡Ocurrió un error inesperado!");
       } finally {
         setIsLoading(false);
       }
     },
   });
-
-  useEffect(() => {
-    if (!id) {
-      handleSubmit();
-    } else {
-      const response = AxiosInstance.get(`properties/${id}?populate=*`)
-        .then((property) => {
-          setProperty(property?.data?.data?.attributes);
-          const category =
-            property?.data?.data?.attributes.categories.data[0].attributes
-              .nombre;
-          setCategory(category);
-          setSelectedOption(category);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, []);
 
   useEffect(() => {
     fetch(`${API}categories`, {
@@ -558,8 +371,6 @@ const InsertProperty = () => {
       });
     } else {
       oldList.push(value);
-      //oldList.push({ value: value, label: value });
-
       setCheckboxesAmenidades(oldList);
     }
   };
@@ -656,11 +467,10 @@ const InsertProperty = () => {
         break;
     }
   };
+
   function IsInArray(objet, array) {
     let result = null;
     const foundedObject = array.find((item) => item === objet.value);
-    //console.log(objet);
-    //console.log(array);
     foundedObject ? (result = true) : (result = false);
     return result;
   }
@@ -668,19 +478,9 @@ const InsertProperty = () => {
     return <MySpinner />;
   }
 
-  /* console.log(
-    checkboxesAmenidades,
-    checkboxesPatio,
-    checkboxesInternos,
-    checkboxesExternos
-  ); */
-
   return (
     <div className="flex flex-col justify-center items-center h-fit">
-      <MetaData
-        title="Insertar o editar propiedad"
-        description="Insertar o editar propiedad"
-      />
+      <MetaData title="Insertar propiedad" description="Insertar propiedad" />
       <div
         className={
           location?.pathname !== "/admin/properties/insert-property"
@@ -688,23 +488,7 @@ const InsertProperty = () => {
             : "inset-y-0 mb-20 left-0 flex h-fit justify-center align-middle items-center pl-3"
         }
       ></div>
-      {id ? (
-        <div
-          className={
-            location?.pathname.includes("/admin/properties/insert-property")
-              ? "flex mt-3 justify-center align-middle items-center w-full pt-16"
-              : "flex mt-3 justify-center align-middle items-center w-full"
-          }
-        >
-          <label className="font-semibold text-xl">
-            Editar la propiedad {property?.uniqueId}
-          </label>
-        </div>
-      ) : (
-        <div className="flex mt-3 justify-center align-middle items-center w-full">
-          <label className="font-semibold text-xl">Crear una propiedad</label>
-        </div>
-      )}
+
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className="flex flex-wrap justify-center items-center">
           <select
@@ -2559,17 +2343,17 @@ const InsertProperty = () => {
               name="ubicacionDetallada"
               defaultValue={property?.ubicacionDetallada}
               onChange={handleChange}
-              placeholder="Ubicación exacta"
+              placeholder="Dirección detallada"
               className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full m-2 p-2"
             />
           </div>
           <div className="flex justify-center w-full mb-0">
-            <textarea
+            <input
+              type="text"
               hidden={selectedOption === ""}
-              name="ubicacionCercana"
-              defaultValue={property?.ubicacionCercana}
+              name="coordenadas"
               onChange={handleChange}
-              placeholder="Ubicación cercana"
+              placeholder="Coordenadas"
               className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full m-2 p-2"
             />
           </div>
@@ -2603,21 +2387,18 @@ const InsertProperty = () => {
               ))}
             </select>
           </div>
-          {/* <input
-          type="text"
-          name="ubicacionDetallada"
-          defaultValue={property?.ubicacionDetallada}
-          placeholder="Ubicación detallada"
-          hidden={selectedOption === ""}
-          className="input-admin-property text-gray-500 m-2 w-80 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2"
-        />
-        <div className="space mb-2.5">
-          {errors.ubicacionDetallada && touched.ubicacionDetallada ? (
-            <div className="errordiv text-xs">{errors.ubicacionDetallada}</div>
-          ) : null}
-        </div> */}
         </div>
-
+        <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
+          <div className="">
+            <button
+              type="button"
+              onClick={() => navigate("/home/select-location")}
+              className="mr-2 mb-3 py-2 px-4 rounded bg-green-500 text-white"
+            >
+              Seleccionar ubicación en el mapa
+            </button>
+          </div>
+        </div>
         <div
           className={
             selectedOption === undefined || selectedOption === ""
@@ -2625,7 +2406,7 @@ const InsertProperty = () => {
               : null
           }
         >
-          <hr></hr>
+          <hr className="mt-2"></hr>
           <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
             <div className="">
               <button

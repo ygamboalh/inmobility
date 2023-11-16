@@ -34,6 +34,7 @@ import MetaData from "../Metadata/metadata";
 import ShareAdviser from "../Share/share-adviser";
 import Map from "../Map/map";
 import { fixDate } from "../../utils/helpers";
+import SelectMap from "../SelectMap/select-map";
 
 const PortafolioCard = ({ propiedad }) => {
   const [isLoading, setIsLoading] = useState(false);

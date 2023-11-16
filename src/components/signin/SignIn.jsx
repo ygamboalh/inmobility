@@ -91,8 +91,11 @@ const SignIn = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;
@@ -103,8 +106,11 @@ const SignIn = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;
@@ -120,8 +126,11 @@ const SignIn = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;
@@ -132,8 +141,11 @@ const SignIn = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
         })
         .catch((err) => {
           return err;
@@ -146,12 +158,12 @@ const SignIn = () => {
   }
   return (
     <div className="flex my-6 flex-col px-12 text-center sm:px-10 md:px-6 justify-center items-center bg-white">
-      <div className="border rounded-lg shadow border-gray-300 p-4">
+      <div className="border rounded-lg shadow max-[700px]:shadow-0 max-[700px]:border-0 border-gray-300 p-4">
         <MetaData title="Iniciar sesión" content={"Iniciar sesión"} />
         <div className="flex justify-center">
           <BiLogInCircle size={50} />
         </div>
-        <div className="my-20 lg:my-3 sm:my-6 flex flex-col">
+        <div className="my-4 lg:my-3 sm:my-6 flex flex-col">
           <label className="loginh">Iniciar sesión</label>
           <label className="loginh5">Ingresa tus datos</label>
         </div>

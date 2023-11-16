@@ -6,11 +6,12 @@ import { useQuery } from "react-query";
 import { authUserData } from "../../api/usersApi";
 import Thumbnail from "../Thumbnail/thumbnail";
 import MetaData from "../Metadata/metadata";
-import { getAllButtons } from "../../api/propertiesApi";
+import { getAllButtons, getAllCards } from "../../api/propertiesApi";
 
 const VerifiedAdviser = () => {
   const { data: userData } = useQuery("profile", authUserData);
   const [buttons, setButtons] = useState([]);
+  const [cards, setCards] = useState([]);
   const navigate = useNavigate();
   const active = userData?.active;
 
@@ -23,6 +24,16 @@ const VerifiedAdviser = () => {
       },
     }
   );
+  const { data: cardsData, isLoading: loadingCards } = useQuery(
+    "cards",
+    getAllCards,
+    {
+      onSuccess: (data) => {
+        setCards(data.data);
+      },
+    }
+  );
+  console.log(cards);
   return (
     <section className="flex flex-col justify-center items-center content-center">
       <div className="flex max-w-[400px] flex-col justify-center">
@@ -74,58 +85,6 @@ const VerifiedAdviser = () => {
                   </div>
                 );
               })}
-              {/* <div className="col-span-1 align-middle items-center orange-button justify-center flex">
-                <a
-                  href="https://sites.google.com/view/centro-de-ayuda-al-sistema-cic/p%C3%A1gina-principal"
-                  className="justify-center flex-col items-center align-middle flex md:text-[11px]"
-                >
-                  <span>PASO A PASO</span>
-                  <span>Videos tutoriales</span>
-                </a>
-              </div>
-              <div className="col-span-1 orange-button justify-center flex align-middle items-center">
-                <a
-                  href="https://sites.google.com/view/cursoasesorinmobiliario/curso-b%C3%A1sico-para-nuevos-asesores-inmobiliarios-independientes-de-la-aic"
-                  className="justify-center flex-col items-center align-middle flex md:text-[11px]"
-                >
-                  <span>CURSOS</span>
-                  <span>COMPLEMENTARIOS</span>
-                </a>
-              </div>
-              <div className="col-span-1 align-middle items-center orange-button justify-center flex">
-                <a
-                  href="https://sites.google.com/view/inc4mensual/"
-                  className="justify-center items-center align-middle flex md:text-[11px]"
-                >
-                  INCUBADORA DE INVERSIONISTAS
-                </a>
-              </div>
-              <div className="col-span-1 orange-button justify-center flex align-middle items-center">
-                <a
-                  href="https://100milcr.com/"
-                  className="justify-center items-center flex-col align-middle flex md:text-[11px]"
-                >
-                  <span>MICROCREDITOS</span>
-                  <span>PERSONALES</span>
-                </a>
-              </div>
-              <div className="col-span-1 orange-button justify-center flex align-middle items-center">
-                <a
-                  href="https://sites.google.com/view/freelancerspublicistas/p%C3%A1gina-principal"
-                  className="justify-center items-center align-middle flex-col flex md:text-[11px]"
-                >
-                  <span className="md:text-[11px]">FREELANCERS</span>
-                  <span className="md:text-[11px]">PUBLICISTAS</span>
-                </a>
-              </div>
-              <div className="col-span-1 orange-button justify-center flex align-middle items-center">
-                <a
-                  href="https://sites.google.com/view/concursosaic/p%C3%A1gina-principal"
-                  className="justify-center items-center flex-col align-middle flex md:text-[11px]"
-                >
-                  <span className="md:text-[11px]">CONCURSOS INTERNOS</span>
-                </a>
-              </div> */}
             </div>
           </AdviserCard>
 
@@ -138,7 +97,6 @@ const VerifiedAdviser = () => {
               </a>
             </div>
           ) : null}
-
           <AdviserCard>
             <div className="reminder align-middle text-black items-center content-center flex flex-col">
               <span className="text-blue-900 font-bold text-base">
@@ -183,6 +141,20 @@ const VerifiedAdviser = () => {
               </span>
             </div>
           </AdviserCard>
+          {cards?.map((card) => {
+            return (
+              <AdviserCard>
+                <div className="reminder align-middle text-black items-center content-center flex flex-col">
+                  <span className="text-blue-900 font-bold text-base">
+                    {card.attributes.title}
+                  </span>
+                  <span className="text-gray-500">
+                    {card.attributes.description}
+                  </span>
+                </div>
+              </AdviserCard>
+            );
+          })}
         </div>
       </div>
     </section>

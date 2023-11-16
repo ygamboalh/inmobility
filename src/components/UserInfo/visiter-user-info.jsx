@@ -21,6 +21,7 @@ const VisiterUserInfo = () => {
   const signOut = useSignOut();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const menuRef = useRef(null);
   const { data: userData } = useQuery("profile", authUserData);
   const id = userData?.id;
@@ -41,18 +42,25 @@ const VisiterUserInfo = () => {
     const diaActual = parseInt(deleteZero(currentDateString?.slice(8, 10)));
     const result = horaActual - horaCreado;
     const dias = diaActual - diaCreado;
-
+    setIsLoading(true);
     //Si es el mismo dia
     if (currentDateString === fecha && result >= 3) {
       const response = AxiosInstance.put(`/users/${id}`, {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else if (dias > 1) {
       //Si ha pasado mas de un dia
@@ -60,11 +68,18 @@ const VisiterUserInfo = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else if (
       dias === 1 &&
@@ -77,11 +92,18 @@ const VisiterUserInfo = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else if (dias > 0) {
       //Si no se cumplen los anteriores y paso de dia
@@ -89,13 +111,21 @@ const VisiterUserInfo = () => {
         isLoggedIn: false,
       })
         .then((res) => {
-          signOut();
-          navigate("/");
+          const respuesta = res.status;
+          if (respuesta === 200) {
+            signOut();
+            navigate("/");
+          }
+          setIsLoading(false);
         })
         .catch((err) => {
           return err;
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
+    setIsLoading(false);
   };
   useEffect(() => {
     const id = userData?.id;
@@ -109,7 +139,11 @@ const VisiterUserInfo = () => {
       isLoggedIn: false,
     })
       .then((res) => {
-        return res;
+        if (res.status === 200) {
+          signOut();
+          navigate("/");
+          return res;
+        }
       })
       .catch((err) => {
         console.log(err);
