@@ -81,7 +81,7 @@ const App = () => {
                 <Route path="/auth/change-password" element={<ChangePassword />} />
             <Route element={<CheckRole roles={['Super Administrador','Asesor verificado activo','Supervisor']} />}>
                 <Route path="/home/insert-property" element={<InsertProperty />} />
-                <Route path="/home/select-location" element={<LocationSelect />} />
+                <Route path="/home/select-location/:id" element={<LocationSelect />} />
             </Route>
             <Route element={<CheckRole roles={['Super Administrador', 'Asesor verificado activo','Supervisor']} />}>
                 <Route path="/home/notifications" element={<Notifications />} />

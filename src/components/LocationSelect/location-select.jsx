@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 
-import AxiosInstance from "../../api/AxiosInstance";
-import MySpinner from "../Spinner/spinner";
-import SelectMap from "../SelectMap/select-map";
 import MetaData from "../Metadata/metadata";
-import TesttMap from "../SelectMap/map-test";
 import MapTest from "../SelectMap/map-test";
 
 const LocationSelect = () => {
+  const [datosDesdeHijo, setDatosDesdeHijo] = useState(null);
+  const recibirDatosDesdeHijo = (datos) => {
+    setDatosDesdeHijo(datos);
+  };
   useEffect(() => {}, []);
 
   return (
@@ -24,11 +23,11 @@ const LocationSelect = () => {
       </div>
 
       <MapTest
-        exclusividad={true}
-        address={
-          "Ruta Nacional 204, Calle 51 Zapote, San José 10105 Costa Rica"
-        }
+      //exclusividad={true}
+      //enviarDatosAlPadre={recibirDatosDesdeHijo}
+      //address={"Ruta Nacional 204, Calle 51 Zapote, San José 10105 Costa Rica"}
       />
+      {datosDesdeHijo && <p>Datos desde el hijo: {datosDesdeHijo}</p>}
     </div>
   );
 };

@@ -174,6 +174,17 @@ const LoadPropertyImage = ({ creadoPor }) => {
     <div className="profile-photo flex -mt-20 items-center justify-center">
       <MetaData title="Cargar datos" description="Cargar datos" />
       <div className="flex flex-col w-full mx-4">
+        <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
+          <div className="">
+            <button
+              type="button"
+              onClick={() => navigate(`/home/select-location/${id?.id}`)}
+              className="mr-2 mb-3 py-3 px-4 rounded bg-green-500 text-white"
+            >
+              Seleccionar ubicación en el mapa del inmueble
+            </button>
+          </div>
+        </div>
         <div className="border shadow border-gray-300 rounded-md p-2">
           <form onSubmit={handleSubmit}>
             <label className="flex justify-center text-center">

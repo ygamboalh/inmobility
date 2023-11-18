@@ -23,6 +23,9 @@ import NoneUser from "./UserInfo/none-user";
 const Header = () => {
   const [link, setLink] = useState("None");
   const location = useLocation();
+  const navigate = useNavigate();
+  const { pathname } = useResolvedPath();
+  const { data: userData, loading } = useQuery("profile", authUserData);
   useEffect(() => {
     SelectLink();
   }, []);
@@ -58,10 +61,6 @@ const Header = () => {
         return;
       });
   };
-
-  const navigate = useNavigate();
-  const { pathname } = useResolvedPath();
-  const { data: userData, loading } = useQuery("profile", authUserData);
 
   const goBack = () => {
     navigate(-1);

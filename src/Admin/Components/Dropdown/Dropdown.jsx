@@ -110,7 +110,7 @@ const Dropdown = ({ ubicacion }) => {
     const dias = diaActual - diaCreado;
     setIsLoading(true);
     //Si es el mismo dia
-    if (currentDateString === fecha && result >= 3) {
+    if (currentDateString === fecha && result >= 0) {
       const response = AxiosInstance.put(`/users/${id}`, {
         isLoggedIn: false,
       })

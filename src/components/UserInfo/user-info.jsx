@@ -86,9 +86,11 @@ const UserInfo = () => {
     const diaActual = parseInt(deleteZero(currentDateString?.slice(8, 10)));
     const result = horaActual - horaCreado;
     const dias = diaActual - diaCreado;
+    console.log("hora actual y creado", horaActual, horaCreado);
+    console.log("resultado", result);
     //Si es el mismo dia
     setIsLoading(true);
-    if (currentDateString === fecha && result >= 3) {
+    if (currentDateString === fecha && result >= 0) {
       const response = AxiosInstance.put(`/users/${id}`, {
         isLoggedIn: false,
       })

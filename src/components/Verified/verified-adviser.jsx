@@ -97,7 +97,7 @@ const VerifiedAdviser = () => {
               </a>
             </div>
           ) : null}
-          <AdviserCard>
+          {/*  <AdviserCard>
             <div className="reminder align-middle text-black items-center content-center flex flex-col">
               <span className="text-blue-900 font-bold text-base">
                 Recordatorio general
@@ -140,7 +140,7 @@ const VerifiedAdviser = () => {
                 SINPE MOVIL DEL (506) 6383-2727
               </span>
             </div>
-          </AdviserCard>
+          </AdviserCard> */}
           {cards?.map((card) => {
             return (
               <AdviserCard>

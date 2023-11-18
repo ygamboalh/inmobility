@@ -2164,6 +2164,17 @@ const EditProperty = () => {
               className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full m-2 p-2"
             />
           </div>
+          <div className="flex justify-center w-full mb-0">
+            <input
+              type="text"
+              hidden={selectedOption === ""}
+              name="coordenadas"
+              onChange={handleChange}
+              defaultValue={property?.coordenadas}
+              placeholder="Coordenadas"
+              className="input-admin-property mx-12 max-[450px]:w-[323px] lg:mx-80 max-[450px]:mx-2 w-full m-2 p-2"
+            />
+          </div>
           <div className="flex justify-center w-full mb-2">
             <textarea
               hidden={selectedOption === ""}
@@ -2205,13 +2216,26 @@ const EditProperty = () => {
         >
           <hr className="mt-2"></hr>
           <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
-            <div className="">
-              <button
-                type="submit"
-                className="mr-2 mb-3 py-2 px-4 rounded bg-blue-700 text-white"
-              >
-                Guardar los datos del inmueble
-              </button>
+            <div className="flex flex-row max-[700px]:flex-col justify-center">
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="mr-2 mb-3 py-2 px-4 rounded bg-blue-700 text-white"
+                >
+                  Guardar los datos del inmueble
+                </button>
+              </div>
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigate(`/home/upload/${id}`);
+                  }}
+                  className="mr-2 mb-3 py-2 px-4 rounded bg-green-500 text-white"
+                >
+                  Actualizar otros datos
+                </button>
+              </div>
             </div>
           </div>
         </div>

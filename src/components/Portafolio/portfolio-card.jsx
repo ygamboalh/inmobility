@@ -1840,7 +1840,11 @@ const PortafolioCard = ({ propiedad }) => {
           </div>
         </div>
         <div className="flex flex-row my-2 mb-2 gap-x-2">
-          <Map address={address} exclusividad={property?.tomadaExclusividad} />
+          <Map
+            address={address}
+            cords={property?.coordenadas}
+            exclusividad={property?.tomadaExclusividad}
+          />
         </div>
         <div
           className={

@@ -2388,17 +2388,7 @@ const InsertProperty = () => {
             </select>
           </div>
         </div>
-        <div className="inset-y-0 mt-3 left-0 flex justify-center align-middle items-center pl-3">
-          <div className="">
-            <button
-              type="button"
-              onClick={() => navigate("/home/select-location")}
-              className="mr-2 mb-3 py-2 px-4 rounded bg-green-500 text-white"
-            >
-              Seleccionar ubicación en el mapa
-            </button>
-          </div>
-        </div>
+
         <div
           className={
             selectedOption === undefined || selectedOption === ""
