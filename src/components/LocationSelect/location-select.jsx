@@ -4,12 +4,6 @@ import MetaData from "../Metadata/metadata";
 import MapTest from "../SelectMap/map-test";
 
 const LocationSelect = () => {
-  const [datosDesdeHijo, setDatosDesdeHijo] = useState(null);
-  const recibirDatosDesdeHijo = (datos) => {
-    setDatosDesdeHijo(datos);
-  };
-  useEffect(() => {}, []);
-
   return (
     <div className="w-full h-full flex justify-center flex-col items-center">
       <MetaData
@@ -27,7 +21,6 @@ const LocationSelect = () => {
       //enviarDatosAlPadre={recibirDatosDesdeHijo}
       //address={"Ruta Nacional 204, Calle 51 Zapote, San José 10105 Costa Rica"}
       />
-      {datosDesdeHijo && <p>Datos desde el hijo: {datosDesdeHijo}</p>}
     </div>
   );
 };

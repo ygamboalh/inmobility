@@ -39,7 +39,6 @@ const Banner = () => {
     onSubmit: (values) => {
       setIsLoading(true);
       const urlPortion = makeQueries(values);
-      console.log(values);
       let urlFinal = "";
       urlPortion.map((value) => {
         urlFinal += value.name;
@@ -47,7 +46,6 @@ const Banner = () => {
       if (urlFinal.length !== 0) {
         const urlQuery = urlFinal.replace(/ /g, "%20");
         const url = `${API}properties?filters[uniqueId][$eq]=${urlQuery}`;
-        console.log(url);
         const busqueda = axios
           .get(url, {
             headers: {

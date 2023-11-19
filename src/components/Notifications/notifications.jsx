@@ -16,6 +16,7 @@ import { message } from "antd";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
+  const [allNotifications, setAllNotifications] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -28,8 +29,12 @@ const Notifications = () => {
     {
       onSuccess: (data) => {
         let notifications = [];
+        let allNot = [];
+        const userCreatedDate = new Date(userData?.createdAt).getTime();
+
         data?.data?.map((item) => {
           let users = [];
+          allNot.push(item);
           item.attributes.users.data?.map((user) => {
             users.push(user.id);
           });
@@ -38,10 +43,15 @@ const Notifications = () => {
             (item.attributes.emailReference === userData?.email ||
               item.attributes.emailReference === null)
           ) {
-            notifications.push(item);
+            // Si la fecha de creacion de la notificacion es mayor o igual a la fecha de creacion del usuario
+            if (
+              new Date(item.attributes.createdAt).getTime() > userCreatedDate
+            ) {
+              notifications.push(item);
+            }
           }
         });
-
+        setAllNotifications(allNot);
         notifications = notifications.reverse();
 
         setNotifications(notifications);
@@ -121,28 +131,15 @@ const Notifications = () => {
     setIsLoading(false);
   };
   const deleteNotification = () => {
-    const currentDate = new Date();
-    const currentDateString = currentDate.toISOString().split("T")[0];
-    /* const currentTimeString = currentDate
-      .toISOString()
-      .split("T")[1]
-      .split(".")[0];
- */
-    if (notifications.length > 0) {
-      notifications.map((notif) => {
+    const fechaActual = Date.now();
+    if (allNotifications.length > 0) {
+      allNotifications.map((notif) => {
         setIsLoading(true);
-        const fecha = notif.attributes.createdAt.slice(0, 10);
-        /* const hora = notif.attributes.createdAt.slice(11, 16); */
-        /* const horaCreado = deleteZero(hora.slice(0, 2));
-        const horaActual = deleteZero(currentTimeString.slice(0, 2)); */
-
-        const diaActual = deleteZero(currentDateString.slice(5, 7));
-        const diaCreado = deleteZero(fecha.slice(5, 7));
-        const diaInicial = diaActual.slice(0, 2);
-        const diaFinal = diaCreado.slice(0, 2);
-        const resultado = diaInicial - diaFinal;
-
-        if (resultado >= 3) {
+        const fechaCreacion = new Date(notif.attributes.createdAt).getTime();
+        const diferenciaEnMilisegundos = fechaActual - fechaCreacion;
+        const diferenciaEnMeses =
+          diferenciaEnMilisegundos / (1000 * 60 * 60 * 24 * 30.44);
+        if (diferenciaEnMeses >= 3) {
           const response = AxiosInstance.delete(
             `${API}notifications/${notif.id}`
           )
@@ -188,7 +185,7 @@ const Notifications = () => {
         setIsLoading(false);
       });
   };
-  if (!notifications || loading) {
+  if (!notifications || loading || loadingNotifications) {
     return <MySpinner />;
   }
   return (
@@ -198,7 +195,9 @@ const Notifications = () => {
         {notifications.length < 1 ? (
           <span>No hay notificaciones para mostrar</span>
         ) : (
-          <span>Todas las notificaciones</span>
+          <div className="flex flex-col items-center content-center justify-center">
+            <span>Todas las notificaciones</span>
+          </div>
         )}
       </div>
       {notifications?.map((notification) => {

@@ -86,8 +86,6 @@ const UserInfo = () => {
     const diaActual = parseInt(deleteZero(currentDateString?.slice(8, 10)));
     const result = horaActual - horaCreado;
     const dias = diaActual - diaCreado;
-    /* console.log("hora actual y creado", horaActual, horaCreado);
-    console.log("resultado", result); */
     //Si es el mismo dia
     setIsLoading(true);
     if (currentDateString === fecha && result >= 0) {
@@ -96,7 +94,6 @@ const UserInfo = () => {
       })
         .then((res) => {
           const respuesta = res.status;
-          console.log("la respuesta de cerrar session para un mismo dia", res);
           if (respuesta === 200) {
             signOut();
             navigate("/");
@@ -116,7 +113,6 @@ const UserInfo = () => {
       })
         .then((res) => {
           const respuesta = res.status;
-          console.log("la respuesta de cerrar session para mas de un dia", res);
           if (respuesta === 200) {
             signOut();
             navigate("/");
@@ -141,10 +137,6 @@ const UserInfo = () => {
       })
         .then((res) => {
           const respuesta = res.status;
-          console.log(
-            "la respuesta de cerrar session cuando es medianoche",
-            res
-          );
           if (respuesta === 200) {
             signOut();
             navigate("/");
@@ -164,10 +156,6 @@ const UserInfo = () => {
       })
         .then((res) => {
           const respuesta = res.status;
-          console.log(
-            "la respuesta de cerrar session, pasa de un dia para otro",
-            res
-          );
           if (respuesta === 200) {
             signOut();
             navigate("/");
@@ -211,9 +199,6 @@ const UserInfo = () => {
     backgroundSize: "cover",
     width: "40px",
     height: "40px",
-  };
-  const toggleMenuM = () => {
-    setIsOpenM(!isOpenM);
   };
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {

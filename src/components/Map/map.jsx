@@ -4,6 +4,7 @@ import {
   Marker,
   Circle,
   useLoadScript,
+  LoadScript,
 } from "@react-google-maps/api";
 
 import AxiosInstance from "../../api/AxiosInstance";
@@ -11,13 +12,13 @@ import axios from "axios";
 
 const Map = ({ cords, address, exclusividad }) => {
   const [key, setkey] = useState(null);
-
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: key,
   });
   const [map, setMap] = React.useState(null);
   const [latitud, setLatitud] = useState(null);
   const [longitud, setLongitud] = useState(null);
+  const [showMap, setShowMap] = useState(false);
 
   const getCoordinates = async () => {
     try {
@@ -49,6 +50,17 @@ const Map = ({ cords, address, exclusividad }) => {
     setLatitud(lat);
     setLongitud(lng);
   };
+  const getCoorsForLocation = () => {
+    try {
+      if (cords) {
+        splitByCol(cords);
+      } else {
+        getCoordinates();
+      }
+    } catch (e) {
+      return e;
+    }
+  };
   useEffect(() => {
     const response = AxiosInstance(`tokens?filters[type][$eq]=map`)
       .then((data) => {
@@ -62,18 +74,14 @@ const Map = ({ cords, address, exclusividad }) => {
       });
     getCoorsForLocation();
   }, []);
-  function getCoorsForLocation() {
-    try {
-      if (!cords) {
-        getCoordinates();
-      } else {
-        splitByCol(cords);
-      }
-    } catch (e) {
-      return e;
-    }
-  }
-
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMap(true);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
   const center = {
     lat: 0,
     lng: 0,
@@ -88,7 +96,7 @@ const Map = ({ cords, address, exclusividad }) => {
     setMap(null);
   }, []);
 
-  return isLoaded && latitud && longitud && key ? (
+  return isLoaded && latitud && longitud && key && showMap ? (
     <GoogleMap
       mapContainerStyle={{ height: "500px", width: "100%" }}
       center={{ lat: latitud, lng: longitud }}
@@ -98,9 +106,7 @@ const Map = ({ cords, address, exclusividad }) => {
     >
       {exclusividad ? (
         <Marker position={{ lat: latitud, lng: longitud }} />
-      ) : null}
-
-      {!exclusividad ? (
+      ) : (
         <div>
           <Circle
             center={{ lat: latitud, lng: longitud }}
@@ -112,7 +118,7 @@ const Map = ({ cords, address, exclusividad }) => {
             }}
           />
         </div>
-      ) : null}
+      )}
     </GoogleMap>
   ) : (
     <div className="flex justify-center font-semibold text-red-600">

@@ -43,7 +43,6 @@ const MapTest = () => {
   useEffect(() => {
     const response = AxiosInstance.get(`/properties/${params?.id}`)
       .then((data) => {
-        console.log(data.data.data.attributes);
         if (data.status === 200) {
           const prop = data?.data?.data;
           setProperty(prop);
