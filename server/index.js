@@ -11,7 +11,7 @@ let propertyId = null;
 let portafolioId = null;
 let portafolio = null;
 let imageUrl = null;
-
+const blueLogoUrl = "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png";
 // static resources should just be served as they are
 app.use(express.static(
     path.resolve(__dirname, '..', 'build'),
@@ -34,7 +34,7 @@ app.get('/', (req, res, next) => {
         .replace('Sistema CIC', "Sistema CIC")
         .replace('Venta y Alquiler de inmuebles y propiedades', "Venta y Alquiler de inmuebles y propiedades")
         .replace('__META_DESCRIPTION__', "Venta y Alquiler de inmuebles y propiedades")
-        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
         return res.send(htmlData);
     });
 });
@@ -53,7 +53,7 @@ app.get('/auth/signin', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Inicio de sesión en el Sistema CIC")
                         .replace('__META_DESCRIPTION__', "Inicio de sesión en el Sistema CIC")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
 
         })
@@ -100,7 +100,7 @@ app.get('/home/visit-record', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Registro de visita")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
 
         })
@@ -118,7 +118,7 @@ app.get('/home/banner', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Opciones")
                         .replace('__META_DESCRIPTION__', "Opciones")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
 
         })
@@ -136,7 +136,7 @@ app.get('/selling', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Ventas")
                         .replace('__META_DESCRIPTION__', "Ventas")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
 
         })
@@ -154,7 +154,7 @@ app.get('/user/verified-adviser', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Asesor verificado")
                         .replace('__META_DESCRIPTION__', "Asesor verificado")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
 
         })
@@ -189,7 +189,7 @@ app.get('/auth/change-password', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Cambiar contraseña")
                         .replace('__META_DESCRIPTION__', "Cambiar contraseña")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
 
         })
@@ -207,7 +207,7 @@ app.get('/home/insert-property', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Insertar propiedad")
                         .replace('__META_DESCRIPTION__', "Insertar propiedad")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
 
         })
@@ -225,7 +225,7 @@ app.get('/home/notifications', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Notificaciones")
                         .replace('__META_DESCRIPTION__', "Notificaciones")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
 
         })
@@ -260,7 +260,7 @@ app.get('/home/links', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Enlaces de interés")
                         .replace('__META_DESCRIPTION__', "Enlaces de interés")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
 
         })
@@ -377,7 +377,7 @@ app.get('/home/portfolio/share-portfolio/:id', (req, res, next) => {
                         .replace('Sistema CIC', "Portafolio compartido")
                         .replace('__META_DESCRIPTION__', "Portafolio compartido")
         .replace('Venta y Alquiler de inmuebles y propiedades', `${portafolio?.attributes.categoria} - ${portafolio?.attributes.properties.data.length} inmuebles `)
-        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -394,7 +394,7 @@ app.get('/home/search/selling-house-apartment', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Venta de casas y apartamentos")
                         .replace('__META_DESCRIPTION__', "Venta de casas y apartamentos")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -411,7 +411,7 @@ app.get('/home/search/rent-house-apartment', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Alquiler de casas y apartamentos")
                         .replace('__META_DESCRIPTION__', "Alquiler de casas y apartamentos")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -428,7 +428,7 @@ app.get('/home/search/selling-lots', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Venta de Fincas, Lotes, Predios o Terrenos")
                         .replace('__META_DESCRIPTION__', "Venta de Fincas, Lotes, Predios o Terrenos")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -445,7 +445,7 @@ app.get('/home/search/rent-lots', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Alquiler de Lotes Fincas y Terrenos")
                         .replace('__META_DESCRIPTION__', "Alquiler de Lotes Fincas y Terrenos")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -462,7 +462,7 @@ app.get('/home/search/selling-comercials', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Venta de Locales Comerciales")
                         .replace('__META_DESCRIPTION__', "Venta de Locales Comerciales")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -479,7 +479,7 @@ app.get('/home/search/rent-comercials', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Alquiler de Locales Comerciales")
                         .replace('__META_DESCRIPTION__', "Alquiler de Locales Comerciales")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -496,7 +496,7 @@ app.get('/home/search/selling-buildings', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Venta de Edificios")
                         .replace('__META_DESCRIPTION__', "Venta de Edificios")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -513,7 +513,7 @@ app.get('/home/search/rent-buildings', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Alguiler de Edificios")
                         .replace('__META_DESCRIPTION__', "Alquiler de Edificios")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -530,7 +530,7 @@ app.get('/home/search/selling-store', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Venta de bodegas")
                         .replace('__META_DESCRIPTION__', "Venta de bodegas")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -547,7 +547,7 @@ app.get('/home/search/rent-store', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Alquiler de bodegas")
                         .replace('__META_DESCRIPTION__', "Alquiler de bodegas")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -564,7 +564,7 @@ app.get('/home/search/selling-office', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Venta de oficinas")
                         .replace('__META_DESCRIPTION__', "Venta de oficinas")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -581,7 +581,7 @@ app.get('/home/search/rent-office', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Alquiler de oficinas")
                         .replace('__META_DESCRIPTION__', "Alquiler de oficinas")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -598,7 +598,7 @@ app.get('/renting', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Alquiler")
                         .replace('__META_DESCRIPTION__', "Alquiler")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -615,7 +615,7 @@ app.get('/home/banner/visiter', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Visitante")
                         .replace('__META_DESCRIPTION__', "Visitante")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -680,7 +680,7 @@ app.get('/auth/register-request', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Solicitud de registro")
                         .replace('__META_DESCRIPTION__', "Solicitud de registro")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -697,7 +697,7 @@ app.get('/auth/reset-password', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Recuperar clave")
                         .replace('__META_DESCRIPTION__', "Recuperar clave")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -714,7 +714,7 @@ app.get('/auth/forgot-password', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Clave olvidada")
                         .replace('__META_DESCRIPTION__', "Clave olvidada")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -731,7 +731,7 @@ app.get('/user/terms', (req, res, next) => {
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Términos y condiciones")
                         .replace('__META_DESCRIPTION__', "Términos y condiciones")
-                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -967,7 +967,7 @@ app.get('*', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Venta y Alquiler de inmuebles y propiedades")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -983,7 +983,7 @@ app.get('/home/contact', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Contacte con nosotros")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -1000,7 +1000,7 @@ app.get('/home/verified-adviser/my-property-list', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Mi lista de propiedades")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -1017,7 +1017,7 @@ app.get('/properties/edit-property/:id', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Editar propiedad")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -1033,7 +1033,7 @@ app.get('/home/visiter-contact', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Contactar")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -1049,7 +1049,7 @@ app.get('/admin/buttons', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Botones")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -1065,7 +1065,7 @@ app.get('/home/visiter-search', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Búsqueda por identificador")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -1082,7 +1082,7 @@ app.get('/home/video-player', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Video de la propiedad")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
@@ -1098,7 +1098,7 @@ app.get('/home/select-location', (req, res, next) => {
                 )
                         .replace('Sistema CIC', "Sistema CIC")
                         .replace('Venta y Alquiler de inmuebles y propiedades', "Seleccionar ubicación")
-                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', "https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png")
+                        .replace('https://backend.sistemacic.com/uploads/blue_logo_d00dd4ed3a.png', blueLogoUrl)
                 return res.send(htmlData);
         })
 });
